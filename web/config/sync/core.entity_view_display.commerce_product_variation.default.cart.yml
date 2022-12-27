@@ -1,0 +1,92 @@
+uuid: e31a3b5f-bad5-4fce-89f4-80bb006d51ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.default
+    - core.entity_view_mode.commerce_product_variation.cart
+  module:
+    - commerce_price
+    - field_layout
+    - layout_builder
+    - layout_discovery
+  enforced:
+    module:
+      - commerce_cart
+      - commerce_product
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          bafa781d-fda7-427c-b568-119726c62eef:
+            uuid: bafa781d-fda7-427c-b568-119726c62eef
+            region: content
+            configuration:
+              id: 'field_block:commerce_product_variation:default:list_price'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_price_default
+                label: above
+                settings:
+                  strip_trailing_zeroes: false
+                  currency_display: symbol
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          5184dee0-2d5d-4871-9c05-2740cd9e3fa2:
+            uuid: 5184dee0-2d5d-4871-9c05-2740cd9e3fa2
+            region: content
+            configuration:
+              id: 'field_block:commerce_product_variation:default:product_id'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
+_core:
+  default_config_hash: 6GpSQzJM6086KplhyiaTF3ezvQ_ecs8bIcW4GQMzrJU
+id: commerce_product_variation.default.cart
+targetEntityType: commerce_product_variation
+bundle: default
+mode: cart
+content:
+  list_price:
+    type: commerce_price_default
+    label: above
+    settings:
+      strip_trailing_zeroes: false
+      currency_display: symbol
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  product_id:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  add_to_cart_link: true
+  price: true
+  sku: true
+  title: true

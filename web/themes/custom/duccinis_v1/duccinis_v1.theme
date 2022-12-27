@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * Add views template suggestions.
+ *
+ * @inheritdoc
+ */
+function duccinis_v1_theme_suggestions_views_view(array $variables) {
+
+//  dsm($variables['view']->current_display);
+//  kint();
+
+//  $variables['display_id'] = $view->current_display;
+
+//  dsm($view->current_display);
+//  return [
+//    'views_view_display__' . $variables['view']->current_display,
+//    ];
+
+
+
+  }

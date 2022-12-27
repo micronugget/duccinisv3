@@ -1,0 +1,12 @@
+uuid: 4f490538-c23b-4968-a718-59e0ef856db9
+langcode: en
+status: true
+dependencies: {  }
+id: pizza
+label: 'Pizza (medium, large, X-large)'
+traits: {  }
+locked: false
+description: ''
+variationType: pizza_size
+multipleVariations: true
+injectVariationFields: true

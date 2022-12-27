@@ -1,0 +1,25 @@
+uuid: 1df25395-2e97-47b6-a306-216ad9abc958
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: OFcuMPEC7C0SQOIkzKCJSPZbl4HGwe3RT5khFY0iNU8
+id: duccinis_v1_branding
+theme: duccinis_v1
+region: nav_branding
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

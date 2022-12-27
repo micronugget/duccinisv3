@@ -1,0 +1,22 @@
+uuid: 017bb838-fc58-49ad-8134-18133d63fa0a
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: BnPGE17s_9gi4CVtPsp1_0o04fk9e35mbT3z5ARigVQ
+id: duccinis_v1_help
+theme: duccinis_v1
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

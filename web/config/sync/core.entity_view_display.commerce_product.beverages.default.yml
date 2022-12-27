@@ -1,0 +1,132 @@
+uuid: ab6b1d54-c69a-4d93-af12-555fef0515a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.beverages
+    - field.field.commerce_product.beverages.body
+    - field.field.commerce_product.beverages.field_food_menu_item
+  module:
+    - commerce_product
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          af4ad8ca-2b84-4c69-a958-da1f2e8b8b4c:
+            uuid: af4ad8ca-2b84-4c69-a958-da1f2e8b8b4c
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:beverages:title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          3f1fea4e-13c0-4573-97ee-3dcddc41d028:
+            uuid: 3f1fea4e-13c0-4573-97ee-3dcddc41d028
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:beverages:variations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_add_to_cart
+                label: above
+                settings:
+                  combine: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          cdb260e6-7ed8-4153-9d65-09ccb82671b6:
+            uuid: cdb260e6-7ed8-4153-9d65-09ccb82671b6
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:beverages:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          5df86ada-c9ae-4b51-a673-091ed3077b6f:
+            uuid: 5df86ada-c9ae-4b51-a673-091ed3077b6f
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:beverages:field_food_menu_item'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+id: commerce_product.beverages.default
+targetEntityType: commerce_product
+bundle: beverages
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_food_menu_item:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: above
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+hidden:
+  add_to_cart_link: true
+  created: true
+  stores: true
+  uid: true

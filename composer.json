@@ -1,0 +1,142 @@
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal 9 projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "d3/d3",
+                "version": "v3.5.17",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/d3/d3.git",
+                    "type": "git",
+                    "reference": "tags/v3.5.17"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "highlightjs/highlightjs",
+                "version": "11.2.0",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/highlightjs/highlight.js.git",
+                    "type": "git",
+                    "reference": "tags/11.2.0"
+                }
+            }
+        }
+    ],
+    "require": {
+        "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
+        "d3/d3": "^3.5",
+        "drupal/admin_toolbar": "3.x-dev",
+        "drupal/bootstrap5": "2.0.x-dev",
+        "drupal/commerce": "^2.28",
+        "drupal/commerce_add_to_cart_link": "^2.0",
+        "drupal/commerce_checkout_order_fields": "^1.1",
+        "drupal/commerce_pado": "^1.1",
+        "drupal/commerce_price_rule": "1.x-dev",
+        "drupal/commerce_smart_importer": "1.x-dev",
+        "drupal/core-composer-scaffold": "^9.3",
+        "drupal/core-project-message": "^9.3",
+        "drupal/core-recommended": "^9.3",
+        "drupal/inline_entity_form": "1.x-dev",
+        "drupal/webprofiler": "^9.0",
+        "drush/drush": "^11.4",
+        "highlightjs/highlightjs": "^11.2",
+        "vlucas/phpdotenv": "^5.1",
+        "webflo/drupal-finder": "^1.2"
+    },
+    "require-dev": {
+        "drupal/devel": "^4.1",
+        "kint-php/kint": "^3.3",
+        "zaporylie/composer-drupal-optimizations": "^1.2"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "zaporylie/composer-drupal-optimizations": true
+        }
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "web/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "web/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "web/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
+        },
+        "drupal-core-project-message": {
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
+            "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",
+                "",
+                "<bg=yellow;fg=black>Next steps</>:",
+                "  * Install the site: https://www.drupal.org/docs/8/install",
+                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
+                "  * Get support: https://www.drupal.org/support",
+                "  * Get involved with the Drupal community:",
+                "      https://www.drupal.org/getting-involved",
+                "  * Remove the plugin that prints this message:",
+                "      composer remove drupal/core-project-message"
+            ]
+        }
+    }
+}

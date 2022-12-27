@@ -1,0 +1,8 @@
+uuid: 1852bced-3036-42ce-bdbb-1edb5ce28944
+langcode: en
+status: true
+dependencies: {  }
+name: '(food)Menu type'
+vid: food_menu_type
+description: ''
+weight: 0

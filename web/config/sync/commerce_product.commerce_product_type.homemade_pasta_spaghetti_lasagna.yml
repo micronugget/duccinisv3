@@ -1,0 +1,12 @@
+uuid: cd283260-82db-4d22-8d1b-61734b32f881
+langcode: en
+status: true
+dependencies: {  }
+id: homemade_pasta_spaghetti_lasagna
+label: 'Homemade Pasta (Spaghetti, Lasagna, Stuffed Shells)'
+traits: {  }
+locked: false
+description: ''
+variationType: pasta_type
+multipleVariations: true
+injectVariationFields: true

@@ -1,0 +1,12 @@
+uuid: 1380c7a7-137c-4fb0-8554-436e85c08ed4
+langcode: en
+status: true
+dependencies: {  }
+id: buffalo_wings
+label: 'Fresh Buffalo Wings (10x, 20x, 30x, 50x, 100x)'
+traits: {  }
+locked: false
+description: ''
+variationType: wing_quantity
+multipleVariations: true
+injectVariationFields: true

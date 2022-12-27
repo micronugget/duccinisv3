@@ -1,0 +1,20 @@
+uuid: 07072a3a-f714-45d3-957a-c11bb23a0bcd
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_product
+    - taxonomy
+id: commerce_product.field_food_menu_item
+field_name: field_food_menu_item
+entity_type: commerce_product
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

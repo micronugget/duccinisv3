@@ -1,0 +1,10 @@
+uuid: 268173bc-f747-4a7c-965e-05991ee96fa5
+langcode: en
+status: true
+dependencies: {  }
+id: pasta_type
+label: 'Pasta Type'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: false

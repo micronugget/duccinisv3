@@ -1,0 +1,24 @@
+uuid: 0933843b-b9ef-48d7-ba29-1429303dd5e5
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_cart
+    - commerce_checkout
+third_party_settings:
+  commerce_cart:
+    cart_block_view: commerce_cart_block
+    cart_form_view: commerce_cart_form
+    cart_expiration: {  }
+  commerce_checkout:
+    checkout_flow: default
+id: in_person_counter
+label: 'In-person counter'
+traits: {  }
+locked: false
+workflow: order_default
+numberPattern: order_default
+refresh_mode: customer
+refresh_frequency: 300
+sendReceipt: false
+receiptBcc: ''

@@ -1,0 +1,22 @@
+uuid: 43084e3a-4c53-4a6d-a2d3-cdfe4dec3a34
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: ALG5Zv9I7IUnZfsN3CVvCA1U59CWKi7o9sSNfHYkULk
+id: duccinis_v1_content
+theme: duccinis_v1
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,22 @@
+uuid: 22bcbd54-59ee-446a-8969-368c4c49e52a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: QPZo-8g4q9PiF0R917vxoooRwpvhO3jGV_1_uEkkPcI
+id: duccinis_v1_local_tasks
+theme: duccinis_v1
+region: content
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

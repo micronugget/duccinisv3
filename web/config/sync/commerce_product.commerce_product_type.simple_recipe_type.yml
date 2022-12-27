@@ -1,0 +1,12 @@
+uuid: b3a120b3-a925-4598-9569-926b85ff3cef
+langcode: en
+status: true
+dependencies: {  }
+id: simple_recipe_type
+label: 'Simple Recipe type'
+traits: {  }
+locked: false
+description: ''
+variationType: simple_recipe_variations
+multipleVariations: true
+injectVariationFields: true

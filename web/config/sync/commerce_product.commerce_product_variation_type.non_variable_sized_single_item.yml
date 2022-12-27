@@ -1,0 +1,10 @@
+uuid: 9cfed822-bbaa-4f46-ac84-d483c43357bf
+langcode: en
+status: true
+dependencies: {  }
+id: non_variable_sized_single_item
+label: 'Non-variable-sized single item'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: false

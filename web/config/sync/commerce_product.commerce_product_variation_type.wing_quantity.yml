@@ -1,0 +1,10 @@
+uuid: fb07680b-57b5-41b7-af1f-cf229924376c
+langcode: en
+status: true
+dependencies: {  }
+id: wing_quantity
+label: 'Wing quantity'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: false

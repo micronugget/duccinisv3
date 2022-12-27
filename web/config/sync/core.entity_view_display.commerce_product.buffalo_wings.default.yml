@@ -1,0 +1,132 @@
+uuid: bd236c0b-2835-46ed-9b74-92ff8649aef6
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.buffalo_wings
+    - field.field.commerce_product.buffalo_wings.body
+    - field.field.commerce_product.buffalo_wings.field_food_menu_item
+  module:
+    - commerce_product
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          d6ae8985-9e18-4b1a-a139-10decdb22a98:
+            uuid: d6ae8985-9e18-4b1a-a139-10decdb22a98
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:buffalo_wings:title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          8b61c710-0cc0-4894-bf77-8311c22d4f76:
+            uuid: 8b61c710-0cc0-4894-bf77-8311c22d4f76
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:buffalo_wings:variations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_add_to_cart
+                label: above
+                settings:
+                  combine: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          6fc95282-0cfe-4c25-aaa9-7cdce1cb55e9:
+            uuid: 6fc95282-0cfe-4c25-aaa9-7cdce1cb55e9
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:buffalo_wings:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          c52e73a8-00ad-42e3-90bf-ed4bb849c301:
+            uuid: c52e73a8-00ad-42e3-90bf-ed4bb849c301
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:buffalo_wings:field_food_menu_item'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+id: commerce_product.buffalo_wings.default
+targetEntityType: commerce_product
+bundle: buffalo_wings
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_food_menu_item:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: above
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+hidden:
+  add_to_cart_link: true
+  created: true
+  stores: true
+  uid: true

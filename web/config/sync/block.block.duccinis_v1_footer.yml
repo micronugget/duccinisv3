@@ -1,0 +1,27 @@
+uuid: 70c1fe54-b820-4b6d-9f75-4d87165dfead
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: S6reWokPNLx1gEJKDlS4bJoDcSzD6zgaSaiMHVIwdHA
+id: duccinis_v1_footer
+theme: duccinis_v1
+region: footer
+weight: -6
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: Footer
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

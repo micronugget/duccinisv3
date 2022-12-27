@@ -1,0 +1,132 @@
+uuid: b48a8080-8efd-444b-ac00-6ac84fe5fa15
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.non_variable_sized_single_item
+    - field.field.commerce_product.non_variable_sized_single_item.body
+    - field.field.commerce_product.non_variable_sized_single_item.field_food_menu_item
+  module:
+    - commerce_product
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          06ea6637-cbbc-411c-a9bd-fd2168711b8a:
+            uuid: 06ea6637-cbbc-411c-a9bd-fd2168711b8a
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:non_variable_sized_single_item:title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          21a94ae7-1f4b-49d9-b058-b84178995f34:
+            uuid: 21a94ae7-1f4b-49d9-b058-b84178995f34
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:non_variable_sized_single_item:variations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_add_to_cart
+                label: above
+                settings:
+                  combine: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          c9e3c27c-5b75-4f3c-a33d-6ef4275b0550:
+            uuid: c9e3c27c-5b75-4f3c-a33d-6ef4275b0550
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:non_variable_sized_single_item:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          646328ea-8dd3-452b-a8c9-0a221018ebbd:
+            uuid: 646328ea-8dd3-452b-a8c9-0a221018ebbd
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:non_variable_sized_single_item:field_food_menu_item'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+id: commerce_product.non_variable_sized_single_item.default
+targetEntityType: commerce_product
+bundle: non_variable_sized_single_item
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_food_menu_item:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: above
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+hidden:
+  add_to_cart_link: true
+  created: true
+  stores: true
+  uid: true

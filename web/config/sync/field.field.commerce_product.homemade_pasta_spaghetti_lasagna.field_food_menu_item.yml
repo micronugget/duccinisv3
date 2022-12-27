@@ -1,0 +1,29 @@
+uuid: e21d8790-6733-4fda-b691-3c20339f65f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.homemade_pasta_spaghetti_lasagna
+    - field.storage.commerce_product.field_food_menu_item
+    - taxonomy.vocabulary.food_menu_type
+id: commerce_product.homemade_pasta_spaghetti_lasagna.field_food_menu_item
+field_name: field_food_menu_item
+entity_type: commerce_product
+bundle: homemade_pasta_spaghetti_lasagna
+label: 'food menu item'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      food_menu_type: food_menu_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

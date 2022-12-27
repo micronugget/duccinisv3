@@ -1,0 +1,179 @@
+uuid: dcf623db-c3b5-4090-96e4-d312194628c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pizza
+    - field.field.commerce_product.pizza.body
+    - field.field.commerce_product.pizza.field_food_menu_item
+    - field.field.commerce_product.pizza.field_xref_product
+  module:
+    - commerce_product
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          6fd8805f-173f-4a7b-a301-08959fc6256b:
+            uuid: 6fd8805f-173f-4a7b-a301-08959fc6256b
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:pizza:title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          38140368-24d6-45e3-8363-e0080051e63e:
+            uuid: 38140368-24d6-45e3-8363-e0080051e63e
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:pizza:variations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: commerce_add_to_cart
+                label: above
+                settings:
+                  combine: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          c297c3f7-1b4f-4b96-bbd4-37dd408c528a:
+            uuid: c297c3f7-1b4f-4b96-bbd4-37dd408c528a
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:pizza:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          b6c24e17-6d2b-4ade-81d2-fac1acc0a117:
+            uuid: b6c24e17-6d2b-4ade-81d2-fac1acc0a117
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:pizza:field_food_menu_item'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          828b8871-731f-4d71-80ea-bd0ea4424391:
+            uuid: 828b8871-731f-4d71-80ea-bd0ea4424391
+            region: content
+            configuration:
+              id: 'field_block:commerce_product_variation:pizza_size:price'
+              label: Price
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: '@commerce_product.product_variation_route_context:commerce_product_variation'
+                view_mode: view_mode
+              formatter:
+                type: commerce_price_default
+                label: above
+                settings:
+                  strip_trailing_zeroes: false
+                  currency_display: symbol
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          2f31d1e3-b266-4b84-9ee1-3bb2f4aac595:
+            uuid: 2f31d1e3-b266-4b84-9ee1-3bb2f4aac595
+            region: content
+            configuration:
+              id: 'field_block:commerce_product:pizza:field_xref_product'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_entity_view
+                label: above
+                settings:
+                  view_mode: add_on
+                  link: false
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+        third_party_settings: {  }
+id: commerce_product.pizza.default
+targetEntityType: commerce_product
+bundle: pizza
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_food_menu_item:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_xref_product:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: add_on
+      link: false
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: above
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+hidden:
+  add_to_cart_link: true
+  created: true
+  stores: true
+  uid: true

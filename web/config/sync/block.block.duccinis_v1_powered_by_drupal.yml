@@ -1,0 +1,22 @@
+uuid: cb892f83-d30a-4108-b0a7-971293633caf
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_v1
+_core:
+  default_config_hash: P8hTYqzuoH5QkwX4-BGx65P0AJ3F8X3QBacO6E-UnyI
+id: duccinis_v1_powered_by_drupal
+theme: duccinis_v1
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

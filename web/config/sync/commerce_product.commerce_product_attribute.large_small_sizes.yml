@@ -1,0 +1,7 @@
+uuid: 02d1a631-adb7-43ce-a697-bc76b9a76f5a
+langcode: en
+status: true
+dependencies: {  }
+id: large_small_sizes
+label: 'Small / Medium / Large sizes'
+elementType: select

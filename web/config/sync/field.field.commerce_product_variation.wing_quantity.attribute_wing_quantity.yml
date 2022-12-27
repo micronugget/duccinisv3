@@ -1,0 +1,24 @@
+uuid: f6b9b75b-299f-41d3-9e3c-4dc670503035
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_attribute.wing_quantity
+    - commerce_product.commerce_product_variation_type.wing_quantity
+    - field.storage.commerce_product_variation.attribute_wing_quantity
+id: commerce_product_variation.wing_quantity.attribute_wing_quantity
+field_name: attribute_wing_quantity
+entity_type: commerce_product_variation
+bundle: wing_quantity
+label: 'Wing quantity'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product_attribute_value'
+  handler_settings:
+    target_bundles:
+      - wing_quantity
+field_type: entity_reference

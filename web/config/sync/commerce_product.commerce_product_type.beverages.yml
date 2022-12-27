@@ -1,0 +1,12 @@
+uuid: f3c500a3-4ed4-44a7-98e5-612cea4aa3cb
+langcode: en
+status: true
+dependencies: {  }
+id: beverages
+label: 'Beverage (12oz can, 20oz bottle, 2-liter bottle)'
+traits: {  }
+locked: false
+description: ''
+variationType: beverage_size
+multipleVariations: true
+injectVariationFields: true

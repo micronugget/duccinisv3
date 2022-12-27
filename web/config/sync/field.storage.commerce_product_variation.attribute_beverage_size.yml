@@ -1,0 +1,19 @@
+uuid: c8f519e0-ee5f-4652-8974-9f3db95a084c
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_product
+id: commerce_product_variation.attribute_beverage_size
+field_name: attribute_beverage_size
+entity_type: commerce_product_variation
+type: entity_reference
+settings:
+  target_type: commerce_product_attribute_value
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
