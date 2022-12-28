@@ -30,6 +30,7 @@ web/sites/default/development.services.yml
 backup*
 drush/sites/
 drush/sites/examples.tar.xz
+drush/*
 web/sites/default/services.yml
 web/sites/default/private/.htaccess
 web/sites/default/private/tmp/
