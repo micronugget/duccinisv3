@@ -1,0 +1,50 @@
+uuid: 7bdb7efa-a23d-4776-b7a5-b9f8e02e56f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.small_medium_large_sizes
+    - field.field.commerce_product_variation.small_medium_large_sizes.attribute_small_medium_large_siz
+  module:
+    - commerce_price
+id: commerce_product_variation.small_medium_large_sizes.default
+targetEntityType: commerce_product_variation
+bundle: small_medium_large_sizes
+mode: default
+content:
+  attribute_small_medium_large_siz:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  list_price:
+    type: commerce_list_price
+    weight: -1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  price:
+    type: commerce_price_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  sku:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 90
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  created: true
+  uid: true

@@ -1,0 +1,10 @@
+uuid: e89453e8-723f-4b8b-906f-6f172b7b90c3
+langcode: en
+status: true
+dependencies: {  }
+id: recipe
+label: 'Simple Recipe variations'
+traits: {  }
+locked: false
+orderItemType: null
+generateTitle: true

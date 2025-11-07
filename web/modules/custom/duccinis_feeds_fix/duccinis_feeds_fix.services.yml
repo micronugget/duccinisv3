@@ -1,0 +1,5 @@
+services:
+  duccinis_feeds_fix.event_subscriber:
+    class: Drupal\duccinis_feeds_fix\EventSubscriber\FeedsProductVariationSubscriber
+    tags:
+      - { name: event_subscriber }

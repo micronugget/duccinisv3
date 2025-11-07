@@ -1,0 +1,24 @@
+uuid: 5c3954b8-dcd3-4563-b7ca-e8255d177c74
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_attribute.small_medium_large_siz
+    - commerce_product.commerce_product_variation_type.garlic_bread
+    - field.storage.commerce_product_variation.attribute_small_medium_large_siz
+id: commerce_product_variation.garlic_bread.attribute_small_medium_large_siz
+field_name: attribute_small_medium_large_siz
+entity_type: commerce_product_variation
+bundle: garlic_bread
+label: 'Small / Medium / Large sizes'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product_attribute_value'
+  handler_settings:
+    target_bundles:
+      small_medium_large_siz: small_medium_large_siz
+field_type: entity_reference

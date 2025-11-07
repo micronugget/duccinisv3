@@ -1,7 +1,0 @@
-uuid: 1031ca48-25cc-4d6d-8217-15b995988b0d
-langcode: en
-status: true
-dependencies: {  }
-id: pasta_spaghetti_lasagn
-label: 'Spaghetti, Lasagna, Stuffed Shells'
-elementType: select

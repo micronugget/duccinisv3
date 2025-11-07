@@ -1,0 +1,46 @@
+product_id,sku,price__number,sandwich_size_x,stores
+California Style,sub_large_california_style,12.5,"X-Large 12""",1|2|3
+California Style,sub_medium_california_style,8.99,"Medium 8""",1|2|3
+Cheese Steak [Rib-Eye],sub_medium_cheese_steak,8.99,"Medium 8""",1|2|3
+Cheese Steak [Rib-Eye],sub_large_cheese_steak,12.5,"X-Large 12""",1|2|3
+Pepperoni Pizza Sub,sub_medium_pepperoni_pizza,8.99,"Medium 8""",1|2|3
+Pepperoni Pizza Sub,sub_large_pepperoni_pizza,12.5,"X-Large 12""",1|2|3
+Regular Cold Cut,sub_medium_regular_cold_cut,8.99,"Medium 8""",1|2|3
+Regular Cold Cut,sub_medium_large_cold_cut,12.5,"X-Large 12""",1|2|3
+Italian Cheese Steak,sub_medium_italian_cheese_steak,8.99,"Medium 8""",1|2|3
+Italian Cheese Steak,sub_large_italian_cheese_steak,12.5,"X-Large 12""",1|2|3
+Ham & Cheese,sub_medium_ham_cheese,8.99,"Medium 8""",1|2|3
+Ham & Cheese,sub_large_ham_cheese,12.5,"X-Large 12""",1|2|3
+Italian,sub_medium_italian,8.99,"Medium 8""",1|2|3
+Italian,sub_large_italian,12.5,"X-Large 12""",1|2|3
+Regular Hot Cut,sub_large_regular_hot_cut,12.5,"X-Large 12""",1|2|3
+Regular Hot Cut,sub_medium_regular_hot_cut,8.99,"Medium 8""",1|2|3
+Sliced Turkey Breast,sub_large_turkey_breast,12.5,"X-Large 12""",1|2|3
+Sliced Turkey Breast,sub_medium_turkey_breast,8.99,"Medium 8""",1|2|3
+Eggplant Parmesan,sub_medium_eggplant_parmesan,8.99,"Medium 8""",1|2|3
+Eggplant Parmesan,sub_large_eggplant_parmesan,12.5,"X-Large 12""",1|2|3
+Pizza Burger,sub_medium_pizza_burger,8.99,"Medium 8""",1|2|3
+Pizza Burger,sub_large_pizza_burger,12.5,"X-Large 12""",1|2|3
+Extra Meat,sub_medium_extra_meat,8.99,"Medium 8""",1|2|3
+Extra Meat,sub_large_extra_meat,12.5,"X-Large 12""",1|2|3
+Philadelphia Style,sub_medium_philadelphia_style,8.99,"Medium 8""",1|2|3
+Philadelphia Style,sub_large_philadelphia_style,12.5,"X-Large 12""",1|2|3
+Chicken Cheese Steak,sub_medium_chicken_cheese_steak,8.99,"Medium 8""",1|2|3
+Chicken Cheese Steak,sub_large_chicken_cheese_steak,12.5,"X-Large 12""",1|2|3
+Hamburger,sub_medium_hamburger,8.99,"Medium 8""",1|2|3
+Hamburger,sub_large_hamburger,12.5,"X-Large 12""",1|2|3
+Pepperoni Sausage,sub_medium_pepperoni_sausage,8.99,"Medium 8""",1|2|3
+Pepperoni Sausage,sub_large_pepperoni_sausage,12.5,"X-Large 12""",1|2|3
+Meatball,sub_medium_meatball,8.99,"Medium 8""",1|2|3
+Meatball,sub_large_meatball,8.99,"X-Large 12""",1|2|3
+Cheeseburger,sub_medium_cheeseburger,8.99,"Medium 8""",1|2|3
+Cheeseburger,sub_large_cheeseburger,12.5,"X-Large 12""",1|2|3
+Italian Meat Balls,sub_medium_italian_meat_balls,8.99,"Medium 8""",1|2|3
+Italian Meat Balls,sub_large_italian_meat_balls,12.5,"X-Large 12""",1|2|3
+Chicken Parmesan,sub_medium_chicken_parmesan,8.99,"Medium 8""",1|2|3
+Chicken Parmesan,sub_large_chicken_parmesan,12.5,"X-Large 12""",1|2|3
+Ham,sub_medium_ham,8.99,"Medium 8""",1|2|3
+Ham,sub_large_ham,12.5,"X-Large 12""",1|2|3
+Veggie,sub_medium_veggie,8.99,"Medium 8""",1|2|3
+Veggie,sub_large_veggie,12.5,"X-Large 12""",1|2|3
+The Gopher,sub_gopher,14.5,"X-Large 12""",1|2|3

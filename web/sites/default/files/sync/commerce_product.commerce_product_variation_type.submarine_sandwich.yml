@@ -1,0 +1,10 @@
+uuid: 9d86caa8-904a-47b1-b5bf-4410669a8748
+langcode: en
+status: true
+dependencies: {  }
+id: submarine_sandwich
+label: 'Submarine sandwich'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: true
