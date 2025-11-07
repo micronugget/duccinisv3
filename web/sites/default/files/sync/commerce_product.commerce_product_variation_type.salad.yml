@@ -1,0 +1,10 @@
+uuid: 13175658-bbe3-4d26-bfdd-7f280f64ea72
+langcode: en
+status: true
+dependencies: {  }
+id: salad
+label: Salad
+traits: {  }
+locked: false
+orderItemType: null
+generateTitle: null

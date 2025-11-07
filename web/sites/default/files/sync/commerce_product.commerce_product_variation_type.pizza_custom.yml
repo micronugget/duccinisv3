@@ -1,0 +1,10 @@
+uuid: 041311f4-438f-4fb9-8607-717fb93fd855
+langcode: en
+status: true
+dependencies: {  }
+id: pizza_custom
+label: 'Pizza customized'
+traits: {  }
+locked: false
+orderItemType: null
+generateTitle: false

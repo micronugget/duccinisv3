@@ -1,0 +1,7 @@
+uuid: 5f7221bf-6b50-4cfb-9363-5313268cc252
+langcode: en
+status: true
+dependencies: {  }
+id: pizza_size
+label: 'Pizza size'
+elementType: select

@@ -1,0 +1,24 @@
+uuid: 32b1ab1f-18b8-46cc-8c5b-2089708372a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_attribute.beverage_size
+    - commerce_product.commerce_product_variation_type.beverage
+    - field.storage.commerce_product_variation.attribute_beverage_size
+id: commerce_product_variation.beverage.attribute_beverage_size
+field_name: attribute_beverage_size
+entity_type: commerce_product_variation
+bundle: beverage
+label: 'Beverage size'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product_attribute_value'
+  handler_settings:
+    target_bundles:
+      beverage_size: beverage_size
+field_type: entity_reference

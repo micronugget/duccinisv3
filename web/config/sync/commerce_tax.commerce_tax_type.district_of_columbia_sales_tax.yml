@@ -1,0 +1,25 @@
+uuid: 8c171f12-4bc3-4cc8-9c40-796e74c407cd
+langcode: en
+status: true
+dependencies: {  }
+id: district_of_columbia_sales_tax
+label: 'District of Columbia sales tax'
+plugin: custom
+configuration:
+  display_inclusive: false
+  display_tax_rate_in_label: true
+  display_label: tax
+  round: true
+  rates:
+    -
+      id: ad763760-403f-47b3-b757-d5e61318dc58
+      label: 'District of Columbia sales tax'
+      percentage: '0.1'
+  territories:
+    -
+      country_code: US
+      administrative_area: DC
+      locality: null
+      dependent_locality: null
+conditions: {  }
+conditionOperator: AND

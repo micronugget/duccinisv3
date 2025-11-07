@@ -1,0 +1,10 @@
+uuid: 2c3f6022-a157-4584-a5c6-b40e984af26d
+langcode: en
+status: true
+dependencies: {  }
+id: beverage
+label: Beverage
+traits: {  }
+locked: false
+orderItemType: null
+generateTitle: true

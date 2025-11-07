@@ -1,0 +1,8 @@
+name: 'Duccinis Feeds Fix'
+type: module
+description: 'Fixes Feeds module to properly handle multiple variations per product during import'
+core_version_requirement: ^9 || ^10 || ^11
+package: Custom
+dependencies:
+  - feeds
+  - commerce_product
