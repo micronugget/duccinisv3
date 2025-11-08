@@ -6,5 +6,5 @@ id: pizza_delightz
 label: 'Pizza delightz'
 traits: {  }
 locked: false
-orderItemType: null
+orderItemType: default
 generateTitle: false

@@ -459,11 +459,11 @@ class LeafletDefaultFormatter extends FormatterBase implements ContainerFactoryP
       }
 
       // Associate dynamic className property (token based) to icon.
-      $feature['className'] = !empty($settings['className']) ?
+      $feature['icon']['className'] = !empty($settings["icon"]["className"]) ?
         htmlspecialchars_decode(str_replace([
           "\n",
           "\r",
-        ], "", $this->token->replace($settings['className'], $tokens)
+        ], "", $this->token->replace($settings["icon"]["className"], $tokens)
         )) : '';
 
       // Add Feature additional Properties (if present).

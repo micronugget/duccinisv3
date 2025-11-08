@@ -1386,10 +1386,10 @@ class LeafletMap extends StylePluginBase implements ContainerFactoryPluginInterf
     // Associate dynamic path properties (token based) to each feature,
     // if not point.
     if ($feature['type'] !== 'point') {
-      $feature['path'] = htmlspecialchars_decode(str_replace(
-        ["\n", "\r"],
-        "",
-        $this->viewsTokenReplace($this->options['path'], $tokens)
+      $feature['path'] = htmlspecialchars_decode(str_replace([
+        "\n",
+        "\r",
+      ], "", $this->viewsTokenReplace($this->options['path'], $tokens)
       ));
     }
 
