@@ -343,12 +343,7 @@ function eca_render_form_alter(array &$form, FormStateInterface $form_state): vo
       return;
     }
     $display = $form_object->getFormDisplay($form_state);
-    if (!($display instanceof EntityDisplayInterface)) {
-      // No form display available; nothing to alter.
-      return;
-    }
-    $view_mode = method_exists($display, 'getMode') ? $display->getMode() : 'default';
-    _eca_render_trigger_extra_field($form, $entity, $display, $view_mode, 'form');
+    _eca_render_trigger_extra_field($form, $entity, $display, $display->getMode(), 'form');
   }
 }
 

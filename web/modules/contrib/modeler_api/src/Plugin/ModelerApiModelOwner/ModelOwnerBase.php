@@ -292,6 +292,20 @@ abstract class ModelOwnerBase extends PluginBase implements ModelOwnerInterface 
   /**
    * {@inheritdoc}
    */
+  final public function setStorage(ConfigEntityInterface $model, string $storage): ModelOwnerInterface {
+    return $this->setThirdPartySetting($model, 'storage', $storage);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  final public function getStorage(ConfigEntityInterface $model): string {
+    return $model->getThirdPartySetting('modeler_api', 'storage', '');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   final public function setDocumentation(ConfigEntityInterface $model, string $documentation): ModelOwnerInterface {
     return $this->setThirdPartySetting($model, 'documentation', $documentation);
   }
@@ -501,7 +515,10 @@ abstract class ModelOwnerBase extends PluginBase implements ModelOwnerInterface 
     if ($modeler->getPluginId() === 'fallback') {
       return NULL;
     }
-    $method = Settings::value($this, $modeler, 'storage', $this->defaultStorageMethod());
+    $method = $this->getStorage($model);
+    if ($method === '') {
+      $method = Settings::value($this, $modeler, 'storage', $this->defaultStorageMethod());
+    }
     if ($model->isNew() && $method === Settings::STORAGE_OPTION_SEPARATE) {
       // A new model has no ID, so we can't store externally.
       // Keep it in third-party until the entity got saved the first time.

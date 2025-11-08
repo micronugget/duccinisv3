@@ -7,6 +7,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
@@ -38,6 +39,7 @@ final class ProjectBrowserBlock extends BlockBase implements ContainerFactoryPlu
     $plugin_definition,
     private readonly ProjectBrowserSourceManager $sourceManager,
     private readonly ElementInfoManagerInterface $elementInfo,
+    private readonly ConfigFactoryInterface $configFactory,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -52,6 +54,7 @@ final class ProjectBrowserBlock extends BlockBase implements ContainerFactoryPlu
       $plugin_definition,
       $container->get(ProjectBrowserSourceManager::class),
       $container->get(ElementInfoManagerInterface::class),
+      $container->get(ConfigFactoryInterface::class),
     );
   }
 
@@ -73,24 +76,37 @@ final class ProjectBrowserBlock extends BlockBase implements ContainerFactoryPlu
   }
 
   /**
-   * Tries to load the fully configured source plugin this block shows.
+   * {@inheritdoc}
    *
-   * @return \Drupal\project_browser\Plugin\ProjectBrowserSourceInterface|null
-   *   A source plugin, or NULL if the source is unavailable or disabled.
+   * Overridden for return type hint.
    */
-  private function getSource(): ?ProjectBrowserSourceInterface {
-    $source_id = $this->getDerivativeId();
-    assert(is_string($source_id));
-    return $this->sourceManager->getAllEnabledSources()[$source_id] ?? NULL;
+  public function getDerivativeId(): string {
+    $derivative_id = parent::getDerivativeId();
+    assert(is_string($derivative_id));
+    return $derivative_id;
+  }
+
+  /**
+   * Loads the fully configured source plugin this block shows.
+   *
+   * @return \Drupal\project_browser\Plugin\ProjectBrowserSourceInterface
+   *   A source plugin.
+   */
+  private function getSource(): ProjectBrowserSourceInterface {
+    return $this->sourceManager->createInstance($this->getDerivativeId(), NULL);
   }
 
   /**
    * {@inheritdoc}
    */
   protected function blockAccess(AccountInterface $account): AccessResultInterface {
-    $is_enabled = AccessResult::allowedIf($this->getSource() instanceof ProjectBrowserSourceInterface);
-    return AccessResult::allowedIfHasPermission($account, 'administer modules')
-      ->andIf($is_enabled);
+    return AccessResult::allowedIf(
+      array_key_exists($this->getDerivativeId(), $this->sourceManager->getAllEnabledSources()),
+    )->andIf(
+      AccessResult::allowedIfHasPermission($account, 'administer modules'),
+    )->addCacheableDependency(
+      $this->configFactory->get('project_browser.admin_settings'),
+    );
   }
 
   /**
@@ -99,13 +115,7 @@ final class ProjectBrowserBlock extends BlockBase implements ContainerFactoryPlu
   public function blockForm($form, FormStateInterface $form_state): array {
     $form = parent::blockForm($form, $form_state);
 
-    // If we cannot load the source plugin (i.e., it's disabled) there's nothing
-    // for us to do here.
     $source = $this->getSource();
-    if (empty($source)) {
-      return $form;
-    }
-
     $configuration = $this->getConfiguration();
     $form['paginate'] = [
       '#type' => 'checkbox',
@@ -188,12 +198,7 @@ final class ProjectBrowserBlock extends BlockBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function build(): array {
-    // If the source plugin is disabled, there's nothing for us to render. This
-    // should never happen (see ::blockAccess()), but we're being defensive.
     $source = $this->getSource();
-    if (empty($source)) {
-      return [];
-    }
 
     // We don't want to actually load the project browser in preview mode.
     if ($this->inPreview) {
