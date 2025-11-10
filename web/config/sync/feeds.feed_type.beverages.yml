@@ -1,15 +1,15 @@
-uuid: 3e6fb0be-0d2e-4b91-90e0-a7d2e3f0b8c1
+uuid: 9e3f7c07-8b5e-4c7b-9f42-7f0b9f1d2345
 langcode: en
 status: true
 dependencies:
   config:
-    - commerce_product.commerce_product_variation_type.pizza_delightz
-    - field.field.commerce_product_variation.pizza_delightz.attribute_pizza_size
+    - commerce_product.commerce_product_variation_type.beverage
+    - field.field.commerce_product_variation.beverage.attribute_beverage_size
   module:
     - commerce_feeds
     - commerce_product
-label: 'Pizza delights'
-id: pizza_delights
+label: 'Beverages'
+id: beverages
 description: ''
 help: ''
 import_period: -1
@@ -28,14 +28,14 @@ parser_configuration:
 processor: 'entity:commerce_product_variation'
 processor_configuration:
   values:
-    type: pizza_delightz
+    type: beverage
   langcode: en
   insert_new: 1
   update_existing: 2
   update_non_existent: _keep
   skip_hash_check: true
   skip_validation: true
-  skip_validation_types: {  }
+  skip_validation_types: { }
   authorize: true
   revision: false
   expire: -1
@@ -57,17 +57,17 @@ custom_sources:
     label: price__number
     machine_name: price__number
     type: csv
-  pizza_size:
-    value: 'Pizza Size'
-    label: 'Pizza Size'
-    machine_name: pizza_size
+  beverage_size:
+    value: Beverage size
+    label: Beverage size
+    machine_name: beverage_size
     type: csv
 mappings:
   -
     target: sku
     map:
       value: sku
-    settings: {  }
+    settings: { }
     unique:
       value: 1
   -
@@ -76,7 +76,7 @@ mappings:
       value: product_id
     settings:
       language: null
-    unique: {  }
+    unique: { }
   -
     target: price
     map:
@@ -91,10 +91,10 @@ mappings:
       reference_by: title
       autocreate: 0
   -
-    target: attribute_pizza_size
+    target: attribute_beverage_size
     map:
-      target_id: pizza_size
+      target_id: beverage_size
     settings:
       reference_by: name
       autocreate: 1
-      autocreate_bundle: pizza_size
+      autocreate_bundle: beverage_size

@@ -1,15 +1,14 @@
-uuid: 8a9a2f34-7d42-4c08-a5c7-4b9d3a35b2a1
+uuid: 0ef5a6e7-4d89-4a5e-9a0b-6f5c1e2a7b90
 langcode: en
 status: true
 dependencies:
   config:
-    - commerce_product.commerce_product_type.pizza
-    - field.field.commerce_product.pizza.body
+    - commerce_product.commerce_product_type.beverages
   module:
     - commerce_feeds
     - commerce_product
-label: 'Pizza delights product'
-id: pizza_delights_product
+label: 'Beverages product'
+id: beverages_product
 description: ''
 help: ''
 import_period: 3600
@@ -25,17 +24,18 @@ parser_configuration:
   delimiter: ','
   no_headers: false
   line_limit: 200
+  multi_value_separator: '|'
 processor: 'entity:commerce_product'
 processor_configuration:
   values:
-    type: pizza
+    type: beverages
   langcode: en
   insert_new: 1
   update_existing: 2
   update_non_existent: _keep
   skip_hash_check: true
   skip_validation: true
-  skip_validation_types: {  }
+  skip_validation_types: { }
   authorize: true
   revision: false
   expire: -1
@@ -70,7 +70,7 @@ mappings:
     target: body
     map:
       value: body
-      summary: body
+      summary: ''
     settings:
       language: null
       format: plain_text
