@@ -132,7 +132,7 @@ class CommerceAddToCartLinkViewsField extends LinkBase {
   protected function documentSelfTokens(&$tokens) {
     parent::documentSelfTokens($tokens);
 
-    $tokens['{{ ' . $this->options['id'] . '__url' . ' }}'] = $this->t('The URL of the add to cart link.');
+    $tokens['{{ ' . $this->options['id'] . '__url }}'] = $this->t('The URL of the add to cart link.');
   }
 
   /**
@@ -143,7 +143,7 @@ class CommerceAddToCartLinkViewsField extends LinkBase {
 
     /** @var \Drupal\Core\Url $url */
     $url = $item['url'];
-    $tokens['{{ ' . $this->options['id'] . '__url' . ' }}'] = $url->toString();
+    $tokens['{{ ' . $this->options['id'] . '__url }}'] = $url->toString();
   }
 
 }

@@ -1,4 +1,4 @@
-uuid: 9e3f7c07-8b5e-4c7b-9f42-7f0b9f1d2345
+uuid: 7e79637e-9dd9-4b21-9373-9481773e4d94
 langcode: en
 status: true
 dependencies:
@@ -8,8 +8,8 @@ dependencies:
   module:
     - commerce_feeds
     - commerce_product
-label: 'Beverages'
-id: beverages
+label: 'Beverages variations'
+id: beverages_variations
 description: ''
 help: ''
 import_period: -1
@@ -24,7 +24,7 @@ parser: csv
 parser_configuration:
   delimiter: ','
   no_headers: false
-  line_limit: 200
+  line_limit: 100
 processor: 'entity:commerce_product_variation'
 processor_configuration:
   values:
@@ -35,7 +35,7 @@ processor_configuration:
   update_non_existent: _keep
   skip_hash_check: true
   skip_validation: true
-  skip_validation_types: { }
+  skip_validation_types: {  }
   authorize: true
   revision: false
   expire: -1
@@ -58,8 +58,8 @@ custom_sources:
     machine_name: price__number
     type: csv
   beverage_size:
-    value: Beverage size
-    label: Beverage size
+    value: 'Beverage size'
+    label: 'Beverage size'
     machine_name: beverage_size
     type: csv
 mappings:
@@ -67,7 +67,7 @@ mappings:
     target: sku
     map:
       value: sku
-    settings: { }
+    settings: {  }
     unique:
       value: 1
   -
@@ -76,7 +76,7 @@ mappings:
       value: product_id
     settings:
       language: null
-    unique: { }
+    unique: {  }
   -
     target: price
     map:

@@ -15,9 +15,9 @@ label: 'Feeds item'
 description: ''
 required: false
 translatable: true
-default_value: { }
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:feeds_feed'
-  handler_settings: { }
+  handler_settings: {  }
 field_type: feeds_item

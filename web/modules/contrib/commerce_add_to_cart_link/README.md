@@ -39,7 +39,7 @@ there's little to nothing that Commerce could do to prevent that.
 Offering a dedicated add to cart link instead of using the Form API prevents
 that problem.
 
-### Core limitation: ajaxified Views are hijacking your forms
+### Core limitation: Ajax-enabled Views are hijacking your forms
 
 Ever tried to build a View with Ajax enabled (eg. for infinite pagination) and
 list products including the add to cart form? You'll fail. The forms will only
@@ -69,8 +69,8 @@ with all dependencies, which is actually inevitable for running Commerce itself.
 
 Use [Composer](https://getcomposer.org/) to get Drupal + Commerce with all dependencies.
 
-See the [official dosc](https://www.drupal.org/docs/8/extending-drupal-8/installing-modules-composer-dependencies)
-and/or th e[install documentation](https://docs.drupalcommerce.org/commerce2/developer-guide/install-update/installation)
+See the [official docs](https://www.drupal.org/docs/8/extending-drupal-8/installing-modules-composer-dependencies)
+and/or the [install documentation](https://docs.drupalcommerce.org/commerce2/developer-guide/install-update/installation)
 of Drupal commerce for more details.
 
 ## Configuration
@@ -84,7 +84,7 @@ The first one (Product entity field) is recommended, if you either do not have
 multiple variations per product at all or only want to show the add to cart link
 for the default (in most cases the first referenced) variation.
 
-Use the second option ()variation field) instead, if you have multiple
+Use the second option (variation field) instead, if you have multiple
 variations and want to show links for all of them.
 
 The fields are automatically available for all your product and product
@@ -107,6 +107,59 @@ If you want to customize the markup and/or text of the link, copy the
 this module into your theme and customize it like you want. You can provide
 different templates per variation type or ID.
 
+### Enable AJAX on Add to Cart link
+Controller `AddToCartController::action` of the route 
+`commerce_add_to_cart_link.page` has AJAX enabled, eg can accept both regular 
+and AJAX requests.
+
+If AJAX is enabled, AJAX response will update default commerce_cart template 
+count indicator and trigger a custom JS event on HTML tag (to process response 
+manually).
+
+To enable `Add to cart` link to send request as AJAX add class `use-ajax` to 
+commerce-add-to-cart-link.html.twig template:
+
+```
+<a href="{{ url }}" class="add-to-cart-link use-ajax" rel="nofollow" 
+  data-variation="{{ product_variation.id }}">{{ 'Add to cart'|t }}</a>
+```
+
+To enable AJAX on views field, in rewrite results:
+- set `Output this field as a custom link` to TRUE
+- set `Link class` to `use-ajax` (in addition to any classes you might have)
+- optional, update `Title text` to product title for accessibility compliance
+  (simple `Add to cart` text is not descriptive enough)
+
+***Optional:***
+Controller will fire a global JavaScript event on HTML tag to be handled in 
+your own javascript:
+`addToCartLink.updated` event returns data which contains:
+- cart_total_count - total items count in the cart
+- product_title  - title of the added product
+- quantity_added - quantity of products added to the cart (default is one)
+
+in case default cart indicator is not being updated by using default classes, 
+eg `cart-block--summary__count`
+
+```
+Drupal.behaviors.addToCart = {
+  attach: function (context) {
+    once('cart-updated', 'html', context).forEach(html => {
+      // Add event handler to catch 'addToCartLink.updated' on HTML.
+      $('html').on('addToCartLink.updated', (event, data) => {
+        // Cart has been updated, following data is available:
+        // data.cart_total_count
+        // data.product_title
+        // data.quantity_added
+        console.log(data);
+        // Update custom cart indicators.
+        // Notify user - show a toast or a message to user.
+      });
+    });
+  }
+}
+```
+
 ### Token protection
 
 Visit /admin/commerce/config/add-to-cart-link to configure, which user roles
@@ -117,6 +170,7 @@ protection.
 
 ## Maintainers
 
+<!--- cspell:disable -->
 Commerce Quantity Increments module was originally developed and is currently
 maintained by [Mag. Andreas Mayr](https://www.drupal.org/u/agoradesign).
 

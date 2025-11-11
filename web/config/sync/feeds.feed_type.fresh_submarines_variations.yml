@@ -1,16 +1,15 @@
-uuid: 9eedc342-265c-41cc-9a91-84d4ffc922b0
+uuid: 4d7e5fe6-6924-4e40-aef1-ec9f4eeb4cf0
 langcode: en
 status: true
 dependencies:
   config:
     - commerce_product.commerce_product_variation_type.submarine_sandwich
     - field.field.commerce_product_variation.submarine_sandwich.attribute_sandwich_size
-    - field.field.commerce_product_variation.submarine_sandwich.field_product_reference
   module:
     - commerce_feeds
     - commerce_product
-label: 'Fresh submarines'
-id: fresh_submarines
+label: 'Fresh submarines variations'
+id: fresh_submarines_variations
 description: ''
 help: ''
 import_period: -1
@@ -112,5 +111,5 @@ mappings:
       target_id: sandwich_size_x
     settings:
       reference_by: name
-      autocreate: 1
-      autocreate_bundle: sandwich_size
+    autocreate: 1
+    autocreate_bundle: sandwich_size
