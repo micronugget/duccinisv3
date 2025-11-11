@@ -35,7 +35,7 @@ processor_configuration:
   update_non_existent: _keep
   skip_hash_check: true
   skip_validation: true
-  skip_validation_types: { }
+  skip_validation_types: {  }
   authorize: true
   revision: false
   expire: -1

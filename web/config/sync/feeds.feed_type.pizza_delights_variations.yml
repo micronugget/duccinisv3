@@ -1,4 +1,4 @@
-uuid: 3e6fb0be-0d2e-4b91-90e0-a7d2e3f0b8c1
+uuid: 2e40097c-38bd-4c16-8aac-4322394da6ce
 langcode: en
 status: true
 dependencies:
@@ -8,8 +8,8 @@ dependencies:
   module:
     - commerce_feeds
     - commerce_product
-label: 'Pizza delights'
-id: pizza_delights
+label: 'Pizza delights variations'
+id: pizza_delights_variations
 description: ''
 help: ''
 import_period: -1
@@ -24,7 +24,7 @@ parser: csv
 parser_configuration:
   delimiter: ','
   no_headers: false
-  line_limit: 200
+  line_limit: 100
 processor: 'entity:commerce_product_variation'
 processor_configuration:
   values:

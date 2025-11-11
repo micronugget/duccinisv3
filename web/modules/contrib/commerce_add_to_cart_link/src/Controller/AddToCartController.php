@@ -18,6 +18,9 @@ use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
 
 /**
  * Defines the add to cart controller.
@@ -149,6 +152,8 @@ class AddToCartController extends ControllerBase {
    *   entity can't be purchased from the current store.
    */
   public function action(ProductInterface $commerce_product, ProductVariationInterface $commerce_product_variation, $token, Request $request) {
+    $isAjax = $request->isXmlHttpRequest();
+
     $quantity = $request->query->get('quantity', 1);
     $combine = (bool) $request->query->get('combine', 1);
 
@@ -168,6 +173,37 @@ class AddToCartController extends ControllerBase {
       $cart = $this->cartProvider->createCart($order_type_id, $store);
     }
     $this->cartManager->addOrderItem($cart, $order_item, $combine);
+
+    if ($isAjax) {
+      $response = new AjaxResponse();
+
+      // Update cart indicators (provided by default commerce cart template).
+      // If these css classes don't exist, it will not cause an error.
+      $selector = 'span.cart-block--summary__count';
+      $count = 0;
+      foreach ($cart->getItems() as $order_item) {
+        $count += (int) $order_item->getQuantity();
+      }
+      $content = '<span class="cart-block--summary__count">' . $count . '</span>';
+      $response->addCommand(new ReplaceCommand($selector, $content));
+
+      // Invoke custom event: on HTML with jQUery trigger().
+      $selector = 'html';
+      $method = 'trigger';
+
+      // Trigger a custom event with data.
+      $arguments = [
+        'addToCartLink.updated',
+        [
+          'cart_total_count' => $count,
+          'product_title' => $order_item->label(),
+          'quantity_added' => $quantity,
+        ],
+      ];
+      $response->addCommand(new InvokeCommand($selector, $method, $arguments));
+
+      return $response;
+    }
 
     if ($this->config('commerce_add_to_cart_link.settings')->get('redirect_back')) {
       $referer = $request->server->get('HTTP_REFERER');
