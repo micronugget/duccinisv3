@@ -1,0 +1,23 @@
+uuid: 7f1e2d3c-4b5a-6c7d-8e9f-0a1b2c3d4e6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.chicken_wings
+    - field.storage.commerce_product.feeds_item
+  module:
+    - feeds
+id: commerce_product.chicken_wings.feeds_item
+field_name: feeds_item
+entity_type: commerce_product
+bundle: chicken_wings
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item
