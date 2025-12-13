@@ -1,7 +1,0 @@
-uuid: fd7ff80b-9faf-4766-9d62-a15ab698a4c5
-langcode: en
-status: true
-dependencies: {  }
-id: sandwich_size
-label: 'Sandwich size'
-elementType: select

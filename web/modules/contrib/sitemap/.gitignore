@@ -1,8 +1,0 @@
-# Added when using ddev/ddev-drupal-contrib add-on.
-/.ddev/
-/.editorconfig
-/.gitattributes
-/phpcs.xml.dist
-/recipes/
-/vendor/
-/web/

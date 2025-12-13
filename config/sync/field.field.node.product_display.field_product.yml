@@ -1,0 +1,51 @@
+uuid: 2c6be526-c08e-4178-9770-f3032bdebf73
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.beverages
+    - commerce_product.commerce_product_type.chicken_wings
+    - commerce_product.commerce_product_type.desserts
+    - commerce_product.commerce_product_type.famous_stromboli
+    - commerce_product.commerce_product_type.fresh_submarines
+    - commerce_product.commerce_product_type.gyro
+    - commerce_product.commerce_product_type.homemade_pasta
+    - commerce_product.commerce_product_type.menu_extras
+    - commerce_product.commerce_product_type.pizza
+    - commerce_product.commerce_product_type.salad
+    - commerce_product.commerce_product_type.side_orders
+    - commerce_product.commerce_product_type.specials
+    - field.storage.node.field_product
+    - node.type.product_display
+id: node.product_display.field_product
+field_name: field_product
+entity_type: node
+bundle: product_display
+label: Product
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product'
+  handler_settings:
+    target_bundles:
+      beverages: beverages
+      chicken_wings: chicken_wings
+      desserts: desserts
+      famous_stromboli: famous_stromboli
+      fresh_submarines: fresh_submarines
+      gyro: gyro
+      homemade_pasta: homemade_pasta
+      menu_extras: menu_extras
+      pizza: pizza
+      salad: salad
+      side_orders: side_orders
+      specials: specials
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: beverages
+field_type: entity_reference

@@ -1,0 +1,28 @@
+uuid: 34f6c759-5ce7-4591-bd81-ebd23bce0aa3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product_display.field_product
+    - node.type.product_display
+  module:
+    - user
+id: node.product_display.default
+targetEntityType: node
+bundle: product_display
+mode: default
+content:
+  field_product:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }
