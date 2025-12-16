@@ -754,6 +754,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -812,47 +853,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: Beverages
@@ -1179,6 +1179,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -1237,47 +1278,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: desserts
@@ -1604,6 +1604,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -1662,47 +1703,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: famous_stromboli
@@ -2452,6 +2452,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -2509,47 +2550,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: 'Fresh submarines'
@@ -2876,6 +2876,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -2934,47 +2975,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: gyro_special
@@ -3301,6 +3301,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -3359,47 +3400,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: homemade_pasta
@@ -5062,6 +5062,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -5120,47 +5161,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: pizza
@@ -5487,6 +5487,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -5545,47 +5586,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: salads
@@ -5912,6 +5912,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -5970,47 +6011,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: side_orders
@@ -6337,6 +6337,47 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
+      sorts:
+        field_weight:
+          id: field_weight
+          table: commerce_product__field_weight
+          field: field_weight_value
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title_1:
+          id: title_1
+          table: commerce_product_field_data
+          field: title
+          relationship: product_id
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
+        title:
+          id: title
+          table: commerce_product_variation_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: commerce_product_variation
+          entity_field: title
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+          exposed: false
       filters:
         type:
           id: type
@@ -6395,47 +6436,6 @@ display:
         sorts: false
         filters: false
         filter_groups: false
-      sorts:
-        field_weight:
-          id: field_weight
-          table: commerce_product__field_weight
-          field: field_weight_value
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title_1:
-          id: title_1
-          table: commerce_product_field_data
-          field: title
-          relationship: product_id
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
-        title:
-          id: title
-          table: commerce_product_variation_field_data
-          field: title
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: commerce_product_variation
-          entity_field: title
-          plugin_id: standard
-          order: ASC
-          expose:
-            label: ''
-          exposed: false
       display_description: ''
       display_extenders: {  }
       block_description: specials
