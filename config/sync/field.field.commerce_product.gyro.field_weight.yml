@@ -1,0 +1,25 @@
+uuid: c5a6d079-b310-4841-9d9f-7b2f91cbbd34
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.gyro
+    - field.storage.commerce_product.field_weight
+id: commerce_product.gyro.field_weight
+field_name: field_weight
+entity_type: commerce_product
+bundle: gyro
+label: Weight
+description: 'Sort order weight for menu display'
+required: false
+translatable: false
+default_value:
+  -
+    value: 5
+default_value_callback: null
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
