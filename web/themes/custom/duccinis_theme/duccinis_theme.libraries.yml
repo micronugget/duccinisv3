@@ -7,6 +7,16 @@ style:
   dependencies:
     - core/drupal
 
+menu_accordion:
+  css:
+    theme:
+      src/css/menu-accordion.css: {}
+  js:
+    src/js/menu-accordion.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
 drupal.ajax:
   js:
     src/js/overrides/ajax.js: {}

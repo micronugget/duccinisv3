@@ -1,0 +1,27 @@
+.menu-accordion__button {
+  font-weight: 700;
+}
+
+.menu-variation-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem;
+}
+
+.menu-variation-row .product-group {
+  width: 100%;
+}
+
+.menu-variation-row .variation-title {
+  flex: 1 1 auto;
+}
+
+.menu-variation-row .variation-price {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.menu-variation-row .variation-cart {
+  flex: 0 0 auto;
+}

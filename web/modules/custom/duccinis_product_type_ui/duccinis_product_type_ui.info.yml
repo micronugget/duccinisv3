@@ -1,0 +1,5 @@
+name: 'Duccinis Product Type UI'
+type: module
+description: 'Provides UI enhancements for product types including weight field management.'
+core_version_requirement: ^9 || ^10
+package: 'Custom'
