@@ -2,6 +2,7 @@
   font-weight: 700;
 }
 
+.views-row,
 .menu-variation-row {
   display: flex;
   flex-wrap: wrap;
@@ -9,19 +10,96 @@
   gap: .5rem;
 }
 
+.views-row .product-group,
 .menu-variation-row .product-group {
   width: 100%;
 }
 
-.menu-variation-row .variation-title {
+  .views-row .variation-title,
+  .menu-variation-row .variation-title {
   flex: 1 1 auto;
-}
+  }
 
+.views-row .variation-price,
 .menu-variation-row .variation-price {
   flex: 0 0 auto;
   font-weight: 700;
 }
 
-.menu-variation-row .variation-cart {
+.views-row .variation-cart,
+.menu-variation-row .variation-cart{
   flex: 0 0 auto;
+}
+
+/* ============================================
+   Basic Page Layout Builder Accordion Styling
+   (for pages using multiple Views blocks)
+   ============================================ */
+
+/* Row layout for accordion body content */
+.menu-accordion__body .views-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-accordion__body .views-row:last-child {
+  border-bottom: none;
+}
+
+/* Style "Add to cart" links as Bootstrap buttons */
+.menu-accordion__body .views-row a[href^="/add-to-cart"] {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.menu-accordion__body .views-row a[href^="/add-to-cart"]:hover {
+  color: #fff;
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  text-decoration: none;
+}
+
+.menu-accordion__body .views-row a[href^="/add-to-cart"]:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Bold prices - target text containing $ symbol */
+.menu-accordion__body .views-row {
+  font-size: 0.95rem;
+}
+
+/* Make the variation title take available space */
+.menu-accordion__body .view-content {
+  width: 100%;
+}
+
+/* Product group headings within accordion */
+.menu-accordion__body h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  color: #333;
+}
+
+.menu-accordion__body h3:first-child {
+  margin-top: 0;
 }
