@@ -258,6 +258,153 @@ Create a template to wrap the output in Bootstrap 5 accordion structure.
 }
 ```
 
+### Phase 2B: Layout Builder JavaScript Transformation (Alternative Approach)
+
+**Status: IMPLEMENTED** (2025-12-16)
+
+For pages using Layout Builder with multiple Views blocks (one per menu category), a JavaScript-based transformation approach was implemented instead of the grouped Views approach.
+
+#### 2B.1 JavaScript Transformation Logic
+**File**: `web/themes/custom/duccinis_theme/src/js/menu-accordion.js`
+
+**Implementation**:
+- Targets `.layout` containers with product variation blocks
+- Finds all blocks matching `[class*="block-views-blockproduct-variations-"]`
+- Creates a Bootstrap 5 accordion container
+- Transforms each block's `.block__title` (h2) into accordion button
+- Moves each block's `.block__content` into accordion body
+- Removes original blocks after transformation
+
+**Key features**:
+- Uses Drupal behaviors with `once()` for proper attachment
+- Generates unique IDs for each accordion item
+- Maintains Bootstrap 5 data attributes for collapse functionality
+- Preserves all original content including Views output
+
+#### 2B.2 Library Attachment
+**File**: `web/themes/custom/duccinis_theme/templates/block/block--views-block.html.twig`
+
+**Purpose**: Attaches `duccinis_theme/menu_accordion` library to all Views blocks, ensuring the JavaScript is loaded on pages with product variation blocks.
+
+#### 2B.3 CSS Styling
+**File**: `web/themes/custom/duccinis_theme/src/css/menu-accordion.css`
+
+**Existing styles support**:
+- `.menu-accordion__button` - Bold accordion headers
+- `.menu-variation-row` - Flexbox layout for variation items
+- `.variation-title`, `.variation-price`, `.variation-cart` - Item styling
+
+### Phase 2C: Pure Twig/Bootstrap 5 Accordion (Recommended Approach)
+
+**Status: IMPLEMENTED** (2025-12-16)
+
+This approach uses a single Views display with grouping, rendered entirely via Twig templates using Bootstrap 5's native accordion structure. **No JavaScript transformation required.**
+
+#### 2C.1 Views Display Configuration
+**Display**: `menu_complete_3` (Menu complete 3)
+**Path**: `/menu-complete-3`
+**File**: `config/sync/views.view.product_variations.yml`
+
+**Configuration**:
+- Groups by `type_1` field (Product Type) with `rendered: true`
+- Sorts by: type_1 ASC → title_1 (product) ASC → title (variation) ASC
+- Fields: type_1 (excluded), sku (excluded), title_1 (product title), title (variation), price, add-to-cart
+- Row class: `menu-variation-row`
+
+#### 2C.2 Views-View Template (Accordion Container)
+**File**: `web/themes/custom/duccinis_theme/templates/views/views-view--product-variations--menu-complete-3.html.twig`
+
+**Purpose**: Wraps the grouped Views output in a Bootstrap 5 accordion container.
+
+**Key structure**:
+```twig
+<div id="menu-complete-3-accordion" class="accordion menu-accordion">
+  {{ rows }}
+</div>
+```
+
+#### 2C.3 Views-View-Unformatted Template (Accordion Items)
+**File**: `web/themes/custom/duccinis_theme/templates/views/views-view-unformatted--product-variations--menu-complete-3.html.twig`
+
+**Purpose**: Renders each group as a Bootstrap 5 accordion-item. Called once per group by Views.
+
+**Key structure**:
+```twig
+<div class="accordion-item">
+  <h2 class="accordion-header">
+    <button class="accordion-button collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapse-id">
+      {{ title }}
+    </button>
+  </h2>
+  <div class="accordion-collapse collapse" data-bs-parent="#accordion-id">
+    <div class="accordion-body">
+      {% for row in rows %}...{% endfor %}
+    </div>
+  </div>
+</div>
+```
+
+#### 2C.4 Preprocess Hooks
+**File**: `web/themes/custom/duccinis_theme/includes/view.theme`
+
+**Functions**:
+- `duccinis_theme_preprocess_views_view()` - Sets accordion ID and flags
+- `duccinis_theme_preprocess_views_view_unformatted()` - Passes group title
+
+#### 2C.5 Advantages Over JavaScript Approach
+1. **Server-side rendering** - No DOM manipulation after page load
+2. **Better SEO** - Accordion content is in initial HTML
+3. **Faster perceived load** - No flash of unstyled content
+4. **Simpler debugging** - Standard Twig/Views workflow
+5. **Native Bootstrap 5** - Uses data attributes, no custom JS needed
+
+### Phase 2D: Basic Page Styling Enhancements (Bootstrap Buttons & Bold Prices)
+
+**Status: IMPLEMENTED** (2025-12-17)
+
+This phase enhances the Basic Page (Layout Builder with multiple Views blocks) to display "Add to cart" links as Bootstrap buttons and prices in bold, matching the styling in the Menu Complete View.
+
+#### 2D.1 CSS Enhancements
+**File**: `web/themes/custom/duccinis_theme/src/css/menu-accordion.css`
+
+**Added styles for**:
+- `.menu-accordion__body .views-row` - Flexbox layout with proper spacing and border separators
+- `.menu-accordion__body .views-row a[href^="/add-to-cart"]` - Bootstrap 5 primary button styling (btn btn-sm btn-primary)
+- `.menu-accordion__body h3` - Product group heading styling
+
+#### 2D.2 JavaScript Row Styling
+**File**: `web/themes/custom/duccinis_theme/src/js/menu-accordion.js`
+
+**Added `styleAccordionRows()` function** that:
+1. Adds Bootstrap button classes (`btn`, `btn-sm`, `btn-primary`) to all "Add to cart" links
+2. Parses text nodes to find price patterns (`$XX.XX`)
+3. Wraps prices in `<span class="variation-price">` for bold styling
+4. Wraps variation titles in `<span class="variation-title">` for flex layout
+
+**Key implementation details**:
+- Uses `querySelectorAll('a[href^="/add-to-cart"]')` to target cart links
+- Regex pattern `/(\$\d+\.\d{2})/` matches standard price format
+- Creates document fragments for efficient DOM manipulation
+- Called after accordion transformation completes
+
+#### 2D.3 Resulting HTML Structure
+After JavaScript transformation, each `.views-row` contains:
+```html
+<div class="views-row">
+  <span class="variation-title">Bucket [50 wings]</span>
+  <span class="variation-price">$59.95</span>
+  <a href="/add-to-cart/69/165" class="btn btn-sm btn-primary">Add to cart</a>
+</div>
+```
+
+#### 2D.4 Visual Improvements
+- **Buttons**: Blue Bootstrap primary buttons instead of plain text links
+- **Prices**: Bold font weight (700) for easy scanning
+- **Layout**: Flexbox row with proper spacing between elements
+- **Hover states**: Button color changes on hover for better UX
+
 ### Phase 3: Testing & Refinement
 
 #### 3.1 Configuration Import
@@ -267,6 +414,34 @@ ddev drush cr
 ```
 
 #### 3.2 Test Checklist
+
+**For Pure Twig/Bootstrap 5 (Phase 2C - Menu complete 3) - RECOMMENDED:**
+- [ ] Visit `/menu-complete-3` and verify accordion renders
+- [ ] All product types display as accordion sections (Beverages, Chicken Wings, Desserts, etc.)
+- [ ] Accordion buttons show human-readable product type names
+- [ ] Accordion expand/collapse works (Bootstrap 5 native behavior)
+- [ ] Products within each type display with title, price, add-to-cart
+- [ ] Add to cart links function properly
+- [ ] No JavaScript errors in browser console
+- [ ] Responsive design works on mobile and desktop
+- [ ] Page source shows accordion HTML (server-side rendered)
+
+**For Layout Builder Pages (Phase 2B/2D - JavaScript Transformation + Styling):**
+- [ ] Menu blocks transform into accordion on page load
+- [ ] Each menu category becomes a collapsible accordion item
+- [ ] Block titles become accordion buttons
+- [ ] Block content moves into accordion body
+- [ ] Accordion expand/collapse works on mobile
+- [ ] Accordion expand/collapse works on desktop
+- [ ] Add to cart links display as Bootstrap primary buttons (blue, btn-sm)
+- [ ] Add to cart buttons have hover state (darker blue)
+- [ ] Prices display in bold (font-weight: 700)
+- [ ] Variation titles and prices are properly separated in flexbox layout
+- [ ] Add to cart links function properly after transformation
+- [ ] No JavaScript errors in browser console
+- [ ] Responsive design tested on multiple screen sizes
+
+**For Grouped Views Display (Phase 2 - Template Approach):**
 - [ ] All product types display as accordion sections
 - [ ] Products within each type are grouped with headings
 - [ ] Variations display correctly under each product

@@ -1,0 +1,58 @@
+{#
+/**
+ * @file
+ * Menu accordion item template for Product Variations: Menu complete 3.
+ *
+ * This template is called ONCE PER GROUP when Views grouping is enabled.
+ * Each call renders one accordion-item with:
+ * - title: The group title (product type name)
+ * - rows: The rows belonging to this group
+ *
+ * The parent views-view template wraps all groups in the accordion container.
+ */
+#}
+
+{% set accordion_id = 'menu-complete-3-accordion' %}
+{% set group_title_clean = title|render|striptags|trim %}
+{% set item_id = group_title_clean|clean_class %}
+{% set heading_id = accordion_id ~ '-heading-' ~ item_id %}
+{% set collapse_id = accordion_id ~ '-collapse-' ~ item_id %}
+
+{# Only render accordion item structure if we have a group title #}
+{% if title %}
+  <div class="accordion-item menu-accordion__item">
+    <h2 class="accordion-header menu-accordion__header" id="{{ heading_id }}">
+      <button
+        class="accordion-button collapsed menu-accordion__button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#{{ collapse_id }}"
+        aria-expanded="false"
+        aria-controls="{{ collapse_id }}"
+      >
+        {{ group_title_clean }}
+      </button>
+    </h2>
+    <div
+      id="{{ collapse_id }}"
+      class="accordion-collapse collapse menu-accordion__collapse"
+      aria-labelledby="{{ heading_id }}"
+      data-bs-parent="#{{ accordion_id }}"
+    >
+      <div class="accordion-body menu-accordion__body">
+        {% for row in rows %}
+          <div{{ row.attributes.addClass('menu-variation-row') }}>
+            {{ row.content }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% else %}
+  {# No grouping title - render rows directly #}
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('menu-variation-row') }}>
+      {{ row.content }}
+    </div>
+  {% endfor %}
+{% endif %}
