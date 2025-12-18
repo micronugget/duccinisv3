@@ -38,8 +38,6 @@ module:
   datetime: 0
   dblog: 0
   drupal_cms_helper: 0
-  duccinis_product_type_sort: 0
-  duccinis_product_type_ui: 0
   dynamic_page_cache: 0
   easy_breadcrumb: 0
   easy_email: 0

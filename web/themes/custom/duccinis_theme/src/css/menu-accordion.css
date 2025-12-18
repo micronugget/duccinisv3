@@ -1,7 +1,113 @@
+/* ============================================
+   1984 LA Olympics "Stars in Motion" Design
+   Inspired by the iconic branding by Deborah Sussman
+   ============================================ */
+
+/* Color Palette (Official 1984 LA Olympics):
+   - Vermillion Red: #E63946 (primary)
+   - Electric Blue: #0077C0 (secondary)
+   - Sunset Orange: #FF6B35 (accent)
+   - Magenta: #D62976 (highlight)
+   - Bright Yellow: #FFC914 (energy)
+   - Deep Purple: #6A4C93 (contrast)
+   - White: #FFFFFF (clean)
+*/
+
+/* Import retro-style fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&display=swap');
+
+/* Accordion Button Styling - Bold geometric 80s style */
 .menu-accordion__button {
+  font-family: 'Bebas Neue', 'Arial Black', sans-serif !important;
   font-weight: 700;
+  font-size: 1.3rem !important;
+  letter-spacing: 0.05em;
+  background: linear-gradient(90deg, #E63946 0%, #FF6B35 50%, #FFC914 100%) !important;
+  color: white !important;
+  border: 4px solid #0077C0 !important;
+  border-radius: 0 !important;
+  padding: 1.25rem 1.5rem !important;
+  margin-bottom: 0.5rem;
+  box-shadow: 8px 8px 0px #0077C0;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  position: relative;
 }
 
+.menu-accordion__button::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.1) 20px
+  );
+  pointer-events: none;
+}
+
+.menu-accordion__button:hover {
+  background: linear-gradient(90deg, #FF6B35 0%, #FFC914 50%, #E63946 100%) !important;
+  box-shadow: 12px 12px 0px #0077C0;
+  transform: translate(-2px, -2px);
+}
+
+.menu-accordion__button:not(.collapsed) {
+  background: linear-gradient(90deg, #D62976 0%, #6A4C93 100%) !important;
+  border-color: #FFC914 !important;
+  box-shadow: 8px 8px 0px #FFC914;
+}
+
+.menu-accordion__button:focus {
+  box-shadow: 8px 8px 0px #0077C0, 0 0 0 0.25rem rgba(0, 119, 192, 0.4) !important;
+}
+
+/* Accordion Item Styling */
+.accordion-item {
+  border: none !important;
+  margin-bottom: 1.5rem;
+  background: transparent !important;
+}
+
+/* Accordion Body - Geometric 80s style */
+.menu-accordion__body {
+  background: white;
+  border-radius: 0 !important;
+  padding: 2rem;
+  border: 4px solid #0077C0;
+  border-top: none;
+  box-shadow: 8px 8px 0px #FFE66D;
+  position: relative;
+}
+
+.menu-accordion__body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    #E63946 0px,
+    #E63946 20px,
+    #FF6B35 20px,
+    #FF6B35 40px,
+    #FFC914 40px,
+    #FFC914 60px,
+    #0077C0 60px,
+    #0077C0 80px,
+    #D62976 80px,
+    #D62976 100px
+  );
+}
+
+/* Product Group */
 .views-row,
 .menu-variation-row {
   display: flex;
@@ -15,10 +121,10 @@
   width: 100%;
 }
 
-  .views-row .variation-title,
-  .menu-variation-row .variation-title {
+.views-row .variation-title,
+.menu-variation-row .variation-title {
   flex: 1 1 auto;
-  }
+}
 
 .views-row .variation-price,
 .menu-variation-row .variation-price {
@@ -41,45 +147,86 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 3px solid transparent;
+  border-left: 6px solid transparent;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  transition: all 0.15s ease;
+}
+
+.menu-accordion__body .views-row:hover {
+  background: linear-gradient(90deg, rgba(255, 201, 20, 0.15) 0%, rgba(0, 119, 192, 0.1) 100%);
+  border-left-color: #E63946;
+  border-bottom-color: #FFE66D;
 }
 
 .menu-accordion__body .views-row:last-child {
-  border-bottom: none;
+  border-bottom: 3px solid transparent;
 }
 
-/* Style "Add to cart" links as Bootstrap buttons */
+/* Variation Title */
+.menu-accordion__body .variation-title {
+  font-family: 'Archivo Black', 'Arial Black', sans-serif;
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Variation Price - Bold retro style */
+.menu-accordion__body .variation-price {
+  font-family: 'Bebas Neue', 'Arial Black', sans-serif;
+  color: #E63946;
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 0px rgba(0, 119, 192, 0.2);
+}
+
+/* Style "Add to cart" links - 80s geometric button style */
 .menu-accordion__body .views-row a[href^="/add-to-cart"] {
   display: inline-block;
-  font-weight: 400;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
-  border: 1px solid transparent;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  border: 3px solid #0077C0;
+  padding: 0.5rem 1.25rem;
   line-height: 1.5;
-  border-radius: 0.2rem;
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  border-radius: 0;
+  color: white;
+  background: linear-gradient(90deg, #D62976 0%, #6A4C93 100%);
   text-decoration: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  box-shadow: 4px 4px 0px #FFC914;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .menu-accordion__body .views-row a[href^="/add-to-cart"]:hover {
-  color: #fff;
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
+  color: white;
+  background: linear-gradient(90deg, #E63946 0%, #FF6B35 100%);
+  box-shadow: 6px 6px 0px #0077C0;
+  transform: translate(-2px, -2px);
   text-decoration: none;
 }
 
 .menu-accordion__body .views-row a[href^="/add-to-cart"]:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 4px 4px 0px #FFC914, 0 0 0 0.25rem rgba(0, 119, 192, 0.3);
+}
+
+.menu-accordion__body .views-row a[href^="/add-to-cart"]:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px #FFC914;
 }
 
 /* Bold prices - target text containing $ symbol */
@@ -92,14 +239,73 @@
   width: 100%;
 }
 
-/* Product group headings within accordion */
+/* Product group headings within accordion - Bold 80s style */
 .menu-accordion__body h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 1rem 0 0.5rem 0;
-  color: #333;
+  font-family: 'Bebas Neue', 'Arial Black', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem 0;
+  color: #0077C0;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(90deg, #FFC914 0%, #FFE66D 100%);
+  border-left: 8px solid #E63946;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 4px 4px 0px rgba(0, 119, 192, 0.2);
 }
 
 .menu-accordion__body h3:first-child {
   margin-top: 0;
+}
+
+/* Responsive Design - Maintain legibility and bold style on small screens */
+@media (max-width: 576px) {
+  .menu-accordion__button {
+    padding: 1rem 1rem !important;
+    font-size: 1.1rem !important;
+    box-shadow: 6px 6px 0px #0077C0;
+  }
+
+  .menu-accordion__button:hover {
+    box-shadow: 8px 8px 0px #0077C0;
+  }
+
+  .menu-accordion__body {
+    padding: 1.25rem;
+    box-shadow: 6px 6px 0px #FFE66D;
+  }
+
+  .menu-accordion__body .views-row {
+    gap: 0.5rem;
+    padding: 0.625rem 0.75rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+  }
+
+  .menu-accordion__body .variation-title {
+    flex-basis: 100%;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .menu-accordion__body .variation-price {
+    flex-basis: auto;
+    margin-right: auto;
+    font-size: 1.3rem;
+  }
+
+  .menu-accordion__body .variation-cart {
+    flex-basis: auto;
+  }
+
+  .menu-accordion__body .views-row a[href^="/add-to-cart"] {
+    font-size: 0.875rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .menu-accordion__body h3 {
+    font-size: 1.4rem;
+    padding: 0.4rem 0.75rem;
+    border-left-width: 6px;
+  }
 }
