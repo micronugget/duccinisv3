@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - duccinis_product_type_ui
     - scheduler
 third_party_settings:
   scheduler:
