@@ -1,0 +1,10 @@
+name: Store Resolver
+type: module
+description: 'Provides store selection and context management for multi-store ordering.'
+package: Commerce (contrib)
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:commerce
+  - drupal:commerce_store
+  - drupal:commerce_order
+  - drupal:commerce_product

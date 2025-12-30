@@ -1,0 +1,53 @@
+{#
+/**
+ * @file
+ * Template for the store selection modal.
+ *
+ * Available variables:
+ * - stores: Array of store information with keys:
+ *   - id: Store ID
+ *   - name: Store name
+ *   - status: Store status text (Open/Closed)
+ *   - status_class: CSS class for status
+ *   - location: Store location text
+ */
+#}
+<div id="store-resolver-modal" class="store-resolver-modal" role="dialog" aria-labelledby="store-modal-title" aria-modal="true">
+  <div class="store-resolver-modal-content">
+    <div class="store-resolver-modal-header">
+      <h2 id="store-modal-title">{{ 'Select Your Store'|t }}</h2>
+      <p>{{ 'Please choose the store you would like to order from. You must select a store to continue.'|t }}</p>
+    </div>
+
+    <form class="store-resolver-modal-form" method="post" action="{{ path('store_resolver.select_store') }}">
+      <div class="form-radios">
+        {% for store in stores %}
+          <div class="form-radio">
+            <input
+              type="radio"
+              name="store_id"
+              id="store-{{ store.id }}"
+              value="{{ store.id }}"
+              {% if loop.first %}checked{% endif %}
+              required
+            >
+            <label for="store-{{ store.id }}">
+              <div class="store-info">
+                <div class="store-name">{{ store.name }}</div>
+                <div class="store-status {{ store.status_class }}">
+                  {{ store.status }}{% if store.location %} - {{ store.location }}{% endif %}
+                </div>
+              </div>
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="button button--primary">
+          {{ 'Continue to Order'|t }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+services:
+  store_fulfillment.delivery_radius_calculator:
+    class: Drupal\store_fulfillment\DeliveryRadiusCalculator
+    arguments: ['@entity_type.manager']

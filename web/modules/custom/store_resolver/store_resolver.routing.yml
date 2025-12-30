@@ -1,0 +1,7 @@
+store_resolver.select_store:
+  path: '/store/select'
+  defaults:
+    _form: '\Drupal\store_resolver\Form\StoreSelectionForm'
+    _title: 'Select Store'
+  requirements:
+    _permission: 'access content'

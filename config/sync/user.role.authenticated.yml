@@ -15,6 +15,7 @@ dependencies:
     - file
     - honeypot
     - klaro
+    - matomo
     - media
     - node
     - system
@@ -31,6 +32,7 @@ permissions:
   - 'bypass honeypot protection'
   - 'delete own files'
   - 'manage own commerce_payment_method'
+  - 'opt-in or out of matomo tracking'
   - 'skip CAPTCHA'
   - 'use klaro'
   - 'view commerce_product'

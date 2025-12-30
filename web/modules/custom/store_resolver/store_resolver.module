@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Contains store_resolver.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function store_resolver_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.store_resolver':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Store Resolver module provides store selection and context management for multi-store ordering.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function store_resolver_theme($existing, $type, $theme, $path) {
+  return [
+    'store_resolver_current_store' => [
+      'variables' => [
+        'store_name' => NULL,
+        'address' => NULL,
+        'change_url' => NULL,
+      ],
+      'template' => 'store-resolver-current-store',
+    ],
+    'store_resolver_no_store' => [
+      'variables' => [
+        'select_url' => NULL,
+      ],
+      'template' => 'store-resolver-no-store',
+    ],
+    'store_resolver_modal' => [
+      'variables' => [
+        'stores' => [],
+      ],
+      'template' => 'store-resolver-modal',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function store_resolver_page_attachments(array &$attachments) {
+  // Attach the modal library to every page.
+  $attachments['#attached']['library'][] = 'store_resolver/store_modal';
+}

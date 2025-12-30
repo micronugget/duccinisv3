@@ -1,0 +1,20 @@
+uuid: fc20eb4b-8c8b-4fc9-a048-b9be6b3a112d
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_store
+    - geofield
+id: commerce_store.store_location
+field_name: store_location
+entity_type: commerce_store
+type: geofield
+settings:
+  backend: geofield_backend_default
+module: geofield
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

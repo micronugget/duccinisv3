@@ -1,0 +1,12 @@
+store_modal:
+  version: 1.x
+  js:
+    js/store-modal.js: {}
+  css:
+    theme:
+      css/store-modal.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupalSettings
+    - core/once

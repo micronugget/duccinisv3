@@ -1,0 +1,8 @@
+name: Commerce Reorder
+type: module
+description: 'Adds reorder functionality to Drupal Commerce orders, allowing customers to quickly reorder previous orders.'
+package: Commerce (contrib)
+core_version_requirement: ^11
+dependencies:
+  - drupal:commerce_order
+  - drupal:commerce_cart

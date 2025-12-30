@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the current store display.
+ *
+ * Available variables:
+ * - store_name: The name of the current store.
+ * - address: The store address.
+ * - change_url: URL to change the store.
+ */
+#}
+<div class="current-store">
+  <div class="current-store__header">
+    <strong>{{ 'Ordering from:'|t }}</strong>
+  </div>
+  <div class="current-store__name">
+    {{ store_name }}
+  </div>
+  {% if address %}
+    <div class="current-store__address">
+      {{ address }}
+    </div>
+  {% endif %}
+  <div class="current-store__actions">
+    <a href="{{ change_url }}" class="current-store__change-link">
+      {{ 'Change store'|t }}
+    </a>
+  </div>
+</div>

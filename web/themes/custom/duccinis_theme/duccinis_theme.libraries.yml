@@ -8,12 +8,10 @@ style:
     - core/drupal
 
 menu_accordion:
-  css:
-    theme:
-      src/css/menu-accordion.css: {}
   js:
     src/js/menu-accordion.js: {}
   dependencies:
+    - duccinis_theme/style
     - core/drupal
     - core/once
 

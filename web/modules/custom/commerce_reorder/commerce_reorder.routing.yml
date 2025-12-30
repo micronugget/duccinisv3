@@ -1,0 +1,13 @@
+commerce_reorder.reorder:
+  path: '/user/{user}/orders/{commerce_order}/reorder'
+  defaults:
+    _controller: '\Drupal\commerce_reorder\Controller\ReorderController::reorder'
+    _title: 'Reorder'
+  requirements:
+    _custom_access: '\Drupal\commerce_reorder\Access\ReorderAccessCheck::checkAccess'
+  options:
+    parameters:
+      user:
+        type: entity:user
+      commerce_order:
+        type: entity:commerce_order
