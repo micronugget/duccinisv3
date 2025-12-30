@@ -5,3 +5,12 @@ store_resolver.select_store:
     _title: 'Select Store'
   requirements:
     _permission: 'access content'
+
+store_resolver.ajax_refresh:
+  path: '/store/ajax/refresh'
+  defaults:
+    _controller: '\Drupal\store_resolver\Controller\StoreAjaxController::refreshBlocks'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE

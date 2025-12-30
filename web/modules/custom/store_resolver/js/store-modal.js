@@ -76,6 +76,74 @@
   };
 
   /**
+   * Refresh blocks via AJAX after store selection.
+   */
+  Drupal.storeResolver.refreshBlocks = function (storeId, storeName) {
+    console.log('Store Resolver: Refreshing blocks for store ID:', storeId);
+
+    $.ajax({
+      url: Drupal.url('store/ajax/refresh'),
+      type: 'GET',
+      data: { store_id: storeId },
+      dataType: 'json',
+      success: function (response) {
+        console.log('Store Resolver: AJAX response received:', response);
+
+        // Process Drupal AJAX commands manually to avoid dependency on full AJAX object.
+        if (response && response.length) {
+          for (var i = 0; i < response.length; i++) {
+            var cmd = response[i];
+            console.log('Store Resolver: Processing command:', cmd.command);
+
+            // Handle insert/replace commands directly.
+            if ((cmd.command === 'insert' || cmd.command === 'replace') && cmd.selector && cmd.data) {
+              var $target = $(cmd.selector);
+              console.log('Store Resolver: Target selector:', cmd.selector, 'Found:', $target.length);
+
+              if ($target.length) {
+                // For replace method, replace the entire element.
+                if (cmd.method === 'replaceWith' || cmd.command === 'replace') {
+                  $target.replaceWith(cmd.data);
+                  console.log('Store Resolver: Replaced element with new content');
+                } else {
+                  // Default to html replacement.
+                  $target.html(cmd.data);
+                  console.log('Store Resolver: Updated element HTML');
+                }
+
+                // Re-attach Drupal behaviors to the new content.
+                Drupal.attachBehaviors(document.body);
+              } else {
+                console.warn('Store Resolver: Target element not found:', cmd.selector);
+              }
+            }
+          }
+        }
+
+        // Show success message.
+        var message = '<div class="messages messages--status" role="contentinfo">' +
+          '<div role="alert">' +
+          '<h2 class="visually-hidden">Status message</h2>' +
+          Drupal.t('You have selected @store', {'@store': storeName}) +
+          '</div></div>';
+
+        if ($('.region-content').length) {
+          // Remove any existing store selection messages first.
+          $('.region-content > .messages--status').remove();
+          $('.region-content').prepend(message);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('Store Resolver: Failed to refresh blocks:', error);
+        console.error('Store Resolver: XHR status:', xhr.status);
+        console.error('Store Resolver: Response text:', xhr.responseText);
+        // Fallback: reload the page if AJAX fails.
+        location.reload();
+      }
+    });
+  };
+
+  /**
    * Expose utility function to window for console testing.
    */
   if (typeof window !== 'undefined') {
@@ -111,24 +179,17 @@
             return false;
           }
 
+          // Get store name for the success message.
+          var storeName = $form.find('input[name="store_id"]:checked').parent().find('label').text();
+
           // Set the cookie.
           Drupal.storeResolver.setStoreCookie(storeId);
 
           // Hide the modal.
           Drupal.storeResolver.hideModal();
 
-          // Show success message.
-          var storeName = $form.find('input[name="store_id"]:checked').parent().find('label').text();
-          var message = '<div class="messages messages--status" role="contentinfo">' +
-            '<div role="alert">' +
-            '<h2 class="visually-hidden">Status message</h2>' +
-            Drupal.t('You have selected @store', {'@store': storeName}) +
-            '</div></div>';
-
-          // Prepend message to main content area.
-          if ($('.region-content').length) {
-            $('.region-content').prepend(message);
-          }
+          // Refresh blocks via AJAX instead of page reload.
+          Drupal.storeResolver.refreshBlocks(storeId, storeName);
 
           return false;
         });
