@@ -1,0 +1,12 @@
+name: Store Fulfillment
+type: module
+description: 'Provides pickup and delivery fulfillment methods with scheduling for multi-store ordering.'
+package: Commerce (contrib)
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:commerce
+  - drupal:commerce_shipping
+  - drupal:commerce_order
+  - store_resolver:store_resolver
+  - drupal:geofield
+  - drupal:geocoder

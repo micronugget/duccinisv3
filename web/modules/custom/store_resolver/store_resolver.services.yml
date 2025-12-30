@@ -1,0 +1,8 @@
+services:
+  store_resolver.current_store:
+    class: Drupal\store_resolver\StoreResolver
+    arguments: ['@entity_type.manager', '@request_stack', '@current_user', '@entity.repository']
+
+  store_resolver.hours_validator:
+    class: Drupal\store_resolver\StoreHoursValidator
+    arguments: ['@datetime.time']

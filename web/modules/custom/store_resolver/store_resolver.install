@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Store Resolver module.
+ */
+
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_install().
+ */
+function store_resolver_install() {
+  // Add store_hours field to commerce_store if it doesn't exist.
+  $field_storage = FieldStorageConfig::loadByName('commerce_store', 'store_hours');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'store_hours',
+      'entity_type' => 'commerce_store',
+      'type' => 'string_long',
+      'cardinality' => -1,
+    ]);
+    $field_storage->save();
+  }
+
+  // Add field to the 'online' store type.
+  $field = FieldConfig::loadByName('commerce_store', 'online', 'store_hours');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => 'online',
+      'label' => 'Store Hours',
+      'description' => 'Store operating hours. Format: day|open_time|close_time (e.g., monday|09:00|17:00)',
+    ]);
+    $field->save();
+  }
+
+  // Add products field to commerce_store for store-specific products.
+  $field_storage = FieldStorageConfig::loadByName('commerce_store', 'products');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'products',
+      'entity_type' => 'commerce_store',
+      'type' => 'entity_reference',
+      'cardinality' => -1,
+      'settings' => [
+        'target_type' => 'commerce_product',
+      ],
+    ]);
+    $field_storage->save();
+  }
+
+  $field = FieldConfig::loadByName('commerce_store', 'online', 'products');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => 'online',
+      'label' => 'Available Products',
+      'description' => 'Products available at this store. Leave empty to allow all products.',
+    ]);
+    $field->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function store_resolver_uninstall() {
+  // Clean up cookies is handled by browser expiration.
+  // Fields are retained for data integrity unless manually deleted.
+}

@@ -1,0 +1,5 @@
+commerce_reorder.reorder_button:
+  route_name: commerce_reorder.reorder
+  base_route: entity.commerce_order.user_view
+  title: 'Reorder'
+  weight: 20

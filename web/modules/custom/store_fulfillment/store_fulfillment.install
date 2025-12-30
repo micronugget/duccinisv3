@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Store Fulfillment module.
+ */
+
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_install().
+ */
+function store_fulfillment_install() {
+  // Add delivery_radius field to commerce_store.
+  $field_storage = FieldStorageConfig::loadByName('commerce_store', 'delivery_radius');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'delivery_radius',
+      'entity_type' => 'commerce_store',
+      'type' => 'decimal',
+      'settings' => [
+        'precision' => 10,
+        'scale' => 2,
+      ],
+    ]);
+    $field_storage->save();
+  }
+
+  $field = FieldConfig::loadByName('commerce_store', 'online', 'delivery_radius');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => 'online',
+      'label' => 'Delivery Radius',
+      'description' => 'Maximum delivery radius in miles from the store location.',
+      'default_value' => [
+        ['value' => 10.00],
+      ],
+    ]);
+    $field->save();
+  }
+
+  // Add store_location field (geofield) to commerce_store.
+  $field_storage = FieldStorageConfig::loadByName('commerce_store', 'store_location');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'store_location',
+      'entity_type' => 'commerce_store',
+      'type' => 'geofield',
+    ]);
+    $field_storage->save();
+  }
+
+  $field = FieldConfig::loadByName('commerce_store', 'online', 'store_location');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => 'online',
+      'label' => 'Store Location',
+      'description' => 'Geocoded coordinates for the store location. Used for delivery radius calculation.',
+    ]);
+    $field->save();
+  }
+}

@@ -881,6 +881,18 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
 }
 
 /**
+ * Gmail SMTP Configuration for Symfony Mailer Lite
+ *
+ * Configure Gmail SMTP credentials for sending emails.
+ * To set up:
+ * 1. Enable 2-factor authentication on your Gmail account
+ * 2. Generate an App Password at: https://myaccount.google.com/apppasswords
+ * 3. Replace 'your-email@gmail.com' and 'your-app-password' below
+ */
+$config['symfony_mailer_lite.symfony_mailer_lite_transport.gmail_smtp']['configuration']['user'] = 'your-email@gmail.com';
+$config['symfony_mailer_lite.symfony_mailer_lite_transport.gmail_smtp']['configuration']['pass'] = 'your-app-password';
+
+/**
  * Load local development override configuration, if available.
  *
  * Create a settings.local.php file to override variables on secondary (staging,

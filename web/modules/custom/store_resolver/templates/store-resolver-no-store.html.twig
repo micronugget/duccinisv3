@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Default theme implementation when no store is selected.
+ *
+ * Available variables:
+ * - select_url: URL to select a store.
+ */
+#}
+<div class="no-store-selected">
+  <div class="no-store-selected__message">
+    {{ 'Please select a store to begin ordering.'|t }}
+  </div>
+  <div class="no-store-selected__actions">
+    <a href="{{ select_url }}" class="no-store-selected__select-link button button--primary">
+      {{ 'Select a store'|t }}
+    </a>
+  </div>
+</div>
