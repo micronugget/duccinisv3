@@ -76,71 +76,68 @@
   };
 
   /**
-   * Refresh blocks via AJAX after store selection.
+   * Refresh blocks via AJAX after store selection using Drupal's AJAX API.
+   *
+   * @param {string} storeId
+   *   The selected store ID.
+   * @param {string} storeName
+   *   The selected store name for the success message.
    */
   Drupal.storeResolver.refreshBlocks = function (storeId, storeName) {
-    console.log('Store Resolver: Refreshing blocks for store ID:', storeId);
+    // Create a temporary element to serve as the AJAX trigger.
+    // This is the standard Drupal way to programmatically trigger AJAX.
+    var $tempElement = $('<div id="store-resolver-ajax-trigger"></div>').appendTo('body');
 
-    $.ajax({
-      url: Drupal.url('store/ajax/refresh'),
-      type: 'GET',
-      data: { store_id: storeId },
-      dataType: 'json',
-      success: function (response) {
-        console.log('Store Resolver: AJAX response received:', response);
+    // Create a Drupal AJAX object using the standard API.
+    var ajaxSettings = {
+      url: Drupal.url('store/ajax/refresh') + '?store_id=' + encodeURIComponent(storeId),
+      base: 'store-resolver-ajax-trigger',
+      element: $tempElement[0],
+      progress: { type: 'none' }
+    };
 
-        // Process Drupal AJAX commands manually to avoid dependency on full AJAX object.
-        if (response && response.length) {
-          for (var i = 0; i < response.length; i++) {
-            var cmd = response[i];
-            console.log('Store Resolver: Processing command:', cmd.command);
+    // Create the AJAX object using Drupal's AJAX API.
+    var ajax = Drupal.ajax(ajaxSettings);
 
-            // Handle insert/replace commands directly.
-            if ((cmd.command === 'insert' || cmd.command === 'replace') && cmd.selector && cmd.data) {
-              var $target = $(cmd.selector);
-              console.log('Store Resolver: Target selector:', cmd.selector, 'Found:', $target.length);
+    // Store the original success handler.
+    var originalSuccess = ajax.success;
 
-              if ($target.length) {
-                // For replace method, replace the entire element.
-                if (cmd.method === 'replaceWith' || cmd.command === 'replace') {
-                  $target.replaceWith(cmd.data);
-                  console.log('Store Resolver: Replaced element with new content');
-                } else {
-                  // Default to html replacement.
-                  $target.html(cmd.data);
-                  console.log('Store Resolver: Updated element HTML');
-                }
+    // Override the success handler to add our custom logic after Drupal processes commands.
+    ajax.success = function (response, status) {
+      // Call the original success handler first - this processes AJAX commands.
+      originalSuccess.call(this, response, status);
 
-                // Re-attach Drupal behaviors to the new content.
-                Drupal.attachBehaviors(document.body);
-              } else {
-                console.warn('Store Resolver: Target element not found:', cmd.selector);
-              }
-            }
-          }
-        }
+      // Show success message after AJAX commands are processed.
+      var message = '<div class="messages messages--status" role="contentinfo">' +
+        '<div role="alert">' +
+        '<h2 class="visually-hidden">Status message</h2>' +
+        Drupal.t('You have selected @store', {'@store': storeName}) +
+        '</div></div>';
 
-        // Show success message.
-        var message = '<div class="messages messages--status" role="contentinfo">' +
-          '<div role="alert">' +
-          '<h2 class="visually-hidden">Status message</h2>' +
-          Drupal.t('You have selected @store', {'@store': storeName}) +
-          '</div></div>';
-
-        if ($('.region-content').length) {
-          // Remove any existing store selection messages first.
-          $('.region-content > .messages--status').remove();
-          $('.region-content').prepend(message);
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error('Store Resolver: Failed to refresh blocks:', error);
-        console.error('Store Resolver: XHR status:', xhr.status);
-        console.error('Store Resolver: Response text:', xhr.responseText);
-        // Fallback: reload the page if AJAX fails.
-        location.reload();
+      if ($('.region-content').length) {
+        // Remove any existing store selection messages first.
+        $('.region-content > .messages--status').remove();
+        $('.region-content').prepend(message);
       }
-    });
+
+      // Clean up the temporary element.
+      $tempElement.remove();
+    };
+
+    // Store the original error handler.
+    var originalError = ajax.error;
+
+    // Override the error handler.
+    ajax.error = function (xmlhttprequest, uri, customMessage) {
+      console.error('Store Resolver: AJAX error:', customMessage);
+      // Clean up the temporary element.
+      $tempElement.remove();
+      // Fallback: reload the page if AJAX fails.
+      location.reload();
+    };
+
+    // Execute the AJAX request.
+    ajax.execute();
   };
 
   /**
