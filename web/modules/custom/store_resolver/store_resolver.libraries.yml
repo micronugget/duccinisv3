@@ -10,3 +10,4 @@ store_modal:
     - core/jquery
     - core/drupalSettings
     - core/once
+    - core/drupal.ajax
