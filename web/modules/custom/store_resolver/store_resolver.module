@@ -47,10 +47,3 @@ function store_resolver_theme($existing, $type, $theme, $path) {
   ];
 }
 
-/**
- * Implements hook_page_attachments().
- */
-function store_resolver_page_attachments(array &$attachments) {
-  // Attach the modal library to every page.
-  $attachments['#attached']['library'][] = 'store_resolver/store_modal';
-}

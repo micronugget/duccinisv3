@@ -19,17 +19,19 @@ vendor/bin/drush en store_resolver -y
 vendor/bin/drush cr
 ```
 
-### Step 3: Place the Modal Block
+### Step 3: Place the Current Store Block
 
 1. Go to: **`/admin/structure/block`**
 2. Find your active theme section (e.g., "Duccinis 1984 Olympics")
-3. Click **"Place block"** in the **"Content"** region
-4. Search for: **"Store Selection Modal"**
+3. Click **"Place block"** in the **"Header"** or **"Content"** region
+4. Search for: **"Current Store"**
 5. Click **"Place block"**
 6. Configure settings (or use defaults):
    - Title: *Leave blank or set display to none*
    - Visibility: *Show on all pages (default)*
 7. Click **"Save block"**
+
+> **Note**: The Current Store block includes both the store display and the selection modal. Only one block placement is needed.
 
 ### Step 4: Verify You Have Multiple Stores
 
@@ -70,7 +72,7 @@ If you only see one store, create more:
 vendor/bin/drush cr
 
 # Verify block is placed
-# Go to /admin/structure/block and look for "Store Selection Modal"
+# Go to /admin/structure/block and look for "Current Store"
 ```
 
 ### "JavaScript errors in console"
@@ -124,7 +126,7 @@ vendor/bin/drush cr
 - **JavaScript**: `web/modules/custom/store_resolver/js/store-modal.js`
 - **CSS**: `web/modules/custom/store_resolver/css/store-modal.css`
 - **Template**: `web/modules/custom/store_resolver/templates/store-resolver-modal.html.twig`
-- **Block**: `web/modules/custom/store_resolver/src/Plugin/Block/StoreSelectionModalBlock.php`
+- **Block**: `web/modules/custom/store_resolver/src/Plugin/Block/CurrentStoreBlock.php`
 
 ## Getting Help
 

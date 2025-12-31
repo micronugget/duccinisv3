@@ -163,6 +163,15 @@
         }
       });
 
+      // Handle "Change store" link clicks - show modal instead of navigating away.
+      once('store-resolver-change', '.current-store__change-link', context).forEach(function (link) {
+        $(link).on('click', function (e) {
+          e.preventDefault();
+          Drupal.storeResolver.showModal();
+          return false;
+        });
+      });
+
       // Handle form submission via AJAX using Drupal 9+ once() API.
       once('store-resolver-submit', '.store-resolver-modal-form', context).forEach(function (form) {
         $(form).on('submit', function (e) {
