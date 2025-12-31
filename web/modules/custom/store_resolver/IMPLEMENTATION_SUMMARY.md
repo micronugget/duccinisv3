@@ -10,7 +10,7 @@ A complete blocking modal system that forces users to select a store before they
 1. **store_resolver.libraries.yml** - Defines the JS/CSS library for the modal
 2. **js/store-modal.js** - JavaScript for cookie handling and modal behavior
 3. **css/store-modal.css** - Styling for the blocking modal overlay
-4. **src/Plugin/Block/StoreSelectionModalBlock.php** - Block plugin for modal
+4. **src/Plugin/Block/CurrentStoreBlock.php** - Combined block with current store display and modal
 5. **templates/store-resolver-modal.html.twig** - Modal HTML template
 6. **TESTING.md** - Comprehensive testing documentation
 
@@ -187,15 +187,11 @@ Drupal.storeResolver.hideModal()
 
 ## Blocks Available
 
-1. **Store Selection Modal** (`store_resolver_modal_block`)
-   - Displays the blocking modal
-   - Should be placed once, in any region
-   - Automatically shows/hides based on cookie
-
-2. **Current Store** (`store_resolver_current_store`)
-   - Shows currently selected store
-   - Displays "change store" link
-   - Good for header/sidebar placement
+1. **Current Store** (`store_resolver_current_store`)
+   - Shows currently selected store with "change store" link
+   - Includes integrated store selection modal
+   - Modal automatically shows/hides based on cookie
+   - Should be placed once, in header or sidebar region
 
 ## Browser Compatibility
 
@@ -253,8 +249,7 @@ web/modules/custom/store_resolver/
 │   └── store-modal.js
 ├── src/
 │   ├── Plugin/Block/
-│   │   ├── CurrentStoreBlock.php
-│   │   └── StoreSelectionModalBlock.php
+│   │   └── CurrentStoreBlock.php
 │   ├── Form/
 │   │   └── StoreSelectionForm.php
 │   ├── StoreResolver.php
