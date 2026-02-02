@@ -17,6 +17,11 @@
  * $body-bg: #000;
  * $body-color: $gray-100;
  */
+div#edit-actions a#edit-return-to-menu {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
@@ -210,6 +215,11 @@
  * $body-bg: #000;
  * $body-color: $gray-100;
  */
+div#edit-actions a#edit-return-to-menu {
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;

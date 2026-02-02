@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Contains back_to_cart_button.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_alter().
+ */
+function back_to_cart_button_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Target the cart form.
+  if ($form_id === 'views_form_commerce_cart_form_default' || strpos($form_id, 'views_form_commerce_cart_form') === 0) {
+    $form['actions']['return_to_menu'] = [
+      '#type' => 'link',
+      '#title' => t('Return to Menu'),
+      '#url' => Url::fromRoute('back_to_cart_button.return_to_menu_ajax'),
+      '#attributes' => [
+        'id' => 'edit-return-to-menu',
+        'class' => ['use-ajax', 'btn', 'btn-primary', 'button', 'return-to-menu-button'],
+      ],
+      '#attached' => [
+        'library' => ['core/drupal.ajax'],
+      ],
+      '#weight' => -10,
+    ];
+  }
+}

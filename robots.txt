@@ -1,0 +1,11 @@
+# robots.txt for STAGING environment
+#
+# This is an alternate version of robots.txt that is used on staging
+# to prevent indexing of that content.
+# .htaccess points search engines to this version on the staging hostname.
+#
+
+User-agent: *
+Crawl-delay: 10
+# Block ALL directories and content
+Disallow: /

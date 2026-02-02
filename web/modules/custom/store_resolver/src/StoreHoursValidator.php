@@ -62,13 +62,46 @@ class StoreHoursValidator {
       $value = $hour_item->value;
       if (!empty($value)) {
         // Parse the hours format.
-        // Example format: "monday|09:00|17:00"
+        // Example format: "monday|09:00|17:00" or "monday|11:00|04:00" (overnight)
         $parts = explode('|', $value);
         if (count($parts) === 3) {
           [$day, $open_time, $close_time] = $parts;
           if (strtolower($day) === $current_day) {
             // Check if current time is within business hours.
-            if ($current_time >= $open_time && $current_time <= $close_time) {
+            // Handle overnight hours (e.g., 11:00-04:00 where close is next day).
+            if ($close_time < $open_time) {
+              // Overnight hours: open from open_time until midnight,
+              // or from midnight until close_time.
+              if ($current_time >= $open_time || $current_time <= $close_time) {
+                return TRUE;
+              }
+            }
+            else {
+              // Normal hours: open_time is before close_time on same day.
+              if ($current_time >= $open_time && $current_time <= $close_time) {
+                return TRUE;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Also check if we're in the overnight period from the previous day.
+    $previous_datetime = clone $current_datetime;
+    $previous_datetime->modify('-1 day');
+    $previous_day = strtolower($previous_datetime->format('l'));
+
+    foreach ($hours_field as $hour_item) {
+      $value = $hour_item->value;
+      if (!empty($value)) {
+        $parts = explode('|', $value);
+        if (count($parts) === 3) {
+          [$day, $open_time, $close_time] = $parts;
+          // Check if previous day has overnight hours that extend into today.
+          if (strtolower($day) === $previous_day && $close_time < $open_time) {
+            // We're in the early morning hours, check if within overnight period.
+            if ($current_time <= $close_time) {
               return TRUE;
             }
           }
