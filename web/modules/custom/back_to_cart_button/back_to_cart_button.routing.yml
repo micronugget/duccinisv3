@@ -1,0 +1,8 @@
+back_to_cart_button.return_to_menu_ajax:
+  path: '/cart/return-to-menu'
+  defaults:
+    _controller: '\Drupal\back_to_cart_button\Controller\ReturnToMenuController::returnToMenu'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
