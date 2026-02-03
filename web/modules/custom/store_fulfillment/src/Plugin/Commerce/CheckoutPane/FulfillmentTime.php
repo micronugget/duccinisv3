@@ -349,14 +349,14 @@ class FulfillmentTime extends CheckoutPaneBase {
           if (strtolower($hour_day) === $day) {
             // Check if time is within business hours.
             if ($close_time < $open_time) {
-              // Overnight hours.
-              if ($time >= $open_time || $time <= $close_time) {
+              // Overnight hours. For overnight, opening is >= and closing is <.
+              if ($time >= $open_time || $time < $close_time) {
                 return TRUE;
               }
             }
             else {
-              // Normal hours.
-              if ($time >= $open_time && $time <= $close_time) {
+              // Normal hours. Use < for close time since store hours mean "open until".
+              if ($time >= $open_time && $time < $close_time) {
                 return TRUE;
               }
             }

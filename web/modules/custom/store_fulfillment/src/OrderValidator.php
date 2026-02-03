@@ -145,7 +145,8 @@ class OrderValidator {
     $max_time->modify("+{$max_scheduling_window} days");
 
     // Check if time is too soon.
-    if ($requested_datetime < $min_time) {
+    // Use <= to allow times exactly at minimum advance notice.
+    if ($requested_datetime <= $min_time) {
       return [
         'valid' => FALSE,
         'message' => "Scheduled time must be at least {$min_advance_notice} minutes in the future.",
@@ -274,14 +275,14 @@ class OrderValidator {
           if (strtolower($hour_day) === $day) {
             // Check if time is within business hours.
             if ($close_time < $open_time) {
-              // Overnight hours.
-              if ($time >= $open_time || $time <= $close_time) {
+              // Overnight hours. For overnight, opening is >= and closing is <.
+              if ($time >= $open_time || $time < $close_time) {
                 return TRUE;
               }
             }
             else {
-              // Normal hours.
-              if ($time >= $open_time && $time <= $close_time) {
+              // Normal hours. Use < for close time since store hours mean "open until".
+              if ($time >= $open_time && $time < $close_time) {
                 return TRUE;
               }
             }
