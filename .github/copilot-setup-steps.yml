@@ -1,0 +1,100 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    env:
+      # Use GitHub token for Composer authentication
+      COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}"}}'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install DDEV
+        run: |
+          # Install DDEV using the official installer
+          curl -LO https://raw.githubusercontent.com/ddev/ddev/master/scripts/install_ddev.sh
+          bash install_ddev.sh
+          ddev --version
+
+      - name: Configure DDEV project
+        run: |
+          ddev config --project-type=drupal11 --docroot=web --project-name=duccinis
+
+      - name: Start DDEV
+        run: |
+          ddev start
+
+      - name: Install dependencies
+        run: |
+          # Install Composer dependencies with timeout
+          ddev composer install --no-interaction --prefer-dist
+
+      - name: Unpack Drupal recipes
+        run: |
+          ddev composer drupal:recipe-unpack --no-interaction
+
+      - name: Install Drupal
+        run: |
+          # Check if Drupal is already installed
+          if ! ddev drush status --fields=bootstrap 2>/dev/null | grep -q "Successful"; then
+            # Install Drupal with minimal profile
+            ddev drush site:install minimal --account-name=admin --account-pass=admin -y
+          fi
+
+      - name: Enable required modules
+        run: |
+          # Enable core and contributed dependencies
+          ddev drush en \
+            announcements_feed automated_cron big_pipe block breakpoint ckeditor5 config \
+            content_moderation contextual datetime dblog dynamic_page_cache editor field \
+            field_ui file filter image inline_form_errors layout_builder layout_discovery \
+            link media media_library menu_link_content menu_ui mysql navigation node \
+            options package_manager page_cache path path_alias responsive_image system \
+            taxonomy text update user views views_ui workflows \
+            automatic_updates autosave_form bpmn_io captcha coffee crop dashboard \
+            drupal_cms_helper easy_breadcrumb easy_email easy_email_override eca eca_base \
+            eca_config eca_content eca_form eca_misc eca_modeller_bpmn eca_render eca_ui \
+            eca_user focal_point friendlycaptcha geofield gin_toolbar honeypot jquery_ui \
+            jquery_ui_resizable klaro linkit login_emailusername mailsystem \
+            menu_link_attributes pathauto project_browser redirect_404 redirect sam \
+            scheduler scheduler_content_moderation_integration svg_image \
+            symfony_mailer_lite tagify_user_list tagify token trash fns_archive \
+            claro olivero stark drupal_cms_olivero easy_email_theme gin -y
+
+      - name: Clear cache
+        run: |
+          ddev drush cr
+
+      - name: Check configuration status
+        run: |
+          ddev drush cst
+
+      - name: Verify module is enabled
+        run: |
+          ddev drush pml --filter=fns_archive --format=yaml
+
+      - name: Create test taxonomy term
+        run: |
+          ddev drush term:create skate_dates "2024-01-15 - Downtown Loop" --format=yaml
+
+      - name: List taxonomy terms
+        run: |
+          ddev drush taxonomy:list skate_dates
+
+      - name: Verify content type exists
+        run: |
+          ddev drush entity:info node --filter=archive_media
+
+      - name: Export final configuration
+        run: |
+          ddev drush cex -y
+
+      - name: Show project info
+        run: |
+          ddev describe
