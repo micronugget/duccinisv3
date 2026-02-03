@@ -421,6 +421,7 @@ if ($result['valid']) {
 else {
   // Address is outside delivery radius.
   \Drupal::messenger()->addError($result['message']);
+  // Result contains actual distance for logging/debugging.
   \Drupal::logger('my_module')->warning('Delivery rejected: @distance miles', [
     '@distance' => $result['distance'] ?? 'unknown',
   ]);
