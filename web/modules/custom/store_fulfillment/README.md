@@ -297,13 +297,13 @@ $result = $validator->validateDeliveryAddress($store, $delivery_address);
 // Check validation result.
 if ($result['valid']) {
   // Address is within delivery radius.
-  drupal_set_message(t('Delivery available! Distance: @distance miles', [
+  \Drupal::messenger()->addMessage(t('Delivery available! Distance: @distance miles', [
     '@distance' => number_format($result['distance'], 2),
   ]));
 }
 else {
   // Address is outside delivery radius.
-  drupal_set_message($result['message'], 'error');
+  \Drupal::messenger()->addError($result['message']);
   // Result contains actual distance for logging/debugging.
   \Drupal::logger('my_module')->warning('Delivery rejected: @distance miles', [
     '@distance' => $result['distance'] ?? 'unknown',
