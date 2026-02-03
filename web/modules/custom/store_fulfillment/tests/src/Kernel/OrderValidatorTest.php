@@ -17,6 +17,11 @@ use Drupal\KernelTests\KernelTestBase;
 class OrderValidatorTest extends KernelTestBase {
 
   /**
+   * The order validator service ID.
+   */
+  const ORDER_VALIDATOR_SERVICE = 'store_fulfillment.order_validator';
+
+  /**
    * {@inheritdoc}
    */
   protected static $modules = [
@@ -59,7 +64,7 @@ class OrderValidatorTest extends KernelTestBase {
     $this->installEntitySchema('commerce_order');
     $this->installConfig(['commerce_store', 'commerce_order', 'store_fulfillment']);
 
-    $this->orderValidator = $this->container->get('store_fulfillment.order_validator');
+    $this->orderValidator = $this->container->get(self::ORDER_VALIDATOR_SERVICE);
 
     // Create a test store with hours.
     $this->store = Store::create([
