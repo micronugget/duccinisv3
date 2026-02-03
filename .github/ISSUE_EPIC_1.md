@@ -1,8 +1,16 @@
 # Epic #1: Time-Based Order Fulfillment with Store Hours Validation
 
-**Epic Type:** Feature Enhancement
-**Priority:** High
-**Estimated Effort:** 13 Story Points (8-10 days)
+<!-- 
+GitHub Issue Metadata:
+Labels: epic, priority:high, feature, enhancement
+Assignees: @architect
+Projects: Friday Night Skate Development
+Milestone: Phase 1 - Core Commerce Features
+-->
+
+**Epic Type:** Feature Enhancement  
+**Priority:** High  
+**Estimated Effort:** 13 Story Points (8-10 days)  
 **Dependencies:** `store_resolver`, `store_fulfillment`, `commerce_order`, `commerce_checkout`
 
 ---
@@ -68,7 +76,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ## 📦 Sub-Issues Breakdown
 
-### Sub-Issue 1.1: Order Validator Service
+### 🔹 Sub-Issue 1.1: Order Validator Service
 **Assignee:** @drupal-developer
 **Story Points:** 3
 **Files to Create/Modify:**
@@ -90,7 +98,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ---
 
-### Sub-Issue 1.2: Checkout Pane - Dynamic Form Alteration
+### 🔹 Sub-Issue 1.2: Checkout Pane - Dynamic Form Alteration
 **Assignee:** @drupal-developer
 **Story Points:** 5
 **Files to Modify:**
@@ -116,7 +124,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ---
 
-### Sub-Issue 1.3: Order Placement Validation Event Subscriber
+### 🔹 Sub-Issue 1.3: Order Placement Validation Event Subscriber
 **Assignee:** @drupal-developer
 **Story Points:** 2
 **Files to Create:**
@@ -135,7 +143,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ---
 
-### Sub-Issue 1.4: Admin Configuration Form
+### 🔹 Sub-Issue 1.4: Admin Configuration Form
 **Assignee:** @drupal-developer
 **Story Points:** 2
 **Files to Create:**
@@ -155,7 +163,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ---
 
-### Sub-Issue 1.5: Automated Testing
+### 🔹 Sub-Issue 1.5: Automated Testing
 **Assignee:** @tester
 **Story Points:** 3
 **Files to Create:**
@@ -177,7 +185,7 @@ Implement a complete order fulfillment system that enforces store operating hour
 
 ---
 
-### Sub-Issue 1.6: Documentation & User Guide
+### 🔹 Sub-Issue 1.6: Documentation & User Guide
 **Assignee:** @technical-writer
 **Story Points:** 1
 **Files to Modify:**
