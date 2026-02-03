@@ -4,6 +4,30 @@ Your GitHub Copilot Enterprise Workbench Planning Issues are fully formatted and
 
 ---
 
+## ⚠️ IMPORTANT: Three Ways to Create Issues
+
+**Before you proceed, understand you have THREE options:**
+
+### 1. 🎨 **Use GitHub Copilot Workbench Directly** (Natural Language → Issues)
+   - **Best for:** Creating issues from scratch with natural language
+   - **No sandbox interference** - you use Copilot directly on GitHub
+   - **Guide:** See `COPILOT_WORKBENCH_GUIDE.md`
+   - **Example:** "@copilot create an epic for user authentication..."
+
+### 2. 🤖 **Use the Automation Script** (Pre-Written Templates → Issues)
+   - **Best for:** Batch creating the pre-written EPIC specifications
+   - **This guide focuses on this method**
+   - **Creates:** 15 issues from ISSUE_EPIC_1.md and ISSUE_EPIC_2.md
+   - **Command:** `./.github/create-epic-issues.sh`
+
+### 3. ✋ **Manual Creation** (One-by-one in GitHub UI)
+   - **Best for:** Simple issues or when you want full control
+   - **Standard GitHub workflow**
+
+**📚 Confused about sandboxes?** Read `SANDBOX_VS_WORKBENCH_EXPLAINED.md`
+
+---
+
 ## ✅ What You Have Now
 
 1. **Two Epic Issue Specifications** - Complete with all details:

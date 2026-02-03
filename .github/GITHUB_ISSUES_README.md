@@ -2,6 +2,27 @@
 
 This directory contains two major **Epic Issues** with sub-issues, ready for GitHub Copilot Enterprise Workbench.
 
+## ⚠️ THREE WAYS TO CREATE ISSUES - Choose Wisely!
+
+### 🎨 Option 1: Natural Language → Issues (Copilot Workbench)
+**Use when:** You want to create issues from natural language descriptions  
+**Guide:** `COPILOT_WORKBENCH_GUIDE.md` 👈 **START HERE for natural language**  
+**No sandbox interference!** You use Copilot directly on GitHub.
+
+### 🤖 Option 2: Batch Creation (Automation Script)  
+**Use when:** You want to create all 15 pre-written issues at once  
+**Guide:** `START_HERE.md` 👈 **START HERE for batch creation**  
+**Command:** `./.github/create-epic-issues.sh`
+
+### ✋ Option 3: Manual (GitHub UI)
+**Use when:** You want to create issues manually one-by-one  
+**Standard GitHub workflow**
+
+**🤔 Not sure which to use?** See `WHICH_METHOD.md`  
+**📚 Confused about sandboxes?** See `SANDBOX_VS_WORKBENCH_EXPLAINED.md`
+
+---
+
 ## 📦 What's Included
 
 ### Epic Issues (Parent Tasks)
