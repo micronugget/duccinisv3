@@ -153,7 +153,7 @@ class DeliveryRadiusCalculator {
    * @return float
    *   Distance in miles.
    */
-  protected function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+  public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
     $earth_radius = 3959; // miles
 
     $lat_delta = deg2rad($lat2 - $lat1);
