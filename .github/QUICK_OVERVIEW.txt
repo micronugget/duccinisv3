@@ -3,6 +3,63 @@
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
+│ ⚠️  IMPORTANT: You Have THREE Options for Creating Issues                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Option 1: GitHub Copilot Workbench (Natural Language → Issues) ────────────┐
+│ ✨ BEST FOR: Creating issues from scratch with natural language             │
+│                                                                              │
+│ How it works:                                                                │
+│   1. Go to https://github.com/copilot or your repository                    │
+│   2. Describe your feature: "@copilot create an epic for..."               │
+│   3. Copilot generates parent + sub-issues                                   │
+│   4. Review and create - done!                                              │
+│                                                                              │
+│ ✅ No sandbox interference                                                   │
+│ ✅ Direct GitHub integration                                                 │
+│ ✅ Understands natural language                                              │
+│                                                                              │
+│ 📖 Full guide: .github/COPILOT_WORKBENCH_GUIDE.md                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Option 2: Automation Script (Pre-Written Templates → Issues) ──────────────┐
+│ ✨ BEST FOR: Batch creating the pre-written EPIC specifications             │
+│                                                                              │
+│ How it works:                                                                │
+│   1. Review ISSUE_EPIC_1.md and ISSUE_EPIC_2.md                            │
+│   2. Run: ./.github/create-epic-issues.sh                                  │
+│   3. Done - 15 issues created in 30 seconds!                                │
+│                                                                              │
+│ ✅ Creates 2 epics + 13 sub-issues from templates                           │
+│ ✅ Fast batch creation                                                       │
+│ ❌ Not for natural language (uses templates)                                │
+│                                                                              │
+│ 📖 Full guide: .github/START_HERE.md                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ Option 3: Manual Creation (GitHub UI) ─────────────────────────────────────┐
+│ ✨ BEST FOR: Simple issues or full manual control                           │
+│                                                                              │
+│ How it works:                                                                │
+│   1. Go to repository Issues tab                                            │
+│   2. Click "New Issue"                                                       │
+│   3. Fill in details manually                                               │
+│   4. Submit                                                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║ 🤔 Confused About Sandboxes?                                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Read: .github/SANDBOX_VS_WORKBENCH_EXPLAINED.md
+
+KEY POINTS:
+✅ The sandbox is for AI coding agents, not you
+✅ Copilot Workbench is NOT sandboxed - you use it directly
+✅ You CAN create issues from natural language without any barriers
+✅ The automation script is optional - only for batch creating templates
+
+┌──────────────────────────────────────────────────────────────────────────────┐
 │ 📚 START HERE: Read .github/START_HERE.md                                    │
 └──────────────────────────────────────────────────────────────────────────────┘
 
