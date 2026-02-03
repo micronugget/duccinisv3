@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\store_fulfillment\Plugin\Commerce\CheckoutPane;
 
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutPane\CheckoutPaneBase;
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutFlow\CheckoutFlowInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\store_fulfillment\OrderValidator;
 use Drupal\store_resolver\StoreResolver;
 use Drupal\store_resolver\StoreHoursValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -36,12 +40,28 @@ class FulfillmentTime extends CheckoutPaneBase {
   protected $hoursValidator;
 
   /**
+   * The order validator service.
+   *
+   * @var \Drupal\store_fulfillment\OrderValidator
+   */
+  protected $orderValidator;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, CheckoutFlowInterface $checkout_flow = NULL) {
     $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition, $checkout_flow);
     $instance->storeResolver = $container->get('store_resolver.current_store');
     $instance->hoursValidator = $container->get('store_resolver.hours_validator');
+    $instance->orderValidator = $container->get('store_fulfillment.order_validator');
+    $instance->configFactory = $container->get('config.factory');
     return $instance;
   }
 
@@ -53,12 +73,28 @@ class FulfillmentTime extends CheckoutPaneBase {
 
     if (!$store) {
       $pane_form['message'] = [
-        '#markup' => $this->t('Please select a store before continuing.'),
+        '#markup' => '<div class="alert alert-warning">' . $this->t('Please select a store before continuing.') . '</div>',
       ];
       return $pane_form;
     }
 
-    $is_open = $this->hoursValidator->isStoreOpen($store);
+    $is_open = $this->orderValidator->isImmediateOrderAllowed($store);
+    $config = $this->configFactory->get('store_fulfillment.settings');
+
+    // Show store status message.
+    if (!$is_open) {
+      $next_available = $this->orderValidator->getNextAvailableSlot($store);
+      $message = $this->t('Store is currently closed. Please schedule your order for a future time.');
+      if ($next_available) {
+        $message = $this->t('Store is currently closed. Next available time: @time', [
+          '@time' => $next_available->format('l, F j, Y - g:i A'),
+        ]);
+      }
+      $pane_form['store_closed_notice'] = [
+        '#markup' => '<div class="alert alert-warning">' . $message . '</div>',
+        '#weight' => -10,
+      ];
+    }
 
     $pane_form['fulfillment_type'] = [
       '#type' => 'radios',
@@ -69,27 +105,28 @@ class FulfillmentTime extends CheckoutPaneBase {
       ],
       '#default_value' => $is_open ? 'asap' : 'scheduled',
       '#required' => TRUE,
+      '#attributes' => [
+        'class' => ['fulfillment-type-radios'],
+      ],
     ];
 
+    // Disable ASAP option if store is closed.
     if (!$is_open) {
-      $pane_form['store_closed_notice'] = [
-        '#markup' => '<div class="messages messages--warning">' .
-          $this->t('The selected store is currently closed. Please schedule your order for a future time.') .
-          '</div>',
-        '#weight' => -10,
+      $pane_form['fulfillment_type']['asap'] = [
+        '#disabled' => TRUE,
+        '#description' => $this->t('Not available - store is closed'),
       ];
-      // Force scheduled option when store is closed.
-      $pane_form['fulfillment_type']['#default_value'] = 'scheduled';
-      $pane_form['fulfillment_type']['asap']['#disabled'] = TRUE;
     }
 
-    // Generate time slot options.
+    // Generate time slot options using configuration.
     $time_slots = $this->generateTimeSlots($store, $is_open);
 
     $pane_form['scheduled_time'] = [
       '#type' => 'select',
-      '#title' => $this->t('Select time'),
+      '#title' => $this->t('Select fulfillment time'),
+      '#description' => $this->t('Choose when you would like to receive your order.'),
       '#options' => $time_slots,
+      '#required' => FALSE,
       '#states' => [
         'visible' => [
           ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
@@ -98,6 +135,20 @@ class FulfillmentTime extends CheckoutPaneBase {
           ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
         ],
       ],
+      '#attributes' => [
+        'class' => ['scheduled-time-select'],
+      ],
+    ];
+
+    // Add helpful information.
+    $min_advance = $config->get('minimum_advance_notice') ?? 30;
+    $pane_form['help_text'] = [
+      '#markup' => '<div class="text-muted small mt-2">' .
+        $this->t('Scheduled orders must be placed at least @min minutes in advance.', [
+          '@min' => $min_advance,
+        ]) .
+        '</div>',
+      '#weight' => 100,
     ];
 
     return $pane_form;
@@ -121,10 +172,49 @@ class FulfillmentTime extends CheckoutPaneBase {
       return;
     }
 
-    // If scheduled is selected, ensure a time is chosen.
-    if (isset($values['fulfillment_type']) && $values['fulfillment_type'] === 'scheduled') {
+    $store = $this->storeResolver->getCurrentStore();
+    if (!$store) {
+      $form_state->setError($pane_form, $this->t('Please select a store before continuing.'));
+      return;
+    }
+
+    $fulfillment_type = $values['fulfillment_type'] ?? NULL;
+
+    // Validate ASAP orders.
+    if ($fulfillment_type === 'asap') {
+      if (!$this->orderValidator->isImmediateOrderAllowed($store)) {
+        $form_state->setError(
+          $pane_form['fulfillment_type'],
+          $this->t('Store is currently closed. Please schedule your order for a future time.')
+        );
+      }
+    }
+
+    // Validate scheduled orders.
+    if ($fulfillment_type === 'scheduled') {
       if (empty($values['scheduled_time'])) {
-        $form_state->setError($pane_form['scheduled_time'], $this->t('Please select a fulfillment time.'));
+        $form_state->setError(
+          $pane_form['scheduled_time'],
+          $this->t('Please select a fulfillment time.')
+        );
+        return;
+      }
+
+      // Temporarily set order data for validation.
+      $this->order->setData('fulfillment_type', 'scheduled');
+      $this->order->setData('scheduled_time', $values['scheduled_time']);
+
+      // Validate the scheduled time.
+      $validation_result = $this->orderValidator->validateFulfillmentTime(
+        $this->order,
+        $values['scheduled_time']
+      );
+
+      if (!$validation_result['valid']) {
+        $form_state->setError(
+          $pane_form['scheduled_time'],
+          $validation_result['message']
+        );
       }
     }
   }
@@ -163,43 +253,119 @@ class FulfillmentTime extends CheckoutPaneBase {
    */
   protected function generateTimeSlots($store, $is_open) {
     $slots = [];
+    $config = $this->configFactory->get('store_fulfillment.settings');
     $timezone = $store->getTimezone();
     $now = new \DateTime('now', new \DateTimeZone($timezone));
 
-    // Start from current time + 30 minutes if open, or next opening if closed.
+    // Get configuration values.
+    $min_advance_notice = $config->get('minimum_advance_notice') ?? 30;
+    $max_scheduling_window = $config->get('maximum_scheduling_window') ?? 14;
+    $time_slot_interval = $config->get('time_slot_interval') ?? 15;
+
+    // Determine start time.
     if ($is_open) {
       $start_time = clone $now;
-      $start_time->modify('+30 minutes');
+      $start_time->modify("+{$min_advance_notice} minutes");
     }
     else {
-      $start_time = $this->hoursValidator->getNextAvailableTime($store);
-    }
-
-    // Generate slots for the next 7 days.
-    $end_date = clone $start_time;
-    $end_date->modify('+7 days');
-
-    $current = clone $start_time;
-    // Round to next 15-minute interval.
-    $minutes = (int) $current->format('i');
-    $rounded_minutes = ceil($minutes / 15) * 15;
-    $current->setTime((int) $current->format('H'), $rounded_minutes, 0);
-
-    while ($current <= $end_date) {
-      $key = $current->format('Y-m-d H:i:s');
-      $display = $current->format('l, F j, Y - g:i A');
-      $slots[$key] = $display;
-
-      // Increment by 15 minutes.
-      $current->modify('+15 minutes');
-
-      // Limit to reasonable number of options.
-      if (count($slots) >= 100) {
-        break;
+      $start_time = $this->orderValidator->getNextAvailableSlot($store);
+      if (!$start_time) {
+        // If no available time found, start from tomorrow.
+        $start_time = clone $now;
+        $start_time->modify('+1 day');
+        $start_time->setTime(9, 0, 0);
       }
     }
 
+    // Generate slots for the configured window.
+    $end_date = clone $now;
+    $end_date->modify("+{$max_scheduling_window} days");
+
+    $current = clone $start_time;
+    // Round to next interval.
+    $minutes = (int) $current->format('i');
+    $rounded_minutes = ceil($minutes / $time_slot_interval) * $time_slot_interval;
+    if ($rounded_minutes >= 60) {
+      $current->modify('+1 hour');
+      $rounded_minutes = 0;
+    }
+    $current->setTime((int) $current->format('H'), $rounded_minutes, 0);
+
+    // Generate slots, filtering by store hours.
+    $slot_count = 0;
+    $max_slots = 200;
+
+    while ($current <= $end_date && $slot_count < $max_slots) {
+      // Check if this time slot falls within store hours.
+      if ($this->isTimeWithinStoreHours($store, $current)) {
+        $key = $current->format('Y-m-d H:i:s');
+        $display = $current->format('l, F j, Y - g:i A');
+        $slots[$key] = $display;
+        $slot_count++;
+      }
+
+      // Increment by configured interval.
+      $current->modify("+{$time_slot_interval} minutes");
+    }
+
+    // If no slots found, provide a message.
+    if (empty($slots)) {
+      $slots[''] = $this->t('No available time slots - please contact the store');
+    }
+
     return $slots;
+  }
+
+  /**
+   * Checks if a time falls within store operating hours.
+   *
+   * @param \Drupal\commerce_store\Entity\StoreInterface $store
+   *   The store entity.
+   * @param \DateTime $datetime
+   *   The datetime to check.
+   *
+   * @return bool
+   *   TRUE if within hours, FALSE otherwise.
+   */
+  protected function isTimeWithinStoreHours($store, \DateTime $datetime): bool {
+    if (!$store->hasField('store_hours')) {
+      return TRUE;
+    }
+
+    $hours_field = $store->get('store_hours');
+    if ($hours_field->isEmpty()) {
+      return TRUE;
+    }
+
+    $day = strtolower($datetime->format('l'));
+    $time = $datetime->format('H:i');
+
+    foreach ($hours_field as $hour_item) {
+      $value = $hour_item->value;
+      if (!empty($value)) {
+        $parts = explode('|', $value);
+        if (count($parts) === 3) {
+          [$hour_day, $open_time, $close_time] = $parts;
+          if (strtolower($hour_day) === $day) {
+            // Check if time is within business hours.
+            if ($close_time < $open_time) {
+              // Overnight hours.
+              if ($time >= $open_time || $time <= $close_time) {
+                return TRUE;
+              }
+            }
+            else {
+              // Normal hours.
+              if ($time >= $open_time && $time <= $close_time) {
+                return TRUE;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return FALSE;
   }
 
 }
