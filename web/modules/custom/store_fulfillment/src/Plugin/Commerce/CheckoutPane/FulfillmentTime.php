@@ -262,6 +262,14 @@ class FulfillmentTime extends CheckoutPaneBase {
     $max_scheduling_window = $config->get('maximum_scheduling_window') ?? 14;
     $time_slot_interval = $config->get('time_slot_interval') ?? 15;
 
+    // DEBUG: Log configuration
+    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Config: min_advance=@min, max_window=@max, interval=@int, is_open=@open', [
+      '@min' => $min_advance_notice,
+      '@max' => $max_scheduling_window,
+      '@int' => $time_slot_interval,
+      '@open' => $is_open ? 'true' : 'false',
+    ]);
+
     // Determine start time.
     if ($is_open) {
       $start_time = clone $now;
@@ -277,6 +285,11 @@ class FulfillmentTime extends CheckoutPaneBase {
       }
     }
 
+    // DEBUG: Log start time
+    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Start time: @time', [
+      '@time' => $start_time->format('Y-m-d H:i:s'),
+    ]);
+
     // Generate slots for the configured window.
     $end_date = clone $now;
     $end_date->modify("+{$max_scheduling_window} days");
@@ -284,7 +297,7 @@ class FulfillmentTime extends CheckoutPaneBase {
     $current = clone $start_time;
     // Round to next interval.
     $minutes = (int) $current->format('i');
-    $rounded_minutes = ceil($minutes / $time_slot_interval) * $time_slot_interval;
+    $rounded_minutes = (int) (ceil($minutes / $time_slot_interval) * $time_slot_interval);
     if ($rounded_minutes >= 60) {
       $current->modify('+1 hour');
       $rounded_minutes = 0;
@@ -294,8 +307,10 @@ class FulfillmentTime extends CheckoutPaneBase {
     // Generate slots, filtering by store hours.
     $slot_count = 0;
     $max_slots = 200;
+    $checked_count = 0;
 
     while ($current <= $end_date && $slot_count < $max_slots) {
+      $checked_count++;
       // Check if this time slot falls within store hours.
       if ($this->isTimeWithinStoreHours($store, $current)) {
         $key = $current->format('Y-m-d H:i:s');
@@ -306,7 +321,19 @@ class FulfillmentTime extends CheckoutPaneBase {
 
       // Increment by configured interval.
       $current->modify("+{$time_slot_interval} minutes");
+
+      // Safety: prevent infinite loop
+      if ($checked_count > 10000) {
+        \Drupal::logger('store_fulfillment')->error('generateTimeSlots - Too many iterations, breaking loop');
+        break;
+      }
     }
+
+    // DEBUG: Log results
+    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Generated @count slots from @checked checks', [
+      '@count' => $slot_count,
+      '@checked' => $checked_count,
+    ]);
 
     // If no slots found, provide a message.
     if (empty($slots)) {
@@ -328,13 +355,17 @@ class FulfillmentTime extends CheckoutPaneBase {
    *   TRUE if within hours, FALSE otherwise.
    */
   protected function isTimeWithinStoreHours($store, \DateTime $datetime): bool {
+    // If store hours field doesn't exist, assume always open (9 AM - 9 PM).
     if (!$store->hasField('store_hours')) {
-      return TRUE;
+      $time = $datetime->format('H:i');
+      return $time >= '09:00' && $time < '21:00';
     }
 
     $hours_field = $store->get('store_hours');
+    // If store hours field exists but is empty, assume always open (9 AM - 9 PM).
     if ($hours_field->isEmpty()) {
-      return TRUE;
+      $time = $datetime->format('H:i');
+      return $time >= '09:00' && $time < '21:00';
     }
 
     $day = strtolower($datetime->format('l'));
@@ -343,21 +374,30 @@ class FulfillmentTime extends CheckoutPaneBase {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
-        $parts = explode('|', $value);
-        if (count($parts) === 3) {
-          [$hour_day, $open_time, $close_time] = $parts;
-          if (strtolower($hour_day) === $day) {
-            // Check if time is within business hours.
-            if ($close_time < $open_time) {
-              // Overnight hours. For overnight, opening is >= and closing is <.
-              if ($time >= $open_time || $time < $close_time) {
-                return TRUE;
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$hour_day, $open_time, $close_time] = $parts;
+            if (strtolower($hour_day) === $day) {
+              // Check if time is within business hours.
+              if ($close_time < $open_time) {
+                // Overnight hours. For overnight, opening is >= and closing is <.
+                if ($time >= $open_time || $time < $close_time) {
+                  return TRUE;
+                }
               }
-            }
-            else {
-              // Normal hours. Use < for close time since store hours mean "open until".
-              if ($time >= $open_time && $time < $close_time) {
-                return TRUE;
+              else {
+                // Normal hours. Use < for close time since store hours mean "open until".
+                if ($time >= $open_time && $time < $close_time) {
+                  return TRUE;
+                }
               }
             }
           }
