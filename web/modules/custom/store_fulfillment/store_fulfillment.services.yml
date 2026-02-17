@@ -3,6 +3,12 @@ services:
     class: Drupal\store_fulfillment\DeliveryRadiusCalculator
     arguments: ['@entity_type.manager']
 
+  store_fulfillment.delivery_radius_validator:
+    class: Drupal\store_fulfillment\DeliveryRadiusValidator
+    arguments:
+      - '@store_fulfillment.delivery_radius_calculator'
+      - '@string_translation'
+
   store_fulfillment.order_validator:
     class: Drupal\store_fulfillment\OrderValidator
     arguments: ['@store_resolver.hours_validator', '@datetime.time', '@config.factory']
@@ -10,5 +16,13 @@ services:
   store_fulfillment.order_placement_validator:
     class: Drupal\store_fulfillment\EventSubscriber\OrderPlacementValidator
     arguments: ['@store_fulfillment.order_validator', '@logger.factory']
+    tags:
+      - { name: event_subscriber }
+
+  store_fulfillment.order_placement_delivery_radius_validator:
+    class: Drupal\store_fulfillment\EventSubscriber\OrderPlacementDeliveryRadiusValidator
+    arguments:
+      - '@store_fulfillment.delivery_radius_validator'
+      - '@logger.factory'
     tags:
       - { name: event_subscriber }

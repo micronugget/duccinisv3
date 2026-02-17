@@ -114,11 +114,16 @@ class DeliveryRadiusCalculator {
    *
    * @return array|null
    *   Array with 'lat' and 'lon' keys, or NULL on failure.
+   *
+   * @todo This is an intentional stub that requires site-specific geocoding
+   *   configuration. See README.md "Geocoding Setup" section for implementation
+   *   instructions. Until configured, delivery radius validation will deny all
+   *   delivery requests (safe default behavior).
    */
   protected function geocodeAddress(AddressInterface $address) {
-    // This is a simplified implementation.
-    // In production, use the Geocoder module for actual geocoding.
-    // For now, return NULL to indicate geocoding needs implementation.
+    // INTENTIONAL STUB: Requires geocoding provider configuration.
+    // See README.md "Geocoding Setup" section for implementation.
+    // Returning NULL causes validation to fail safely (deny delivery).
 
     // Example using Geocoder module (requires proper setup):
     // $geocoder = \Drupal::service('geocoder');
@@ -153,7 +158,7 @@ class DeliveryRadiusCalculator {
    * @return float
    *   Distance in miles.
    */
-  protected function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+  public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
     $earth_radius = 3959; // miles
 
     $lat_delta = deg2rad($lat2 - $lat1);
