@@ -9,6 +9,7 @@ use Drupal\commerce_checkout\Plugin\Commerce\CheckoutFlow\CheckoutFlowInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\store_fulfillment\OrderValidator;
 use Drupal\store_resolver\StoreResolver;
 use Drupal\store_resolver\StoreHoursValidator;
@@ -62,6 +63,13 @@ class FulfillmentTime extends CheckoutPaneBase {
   protected DeliveryRadiusValidator $deliveryRadiusValidator;
 
   /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, CheckoutFlowInterface $checkout_flow = NULL) {
@@ -71,6 +79,7 @@ class FulfillmentTime extends CheckoutPaneBase {
     $instance->orderValidator = $container->get('store_fulfillment.order_validator');
     $instance->configFactory = $container->get('config.factory');
     $instance->deliveryRadiusValidator = $container->get('store_fulfillment.delivery_radius_validator');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
     return $instance;
   }
 
@@ -126,13 +135,33 @@ class FulfillmentTime extends CheckoutPaneBase {
       }
     }
 
+    // Resolve customer delivery address and build dynamic delivery label.
+    $delivery_label = $this->t('Delivery to address');
+    $customer_address = $this->resolveCustomerAddress();
+    $delivery_radius_result = NULL;
+    if ($customer_address) {
+      $customer_address_parts = array_filter([
+        $customer_address->getAddressLine1(),
+        $customer_address->getLocality(),
+        $customer_address->getAdministrativeArea(),
+        $customer_address->getPostalCode(),
+      ]);
+      if ($customer_address_parts) {
+        $delivery_label = $this->t('Delivery to @address', [
+          '@address' => implode(', ', $customer_address_parts),
+        ]);
+        // Validate against delivery radius.
+        $delivery_radius_result = $this->deliveryRadiusValidator->validateDeliveryAddress($store, $customer_address);
+      }
+    }
+
     // Add fulfillment method selection (delivery vs pickup).
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
       '#title' => $this->t('How would you like to receive your order?'),
       '#options' => [
         'pickup' => $pickup_label,
-        'delivery' => $this->t('Delivery to address'),
+        'delivery' => $delivery_label,
       ],
       '#default_value' => $default_fulfillment_method,
       '#required' => TRUE,
@@ -151,12 +180,25 @@ class FulfillmentTime extends CheckoutPaneBase {
     // Get current selection (may be from AJAX or form state).
     $selected_method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']) ?? $default_fulfillment_method;
 
+    // Show out-of-radius notice with pickup information.
+    if ($delivery_radius_result !== NULL && !$delivery_radius_result['valid']) {
+      $pane_form['out_of_radius_notice'] = [
+        '#markup' => $this->buildOutOfRadiusMessage($store, $delivery_radius_result),
+        '#weight' => -19,
+      ];
+    }
+
     // Validate delivery address if delivery is selected.
     if ($selected_method === 'delivery') {
       $validation_message = $this->validateDeliveryRadius($store, $form_state, $complete_form);
       if ($validation_message) {
+        $pickup_suggestion = $this->buildPickupSuggestion($store);
+        $full_message = $validation_message;
+        if ($pickup_suggestion) {
+          $full_message .= '<br>' . $pickup_suggestion;
+        }
         $pane_form['delivery_validation_message'] = [
-          '#markup' => '<div class="messages messages--error">' . $validation_message . '</div>',
+          '#markup' => '<div class="messages messages--error">' . $full_message . '</div>',
           '#weight' => -15,
         ];
       }
@@ -322,6 +364,10 @@ class FulfillmentTime extends CheckoutPaneBase {
     if ($values['fulfillment_method'] === 'delivery') {
       $error_message = $this->validateDeliveryRadius($store, $form_state, $complete_form);
       if ($error_message) {
+        $pickup_suggestion = $this->buildPickupSuggestion($store);
+        if ($pickup_suggestion) {
+          $error_message .= ' ' . $pickup_suggestion;
+        }
         $form_state->setError($pane_form['fulfillment_method'], $error_message);
       }
     }
@@ -559,6 +605,157 @@ class FulfillmentTime extends CheckoutPaneBase {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Resolves the customer's delivery address from available sources.
+   *
+   * Checks order shipments, billing profile, and user's customer profile.
+   *
+   * @return \Drupal\address\AddressInterface|null
+   *   The customer's address, or NULL if not available.
+   */
+  protected function resolveCustomerAddress() {
+    // Check order shipments for shipping profile address.
+    if ($this->order->hasField('shipments') && !$this->order->get('shipments')->isEmpty()) {
+      /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
+      $shipment = $this->order->get('shipments')->first()->entity;
+      if ($shipment && $shipment->hasField('shipping_profile')) {
+        $profile = $shipment->getShippingProfile();
+        if ($profile && $profile->hasField('address') && !$profile->get('address')->isEmpty()) {
+          return $profile->get('address')->first();
+        }
+      }
+    }
+
+    // Check order billing profile.
+    $billing_profile = $this->order->getBillingProfile();
+    if ($billing_profile && $billing_profile->hasField('address') && !$billing_profile->get('address')->isEmpty()) {
+      return $billing_profile->get('address')->first();
+    }
+
+    // Check logged-in user's default customer profile.
+    $customer = $this->order->getCustomer();
+    if ($customer && !$customer->isAnonymous()) {
+      $profiles = $this->entityTypeManager->getStorage('profile')->loadByProperties([
+        'uid' => $customer->id(),
+        'type' => 'customer',
+        'is_default' => TRUE,
+        'status' => TRUE,
+      ]);
+      if ($profiles) {
+        $profile = reset($profiles);
+        if ($profile->hasField('address') && !$profile->get('address')->isEmpty()) {
+          return $profile->get('address')->first();
+        }
+      }
+    }
+
+    return NULL;
+  }
+
+  /**
+   * Builds a comprehensive out-of-radius message with pickup details.
+   *
+   * @param \Drupal\commerce_store\Entity\StoreInterface $store
+   *   The store entity.
+   * @param array $validation_result
+   *   The delivery radius validation result.
+   *
+   * @return string
+   *   HTML markup for the out-of-radius message.
+   */
+  protected function buildOutOfRadiusMessage($store, array $validation_result): string {
+    $parts = [$validation_result['message']];
+    $pickup_suggestion = $this->buildPickupSuggestion($store);
+    if ($pickup_suggestion) {
+      $parts[] = $pickup_suggestion;
+    }
+    return '<div class="alert alert-danger">' . implode('<br>', $parts) . '</div>';
+  }
+
+  /**
+   * Builds a pickup suggestion with store address and hours.
+   *
+   * @param \Drupal\commerce_store\Entity\StoreInterface $store
+   *   The store entity.
+   *
+   * @return string|null
+   *   Pickup suggestion text, or NULL if store address unavailable.
+   */
+  protected function buildPickupSuggestion($store): ?string {
+    if (!$store->hasField('address') || $store->get('address')->isEmpty()) {
+      return NULL;
+    }
+
+    $address = $store->get('address')->first();
+    $address_parts = array_filter([
+      $address->getAddressLine1(),
+      $address->getLocality(),
+      $address->getAdministrativeArea(),
+      $address->getPostalCode(),
+    ]);
+    if (!$address_parts) {
+      return NULL;
+    }
+
+    $suggestion = (string) $this->t('You can pick up your order at @address instead.', [
+      '@address' => implode(', ', $address_parts),
+    ]);
+    $today_hours = $this->getStoreTodayHours($store);
+    if ($today_hours) {
+      $suggestion .= ' ' . (string) $this->t("Today's hours: @hours.", [
+        '@hours' => $today_hours,
+      ]);
+    }
+
+    return $suggestion;
+  }
+
+  /**
+   * Gets today's store hours formatted for display.
+   *
+   * @param \Drupal\commerce_store\Entity\StoreInterface $store
+   *   The store entity.
+   *
+   * @return string|null
+   *   Formatted hours string (e.g., "9:00 AM - 5:00 PM"), or NULL.
+   */
+  protected function getStoreTodayHours($store): ?string {
+    if (!$store->hasField('store_hours') || $store->get('store_hours')->isEmpty()) {
+      return NULL;
+    }
+
+    $timezone = $store->getTimezone();
+    $now = new \DateTime('now', new \DateTimeZone($timezone));
+    $today = strtolower($now->format('l'));
+
+    foreach ($store->get('store_hours') as $hour_item) {
+      $value = $hour_item->value;
+      if (!empty($value)) {
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$day, $open_time, $close_time] = $parts;
+            if (strtolower($day) === $today) {
+              $open = \DateTime::createFromFormat('H:i', $open_time);
+              $close = \DateTime::createFromFormat('H:i', $close_time);
+              if ($open && $close) {
+                return $open->format('g:i A') . ' - ' . $close->format('g:i A');
+              }
+              return $open_time . ' - ' . $close_time;
+            }
+          }
+        }
+      }
+    }
+
+    return NULL;
   }
 
 }
