@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Drupal\store_fulfillment\EventSubscriber;
 
 use Drupal\commerce_order\Event\OrderEvent;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -23,23 +23,23 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
   protected DeliveryRadiusValidator $validator;
 
   /**
-   * The logger service.
+   * The logger factory.
    *
-   * @var \Psr\Log\LoggerInterface
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
-  protected LoggerInterface $logger;
+  protected LoggerChannelFactoryInterface $loggerFactory;
 
   /**
    * Constructs a new OrderPlacementDeliveryRadiusValidator.
    *
    * @param \Drupal\store_fulfillment\DeliveryRadiusValidator $validator
    *   The delivery radius validator service.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   The logger service.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
    */
-  public function __construct(DeliveryRadiusValidator $validator, LoggerInterface $logger) {
+  public function __construct(DeliveryRadiusValidator $validator, LoggerChannelFactoryInterface $logger_factory) {
     $this->validator = $validator;
-    $this->logger = $logger;
+    $this->loggerFactory = $logger_factory;
   }
 
   /**
@@ -74,7 +74,7 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
     // Get store associated with the order.
     $store = $order->getStore();
     if (!$store) {
-      $this->logger->error('Order @order_id has no store assigned during placement.', [
+      $this->loggerFactory->get('store_fulfillment')->error('Order @order_id has no store assigned during placement.', [
         '@order_id' => $order->id(),
       ]);
       throw new \InvalidArgumentException('Unable to validate delivery address: No store assigned to order.');
@@ -91,7 +91,7 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
     }
 
     if (!$shipping_profile) {
-      $this->logger->warning('Order @order_id has delivery fulfillment but no shipping profile.', [
+      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id has delivery fulfillment but no shipping profile.', [
         '@order_id' => $order->id(),
       ]);
       throw new \InvalidArgumentException('Unable to validate delivery address: No shipping information found.');
@@ -99,7 +99,7 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
 
     // Get delivery address from shipping profile.
     if (!$shipping_profile->hasField('address') || $shipping_profile->get('address')->isEmpty()) {
-      $this->logger->warning('Order @order_id shipping profile has no address.', [
+      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id shipping profile has no address.', [
         '@order_id' => $order->id(),
       ]);
       throw new \InvalidArgumentException('Unable to validate delivery address: No delivery address provided.');
@@ -112,14 +112,14 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
     $validation_result = $this->validator->validateDeliveryAddress($store, $address);
 
     if (!$validation_result['valid']) {
-      $this->logger->warning('Order @order_id delivery address validation failed: @message', [
+      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id delivery address validation failed: @message', [
         '@order_id' => $order->id(),
         '@message' => $validation_result['message'],
       ]);
       throw new \InvalidArgumentException($validation_result['message']);
     }
 
-    $this->logger->info('Order @order_id delivery address validated successfully (distance: @distance miles).', [
+    $this->loggerFactory->get('store_fulfillment')->info('Order @order_id delivery address validated successfully (distance: @distance miles).', [
       '@order_id' => $order->id(),
       '@distance' => $validation_result['distance'] ?? 'unknown',
     ]);
