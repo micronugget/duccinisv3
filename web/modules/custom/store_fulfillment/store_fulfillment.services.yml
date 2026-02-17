@@ -2,3 +2,13 @@ services:
   store_fulfillment.delivery_radius_calculator:
     class: Drupal\store_fulfillment\DeliveryRadiusCalculator
     arguments: ['@entity_type.manager']
+
+  store_fulfillment.order_validator:
+    class: Drupal\store_fulfillment\OrderValidator
+    arguments: ['@store_resolver.hours_validator', '@datetime.time', '@config.factory']
+
+  store_fulfillment.order_placement_validator:
+    class: Drupal\store_fulfillment\EventSubscriber\OrderPlacementValidator
+    arguments: ['@store_fulfillment.order_validator', '@logger.factory']
+    tags:
+      - { name: event_subscriber }

@@ -1,0 +1,16 @@
+store_fulfillment.settings:
+  type: config_object
+  label: 'Store Fulfillment Settings'
+  mapping:
+    minimum_advance_notice:
+      type: integer
+      label: 'Minimum advance notice in minutes'
+    maximum_scheduling_window:
+      type: integer
+      label: 'Maximum scheduling window in days'
+    asap_cutoff_before_closing:
+      type: integer
+      label: 'ASAP cutoff before closing in minutes'
+    time_slot_interval:
+      type: integer
+      label: 'Time slot interval in minutes'
