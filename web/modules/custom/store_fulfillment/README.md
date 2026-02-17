@@ -10,6 +10,8 @@ Provides pickup and delivery fulfillment methods with scheduling for multi-store
 - **Geofenced Delivery Areas**: Configurable radius per store using geodetic distance calculations
 - **Fulfillment Time Selection**: Checkout pane for ASAP or scheduled orders
 - **Store Hours Integration**: Enforces scheduling when store is closed
+- **Order Validation**: Validates fulfillment times before order placement
+- **Configurable Settings**: Admin form to control scheduling parameters
 - **Free Delivery Threshold**: Configurable minimum order for free delivery
 
 ## Requirements
@@ -34,7 +36,38 @@ Provides pickup and delivery fulfillment methods with scheduling for multi-store
 
 ## Configuration
 
-### 1. Configure Store Location and Delivery Radius
+### 1. Configure Fulfillment Settings
+
+Go to: **Administration > Commerce > Configuration > Store Fulfillment** (`/admin/commerce/config/store-fulfillment`)
+
+Configure the following settings:
+
+- **Minimum advance notice**: Minimum time in minutes between order placement and scheduled fulfillment (default: 30 minutes)
+- **Maximum scheduling window**: Maximum number of days in advance that orders can be scheduled (default: 14 days)
+- **ASAP cutoff before closing**: Stop accepting ASAP orders this many minutes before store closes (default: 15 minutes)
+- **Time slot interval**: Interval between available time slots (15, 30, or 60 minutes)
+
+### 2. Configure Store Hours
+
+For each store entity:
+1. Navigate to **Commerce > Configuration > Stores**
+2. Edit your store
+3. Set the **Store Hours** field using the format: `day|open_time|close_time`
+   - Example: `monday|09:00|17:00`
+   - For overnight hours: `friday|22:00|02:00`
+
+**Example Store Hours Configuration:**
+```
+monday|09:00|17:00
+tuesday|09:00|17:00
+wednesday|09:00|17:00
+thursday|09:00|17:00
+friday|09:00|21:00
+saturday|10:00|18:00
+sunday|11:00|16:00
+```
+
+### 3. Configure Store Location and Delivery Radius
 
 Each store must have location coordinates and a delivery radius configured for delivery validation to work:
 
@@ -60,7 +93,7 @@ Each store must have location coordinates and a delivery radius configured for d
 
 **Note**: The delivery radius field accepts decimal values, so you can use precise distances like `5.5` miles. Pickup orders are always available regardless of customer location.
 
-### 2. Create Shipping Methods
+### 4. Create Shipping Methods
 
 Go to Commerce > Configuration > Shipping methods
 
@@ -81,7 +114,7 @@ Go to Commerce > Configuration > Shipping methods
    - Delivery fee: $5.00 (or your fee)
    - Free delivery minimum: $50.00 (optional)
 
-### 3. Configure Checkout Flow
+### 5. Configure Checkout Flow
 
 Go to Commerce > Configuration > Checkout flows > Default
 
@@ -89,13 +122,33 @@ Go to Commerce > Configuration > Checkout flows > Default
 2. Recommended step: "Order information"
 3. Position it after shipping information
 
-### 4. Enable Separate Delivery Address
+### 6. Enable Separate Delivery Address
 
 Commerce Shipping automatically provides a separate shipping address field during checkout, distinct from billing address.
 
 ## How It Works
 
-### Delivery Radius Validation
+### Epic #1: Order Timing Validation
+
+The module validates order fulfillment times based on store hours and configurable business rules:
+
+#### Order Validator Service
+
+- Checks if store is open for immediate (ASAP) orders
+- Validates scheduled fulfillment times against store hours
+- Enforces minimum advance notice for all orders
+- Respects maximum scheduling window
+- Provides next available time slot when store is closed
+
+#### Configuration-Driven
+
+All timing rules are configurable via the admin UI:
+- Minimum advance notice (e.g., 30 minutes)
+- Maximum scheduling window (e.g., 14 days)
+- Time slot intervals (15, 30, or 60 minutes)
+- ASAP cutoff before closing
+
+### Epic #2: Delivery Radius Validation
 
 The module provides multi-layered delivery address validation to ensure orders are only accepted from customers within the configured delivery area:
 
@@ -147,152 +200,29 @@ The **Fulfillment Time** checkout pane presents two primary options:
    - Shows real-time validation feedback as address is entered
    - Customer cannot proceed if address is outside delivery area
 
-#### User Interface Behavior
+#### Order Timing Selection
 
-When customer selects delivery:
-- A validation message appears below the fulfillment method selection
-- Message updates dynamically as shipping address changes
-- Red error box shows if address is outside radius with specific distance
-- Green success message confirms address is within service area
-- Form submission is blocked if validation fails
+After choosing fulfillment method, customers select timing:
 
-When customer selects pickup:
-- No address validation is performed
-- Customer can proceed regardless of their location
-- Billing address is used for payment processing only
+1. **As soon as possible (ASAP)**
+   - Available only when store is currently open
+   - Subject to minimum advance notice
+   - Disabled with helpful message when store is closed
 
-#### Error Messages
+2. **Schedule for later**
+   - Dropdown shows available time slots
+   - Filtered by store hours
+   - Respects maximum scheduling window
+   - Time slots generated at configured intervals
 
-Users will see these specific error messages:
+## Services
 
-**Out of Delivery Range**:
-```
-Sorry, your delivery address is outside our service area. 
-You are 8.2 miles from the store (maximum delivery radius: 5.0 miles). 
-Please select pickup instead or choose a different store.
-```
+### DeliveryRadiusValidator
 
-**Geocoding Failure**:
-```
-Unable to verify your delivery address. 
-Please ensure you have entered a valid address.
-```
-
-**Missing Store Configuration**:
-```
-Unable to determine store location. Please contact support.
-```
-
-**Incomplete Address**:
-```
-Please provide a delivery address.
-```
-
-### Store Hours Enforcement
-
-The Fulfillment Time checkout pane:
-1. Checks if selected store is currently open
-2. If closed, disables "ASAP" option
-3. Forces customer to schedule for future time
-4. Generates time slots in 15-minute intervals
-
-### Order Data Storage
-
-Fulfillment preferences are stored in order data:
-```php
-$order->getData('fulfillment_type'); // 'asap' or 'scheduled'
-$order->getData('scheduled_time'); // Timestamp if scheduled
-```
-
-## Geocoding Setup
-
-The delivery radius validation requires geocoding delivery addresses to coordinates. The module is designed to integrate with Drupal's Geocoder module.
-
-### Installation Steps
-
-1. **Install Geocoder module and provider**:
-   ```bash
-   ddev composer require drupal/geocoder
-   ddev composer require geocoder-php/google-maps-provider
-   # Or for free alternative:
-   ddev composer require geocoder-php/nominatim-provider
-   ```
-
-2. **Enable Geocoder module**:
-   ```bash
-   ddev drush en geocoder
-   ```
-
-3. **Configure Geocoder provider** at `/admin/config/system/geocoder`:
-   - Add a geocoder plugin (Google Maps, Nominatim, etc.)
-   - For Google Maps, add your API key
-   - Test the configuration with a sample address
-
-4. **Implement geocoding in DeliveryRadiusValidator**:
-
-   Update the `geocodeAddress()` method in `src/DeliveryRadiusValidator.php`:
-
-   ```php
-   protected function geocodeAddress(AddressInterface $address): ?array {
-     $geocoder = \Drupal::service('geocoder');
-     
-     // Format address string.
-     $address_string = sprintf('%s, %s, %s %s',
-       $address->getAddressLine1(),
-       $address->getLocality(),
-       $address->getAdministrativeArea(),
-       $address->getPostalCode()
-     );
-
-     try {
-       $result = $geocoder->geocode($address_string, ['googlemaps']);
-       if ($result->isEmpty()) {
-         return NULL;
-       }
-
-       $coords = $result->first()->getCoordinates();
-       return [
-         'lat' => $coords->getLatitude(),
-         'lon' => $coords->getLongitude(),
-       ];
-     }
-     catch (\Exception $e) {
-       \Drupal::logger('store_fulfillment')->error('Geocoding failed: @message', [
-         '@message' => $e->getMessage(),
-       ]);
-       return NULL;
-     }
-   }
-   ```
-
-### Geocoder Provider Options
-
-| Provider | Cost | Accuracy | Setup Complexity |
-|----------|------|----------|------------------|
-| Google Maps | Pay per request after free tier | Excellent | Medium (API key required) |
-| Nominatim (OpenStreetMap) | Free | Good | Low (no API key) |
-| Mapbox | Pay per request after free tier | Excellent | Medium (API key required) |
-| HERE | Pay per request after free tier | Excellent | Medium (API key required) |
-
-**Recommendation**: Start with Nominatim for development/testing (free, no API key). Use Google Maps or Mapbox for production (more accurate, better address parsing).
-
-## Usage in Custom Code
-
-### Validating Delivery Addresses
-
-Use the `store_fulfillment.delivery_radius_validator` service to validate addresses in custom code:
+Validates delivery addresses against store delivery radius.
 
 ```php
-/** @var \Drupal\store_fulfillment\DeliveryRadiusValidator $validator */
 $validator = \Drupal::service('store_fulfillment.delivery_radius_validator');
-
-/** @var \Drupal\commerce_store\Entity\StoreInterface $store */
-$store = \Drupal::service('store_resolver.current_store')->getCurrentStore();
-
-/** @var \Drupal\address\AddressInterface $delivery_address */
-// Get address from order or form.
-
-// Validate the address.
 $result = $validator->validateDeliveryAddress($store, $delivery_address);
 
 // Check validation result.
@@ -312,319 +242,278 @@ else {
 }
 ```
 
-### Validation Result Structure
+### OrderValidator
 
-The `validateDeliveryAddress()` method returns an array with these keys:
-
-```php
-[
-  'valid' => TRUE,              // Boolean: Address is within radius
-  'message' => 'Success message', // String: User-friendly message
-  'distance' => 3.45,             // Float: Distance in miles (NULL if not calculable)
-]
-```
-
-### Getting Order Fulfillment Data
-
-Retrieve fulfillment information stored during checkout:
+Validates order timing against store hours and business rules.
 
 ```php
-/** @var \Drupal\commerce_order\Entity\OrderInterface $order */
+$validator = \Drupal::service('store_fulfillment.order_validator');
 
-// Get fulfillment method (pickup or delivery).
-$method = $order->getData('fulfillment_method');
-if ($method === 'delivery') {
-  // This is a delivery order.
-}
-elseif ($method === 'pickup') {
-  // This is a pickup order.
+// Check if ASAP orders are allowed.
+if ($validator->isImmediateOrderAllowed($store)) {
+  // Store is open, accept ASAP order.
 }
 
-// Get fulfillment timing.
-$type = $order->getData('fulfillment_type');
-if ($type === 'scheduled') {
-  $scheduled_time = $order->getData('scheduled_time');
-  $datetime = new \DateTime($scheduled_time);
-  // Use scheduled time for order preparation.
+// Validate a scheduled time.
+$validation = $validator->validateFulfillmentTime($store, '2024-03-15 14:30:00');
+if (!$validation['valid']) {
+  // Time is not available.
+  \Drupal::messenger()->addError($validation['message']);
 }
-elseif ($type === 'asap') {
-  // Prepare order immediately.
+
+// Get next available slot.
+$next = $validator->getNextAvailableSlot($store);
+if ($next) {
+  $message = t('Next available: @time', ['@time' => $next->format('l, F j - g:i A')]);
 }
 ```
 
-### Calculating Distance Directly
+## Event Subscribers
 
-For custom distance calculations without validation:
+### OrderPlacementDeliveryRadiusValidator
 
-```php
-/** @var \Drupal\store_fulfillment\DeliveryRadiusCalculator $calculator */
-$calculator = \Drupal::service('store_fulfillment.delivery_radius_calculator');
+Validates delivery radius at order placement (Epic #2).
 
-// Calculate distance between two coordinate pairs.
-$distance = $calculator->calculateDistance(
-  $lat1 = 40.7128,  // Store latitude
-  $lon1 = -74.0060, // Store longitude
-  $lat2 = 40.7589,  // Delivery latitude
-  $lon2 = -73.9851  // Delivery longitude
-);
+- Event: `commerce_order.place.pre_transition`
+- Priority: -100 (runs early)
+- Validates delivery orders only
+- Throws `\InvalidArgumentException` if address is out of range
+- Logs validation failures
 
-// Returns distance in miles.
-echo "Distance: " . number_format($distance, 2) . " miles";
-```
+### OrderPlacementValidator
 
-## API Services
+Validates order timing at order placement (Epic #1).
 
-The module provides these services for programmatic use:
+- Event: `commerce_order.place.pre_transition`
+- Priority: -100 (runs early)
+- Validates fulfillment times
+- Prevents orders outside store hours
+- Enforces minimum advance notice
 
-### `store_fulfillment.delivery_radius_calculator`
+## Geocoding Setup
 
-Calculates geodetic distances between coordinates.
+The delivery radius validation requires a geocoding provider to convert addresses to coordinates.
 
-**Methods**:
-- `calculateDistance(float $lat1, float $lon1, float $lat2, float $lon2): float`
-  - Returns distance in miles using Haversine formula
-  - Accounts for Earth's curvature
-  - Example: `$calculator->calculateDistance(40.7128, -74.0060, 40.7589, -73.9851)` → `3.21`
+### Option 1: Google Maps (Recommended for production)
 
-- `isWithinRadius(StoreInterface $store, AddressInterface $address): bool`
-  - Checks if address is within store's delivery radius
-  - Returns boolean: TRUE if within range, FALSE otherwise
-  - Handles geocoding internally
+1. Install geocoder and provider:
+   ```bash
+   ddev composer require drupal/geocoder
+   ddev composer require geocoder-php/google-maps-provider
+   ```
 
-### `store_fulfillment.delivery_radius_validator`
+2. Enable geocoder:
+   ```bash
+   ddev drush en geocoder
+   ```
 
-Validates delivery addresses with user-friendly feedback.
+3. Configure Google Maps API key in settings.php or via Geocoder module configuration
 
-**Methods**:
-- `validateDeliveryAddress(StoreInterface $store, AddressInterface $address): array`
-  - Returns validation result with details
-  - Array structure: `['valid' => bool, 'message' => string, 'distance' => float|null]`
-  - Handles all edge cases (missing coordinates, geocoding failures, etc.)
-  - Provides user-facing error messages
+### Option 2: Nominatim (Free, OpenStreetMap)
 
-**Use Cases**:
-- Checkout validation (already implemented in `FulfillmentTime` pane)
-- Order placement validation (implemented in `OrderPlacementDeliveryRadiusValidator`)
-- Custom forms requiring delivery validation
-- Admin tools for testing store coverage areas
+1. Install geocoder and provider:
+   ```bash
+   ddev composer require drupal/geocoder
+   ddev composer require geocoder-php/nominatim-provider
+   ```
 
-## Architecture
+2. Configure Nominatim (free, no API key required)
 
-This module extends Commerce Shipping's plugin system:
-- **ShippingMethod plugins**: Define pickup and delivery methods
-- **CheckoutPane plugin**: Add time selection to checkout
-- Uses store_resolver for store context
+**Note**: Until a geocoding provider is configured, the system will safely deny all delivery requests (fail-safe behavior).
 
 ## Troubleshooting
 
-### Validation Not Working
+### Common Issues
 
-**Problem**: Delivery radius validation is not being enforced.
+#### Delivery Always Denied
 
-**Solutions**:
-1. **Check store configuration**:
-   ```bash
-   ddev drush config:get commerce_store.store.YOUR_STORE_ID delivery_radius
-   ddev drush config:get commerce_store.store.YOUR_STORE_ID store_location
-   ```
-   Ensure both fields have values.
+**Symptom**: All delivery addresses are rejected, even those clearly within radius.
 
-2. **Verify geocoding service**:
-   - Test geocoding at `/admin/config/system/geocoder`
-   - Check watchdog logs: `ddev drush watchdog:show --type=store_fulfillment`
-   - Look for geocoding errors
+**Cause**: Geocoding provider not configured.
 
-3. **Check checkout pane is enabled**:
-   - Navigate to Commerce > Configuration > Checkout flows
-   - Ensure "Fulfillment Time" pane is enabled and positioned after "Shipping information"
+**Solution**:
+1. Install and configure a geocoding provider (see "Geocoding Setup")
+2. Check geocoder module configuration
+3. Verify API keys if using Google Maps
+4. Test geocoding manually with Address module
 
-### Geocoding Errors
+#### Store Hours Not Enforced
 
-**Problem**: "Unable to verify your delivery address" message appears for valid addresses.
+**Symptom**: Orders accepted outside store hours.
 
-**Common Causes & Solutions**:
+**Cause**: Store hours field not configured correctly.
 
-1. **No geocoding provider configured**:
-   ```bash
-   ddev drush pm:list | grep geocoder
-   ```
-   If not enabled, install and configure (see Geocoding Setup section).
+**Solution**:
+1. Check store entity has `store_hours` field
+2. Verify format: `day|HH:MM|HH:MM` (24-hour time)
+3. Ensure day names are lowercase
+4. Check for typos in field values
 
-2. **API rate limits exceeded**:
-   - Google Maps: Check quota at Google Cloud Console
-   - Nominatim: Limit is 1 request/second, use caching
-   - Solution: Implement caching of geocoded addresses
+#### Time Slots Not Showing
 
-3. **Invalid API key** (Google Maps/Mapbox):
-   - Verify API key is correct
-   - Check API is enabled in provider console
-   - Ensure billing is set up (if required)
+**Symptom**: Scheduled time dropdown is empty.
 
-4. **Address format issues**:
-   - Some geocoding providers are picky about address formats
-   - Try adding more specific information (apartment numbers, etc.)
-   - Test with a known-good address to isolate issue
+**Cause**: Store hours conflict with current time + minimum advance notice.
 
-### Distance Calculation Seems Wrong
+**Solution**:
+1. Verify store hours are set
+2. Check minimum advance notice setting isn't too long
+3. Ensure maximum scheduling window is reasonable (7-14 days)
+4. Review time slot interval setting
 
-**Problem**: System says address is out of range but it should be within radius.
+#### Distance Calculation Inaccurate
 
-**Debugging Steps**:
+**Symptom**: Customers report incorrect distance calculations.
 
-1. **Check actual distance**:
-   ```php
-   $calculator = \Drupal::service('store_fulfillment.delivery_radius_calculator');
-   $distance = $calculator->calculateDistance($store_lat, $store_lon, $delivery_lat, $delivery_lon);
-   \Drupal::logger('debug')->info('Distance: @dist miles', ['@dist' => $distance]);
-   ```
+**Cause**: Store coordinates not set or incorrect.
 
-2. **Verify coordinates are correct**:
-   - Store coordinates should match physical location
-   - Plot coordinates on Google Maps: `https://www.google.com/maps?q=LAT,LON`
-   - Common issue: latitude/longitude reversed
+**Solution**:
+1. Verify store has `store_location` geofield populated
+2. Check coordinates are in correct format (lat, lon)
+3. Test with known addresses and distances
+4. Remember: Distance is "as the crow flies", not driving distance
 
-3. **Remember geodetic vs. road distance**:
-   - System calculates straight-line distance "as the crow flies"
-   - Road distance is typically 20-30% longer
-   - Adjust delivery radius to account for actual routes
+### Debugging
 
-4. **Check radius units**:
-   - Ensure delivery_radius field is in miles
-   - System always calculates in miles internally
-
-### Order Placement Fails with "Outside Service Area"
-
-**Problem**: Order fails at final placement even though checkout validation passed.
-
-**Causes**:
-- Address was edited after checkout validation
-- Customer bypassed client-side validation
-- Race condition with multiple tabs/sessions
-
-**Solution**: This is working as designed. The `OrderPlacementDeliveryRadiusValidator` event subscriber provides a final validation to prevent fraudulent orders. If this happens frequently:
-1. Improve client-side UX to prevent address changes
-2. Add warning messages about address finality
-3. Log these events to identify patterns
-
-### Debugging Validation Flow
-
-Enable verbose logging:
-
-```php
-// In DeliveryRadiusValidator.php, add debug logging:
-$this->logger->debug('Validating delivery address: @address for store @store', [
-  '@address' => $address->getAddressLine1(),
-  '@store' => $store->id(),
-]);
-$this->logger->debug('Store coords: @coords, Delivery coords: @delivery', [
-  '@coords' => json_encode($store_coords),
-  '@delivery' => json_encode($delivery_coords),
-]);
-$this->logger->debug('Distance: @distance, Max: @max', [
-  '@distance' => $distance,
-  '@max' => $max_radius,
-]);
-```
-
-View logs:
+Check module logs:
 ```bash
 ddev drush watchdog:show --type=store_fulfillment --severity=debug
 ```
 
+Verify store configuration:
+```bash
+ddev drush config:get commerce_store.store.YOUR_STORE_ID delivery_radius
+ddev drush config:get commerce_store.store.YOUR_STORE_ID store_location
+```
+
+Check if geocoder is available:
+```bash
+ddev drush pm:list | grep geocoder
+```
+
 ## Testing
 
-The module includes comprehensive automated tests covering all validation scenarios.
+### Manual Testing Checklist
 
-### Running All Tests
+**Epic #1: Order Timing**
+- [ ] ASAP orders work when store is open
+- [ ] ASAP orders blocked when store is closed
+- [ ] Scheduled orders respect store hours
+- [ ] Minimum advance notice enforced
+- [ ] Time slots filtered by store hours
+- [ ] Overnight hours handled correctly
 
-Run the complete test suite:
+**Epic #2: Delivery Radius**
+- [ ] Pickup always available (no radius check)
+- [ ] Delivery within radius accepted
+- [ ] Delivery outside radius rejected with clear message
+- [ ] Distance shown in validation messages
+- [ ] Geocoding failure handled gracefully
+
+### Automated Testing
+
+Run PHPUnit tests:
 ```bash
-# Run all store_fulfillment tests
-ddev drush test-run store_fulfillment
-
-# Or using PHPUnit directly
-ddev phpunit --group store_fulfillment
+ddev phpunit web/modules/custom/store_fulfillment
 ```
 
-### Running Specific Test Classes
+Test suites:
+- `DeliveryRadiusValidatorTest` - 12 test cases (Epic #2)
+- `OrderValidatorTest` - Multiple test cases (Epic #1)
+- `OrderPlacementDeliveryRadiusValidatorTest` - 10 test cases (Epic #2)
+- `DeliveryRadiusCheckoutTest` - 11 functional tests (Epic #2)
 
-**Unit Tests** - DeliveryRadiusValidator service:
-```bash
-ddev phpunit web/modules/custom/store_fulfillment/tests/src/Kernel/DeliveryRadiusValidatorTest.php
+## Architecture
+
+### Module Structure
+
+```
+store_fulfillment/
+├── config/
+│   ├── install/
+│   │   └── store_fulfillment.settings.yml
+│   └── schema/
+│       └── store_fulfillment.schema.yml
+├── src/
+│   ├── DeliveryRadiusCalculator.php       # Epic #2: Distance calculations
+│   ├── DeliveryRadiusValidator.php        # Epic #2: Address validation
+│   ├── OrderValidator.php                 # Epic #1: Timing validation
+│   ├── EventSubscriber/
+│   │   ├── OrderPlacementDeliveryRadiusValidator.php  # Epic #2
+│   │   └── OrderPlacementValidator.php                # Epic #1
+│   ├── Form/
+│   │   └── StoreFulfillmentSettingsForm.php           # Epic #1
+│   └── Plugin/
+│       └── Commerce/
+│           ├── CheckoutPane/
+│           │   └── FulfillmentTime.php    # Integrated: Both epics
+│           └── ShippingMethod/
+│               ├── StorePickup.php
+│               └── StoreDelivery.php
+└── tests/
+    ├── src/
+    │   ├── Kernel/
+    │   │   ├── DeliveryRadiusValidatorTest.php
+    │   │   ├── OrderPlacementDeliveryRadiusValidatorTest.php
+    │   │   └── OrderValidatorTest.php
+    │   └── Functional/
+    │       └── DeliveryRadiusCheckoutTest.php
+    └── ...
 ```
 
-**Kernel Tests** - Order placement validation:
-```bash
-ddev phpunit web/modules/custom/store_fulfillment/tests/src/Kernel/OrderPlacementDeliveryRadiusValidatorTest.php
+### Service Dependencies
+
+```yaml
+services:
+  # Epic #2: Delivery Radius Services
+  store_fulfillment.delivery_radius_calculator:
+    class: Drupal\store_fulfillment\DeliveryRadiusCalculator
+    arguments: ['@entity_type.manager']
+
+  store_fulfillment.delivery_radius_validator:
+    class: Drupal\store_fulfillment\DeliveryRadiusValidator
+    arguments:
+      - '@store_fulfillment.delivery_radius_calculator'
+      - '@string_translation'
+
+  store_fulfillment.order_placement_delivery_radius_validator:
+    class: Drupal\store_fulfillment\EventSubscriber\OrderPlacementDeliveryRadiusValidator
+    arguments:
+      - '@store_fulfillment.delivery_radius_validator'
+      - '@logger.channel.store_fulfillment'
+    tags:
+      - { name: event_subscriber }
+
+  # Epic #1: Order Timing Services
+  store_fulfillment.order_validator:
+    class: Drupal\store_fulfillment\OrderValidator
+    arguments: ['@store_resolver.hours_validator', '@datetime.time', '@config.factory']
+
+  store_fulfillment.order_placement_validator:
+    class: Drupal\store_fulfillment\EventSubscriber\OrderPlacementValidator
+    arguments: ['@store_fulfillment.order_validator', '@logger.factory']
+    tags:
+      - { name: event_subscriber }
 ```
 
-**Functional Tests** - Full checkout flow:
-```bash
-ddev phpunit web/modules/custom/store_fulfillment/tests/src/Functional/DeliveryRadiusCheckoutTest.php
-```
+## Integration Summary
 
-### Test Coverage
+This module successfully integrates two major features:
 
-The test suite includes **33 test cases** covering:
+**Epic #1: Order Fulfillment Validation**
+- Validates order timing against store hours
+- Config-driven business rules
+- ASAP and scheduled order support
+- OrderValidator service and event subscriber
 
-#### DeliveryRadiusValidatorTest (13 tests)
-- ✓ Address within delivery radius
-- ✓ Address outside delivery radius  
-- ✓ Address exactly at radius boundary
-- ✓ Store without delivery radius configured
-- ✓ Store without location coordinates
-- ✓ Invalid/ungeodable delivery address
-- ✓ Edge cases and error conditions
+**Epic #2: Delivery Radius Validation**
+- Validates delivery addresses against store radius
+- Real-time checkout validation
+- Geodetic distance calculations
+- DeliveryRadiusValidator service and event subscriber
 
-#### OrderPlacementDeliveryRadiusValidatorTest (12 tests)
-- ✓ Delivery order within radius (allowed)
-- ✓ Delivery order outside radius (blocked)
-- ✓ Pickup order (validation skipped)
-- ✓ Order without fulfillment method set
-- ✓ Order without store assigned
-- ✓ Order without shipping information
-- ✓ Exception handling and logging
+Both features work together in the FulfillmentTime checkout pane, providing comprehensive validation for both WHERE (delivery radius) and WHEN (order timing) customers can receive their orders.
 
-#### DeliveryRadiusCheckoutTest (8 tests)
-- ✓ Complete checkout flow with delivery validation
-- ✓ Real-time validation feedback in checkout pane
-- ✓ Form submission blocked when validation fails
-- ✓ Switching between pickup and delivery methods
-- ✓ Address changes trigger re-validation
-- ✓ Success messages displayed when valid
+## License
 
-### Continuous Integration
-
-Tests are automatically run on:
-- Every pull request
-- Every commit to main branch
-- Before deployment to production
-
-All tests must pass before code can be merged.
-
-### Writing Custom Tests
-
-To test custom integrations with the delivery radius system:
-
-```php
-namespace Drupal\Tests\my_module\Kernel;
-
-use Drupal\Tests\store_fulfillment\Kernel\DeliveryRadiusTestBase;
-
-class MyCustomTest extends DeliveryRadiusTestBase {
-  
-  public function testMyCustomValidation() {
-    $validator = $this->container->get('store_fulfillment.delivery_radius_validator');
-    $store = $this->createStore(['delivery_radius' => 5.0]);
-    $address = $this->createAddress(['locality' => 'New York']);
-    
-    $result = $validator->validateDeliveryAddress($store, $address);
-    $this->assertTrue($result['valid']);
-  }
-}
-```
-
-## Related Modules
-
-- **store_resolver**: Required for store selection and context
-- **commerce_shipping**: Required base for fulfillment methods
+This module is proprietary software developed for Duccini's restaurant ordering system.

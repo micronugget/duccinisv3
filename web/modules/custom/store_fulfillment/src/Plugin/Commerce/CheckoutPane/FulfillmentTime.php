@@ -6,8 +6,10 @@ namespace Drupal\store_fulfillment\Plugin\Commerce\CheckoutPane;
 
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutPane\CheckoutPaneBase;
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutFlow\CheckoutFlowInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
+use Drupal\store_fulfillment\OrderValidator;
 use Drupal\store_resolver\StoreResolver;
 use Drupal\store_resolver\StoreHoursValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -46,6 +48,20 @@ class FulfillmentTime extends CheckoutPaneBase {
   protected DeliveryRadiusValidator $deliveryRadiusValidator;
 
   /**
+   * The order validator service.
+   *
+   * @var \Drupal\store_fulfillment\OrderValidator
+   */
+  protected $orderValidator;
+
+  /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, CheckoutFlowInterface $checkout_flow = NULL) {
@@ -53,6 +69,8 @@ class FulfillmentTime extends CheckoutPaneBase {
     $instance->storeResolver = $container->get('store_resolver.current_store');
     $instance->hoursValidator = $container->get('store_resolver.hours_validator');
     $instance->deliveryRadiusValidator = $container->get('store_fulfillment.delivery_radius_validator');
+    $instance->orderValidator = $container->get('store_fulfillment.order_validator');
+    $instance->configFactory = $container->get('config.factory');
     return $instance;
   }
 
@@ -64,83 +82,76 @@ class FulfillmentTime extends CheckoutPaneBase {
 
     if (!$store) {
       $pane_form['message'] = [
-        '#markup' => $this->t('Please select a store before continuing.'),
+        '#markup' => '<div class="alert alert-warning">' . $this->t('Please select a store before continuing.') . '</div>',
       ];
       return $pane_form;
     }
 
-    $is_open = $this->hoursValidator->isStoreOpen($store);
+    $is_open = $this->orderValidator->isImmediateOrderAllowed($store);
+    $config = $this->configFactory->get('store_fulfillment.settings');
 
-    // Get previously selected fulfillment method if any.
-    $default_fulfillment_method = $this->order->getData('fulfillment_method') ?? 'pickup';
+    // Show store status message.
+    if (!$is_open) {
+      $next_available = $this->orderValidator->getNextAvailableSlot($store);
+      $message = $this->t('Store is currently closed. Please schedule your order for a future time.');
+      if ($next_available) {
+        $message = $this->t('Store is currently closed. Next available time: @time', [
+          '@time' => $next_available->format('l, F j, Y - g:i A'),
+        ]);
+      }
+      $pane_form['store_closed_notice'] = [
+        '#markup' => '<div class="alert alert-warning">' . $message . '</div>',
+        '#weight' => -10,
+      ];
+    }
 
-    // Add fulfillment method selection (delivery vs pickup).
+    // Add fulfillment method selection (Epic #2: Delivery/Pickup choice).
+    $order = $this->order;
+    $order_data = $order->getData();
+    $default_method = $order_data['fulfillment_method'] ?? 'pickup';
+
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
-      '#title' => $this->t('How would you like to receive your order?'),
+      '#title' => $this->t('Fulfillment Method'),
       '#options' => [
         'pickup' => $this->t('Pickup at store'),
         'delivery' => $this->t('Delivery to address'),
       ],
-      '#default_value' => $default_fulfillment_method,
+      '#default_value' => $default_method,
       '#required' => TRUE,
+      '#weight' => -5,
       '#ajax' => [
         'callback' => [$this, 'ajaxRefreshPane'],
         'wrapper' => 'fulfillment-time-wrapper',
-        'event' => 'change',
       ],
-      '#weight' => -20,
     ];
-
-    // Wrapper for AJAX updates.
-    $pane_form['#prefix'] = '<div id="fulfillment-time-wrapper">';
-    $pane_form['#suffix'] = '</div>';
-
-    // Get current selection (may be from AJAX or form state).
-    $selected_method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']) ?? $default_fulfillment_method;
-
-    // Validate delivery address if delivery is selected.
-    if ($selected_method === 'delivery') {
-      $validation_message = $this->validateDeliveryRadius($store, $form_state, $complete_form);
-      if ($validation_message) {
-        $pane_form['delivery_validation_message'] = [
-          '#markup' => '<div class="messages messages--error">' . $validation_message . '</div>',
-          '#weight' => -15,
-        ];
-      }
-    }
 
     $pane_form['fulfillment_type'] = [
       '#type' => 'radios',
-      '#title' => $this->t('When would you like your order?'),
+      '#title' => $this->t('When do you want your order?'),
       '#options' => [
         'asap' => $this->t('As soon as possible'),
         'scheduled' => $this->t('Schedule for later'),
       ],
-      '#default_value' => $is_open ? 'asap' : 'scheduled',
+      '#default_value' => $order_data['fulfillment_type'] ?? 'asap',
       '#required' => TRUE,
-      '#weight' => -10,
+      '#weight' => 0,
     ];
 
-    if (!$is_open) {
-      $pane_form['store_closed_notice'] = [
-        '#markup' => '<div class="messages messages--warning">' .
-          $this->t('The selected store is currently closed. Please schedule your order for a future time.') .
-          '</div>',
-        '#weight' => -12,
-      ];
-      // Force scheduled option when store is closed.
-      $pane_form['fulfillment_type']['#default_value'] = 'scheduled';
-      $pane_form['fulfillment_type']['asap']['#disabled'] = TRUE;
-    }
-
-    // Generate time slot options.
-    $time_slots = $this->generateTimeSlots($store, $is_open);
+    // Help text for minimum advance notice.
+    $min_advance = $config->get('minimum_advance_notice') ?? 30;
+    $pane_form['help_text'] = [
+      '#markup' => '<div class="help-text">' . $this->t('Orders must be placed at least @minutes minutes in advance.', [
+        '@minutes' => $min_advance,
+      ]) . '</div>',
+      '#weight' => 1,
+    ];
 
     $pane_form['scheduled_time'] = [
       '#type' => 'select',
       '#title' => $this->t('Select time'),
-      '#options' => $time_slots,
+      '#options' => $this->generateTimeSlots($store),
+      '#default_value' => $order_data['scheduled_time'] ?? '',
       '#states' => [
         'visible' => [
           ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
@@ -149,116 +160,87 @@ class FulfillmentTime extends CheckoutPaneBase {
           ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
         ],
       ],
-      '#weight' => 0,
+      '#weight' => 2,
     ];
+
+    $pane_form['#prefix'] = '<div id="fulfillment-time-wrapper">';
+    $pane_form['#suffix'] = '</div>';
 
     return $pane_form;
   }
 
   /**
-   * AJAX callback to refresh the pane when fulfillment method changes.
-   *
-   * @param array $form
-   *   The form array.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   *
-   * @return array
-   *   The fulfillment time pane form element.
+   * AJAX callback to refresh the pane.
    */
-  public function ajaxRefreshPane(array $form, FormStateInterface $form_state): array {
+  public function ajaxRefreshPane(array &$form, FormStateInterface $form_state) {
     return $form['fulfillment_time'];
-  }
-
-  /**
-   * Validates delivery address is within store radius.
-   *
-   * @param \Drupal\commerce_store\Entity\StoreInterface $store
-   *   The store entity.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The form state.
-   * @param array $complete_form
-   *   The complete form array.
-   *
-   * @return string|null
-   *   Error message if validation fails, NULL otherwise.
-   */
-  protected function validateDeliveryRadius($store, FormStateInterface $form_state, array $complete_form): ?string {
-    // Try to get shipping address from the shipping information pane.
-    $shipping_profile = NULL;
-
-    // Check if order has shipments with shipping profile.
-    if ($this->order->hasField('shipments') && !$this->order->get('shipments')->isEmpty()) {
-      /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
-      $shipment = $this->order->get('shipments')->first()->entity;
-      if ($shipment && $shipment->hasField('shipping_profile')) {
-        $shipping_profile = $shipment->getShippingProfile();
-      }
-    }
-
-    // If no shipping profile on order yet, try to get from form state.
-    if (!$shipping_profile) {
-      // The shipping pane may not have been submitted yet.
-      // Return early to allow form to continue.
-      return NULL;
-    }
-
-    // Get address from shipping profile.
-    if (!$shipping_profile->hasField('address') || $shipping_profile->get('address')->isEmpty()) {
-      return (string) $this->t('Please provide a delivery address.');
-    }
-
-    /** @var \Drupal\address\AddressInterface $address */
-    $address = $shipping_profile->get('address')->first();
-
-    // Validate the address.
-    $validation_result = $this->deliveryRadiusValidator->validateDeliveryAddress($store, $address);
-
-    if (!$validation_result['valid']) {
-      return $validation_result['message'];
-    }
-
-    return NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isVisible() {
-    // Only show this pane if a store has been selected.
-    return $this->storeResolver->hasCurrentStore();
   }
 
   /**
    * {@inheritdoc}
    */
   public function validatePaneForm(array &$pane_form, FormStateInterface $form_state, array &$complete_form) {
-    $values = $form_state->getValue($pane_form['#parents']);
+    $values = $form_state->getValue('fulfillment_time');
+    $store = $this->storeResolver->getCurrentStore();
 
-    if (empty($values) || !is_array($values)) {
+    if (!$store) {
+      $form_state->setError($pane_form, $this->t('Please select a store first.'));
       return;
     }
 
-    // Validate fulfillment method is selected.
-    if (empty($values['fulfillment_method'])) {
-      $form_state->setError($pane_form['fulfillment_method'], $this->t('Please select a fulfillment method.'));
+    $fulfillment_method = $values['fulfillment_method'] ?? 'pickup';
+    $fulfillment_type = $values['fulfillment_type'] ?? 'asap';
+
+    // Epic #2: Validate delivery radius if delivery method is selected.
+    if ($fulfillment_method === 'delivery') {
+      $this->validateDeliveryRadius($pane_form, $form_state, $store);
+    }
+
+    // Epic #1: Validate timing based on store hours and order validator.
+    if ($fulfillment_type === 'asap') {
+      if (!$this->orderValidator->isImmediateOrderAllowed($store)) {
+        $form_state->setError($pane_form['fulfillment_type'], $this->t('ASAP orders are not available at this time. Please schedule your order.'));
+      }
+    }
+    else {
+      $scheduled_time = $values['scheduled_time'] ?? NULL;
+      if (empty($scheduled_time)) {
+        $form_state->setError($pane_form['scheduled_time'], $this->t('Please select a time for your scheduled order.'));
+        return;
+      }
+
+      $validation = $this->orderValidator->validateFulfillmentTime($store, $scheduled_time);
+      if (!$validation['valid']) {
+        $form_state->setError($pane_form['scheduled_time'], $validation['message']);
+      }
+    }
+  }
+
+  /**
+   * Validates delivery address is within store's delivery radius.
+   *
+   * Epic #2 functionality.
+   */
+  protected function validateDeliveryRadius(array &$pane_form, FormStateInterface $form_state, $store) {
+    $order = $this->order;
+    
+    // Get shipping profile with delivery address.
+    $shipping_profile = $order->get('shipping_information')->entity ?? NULL;
+    if (!$shipping_profile) {
+      $form_state->setError($pane_form['fulfillment_method'], $this->t('Please enter your delivery address before selecting delivery.'));
       return;
     }
 
-    // If delivery is selected, validate the delivery address.
-    if ($values['fulfillment_method'] === 'delivery') {
-      $store = $this->storeResolver->getCurrentStore();
-      $error_message = $this->validateDeliveryRadius($store, $form_state, $complete_form);
-      if ($error_message) {
-        $form_state->setError($pane_form['fulfillment_method'], $error_message);
-      }
+    $address = $shipping_profile->get('address')->first();
+    if (!$address) {
+      $form_state->setError($pane_form['fulfillment_method'], $this->t('Please enter a complete delivery address.'));
+      return;
     }
 
-    // If scheduled is selected, ensure a time is chosen.
-    if (isset($values['fulfillment_type']) && $values['fulfillment_type'] === 'scheduled') {
-      if (empty($values['scheduled_time'])) {
-        $form_state->setError($pane_form['scheduled_time'], $this->t('Please select a fulfillment time.'));
-      }
+    // Validate address is within delivery radius.
+    $result = $this->deliveryRadiusValidator->validateDeliveryAddress($store, $address);
+    if (!$result['valid']) {
+      $form_state->setError($pane_form['fulfillment_method'], $result['message']);
     }
   }
 
@@ -266,78 +248,80 @@ class FulfillmentTime extends CheckoutPaneBase {
    * {@inheritdoc}
    */
   public function submitPaneForm(array &$pane_form, FormStateInterface $form_state, array &$complete_form) {
-    $values = $form_state->getValue($pane_form['#parents']);
-
-    // Guard against null values (pane might not have been shown/submitted).
-    if (empty($values) || !is_array($values)) {
-      return;
+    $values = $form_state->getValue('fulfillment_time');
+    $order = $this->order;
+    
+    $order_data = $order->getData();
+    $order_data['fulfillment_method'] = $values['fulfillment_method'] ?? 'pickup';
+    $order_data['fulfillment_type'] = $values['fulfillment_type'] ?? 'asap';
+    
+    if ($values['fulfillment_type'] === 'scheduled') {
+      $order_data['scheduled_time'] = $values['scheduled_time'] ?? '';
     }
-
-    // Store fulfillment method in order data.
-    if (isset($values['fulfillment_method'])) {
-      $this->order->setData('fulfillment_method', $values['fulfillment_method']);
+    else {
+      unset($order_data['scheduled_time']);
     }
-
-    // Store fulfillment time in order data.
-    if (isset($values['fulfillment_type'])) {
-      $this->order->setData('fulfillment_type', $values['fulfillment_type']);
-
-      if ($values['fulfillment_type'] === 'scheduled' && !empty($values['scheduled_time'])) {
-        $this->order->setData('scheduled_time', $values['scheduled_time']);
-      }
-    }
+    
+    $order->setData($order_data);
   }
 
   /**
    * Generates time slot options for scheduling.
    *
-   * @param \Drupal\commerce_store\Entity\StoreInterface $store
-   *   The store entity.
-   * @param bool $is_open
-   *   Whether the store is currently open.
-   *
-   * @return array
-   *   Array of time slot options.
+   * Epic #1: Config-driven with store hours validation.
    */
-  protected function generateTimeSlots($store, $is_open) {
+  protected function generateTimeSlots($store) {
+    $config = $this->configFactory->get('store_fulfillment.settings');
+    $min_advance = $config->get('minimum_advance_notice') ?? 30;
+    $max_days = $config->get('maximum_scheduling_window') ?? 14;
+    $interval = $config->get('time_slot_interval') ?? 15;
+
     $slots = [];
-    $timezone = $store->getTimezone();
-    $now = new \DateTime('now', new \DateTimeZone($timezone));
-
-    // Start from current time + 30 minutes if open, or next opening if closed.
-    if ($is_open) {
-      $start_time = clone $now;
-      $start_time->modify('+30 minutes');
+    $now = new \DateTime('now', new \DateTimeZone($store->getTimezone()));
+    $now->modify("+{$min_advance} minutes");
+    
+    // Round up to next interval.
+    $minutes = (int) $now->format('i');
+    $remainder = $minutes % $interval;
+    if ($remainder > 0) {
+      $now->modify('+' . ($interval - $remainder) . ' minutes');
     }
-    else {
-      $start_time = $this->hoursValidator->getNextAvailableTime($store);
-    }
+    $now->setTime((int) $now->format('H'), (int) $now->format('i'), 0);
 
-    // Generate slots for the next 7 days.
-    $end_date = clone $start_time;
-    $end_date->modify('+7 days');
+    $end = clone $now;
+    $end->modify("+{$max_days} days");
 
-    $current = clone $start_time;
-    // Round to next 15-minute interval.
-    $minutes = (int) $current->format('i');
-    $rounded_minutes = ceil($minutes / 15) * 15;
-    $current->setTime((int) $current->format('H'), $rounded_minutes, 0);
-
-    while ($current <= $end_date) {
-      $key = $current->format('Y-m-d H:i:s');
-      $display = $current->format('l, F j, Y - g:i A');
-      $slots[$key] = $display;
-
-      // Increment by 15 minutes.
-      $current->modify('+15 minutes');
-
-      // Limit to reasonable number of options.
-      if (count($slots) >= 100) {
-        break;
+    $current = clone $now;
+    while ($current <= $end) {
+      // Check if time is within store hours.
+      if ($this->isTimeWithinStoreHours($current, $store)) {
+        $key = $current->format('Y-m-d H:i:s');
+        $label = $current->format('l, F j, Y - g:i A');
+        $slots[$key] = $label;
       }
+      
+      $current->modify("+{$interval} minutes");
     }
 
     return $slots;
+  }
+
+  /**
+   * Checks if a given time is within store operating hours.
+   *
+   * Epic #1 functionality.
+   */
+  protected function isTimeWithinStoreHours(\DateTime $time, $store): bool {
+    $day = strtolower($time->format('l'));
+    $time_str = $time->format('H:i');
+
+    try {
+      return $this->hoursValidator->isStoreOpen($store, $day, $time_str);
+    }
+    catch (\Exception $e) {
+      // If validation fails, allow the time (fail open).
+      return TRUE;
+    }
   }
 
 }

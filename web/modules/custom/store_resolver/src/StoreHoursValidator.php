@@ -61,6 +61,7 @@ class StoreHoursValidator {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
+<<<<<<< HEAD
         // Parse the hours format.
         // Example format: "monday|09:00|17:00" or "monday|11:00|04:00" (overnight)
         $parts = explode('|', $value);
@@ -80,6 +81,37 @@ class StoreHoursValidator {
               // Normal hours: open_time is before close_time on same day.
               if ($current_time >= $open_time && $current_time <= $close_time) {
                 return TRUE;
+=======
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          // Parse the hours format.
+          // Example format: "monday|09:00|17:00" or "monday|11:00|04:00" (overnight)
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$day, $open_time, $close_time] = $parts;
+            if (strtolower($day) === $current_day) {
+              // Check if current time is within business hours.
+              // Handle overnight hours (e.g., 11:00-04:00 where close is next day).
+              if ($close_time < $open_time) {
+                // Overnight hours: open from open_time until midnight,
+                // or from midnight until close_time.
+                if ($current_time >= $open_time || $current_time < $close_time) {
+                  return TRUE;
+                }
+              }
+              else {
+                // Normal hours: open_time is before close_time on same day.
+                // Use < for close_time so store is considered closed AT closing time.
+                if ($current_time >= $open_time && $current_time < $close_time) {
+                  return TRUE;
+                }
+>>>>>>> 9a63bb40763c4d7c1af072b4ee8a3762d387476e
               }
             }
           }
@@ -95,6 +127,7 @@ class StoreHoursValidator {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
+<<<<<<< HEAD
         $parts = explode('|', $value);
         if (count($parts) === 3) {
           [$day, $open_time, $close_time] = $parts;
@@ -103,6 +136,25 @@ class StoreHoursValidator {
             // We're in the early morning hours, check if within overnight period.
             if ($current_time <= $close_time) {
               return TRUE;
+=======
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$day, $open_time, $close_time] = $parts;
+            // Check if previous day has overnight hours that extend into today.
+            if (strtolower($day) === $previous_day && $close_time < $open_time) {
+              // We're in the early morning hours, check if within overnight period.
+              if ($current_time < $close_time) {
+                return TRUE;
+              }
+>>>>>>> 9a63bb40763c4d7c1af072b4ee8a3762d387476e
             }
           }
         }
