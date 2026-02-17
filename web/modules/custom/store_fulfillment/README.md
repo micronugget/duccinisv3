@@ -25,9 +25,10 @@ Provides pickup and delivery fulfillment methods with scheduling for multi-store
 
 1. Ensure store_resolver module is installed first
 2. Install Commerce Shipping: `ddev composer require drupal/commerce_shipping`
-3. Enable Commerce Shipping: `drush en commerce_shipping`
-4. Enable Store Fulfillment: `drush en store_fulfillment`
-5. The module will add fields to commerce_store:
+3. Enable Commerce Shipping: `ddev drush en commerce_shipping`
+4. Enable Store Fulfillment: `ddev drush en store_fulfillment`
+5. Clear cache: `ddev drush cr`
+6. The module will add fields to commerce_store:
    - `delivery_radius`: Maximum delivery radius in miles
    - `store_location`: Geofield for store coordinates
 
