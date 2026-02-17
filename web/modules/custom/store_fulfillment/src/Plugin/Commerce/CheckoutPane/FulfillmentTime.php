@@ -108,12 +108,30 @@ class FulfillmentTime extends CheckoutPaneBase {
     // Get previously selected fulfillment method if any.
     $default_fulfillment_method = $this->order->getData('fulfillment_method') ?? 'pickup';
 
+    // Build pickup label with store address.
+    $pickup_label = $this->t('Pickup at store');
+    if ($store->hasField('address') && !$store->get('address')->isEmpty()) {
+      /** @var \Drupal\address\Plugin\Field\FieldType\AddressItem $address */
+      $address = $store->get('address')->first();
+      $address_parts = array_filter([
+        $address->getAddressLine1(),
+        $address->getLocality(),
+        $address->getAdministrativeArea(),
+        $address->getPostalCode(),
+      ]);
+      if ($address_parts) {
+        $pickup_label = $this->t('Pickup at @address', [
+          '@address' => implode(', ', $address_parts),
+        ]);
+      }
+    }
+
     // Add fulfillment method selection (delivery vs pickup).
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
       '#title' => $this->t('How would you like to receive your order?'),
       '#options' => [
-        'pickup' => $this->t('Pickup at store'),
+        'pickup' => $pickup_label,
         'delivery' => $this->t('Delivery to address'),
       ],
       '#default_value' => $default_fulfillment_method,
