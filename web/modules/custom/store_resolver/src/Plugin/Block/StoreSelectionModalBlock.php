@@ -6,24 +6,25 @@ namespace Drupal\store_resolver\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Url;
 use Drupal\store_resolver\StoreResolver;
 use Drupal\store_resolver\StoreHoursValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a 'Current Store' block with integrated store selection modal.
+ * Provides a 'Store Selection Modal' block.
  *
- * This block displays the currently selected store and includes the store
- * selection modal, eliminating the need for a separate modal block.
+ * This block provides the store selection modal for choosing a store.
+ * Note: The CurrentStoreBlock now includes this modal functionality,
+ * so this block is primarily for backwards compatibility or separate
+ * modal placement needs.
  *
  * @Block(
- *   id = "store_resolver_current_store",
- *   admin_label = @Translation("Current Store"),
+ *   id = "store_resolver_modal_block",
+ *   admin_label = @Translation("Store Selection Modal"),
  *   category = @Translation("Commerce")
  * )
  */
-class CurrentStoreBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class StoreSelectionModalBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * The store resolver service.
@@ -40,7 +41,7 @@ class CurrentStoreBlock extends BlockBase implements ContainerFactoryPluginInter
   protected $hoursValidator;
 
   /**
-   * Constructs a new CurrentStoreBlock.
+   * Constructs a new StoreSelectionModalBlock.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -83,40 +84,8 @@ class CurrentStoreBlock extends BlockBase implements ContainerFactoryPluginInter
    */
   public function build() {
     $build = [];
-    $current_store = $this->storeResolver->getCurrentStore();
 
-    // Build current store display.
-    if ($current_store) {
-      $store_name = $current_store->getName();
-
-      // Get store address if available.
-      $address_text = '';
-      if ($current_store->hasField('address') && !$current_store->get('address')->isEmpty()) {
-        $address = $current_store->get('address')->first();
-        $address_text = sprintf(
-          '%s, %s %s',
-          $address->locality,
-          $address->administrative_area,
-          $address->postal_code
-        );
-      }
-
-      $build['content'] = [
-        '#theme' => 'store_resolver_current_store',
-        '#store_name' => $store_name,
-        '#address' => $address_text,
-        '#change_url' => Url::fromRoute('store_resolver.select_store'),
-      ];
-    }
-    else {
-      // No store selected.
-      $build['content'] = [
-        '#theme' => 'store_resolver_no_store',
-        '#select_url' => Url::fromRoute('store_resolver.select_store'),
-      ];
-    }
-
-    // Build store selection modal (integrated from StoreSelectionModalBlock).
+    // Build store selection modal.
     $stores = $this->storeResolver->getAvailableStores();
     if (!empty($stores)) {
       $store_options = [];
@@ -167,3 +136,4 @@ class CurrentStoreBlock extends BlockBase implements ContainerFactoryPluginInter
   }
 
 }
+

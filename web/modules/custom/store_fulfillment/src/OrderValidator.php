@@ -269,21 +269,30 @@ class OrderValidator {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
-        $parts = explode('|', $value);
-        if (count($parts) === 3) {
-          [$hour_day, $open_time, $close_time] = $parts;
-          if (strtolower($hour_day) === $day) {
-            // Check if time is within business hours.
-            if ($close_time < $open_time) {
-              // Overnight hours. For overnight, opening is >= and closing is <.
-              if ($time >= $open_time || $time < $close_time) {
-                return TRUE;
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$hour_day, $open_time, $close_time] = $parts;
+            if (strtolower($hour_day) === $day) {
+              // Check if time is within business hours.
+              if ($close_time < $open_time) {
+                // Overnight hours. For overnight, opening is >= and closing is <.
+                if ($time >= $open_time || $time < $close_time) {
+                  return TRUE;
+                }
               }
-            }
-            else {
-              // Normal hours. Use < for close time since store hours mean "open until".
-              if ($time >= $open_time && $time < $close_time) {
-                return TRUE;
+              else {
+                // Normal hours. Use < for close time since store hours mean "open until".
+                if ($time >= $open_time && $time < $close_time) {
+                  return TRUE;
+                }
               }
             }
           }
@@ -320,11 +329,20 @@ class OrderValidator {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
-        $parts = explode('|', $value);
-        if (count($parts) === 3) {
-          [$day, $open_time, $close_time] = $parts;
-          if (strtolower($day) === $today) {
-            return $close_time;
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$day, $open_time, $close_time] = $parts;
+            if (strtolower($day) === $today) {
+              return $close_time;
+            }
           }
         }
       }
@@ -359,13 +377,22 @@ class OrderValidator {
     foreach ($hours_field as $hour_item) {
       $value = $hour_item->value;
       if (!empty($value)) {
-        $parts = explode('|', $value);
-        if (count($parts) === 3) {
-          [$day, $open_time, $close_time] = $parts;
-          $hours_by_day[strtolower($day)] = [
-            'open' => $open_time,
-            'close' => $close_time,
-          ];
+        // Handle multi-line format: split by newlines first.
+        $lines = preg_split('/\r\n|\r|\n/', $value);
+        foreach ($lines as $line) {
+          $line = trim($line);
+          if (empty($line)) {
+            continue;
+          }
+
+          $parts = explode('|', $line);
+          if (count($parts) === 3) {
+            [$day, $open_time, $close_time] = $parts;
+            $hours_by_day[strtolower($day)] = [
+              'open' => $open_time,
+              'close' => $close_time,
+            ];
+          }
         }
       }
     }
