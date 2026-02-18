@@ -80,33 +80,16 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
       throw new \InvalidArgumentException('Unable to validate delivery address: No store assigned to order.');
     }
 
-    // Get shipping profile with delivery address.
-    $shipping_profile = NULL;
-    if ($order->hasField('shipments') && !$order->get('shipments')->isEmpty()) {
-      /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
-      $shipment = $order->get('shipments')->first()->entity;
-      if ($shipment && $shipment->hasField('shipping_profile')) {
-        $shipping_profile = $shipment->getShippingProfile();
-      }
-    }
+    // Resolve delivery address from shipping profile, billing profile,
+    // or customer profile (matching FulfillmentTime::resolveCustomerAddress).
+    $address = $this->resolveDeliveryAddress($order);
 
-    if (!$shipping_profile) {
-      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id has delivery fulfillment but no shipping profile.', [
-        '@order_id' => $order->id(),
-      ]);
-      throw new \InvalidArgumentException('Unable to validate delivery address: No shipping information found.');
-    }
-
-    // Get delivery address from shipping profile.
-    if (!$shipping_profile->hasField('address') || $shipping_profile->get('address')->isEmpty()) {
-      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id shipping profile has no address.', [
+    if (!$address) {
+      $this->loggerFactory->get('store_fulfillment')->warning('Order @order_id has delivery fulfillment but no address could be resolved.', [
         '@order_id' => $order->id(),
       ]);
       throw new \InvalidArgumentException('Unable to validate delivery address: No delivery address provided.');
     }
-
-    /** @var \Drupal\address\AddressInterface $address */
-    $address = $shipping_profile->get('address')->first();
 
     // Validate the delivery address.
     $validation_result = $this->validator->validateDeliveryAddress($store, $address);
@@ -123,6 +106,59 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
       '@order_id' => $order->id(),
       '@distance' => $validation_result['distance'] ?? 'unknown',
     ]);
+  }
+
+  /**
+   * Resolves the delivery address from available order profiles.
+   *
+   * Checks shipping profile (from shipments), billing profile, and the
+   * customer's default profile, in that order. This mirrors the resolution
+   * logic in FulfillmentTime::resolveCustomerAddress().
+   *
+   * @param \Drupal\commerce_order\Entity\OrderInterface $order
+   *   The order entity.
+   *
+   * @return \Drupal\address\AddressInterface|null
+   *   The resolved address, or NULL if none found.
+   */
+  protected function resolveDeliveryAddress($order) {
+    // 1. Try shipping profile from shipments (preferred source).
+    if ($order->hasField('shipments') && !$order->get('shipments')->isEmpty()) {
+      /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
+      $shipment = $order->get('shipments')->first()->entity;
+      if ($shipment && $shipment->hasField('shipping_profile')) {
+        $shipping_profile = $shipment->getShippingProfile();
+        if ($shipping_profile && $shipping_profile->hasField('address') && !$shipping_profile->get('address')->isEmpty()) {
+          return $shipping_profile->get('address')->first();
+        }
+      }
+    }
+
+    // 2. Fall back to billing profile (collected by payment_information pane).
+    $billing_profile = $order->getBillingProfile();
+    if ($billing_profile && $billing_profile->hasField('address') && !$billing_profile->get('address')->isEmpty()) {
+      return $billing_profile->get('address')->first();
+    }
+
+    // 3. Fall back to customer's default profile.
+    $customer = $order->getCustomer();
+    if ($customer && !$customer->isAnonymous()) {
+      $profile_storage = \Drupal::entityTypeManager()->getStorage('profile');
+      $profiles = $profile_storage->loadByProperties([
+        'uid' => $customer->id(),
+        'type' => 'customer',
+        'is_default' => TRUE,
+        'status' => TRUE,
+      ]);
+      if ($profiles) {
+        $profile = reset($profiles);
+        if ($profile->hasField('address') && !$profile->get('address')->isEmpty()) {
+          return $profile->get('address')->first();
+        }
+      }
+    }
+
+    return NULL;
   }
 
 }

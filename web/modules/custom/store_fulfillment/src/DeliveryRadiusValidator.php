@@ -6,8 +6,11 @@ namespace Drupal\store_fulfillment;
 
 use Drupal\address\AddressInterface;
 use Drupal\commerce_store\Entity\StoreInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\geocoder\GeocoderInterface;
 
 /**
  * Service for validating delivery addresses against store radius.
@@ -24,16 +27,46 @@ class DeliveryRadiusValidator {
   protected DeliveryRadiusCalculator $calculator;
 
   /**
+   * The geocoder service.
+   *
+   * @var \Drupal\geocoder\GeocoderInterface
+   */
+  protected GeocoderInterface $geocoder;
+
+  /**
+   * The logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected LoggerChannelFactoryInterface $loggerFactory;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
    * Constructs a new DeliveryRadiusValidator.
    *
    * @param \Drupal\store_fulfillment\DeliveryRadiusCalculator $calculator
    *   The delivery radius calculator service.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
+   * @param \Drupal\geocoder\GeocoderInterface $geocoder
+   *   The geocoder service.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(DeliveryRadiusCalculator $calculator, TranslationInterface $string_translation) {
+  public function __construct(DeliveryRadiusCalculator $calculator, TranslationInterface $string_translation, GeocoderInterface $geocoder, LoggerChannelFactoryInterface $logger_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->calculator = $calculator;
     $this->stringTranslation = $string_translation;
+    $this->geocoder = $geocoder;
+    $this->loggerFactory = $logger_factory;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -172,24 +205,39 @@ class DeliveryRadiusValidator {
    *   Array with 'lat' and 'lon' keys, or NULL on failure.
    */
   protected function geocodeAddress(AddressInterface $address): ?array {
-    // This is a simplified implementation.
-    // In production, use the Geocoder module for actual geocoding.
-    // For now, return NULL to indicate geocoding needs implementation.
+    $address_string = implode(', ', array_filter([
+      $address->getAddressLine1(),
+      $address->getLocality(),
+      $address->getAdministrativeArea(),
+      $address->getPostalCode(),
+    ]));
 
-    // Example using Geocoder module (requires proper setup):
-    // $geocoder = \Drupal::service('geocoder');
-    // $address_string = sprintf('%s, %s, %s %s',
-    //   $address->getAddressLine1(),
-    //   $address->getLocality(),
-    //   $address->getAdministrativeArea(),
-    //   $address->getPostalCode()
-    // );
-    // $result = $geocoder->geocode($address_string, ['googlemaps']);
-    // if ($result->isEmpty()) {
-    //   return NULL;
-    // }
-    // $coords = $result->first()->getCoordinates();
-    // return ['lat' => $coords->getLatitude(), 'lon' => $coords->getLongitude()];
+    if (empty(trim($address_string))) {
+      return NULL;
+    }
+
+    $provider = $this->entityTypeManager->getStorage('geocoder_provider')->load('nominatim');
+    if (!$provider) {
+      $this->loggerFactory->get('store_fulfillment')->error('Nominatim geocoder provider entity not found.');
+      return NULL;
+    }
+
+    try {
+      $result = $this->geocoder->geocode($address_string, [$provider]);
+      if ($result && !$result->isEmpty()) {
+        $coords = $result->first()->getCoordinates();
+        return [
+          'lat' => $coords->getLatitude(),
+          'lon' => $coords->getLongitude(),
+        ];
+      }
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('store_fulfillment')->warning('Geocoding failed for address @address: @error', [
+        '@address' => $address_string,
+        '@error' => $e->getMessage(),
+      ]);
+    }
 
     return NULL;
   }

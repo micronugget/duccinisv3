@@ -293,34 +293,16 @@ class FulfillmentTime extends CheckoutPaneBase {
    *   Error message if validation fails, NULL otherwise.
    */
   protected function validateDeliveryRadius($store, FormStateInterface $form_state, array $complete_form): ?string {
-    // Try to get shipping address from the shipping information pane.
-    $shipping_profile = NULL;
+    // Resolve delivery address using the same logic as resolveCustomerAddress.
+    $address = $this->resolveCustomerAddress();
 
-    // Check if order has shipments with shipping profile.
-    if ($this->order->hasField('shipments') && !$this->order->get('shipments')->isEmpty()) {
-      /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
-      $shipment = $this->order->get('shipments')->first()->entity;
-      if ($shipment && $shipment->hasField('shipping_profile')) {
-        $shipping_profile = $shipment->getShippingProfile();
-      }
-    }
-
-    // If no shipping profile on order yet, try to get from form state.
-    if (!$shipping_profile) {
-      // The shipping pane may not have been submitted yet.
+    if (!$address) {
+      // No address available yet (billing info may not have been submitted).
       // Return early to allow form to continue.
       return NULL;
     }
 
-    // Get address from shipping profile.
-    if (!$shipping_profile->hasField('address') || $shipping_profile->get('address')->isEmpty()) {
-      return (string) $this->t('Please provide a delivery address.');
-    }
-
-    /** @var \Drupal\address\AddressInterface $address */
-    $address = $shipping_profile->get('address')->first();
-
-    // Validate the address.
+    // Validate the address against the delivery radius.
     $validation_result = $this->deliveryRadiusValidator->validateDeliveryAddress($store, $address);
 
     if (!$validation_result['valid']) {
