@@ -112,20 +112,35 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
    * {@inheritdoc}
    */
   public function buildPaneForm(array $pane_form, FormStateInterface $form_state, array &$complete_form) {
+    $is_delivery = $this->isDeliverySelected($form_state);
+
     // Wrap the entire pane for AJAX targeting from FulfillmentTime.
-    $pane_form['#prefix'] = '<div id="delivery-address-wrapper">';
+    // The .delivery-expand wrapper drives the CSS max-height transition.
+    $classes = 'delivery-expand';
+    if ($is_delivery) {
+      $classes .= ' open';
+    }
+    $pane_form['#prefix'] = '<div id="delivery-address-wrapper" class="' . $classes . '">';
     $pane_form['#suffix'] = '</div>';
+
+    // Attach expand/collapse transition styles.
+    $pane_form['#attached']['library'][] = 'store_fulfillment/delivery_expand';
 
     // If delivery is not selected, render a hidden placeholder so Commerce
     // doesn't strip the wrapper via #access = FALSE (it checks for visible
     // children in CheckoutFlowWithPanesBase::buildForm).
-    if (!$this->isDeliverySelected($form_state)) {
-      $pane_form['#attributes']['style'] = 'display: none;';
+    if (!$is_delivery) {
       $pane_form['placeholder'] = [
         '#markup' => '',
       ];
       return $pane_form;
     }
+
+    // Section label.
+    $pane_form['section_label'] = [
+      '#markup' => '<div class="section-label">' . $this->t('Deliver to') . '</div>',
+      '#weight' => -10,
+    ];
 
     // Load or create the delivery profile.
     $profile = $this->loadDeliveryProfile();

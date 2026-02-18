@@ -8,3 +8,14 @@ time_slots:
   dependencies:
     - core/drupal
     - core/once
+
+delivery_expand:
+  version: 1.x
+  css:
+    component:
+      css/delivery-expand.css: {}
+  js:
+    js/delivery-expand.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
