@@ -70,7 +70,7 @@ class OrderValidator {
    *   - 'valid': (bool) Whether the time is valid.
    *   - 'message': (string) Error message if invalid.
    */
-  public function validateFulfillmentTime(OrderInterface $order, $requested_time = NULL): array {
+  public function validateFulfillmentTime(OrderInterface $order, $requested_time = NULL, bool $skip_advance_notice = FALSE): array {
     $store = $order->getStore();
     if (!$store) {
       return [
@@ -94,7 +94,7 @@ class OrderValidator {
 
     // Validate scheduled orders.
     if ($fulfillment_type === 'scheduled' && $requested_time) {
-      return $this->validateScheduledTime($store, $requested_time);
+      return $this->validateScheduledTime($store, $requested_time, $skip_advance_notice);
     }
 
     return [
@@ -114,7 +114,7 @@ class OrderValidator {
    * @return array
    *   Validation result array.
    */
-  protected function validateScheduledTime(StoreInterface $store, $requested_time): array {
+  protected function validateScheduledTime(StoreInterface $store, $requested_time, bool $skip_advance_notice = FALSE): array {
     $config = $this->configFactory->get('store_fulfillment.settings');
     $min_advance_notice = $config->get('minimum_advance_notice') ?? 30;
     $max_scheduling_window = $config->get('maximum_scheduling_window') ?? 14;
@@ -145,11 +145,20 @@ class OrderValidator {
     $max_time->modify("+{$max_scheduling_window} days");
 
     // Check if time is too soon.
-    // Use <= to allow times exactly at minimum advance notice.
-    if ($requested_datetime <= $min_time) {
+    // Skip advance notice check during order placement (post-payment) since
+    // it was already validated at checkout time.
+    if (!$skip_advance_notice && $requested_datetime <= $min_time) {
       return [
         'valid' => FALSE,
         'message' => "Scheduled time must be at least {$min_advance_notice} minutes in the future.",
+      ];
+    }
+
+    // Even when skipping advance notice, reject times that have already passed.
+    if ($skip_advance_notice && $requested_datetime <= $now) {
+      return [
+        'valid' => FALSE,
+        'message' => 'Scheduled time has already passed.',
       ];
     }
 
