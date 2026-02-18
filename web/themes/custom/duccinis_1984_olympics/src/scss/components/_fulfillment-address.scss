@@ -74,3 +74,29 @@
     background: #9ca3af;
   }
 }
+
+// When? row — inline label + small pill toggle.
+.when-row {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (min-width: 480px) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .when-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $body-color;
+    white-space: nowrap;
+  }
+}
+
+// Time-slot picker wrapper — smooth expand/collapse via #states.
+.time-slots {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+}

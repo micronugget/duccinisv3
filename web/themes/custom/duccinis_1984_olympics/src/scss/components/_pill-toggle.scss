@@ -66,6 +66,18 @@ $pill-radius: 999px;
     outline: 2px solid $olympics-blue;
     outline-offset: 2px;
   }
+
+  // ── Small variant (When? ASAP / Schedule) ──
+  &--sm {
+    display: inline-flex;
+    padding: 2px;
+    gap: 2px;
+
+    .option {
+      padding: 0.4rem 0.875rem;
+      font-size: 0.8125rem;
+    }
+  }
 }
 
 

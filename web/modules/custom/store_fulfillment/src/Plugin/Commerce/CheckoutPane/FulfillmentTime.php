@@ -222,24 +222,34 @@ class FulfillmentTime extends CheckoutPaneBase {
       }
     }
 
-    $pane_form['fulfillment_type'] = [
+    // When? label + ASAP/Schedule pill toggle.
+    $pane_form['when_row'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['when-row'],
+      ],
+      '#weight' => -10,
+    ];
+    $pane_form['when_row']['when_label'] = [
+      '#markup' => '<span class="when-label">' . $this->t('When?') . '</span>',
+    ];
+    $pane_form['when_row']['fulfillment_type'] = [
       '#type' => 'radios',
-      '#title' => $this->t('When would you like your order?'),
       '#options' => [
-        'asap' => $this->t('As soon as possible'),
-        'scheduled' => $this->t('Schedule for later'),
+        'asap' => $this->t('ASAP'),
+        'scheduled' => $this->t('Schedule'),
       ],
       '#default_value' => $is_open ? 'asap' : 'scheduled',
       '#required' => TRUE,
-      '#weight' => -10,
       '#attributes' => [
-        'class' => ['fulfillment-type-radios'],
+        'class' => ['pill-toggle', 'pill-toggle--sm'],
       ],
+      '#parents' => ['fulfillment_time', 'fulfillment_type'],
     ];
 
     // Disable ASAP option if store is closed.
     if (!$is_open) {
-      $pane_form['fulfillment_type']['asap'] = [
+      $pane_form['when_row']['fulfillment_type']['asap'] = [
         '#disabled' => TRUE,
         '#description' => $this->t('Not available - store is closed'),
       ];
@@ -266,6 +276,8 @@ class FulfillmentTime extends CheckoutPaneBase {
       '#attributes' => [
         'class' => ['scheduled-time-select'],
       ],
+      '#prefix' => '<div class="time-slots">',
+      '#suffix' => '</div>',
     ];
 
     // Add helpful information.
@@ -391,7 +403,7 @@ class FulfillmentTime extends CheckoutPaneBase {
     if ($fulfillment_type === 'asap') {
       if (!$this->orderValidator->isImmediateOrderAllowed($store)) {
         $form_state->setError(
-          $pane_form['fulfillment_type'],
+          $pane_form['when_row']['fulfillment_type'],
           $this->t('Store is currently closed. Please schedule your order for a future time.')
         );
       }
