@@ -10,6 +10,8 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Render\Element\Radios;
 use Drupal\Core\Url;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -256,41 +258,47 @@ class FulfillmentTime extends CheckoutPaneBase {
       ];
     }
 
+    // Determine if schedule section should be open initially.
+    $default_type = $is_open ? 'asap' : 'scheduled';
+    $current_type = $form_state->getValue(['fulfillment_time', 'fulfillment_type']) ?? $default_type;
+    $is_scheduled = ($current_type === 'scheduled');
+
     // Generate time slot options using configuration.
     $time_slots = $this->generateTimeSlots($store, $is_open);
 
-    $pane_form['scheduled_time'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Select fulfillment time'),
-      '#description' => $this->t('Choose when you would like to receive your order.'),
-      '#options' => $time_slots,
-      '#required' => FALSE,
-      '#states' => [
-        'visible' => [
-          ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
-        ],
-        'required' => [
-          ':input[name="fulfillment_time[fulfillment_type]"]' => ['value' => 'scheduled'],
-        ],
-      ],
-      '#weight' => 0,
-      '#attributes' => [
-        'class' => ['scheduled-time-select'],
-      ],
-      '#prefix' => '<div class="time-slots">',
-      '#suffix' => '</div>',
-    ];
+    if (!empty($time_slots)) {
+      $time_slots_classes = ['time-slots'];
+      if ($is_scheduled) {
+        $time_slots_classes[] = 'open';
+      }
 
-    // Add helpful information.
-    $min_advance = $config->get('minimum_advance_notice') ?? 30;
-    $pane_form['help_text'] = [
-      '#markup' => '<div class="text-muted small mt-2">' .
-        $this->t('Scheduled orders must be placed at least @min minutes in advance.', [
-          '@min' => $min_advance,
-        ]) .
-        '</div>',
-      '#weight' => 100,
-    ];
+      $pane_form['scheduled_time'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Select a time slot'),
+        '#title_display' => 'invisible',
+        '#options' => $time_slots,
+        '#default_value' => $this->order->getData('scheduled_time'),
+        '#required' => FALSE,
+        '#process' => [
+          [Radios::class, 'processRadios'],
+          [self::class, 'processTimeSlotChipGrid'],
+        ],
+        '#time_slot_timezone' => $store->getTimezone(),
+        '#weight' => 0,
+        '#prefix' => '<div class="' . implode(' ', $time_slots_classes) . '" id="time-slots-wrapper">',
+        '#suffix' => '</div>',
+      ];
+    }
+    else {
+      $time_slots_open = $is_scheduled ? ' open' : '';
+      $pane_form['scheduled_time'] = [
+        '#markup' => '<div class="time-slots' . $time_slots_open . '" id="time-slots-wrapper"><p class="time-slots__empty">' . $this->t('No time slots available') . '</p></div>',
+        '#weight' => 0,
+      ];
+    }
+
+    // Attach the time slot chip grid library.
+    $pane_form['#attached']['library'][] = 'store_fulfillment/time_slots';
 
     return $pane_form;
   }
@@ -320,6 +328,88 @@ class FulfillmentTime extends CheckoutPaneBase {
       $response->addCommand(new ReplaceCommand('#edit-payment-information', $form['payment_information']));
     }
     return $response;
+  }
+
+  /**
+   * #process callback: Groups radio options into day-labeled chip grids.
+   *
+   * Runs after Radios::processRadios() to restructure the flat radio list
+   * into day-grouped containers with chip styling for each slot.
+   *
+   * @param array $element
+   *   The radios form element with radio children already created.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   * @param array $complete_form
+   *   The complete form.
+   *
+   * @return array
+   *   The modified element with day-grouped chip grids.
+   */
+  public static function processTimeSlotChipGrid(array &$element, FormStateInterface $form_state, array &$complete_form): array {
+    $timezone = $element['#time_slot_timezone'] ?? 'America/New_York';
+    $tz = new \DateTimeZone($timezone);
+    $now = new \DateTime('now', $tz);
+    $today_str = $now->format('Y-m-d');
+    $tomorrow_str = (clone $now)->modify('+1 day')->format('Y-m-d');
+
+    // Collect radio children grouped by date.
+    $groups = [];
+    $child_keys = [];
+    foreach (Element::children($element) as $key) {
+      $date = substr((string) $key, 0, 10);
+      $groups[$date][$key] = $element[$key];
+      $child_keys[] = $key;
+    }
+
+    // Remove original children from element.
+    foreach ($child_keys as $key) {
+      unset($element[$key]);
+    }
+
+    // Re-add as grouped day containers with chip styling.
+    foreach ($groups as $date => $radios) {
+      $dt = \DateTime::createFromFormat('Y-m-d', $date, $tz);
+      if (!$dt) {
+        continue;
+      }
+
+      if ($date === $today_str) {
+        $label = t('Today — @date', ['@date' => $dt->format('D, M j')]);
+      }
+      elseif ($date === $tomorrow_str) {
+        $label = t('Tomorrow — @date', ['@date' => $dt->format('D, M j')]);
+      }
+      else {
+        $label = $dt->format('D, M j');
+      }
+
+      $day_key = 'day_' . str_replace('-', '_', $date);
+      $element[$day_key] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['time-slots-day']],
+      ];
+      $element[$day_key]['heading'] = [
+        '#markup' => '<div class="time-slots-day-label">' . $label . '</div>',
+      ];
+      $element[$day_key]['grid'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['time-slots-grid']],
+      ];
+
+      foreach ($radios as $key => $radio) {
+        if (!isset($radio['#wrapper_attributes'])) {
+          $radio['#wrapper_attributes'] = [];
+        }
+        if (!isset($radio['#wrapper_attributes']['class'])) {
+          $radio['#wrapper_attributes']['class'] = [];
+        }
+        $radio['#wrapper_attributes']['class'][] = 'time-slot-chip';
+        $element[$day_key]['grid'][$key] = $radio;
+      }
+    }
+
+    return $element;
   }
 
   /**
@@ -543,7 +633,7 @@ class FulfillmentTime extends CheckoutPaneBase {
       // Check if this time slot falls within store hours.
       if ($this->isTimeWithinStoreHours($store, $current)) {
         $key = $current->format('Y-m-d H:i:s');
-        $display = $current->format('l, F j, Y - g:i A');
+        $display = rtrim($current->format('g:ia'), 'm');
         $slots[$key] = $display;
         $slot_count++;
       }
@@ -564,9 +654,8 @@ class FulfillmentTime extends CheckoutPaneBase {
       '@checked' => $checked_count,
     ]);
 
-    // If no slots found, provide a message.
     if (empty($slots)) {
-      $slots[''] = $this->t('No available time slots - please contact the store');
+      return [];
     }
 
     return $slots;

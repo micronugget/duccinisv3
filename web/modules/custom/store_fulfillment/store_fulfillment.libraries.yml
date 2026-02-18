@@ -1,0 +1,10 @@
+time_slots:
+  version: 1.x
+  css:
+    component:
+      css/time-slots.css: {}
+  js:
+    js/time-slot-toggle.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
