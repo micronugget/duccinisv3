@@ -13376,5 +13376,48 @@ h1.title::after,
   font-size: 1.1rem;
   flex-shrink: 0;
 }
+.fulfillment-address__info {
+  flex: 1;
+  min-width: 0;
+}
+.fulfillment-address__street {
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+.fulfillment-address__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.15rem;
+  flex-wrap: wrap;
+}
+.fulfillment-address__change {
+  color: #0077C0;
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+.fulfillment-address__change:hover {
+  text-decoration: underline;
+}
+
+.open-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.open-dot--open {
+  background: #059669;
+}
+.open-dot--closed {
+  background: #9ca3af;
+}
 
 /*# sourceMappingURL=main.style.css.map*/

@@ -185,16 +185,15 @@ class FulfillmentTime extends CheckoutPaneBase {
     $selected_method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']) ?? $default_fulfillment_method;
 
     // Show contextual address below the pill toggle.
-    $address_display = NULL;
     if ($selected_method === 'pickup') {
-      $address_display = '<div class="fulfillment-address"><span class="addr-icon">📍</span> ' . $pickup_label . '</div>';
+      $pane_form['fulfillment_address'] = [
+        '#markup' => $this->buildPickupAddressCard($store, $is_open),
+        '#weight' => -18,
+      ];
     }
     elseif ($selected_method === 'delivery' && $customer_address) {
-      $address_display = '<div class="fulfillment-address"><span class="addr-icon">📍</span> ' . $delivery_label . '</div>';
-    }
-    if ($address_display) {
       $pane_form['fulfillment_address'] = [
-        '#markup' => $address_display,
+        '#markup' => '<div class="fulfillment-address"><span class="addr-icon">📍</span> ' . $delivery_label . '</div>',
         '#weight' => -18,
       ];
     }
@@ -699,6 +698,61 @@ class FulfillmentTime extends CheckoutPaneBase {
       $parts[] = $pickup_suggestion;
     }
     return '<div class="alert alert-danger">' . implode('<br>', $parts) . '</div>';
+  }
+
+  /**
+   * Builds a rich pickup address card with open/closed status.
+   *
+   * @param \Drupal\commerce_store\Entity\StoreInterface $store
+   *   The store entity.
+   * @param bool $is_open
+   *   Whether the store is currently open.
+   *
+   * @return string
+   *   HTML markup for the pickup address card.
+   */
+  protected function buildPickupAddressCard($store, bool $is_open): string {
+    $street = '';
+    $locality_line = '';
+
+    if ($store->hasField('address') && !$store->get('address')->isEmpty()) {
+      $address = $store->get('address')->first();
+      $street = $address->getAddressLine1() ?: '';
+      $locality_parts = array_filter([
+        $address->getLocality(),
+        $address->getAdministrativeArea(),
+        $address->getPostalCode(),
+      ]);
+      $locality_line = implode(', ', $locality_parts);
+    }
+
+    // Open/closed indicator.
+    $status_class = $is_open ? 'open-dot--open' : 'open-dot--closed';
+    $status_text = $is_open ? $this->t('Open now') : $this->t('Closed');
+
+    // Build today's hours if available.
+    $hours = $this->getStoreTodayHours($store);
+    $hours_fragment = $hours ? ' &middot; ' . $this->t('Today @hours', ['@hours' => $hours]) : '';
+
+    $html = '<div class="fulfillment-address">';
+    $html .= '<span class="addr-icon">📍</span>';
+    $html .= '<div class="fulfillment-address__info">';
+    $html .= '<div class="fulfillment-address__street">' . htmlspecialchars($street, ENT_QUOTES, 'UTF-8') . '</div>';
+
+    // Status dot + locality.
+    $html .= '<div class="fulfillment-address__meta">';
+    $html .= '<span class="open-dot ' . $status_class . '"></span>';
+    $html .= '<span>' . $status_text . '</span>';
+    if ($locality_line) {
+      $html .= ' &middot; ' . htmlspecialchars($locality_line, ENT_QUOTES, 'UTF-8');
+    }
+    $html .= $hours_fragment;
+    $html .= '</div>';
+
+    $html .= '</div>';
+    $html .= '</div>';
+
+    return $html;
   }
 
   /**
