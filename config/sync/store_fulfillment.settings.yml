@@ -1,0 +1,4 @@
+minimum_advance_notice: 30
+maximum_scheduling_window: 14
+asap_cutoff_before_closing: 15
+time_slot_interval: 15

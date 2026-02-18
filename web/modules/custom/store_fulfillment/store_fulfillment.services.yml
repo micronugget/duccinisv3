@@ -1,13 +1,16 @@
 services:
   store_fulfillment.delivery_radius_calculator:
     class: Drupal\store_fulfillment\DeliveryRadiusCalculator
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@geocoder', '@logger.factory']
 
   store_fulfillment.delivery_radius_validator:
     class: Drupal\store_fulfillment\DeliveryRadiusValidator
     arguments:
       - '@store_fulfillment.delivery_radius_calculator'
       - '@string_translation'
+      - '@geocoder'
+      - '@logger.factory'
+      - '@entity_type.manager'
 
   store_fulfillment.order_validator:
     class: Drupal\store_fulfillment\OrderValidator

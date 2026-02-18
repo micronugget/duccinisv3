@@ -3,8 +3,10 @@
 namespace Drupal\store_fulfillment;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\commerce_store\Entity\StoreInterface;
 use Drupal\address\AddressInterface;
+use Drupal\geocoder\GeocoderInterface;
 
 /**
  * Service for calculating delivery radius.
@@ -19,13 +21,33 @@ class DeliveryRadiusCalculator {
   protected $entityTypeManager;
 
   /**
+   * The geocoder service.
+   *
+   * @var \Drupal\geocoder\GeocoderInterface
+   */
+  protected GeocoderInterface $geocoder;
+
+  /**
+   * The logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected LoggerChannelFactoryInterface $loggerFactory;
+
+  /**
    * Constructs a new DeliveryRadiusCalculator.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\geocoder\GeocoderInterface $geocoder
+   *   The geocoder service.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, GeocoderInterface $geocoder, LoggerChannelFactoryInterface $logger_factory) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->geocoder = $geocoder;
+    $this->loggerFactory = $logger_factory;
   }
 
   /**
@@ -114,31 +136,41 @@ class DeliveryRadiusCalculator {
    *
    * @return array|null
    *   Array with 'lat' and 'lon' keys, or NULL on failure.
-   *
-   * @todo This is an intentional stub that requires site-specific geocoding
-   *   configuration. See README.md "Geocoding Setup" section for implementation
-   *   instructions. Until configured, delivery radius validation will deny all
-   *   delivery requests (safe default behavior).
    */
   protected function geocodeAddress(AddressInterface $address) {
-    // INTENTIONAL STUB: Requires geocoding provider configuration.
-    // See README.md "Geocoding Setup" section for implementation.
-    // Returning NULL causes validation to fail safely (deny delivery).
+    $address_string = implode(', ', array_filter([
+      $address->getAddressLine1(),
+      $address->getLocality(),
+      $address->getAdministrativeArea(),
+      $address->getPostalCode(),
+    ]));
 
-    // Example using Geocoder module (requires proper setup):
-    // $geocoder = \Drupal::service('geocoder');
-    // $address_string = sprintf('%s, %s, %s %s',
-    //   $address->getAddressLine1(),
-    //   $address->getLocality(),
-    //   $address->getAdministrativeArea(),
-    //   $address->getPostalCode()
-    // );
-    // $result = $geocoder->geocode($address_string, ['googlemaps']);
-    // if ($result->isEmpty()) {
-    //   return NULL;
-    // }
-    // $coords = $result->first()->getCoordinates();
-    // return ['lat' => $coords->getLatitude(), 'lon' => $coords->getLongitude()];
+    if (empty(trim($address_string))) {
+      return NULL;
+    }
+
+    $provider = $this->entityTypeManager->getStorage('geocoder_provider')->load('nominatim');
+    if (!$provider) {
+      $this->loggerFactory->get('store_fulfillment')->error('Nominatim geocoder provider entity not found.');
+      return NULL;
+    }
+
+    try {
+      $result = $this->geocoder->geocode($address_string, [$provider]);
+      if ($result && !$result->isEmpty()) {
+        $coords = $result->first()->getCoordinates();
+        return [
+          'lat' => $coords->getLatitude(),
+          'lon' => $coords->getLongitude(),
+        ];
+      }
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('store_fulfillment')->warning('Geocoding failed for address @address: @error', [
+        '@address' => $address_string,
+        '@error' => $e->getMessage(),
+      ]);
+    }
 
     return NULL;
   }

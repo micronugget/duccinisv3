@@ -1,0 +1,13 @@
+uuid: e0a6795a-58cb-470d-abe8-d19c77535068
+langcode: en
+status: true
+dependencies:
+  module:
+    - geocoder
+id: nominatim
+label: Nominatim
+plugin: nominatim
+configuration:
+  rootUrl: 'https://nominatim.openstreetmap.org'
+  userAgent: DuccinisV3-Drupal
+  referer: ''
