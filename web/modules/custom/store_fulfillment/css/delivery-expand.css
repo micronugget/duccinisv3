@@ -1,0 +1,34 @@
+/**
+ * @file
+ * Expand/collapse transition for the delivery address checkout pane.
+ *
+ * The #delivery-address-wrapper always stays in the DOM (required for AJAX).
+ * When pickup is selected the wrapper has no .open class and collapses to 0.
+ * When delivery is selected the .open class is added and it expands smoothly.
+ *
+ * Reference: .github/output/checkout-order-information-mockup.html
+ */
+
+/* ── Collapsed (default — pickup) ── */
+.delivery-expand {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* ── Expanded (delivery selected) ── */
+.delivery-expand.open {
+  max-height: 600px;
+  opacity: 1;
+}
+
+/* ── Section label ── */
+.delivery-expand .section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
