@@ -16,6 +16,7 @@ module:
   ckeditor5: 0
   coffee: 0
   commerce: 0
+  commerce_add_to_cart_link: 0
   commerce_cart: 0
   commerce_checkout: 0
   commerce_feeds: 0

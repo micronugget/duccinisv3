@@ -17,6 +17,7 @@ dependencies:
     - commerce_product.commerce_product_type.specials
   module:
     - commerce
+    - commerce_add_to_cart_link
     - commerce_price
     - commerce_product
     - user
@@ -295,21 +296,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -337,7 +337,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -345,7 +345,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       pager:
         type: none
         options:
@@ -409,7 +408,7 @@ display:
             sku: sku
             title: title
             price: price
-            commerce_entity_add_to_cart: commerce_entity_add_to_cart
+            commerce_add_to_cart_link: commerce_add_to_cart_link
           separator: ' • '
           hide_empty: false
       query:
@@ -706,21 +705,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -748,7 +746,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -756,7 +754,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -1133,21 +1130,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -1175,7 +1171,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -1183,7 +1179,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -1560,21 +1555,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -1602,7 +1596,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -1610,7 +1604,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -1986,21 +1979,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -2028,7 +2020,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2036,7 +2028,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -2412,21 +2403,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -2454,7 +2444,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2462,7 +2452,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -2838,21 +2827,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -2880,7 +2868,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -2888,7 +2876,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -3265,21 +3252,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -3307,7 +3293,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -3315,7 +3301,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -3787,21 +3772,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -3829,7 +3813,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -3837,7 +3821,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -4248,21 +4231,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -4290,7 +4272,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -4298,7 +4280,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         type_1:
           id: type_1
@@ -4707,21 +4688,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -4749,7 +4729,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -4757,7 +4737,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         type_1:
           id: type_1
@@ -5102,21 +5081,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -5144,7 +5122,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -5152,7 +5130,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       filters:
         type:
           id: type
@@ -5488,21 +5465,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -5530,7 +5506,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -5538,7 +5514,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -5915,21 +5890,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -5957,7 +5931,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -5965,7 +5939,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -6342,21 +6315,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -6384,7 +6356,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -6392,7 +6364,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
@@ -6769,21 +6740,20 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        commerce_entity_add_to_cart:
-          id: commerce_entity_add_to_cart
-          table: commerce_product_variation
-          field: commerce_entity_add_to_cart
+        commerce_add_to_cart_link:
+          id: commerce_add_to_cart_link
+          table: commerce_product_variation_field_data
+          field: commerce_add_to_cart_link
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: commerce_product_variation
-          plugin_id: commerce_entity_add_to_cart
+          plugin_id: commerce_add_to_cart_link
           label: ''
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -6811,7 +6781,7 @@ display:
           element_class: ''
           element_label_type: ''
           element_label_class: ''
-          element_label_colon: true
+          element_label_colon: false
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
@@ -6819,7 +6789,6 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          weight: 0
       sorts:
         field_weight:
           id: field_weight
