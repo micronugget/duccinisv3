@@ -34,6 +34,16 @@ configuration:
       wrapper_element: fieldset
       double_entry: true
       always_display: false
+    delivery_address:
+      display_label: null
+      step: order_information
+      weight: 5
+      wrapper_element: fieldset
+    fulfillment_time:
+      display_label: null
+      step: order_information
+      weight: 2
+      wrapper_element: fieldset
     review:
       display_label: null
       step: review

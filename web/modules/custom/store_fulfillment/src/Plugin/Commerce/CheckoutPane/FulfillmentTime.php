@@ -6,6 +6,8 @@ namespace Drupal\store_fulfillment\Plugin\Commerce\CheckoutPane;
 
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutPane\CheckoutPaneBase;
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutFlow\CheckoutFlowInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
@@ -87,7 +89,7 @@ class FulfillmentTime extends CheckoutPaneBase {
    * {@inheritdoc}
    */
   public function buildPaneForm(array $pane_form, FormStateInterface $form_state, array &$complete_form) {
-    $store = $this->storeResolver->getCurrentStore();
+    $store = $this->storeResolver->getCurrentStore() ?? $this->order->getStore();
 
     if (!$store) {
       $pane_form['message'] = [
@@ -275,8 +277,20 @@ class FulfillmentTime extends CheckoutPaneBase {
    * @return array
    *   The fulfillment time pane form element.
    */
-  public function ajaxRefreshPane(array $form, FormStateInterface $form_state): array {
-    return $form['fulfillment_time'];
+  public function ajaxRefreshPane(array $form, FormStateInterface $form_state): AjaxResponse {
+    $response = new AjaxResponse();
+    $response->addCommand(new ReplaceCommand('#fulfillment-time-wrapper', $form['fulfillment_time']));
+    // Also refresh the delivery_address pane so it appears/disappears
+    // when the user toggles between pickup and delivery.
+    if (isset($form['delivery_address'])) {
+      $response->addCommand(new ReplaceCommand('#delivery-address-wrapper', $form['delivery_address']));
+    }
+    // Refresh the payment_information pane because billing_information is
+    // conditionally removed for delivery orders via hook_form_alter.
+    if (isset($form['payment_information'])) {
+      $response->addCommand(new ReplaceCommand('#edit-payment-information', $form['payment_information']));
+    }
+    return $response;
   }
 
   /**
@@ -316,8 +330,9 @@ class FulfillmentTime extends CheckoutPaneBase {
    * {@inheritdoc}
    */
   public function isVisible() {
-    // Only show this pane if a store has been selected.
-    return $this->storeResolver->hasCurrentStore();
+    // Show this pane if a store is selected via cookie or the order already
+    // has a store assigned (checkout always has an order with a store).
+    return $this->storeResolver->hasCurrentStore() || $this->order->getStoreId();
   }
 
   /**
@@ -330,7 +345,7 @@ class FulfillmentTime extends CheckoutPaneBase {
       return;
     }
 
-    $store = $this->storeResolver->getCurrentStore();
+    $store = $this->storeResolver->getCurrentStore() ?? $this->order->getStore();
     if (!$store) {
       $form_state->setError($pane_form, $this->t('Please select a store before continuing.'));
       return;
@@ -602,6 +617,15 @@ class FulfillmentTime extends CheckoutPaneBase {
    *   The customer's address, or NULL if not available.
    */
   protected function resolveCustomerAddress() {
+    // Check dedicated delivery address profile (from DeliveryAddress pane).
+    $delivery_profile_id = $this->order->getData('delivery_address_profile');
+    if ($delivery_profile_id) {
+      $profile = $this->entityTypeManager->getStorage('profile')->load($delivery_profile_id);
+      if ($profile && $profile->hasField('address') && !$profile->get('address')->isEmpty()) {
+        return $profile->get('address')->first();
+      }
+    }
+
     // Check order shipments for shipping profile address.
     if ($this->order->hasField('shipments') && !$this->order->get('shipments')->isEmpty()) {
       /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */

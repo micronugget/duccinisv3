@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Hooks for the Store Fulfillment module.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter() for checkout forms.
+ *
+ * When delivery is selected as the fulfillment method, the DeliveryAddress
+ * checkout pane handles all billing address collection (either copied from
+ * the delivery address or entered separately). In this case, we remove the
+ * PaymentInformation pane's billing_information form to avoid duplication
+ * and prevent it from overwriting the billing profile set by DeliveryAddress.
+ */
+function store_fulfillment_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  if (!str_starts_with($form_id, 'commerce_checkout_flow')) {
+    return;
+  }
+
+  if (!isset($form['payment_information']['billing_information'])) {
+    return;
+  }
+
+  // Determine the selected fulfillment method. Check form_state first
+  // (reflects current AJAX selection), then fall back to persisted order data.
+  $method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']);
+  if (!$method) {
+    $form_object = $form_state->getFormObject();
+    if (method_exists($form_object, 'getOrder')) {
+      $order = $form_object->getOrder();
+      $method = $order->getData('fulfillment_method');
+    }
+  }
+
+  if ($method === 'delivery') {
+    // The DeliveryAddress pane handles billing for delivery orders.
+    // Remove the billing form from PaymentInformation to prevent it from
+    // overwriting the billing profile during its submitPaneForm().
+    unset($form['payment_information']['billing_information']);
+  }
+}
