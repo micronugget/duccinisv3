@@ -122,6 +122,15 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
    *   The resolved address, or NULL if none found.
    */
   protected function resolveDeliveryAddress($order) {
+    // 0. Try the dedicated delivery address profile (from DeliveryAddress pane).
+    $delivery_profile_id = $order->getData('delivery_address_profile');
+    if ($delivery_profile_id) {
+      $profile = \Drupal::entityTypeManager()->getStorage('profile')->load($delivery_profile_id);
+      if ($profile && $profile->hasField('address') && !$profile->get('address')->isEmpty()) {
+        return $profile->get('address')->first();
+      }
+    }
+
     // 1. Try shipping profile from shipments (preferred source).
     if ($order->hasField('shipments') && !$order->get('shipments')->isEmpty()) {
       /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */

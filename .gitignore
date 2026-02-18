@@ -35,3 +35,5 @@ web/sites/default/services.yml
 web/sites/default/private/.htaccess
 web/sites/default/private/tmp/
 backup*
+databasebackup.sql
+]*
