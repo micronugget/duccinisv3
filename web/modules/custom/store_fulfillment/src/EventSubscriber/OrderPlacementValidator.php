@@ -78,10 +78,14 @@ class OrderPlacementValidator implements EventSubscriberInterface {
       $requested_time = $scheduled_time;
     }
 
-    // Validate the fulfillment time.
+    // At order placement (post-payment), skip the minimum advance notice
+    // check. The scheduled time was already validated during checkout before
+    // payment was collected. Re-validating advance notice here would reject
+    // orders where the payment gateway round-trip consumed the lead time.
     $validation_result = $this->orderValidator->validateFulfillmentTime(
       $order,
-      $requested_time
+      $requested_time,
+      TRUE
     );
 
     // If validation fails, log and throw exception to block order placement.
