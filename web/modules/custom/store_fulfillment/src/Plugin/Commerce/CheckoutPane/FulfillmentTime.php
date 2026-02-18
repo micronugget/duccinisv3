@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "fulfillment_time",
  *   label = @Translation("Fulfillment Time"),
  *   default_step = "order_information",
- *   wrapper_element = "fieldset",
+ *   wrapper_element = "container",
  * )
  */
 class FulfillmentTime extends CheckoutPaneBase {
@@ -157,13 +157,12 @@ class FulfillmentTime extends CheckoutPaneBase {
       }
     }
 
-    // Add fulfillment method selection (delivery vs pickup).
+    // Add fulfillment method selection as pill-toggle.
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
-      '#title' => $this->t('How would you like to receive your order?'),
       '#options' => [
-        'pickup' => $pickup_label,
-        'delivery' => $delivery_label,
+        'pickup' => $this->t('🏪 Pickup'),
+        'delivery' => $this->t('🚗 Delivery'),
       ],
       '#default_value' => $default_fulfillment_method,
       '#required' => TRUE,
@@ -173,6 +172,9 @@ class FulfillmentTime extends CheckoutPaneBase {
         'event' => 'change',
       ],
       '#weight' => -20,
+      '#attributes' => [
+        'class' => ['pill-toggle'],
+      ],
     ];
 
     // Wrapper for AJAX updates.
@@ -181,6 +183,21 @@ class FulfillmentTime extends CheckoutPaneBase {
 
     // Get current selection (may be from AJAX or form state).
     $selected_method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']) ?? $default_fulfillment_method;
+
+    // Show contextual address below the pill toggle.
+    $address_display = NULL;
+    if ($selected_method === 'pickup') {
+      $address_display = '<div class="fulfillment-address"><span class="addr-icon">📍</span> ' . $pickup_label . '</div>';
+    }
+    elseif ($selected_method === 'delivery' && $customer_address) {
+      $address_display = '<div class="fulfillment-address"><span class="addr-icon">📍</span> ' . $delivery_label . '</div>';
+    }
+    if ($address_display) {
+      $pane_form['fulfillment_address'] = [
+        '#markup' => $address_display,
+        '#weight' => -18,
+      ];
+    }
 
     // Show out-of-radius notice with pickup information.
     if ($delivery_radius_result !== NULL && !$delivery_radius_result['valid']) {

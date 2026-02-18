@@ -1,0 +1,88 @@
+// ============================================
+// Pill Toggle Component
+// Reusable pill-switch for binary/trinary radio selectors.
+// Used by: FulfillmentTime checkout pane (Pickup / Delivery)
+// ============================================
+
+$pill-bg: #f3f4f6;
+$pill-active-bg: $olympics-white;
+$pill-color: #6b7280;
+$pill-active-color: $body-color;
+$pill-radius: 999px;
+
+.pill-toggle {
+  display: flex;
+  background: $pill-bg;
+  border-radius: $pill-radius;
+  padding: 3px;
+  gap: 3px;
+
+  // Each Drupal form-item wraps an input + label pair.
+  .form-item {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+  }
+
+  // Visually hidden radio — remains accessible for keyboard / screen readers.
+  .form-radio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // Label styled as pill surface.
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border-radius: $pill-radius;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $pill-color;
+    user-select: none;
+  }
+
+  // Active pill.
+  .form-radio:checked + .option {
+    background: $pill-active-bg;
+    color: $pill-active-color;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  // Keyboard focus ring.
+  .form-radio:focus-visible + .option {
+    outline: 2px solid $olympics-blue;
+    outline-offset: 2px;
+  }
+}
+
+// Address context shown below the pill toggle.
+.fulfillment-address {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: $body-color;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .addr-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+}
