@@ -1,0 +1,76 @@
+// ============================================
+// Fulfillment Address Card
+// Contextual address strip below the pill toggle.
+// Shows store info (pickup) or customer address (delivery).
+// ============================================
+
+.fulfillment-address {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: $body-color;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .addr-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  // Rich inner layout for pickup card.
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__street {
+    font-weight: 600;
+    color: $body-color;
+    line-height: 1.3;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.15rem;
+    flex-wrap: wrap;
+  }
+
+  // "Change" link floated to the right.
+  &__change {
+    color: $olympics-blue;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 0.8rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Open / Closed status dot.
+.open-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &--open {
+    background: #059669;
+  }
+
+  &--closed {
+    background: #9ca3af;
+  }
+}
