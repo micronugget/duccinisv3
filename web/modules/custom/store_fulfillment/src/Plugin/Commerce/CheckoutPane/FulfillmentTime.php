@@ -10,6 +10,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\store_fulfillment\OrderValidator;
@@ -762,6 +763,11 @@ class FulfillmentTime extends CheckoutPaneBase {
     $html .= '</div>';
 
     $html .= '</div>';
+
+    // "Change" link to store selection.
+    $change_url = Url::fromRoute('store_resolver.select_store')->toString();
+    $html .= '<a href="' . htmlspecialchars($change_url, ENT_QUOTES, 'UTF-8') . '" class="fulfillment-address__change">' . $this->t('Change') . '</a>';
+
     $html .= '</div>';
 
     return $html;

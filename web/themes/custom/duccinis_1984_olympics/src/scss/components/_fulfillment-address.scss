@@ -95,8 +95,8 @@
   }
 }
 
-// Time-slot picker wrapper — smooth expand/collapse via #states.
+// Time-slot picker wrapper.
+// Drupal #states toggles display:none/block, so we style the visible state.
 .time-slots {
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.25s ease;
+  margin-top: 0.75rem;
 }

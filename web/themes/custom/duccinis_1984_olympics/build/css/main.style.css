@@ -13449,8 +13449,7 @@ h1.title::after,
 }
 
 .time-slots {
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.25s ease;
+  margin-top: 0.75rem;
 }
 
 /*# sourceMappingURL=main.style.css.map*/
