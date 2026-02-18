@@ -85,9 +85,49 @@
   .layout-region {
     background: $olympics-white;
     padding: 2rem;
-    border: 4px solid $olympics-blue;
-    @include geometric-shadow($olympics-light-yellow);
     margin-bottom: 2rem;
+  }
+
+  // ── Clean card treatment for checkout panes ──
+  // Matches the mockup's minimal white cards with subtle borders.
+  .checkout-pane {
+    background: $olympics-white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+
+    @media (min-width: 768px) {
+      padding: 1.5rem;
+    }
+  }
+
+  // Remove redundant pane headings (mockup: "content speaks for itself").
+  .checkout-pane > legend,
+  .checkout-pane > .fieldset-legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // Hide the visually redundant "Select a time slot" legend inside time-slots.
+  .time-slots legend,
+  .time-slots .fieldset-legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   // Checkout progress
@@ -246,15 +286,9 @@
   }
 }
 
-// Payment information
+// Payment information — clean card style for checkout.
 .payment-information {
   background: $olympics-white;
-  padding: 2rem;
-  border: 4px solid $olympics-blue;
-  border-left-width: 8px;
-  border-left-color: $olympics-vermillion;
-  @include geometric-shadow(rgba($olympics-blue, 0.2), 4px);
-  margin: 1.5rem 0;
 
   legend,
   .fieldset-legend {

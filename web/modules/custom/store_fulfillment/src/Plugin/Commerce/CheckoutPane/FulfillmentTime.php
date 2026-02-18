@@ -161,8 +161,13 @@ class FulfillmentTime extends CheckoutPaneBase {
     }
 
     // Add fulfillment method selection as pill-toggle.
+    // The .pill-toggle class goes on the outer wrapper (not #attributes,
+    // which Drupal copies to each <input>). The theme SCSS targets
+    // .pill-toggle .form-radios > .form-item for the flex pill layout.
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
+      '#title' => $this->t('Fulfillment method'),
+      '#title_display' => 'invisible',
       '#options' => [
         'pickup' => $this->t('🏪 Pickup'),
         'delivery' => $this->t('🚗 Delivery'),
@@ -175,9 +180,8 @@ class FulfillmentTime extends CheckoutPaneBase {
         'event' => 'change',
       ],
       '#weight' => -20,
-      '#attributes' => [
-        'class' => ['pill-toggle'],
-      ],
+      '#prefix' => '<div class="pill-toggle">',
+      '#suffix' => '</div>',
     ];
 
     // Wrapper for AJAX updates.
@@ -238,15 +242,16 @@ class FulfillmentTime extends CheckoutPaneBase {
     ];
     $pane_form['when_row']['fulfillment_type'] = [
       '#type' => 'radios',
+      '#title' => $this->t('Fulfillment timing'),
+      '#title_display' => 'invisible',
       '#options' => [
         'asap' => $this->t('ASAP'),
         'scheduled' => $this->t('Schedule'),
       ],
       '#default_value' => $is_open ? 'asap' : 'scheduled',
       '#required' => TRUE,
-      '#attributes' => [
-        'class' => ['pill-toggle', 'pill-toggle--sm'],
-      ],
+      '#prefix' => '<div class="pill-toggle pill-toggle--sm">',
+      '#suffix' => '</div>',
       '#parents' => ['fulfillment_time', 'fulfillment_type'],
     ];
 
