@@ -67,7 +67,7 @@ class FulfillmentTime extends CheckoutPaneBase {
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected EntityTypeManagerInterface $entityTypeManager;
+  protected $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -435,6 +435,10 @@ class FulfillmentTime extends CheckoutPaneBase {
 
       if ($values['fulfillment_type'] === 'scheduled' && !empty($values['scheduled_time'])) {
         $this->order->setData('scheduled_time', $values['scheduled_time']);
+      }
+      else {
+        // Clear stale scheduled_time when switching to asap.
+        $this->order->unsetData('scheduled_time');
       }
     }
   }
