@@ -1,7 +1,14 @@
 // ============================================
 // Pill Toggle Component
 // Reusable pill-switch for binary/trinary radio selectors.
-// Used by: FulfillmentTime checkout pane (Pickup / Delivery)
+// Used by: FulfillmentTime checkout pane (Pickup / Delivery, ASAP / Schedule)
+//
+// DOM structure produced by Drupal + Radix:
+//   div.pill-toggle              ← wrapper added via #prefix/#suffix
+//     div.form-radios            ← Radix radios template
+//       div.form-item.form-check ← each radio pair
+//         input.form-check-input ← native radio (visually hidden)
+//         label.form-check-label ← pill surface
 // ============================================
 
 $pill-bg: #f3f4f6;
@@ -11,21 +18,27 @@ $pill-active-color: $body-color;
 $pill-radius: 999px;
 
 .pill-toggle {
-  display: flex;
-  background: $pill-bg;
-  border-radius: $pill-radius;
-  padding: 3px;
-  gap: 3px;
+  // Radix wraps radios in a .form-radios div; flex layout goes here.
+  .form-radios {
+    display: flex;
+    background: $pill-bg;
+    border-radius: $pill-radius;
+    padding: 3px;
+    gap: 3px;
+  }
 
   // Each Drupal form-item wraps an input + label pair.
-  .form-item {
+  // Override Bootstrap .form-check defaults (display:block, padding-left).
+  .form-item,
+  .form-check {
     flex: 1;
     margin: 0;
     padding: 0;
+    min-height: 0;
   }
 
   // Visually hidden radio — remains accessible for keyboard / screen readers.
-  .form-radio {
+  .form-check-input[type="radio"] {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -37,8 +50,8 @@ $pill-radius: 999px;
     border: 0;
   }
 
-  // Label styled as pill surface.
-  .option {
+  // Label styled as pill surface (Radix renders .form-check-label).
+  .form-check-label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,28 +68,36 @@ $pill-radius: 999px;
   }
 
   // Active pill.
-  .form-radio:checked + .option {
+  .form-check-input:checked + .form-check-label {
     background: $pill-active-bg;
     color: $pill-active-color;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   // Keyboard focus ring.
-  .form-radio:focus-visible + .option {
+  .form-check-input:focus-visible + .form-check-label {
     outline: 2px solid $olympics-blue;
     outline-offset: 2px;
   }
 
-  // ── Small variant (When? ASAP / Schedule) ──
-  &--sm {
+  // Disabled state (e.g. ASAP when store is closed).
+  .form-disabled .form-check-label {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ── Small variant (When? ASAP / Schedule) ──
+.pill-toggle--sm {
+  .form-radios {
     display: inline-flex;
     padding: 2px;
     gap: 2px;
+  }
 
-    .option {
-      padding: 0.4rem 0.875rem;
-      font-size: 0.8125rem;
-    }
+  .form-check-label {
+    padding: 0.4rem 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 
