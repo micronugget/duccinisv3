@@ -169,9 +169,10 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
     $same_as_billing = $this->order->getData('delivery_same_as_billing') ?? TRUE;
     $pane_form['copy_to_billing'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('My billing address is the same as my delivery address'),
+      '#title' => $this->t('Same address for billing'),
       '#default_value' => $same_as_billing,
       '#weight' => 100,
+      '#wrapper_attributes' => ['class' => ['delivery-same-billing']],
     ];
 
     // Build a separate billing address form shown when checkbox is unchecked.
