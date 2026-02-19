@@ -32,3 +32,22 @@
   color: #6b7280;
   margin-bottom: 0.75rem;
 }
+
+/* ── "Same address for billing" checkbox ── */
+.delivery-same-billing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.delivery-same-billing input[type="checkbox"] {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: #0077C0;
+  cursor: pointer;
+  flex-shrink: 0;
+}

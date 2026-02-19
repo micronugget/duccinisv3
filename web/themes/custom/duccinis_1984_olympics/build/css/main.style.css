@@ -13337,6 +13337,26 @@ h1.title::after,
   color: #E63946;
 }
 
+.delivery-same-billing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.delivery-same-billing input[type=checkbox] {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: #0077C0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .pill-toggle .form-radios {
   display: flex;
   background: #f3f4f6;
