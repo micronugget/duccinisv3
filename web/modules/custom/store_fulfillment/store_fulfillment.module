@@ -12,36 +12,130 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_form_alter() for checkout forms.
  *
- * When delivery is selected as the fulfillment method, the DeliveryAddress
- * checkout pane handles all billing address collection (either copied from
- * the delivery address or entered separately). In this case, we remove the
- * PaymentInformation pane's billing_information form to avoid duplication
- * and prevent it from overwriting the billing profile set by DeliveryAddress.
+ * - When delivery is selected, removes billing_information from payment pane.
+ * - Adds saved-card metadata to drupalSettings for the saved-card SDC component.
  */
 function store_fulfillment_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
   if (!str_starts_with($form_id, 'commerce_checkout_flow')) {
     return;
   }
 
-  if (!isset($form['payment_information']['billing_information'])) {
-    return;
-  }
+  // ── Delivery billing removal ──
+  if (isset($form['payment_information']['billing_information'])) {
+    $method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']);
+    if (!$method) {
+      $form_object = $form_state->getFormObject();
+      if (method_exists($form_object, 'getOrder')) {
+        $order = $form_object->getOrder();
+        $method = $order->getData('fulfillment_method');
+      }
+    }
 
-  // Determine the selected fulfillment method. Check form_state first
-  // (reflects current AJAX selection), then fall back to persisted order data.
-  $method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']);
-  if (!$method) {
-    $form_object = $form_state->getFormObject();
-    if (method_exists($form_object, 'getOrder')) {
-      $order = $form_object->getOrder();
-      $method = $order->getData('fulfillment_method');
+    if ($method === 'delivery') {
+      unset($form['payment_information']['billing_information']);
     }
   }
 
-  if ($method === 'delivery') {
-    // The DeliveryAddress pane handles billing for delivery orders.
-    // Remove the billing form from PaymentInformation to prevent it from
-    // overwriting the billing profile during its submitPaneForm().
-    unset($form['payment_information']['billing_information']);
+  // ── Saved-card UI metadata ──
+  if (!isset($form['payment_information']['payment_method'])) {
+    return;
   }
+
+  $radios = &$form['payment_information']['payment_method'];
+  $payment_method_storage = \Drupal::entityTypeManager()->getStorage('commerce_payment_method');
+  $cards = [];
+
+  foreach ($radios['#options'] as $option_id => $label) {
+    // Stored payment methods have numeric IDs.
+    if (!is_numeric($option_id)) {
+      continue;
+    }
+
+    /** @var \Drupal\commerce_payment\Entity\PaymentMethodInterface $payment_method */
+    $payment_method = $payment_method_storage->load($option_id);
+    if (!$payment_method) {
+      continue;
+    }
+
+    $brand = '';
+    $last4 = '';
+    $exp_month = '';
+    $exp_year = '';
+
+    // Stripe card fields.
+    if ($payment_method->hasField('stripe_card_type') && !$payment_method->get('stripe_card_type')->isEmpty()) {
+      $brand = $payment_method->get('stripe_card_type')->getString();
+      $last4 = $payment_method->get('stripe_card_number')->getString();
+      $exp_month = $payment_method->get('stripe_card_exp_month')->getString();
+      $exp_year = $payment_method->get('stripe_card_exp_year')->getString();
+    }
+    // Commerce core credit card fields.
+    elseif ($payment_method->hasField('card_type') && !$payment_method->get('card_type')->isEmpty()) {
+      $brand = $payment_method->get('card_type')->getString();
+      $last4 = $payment_method->get('card_number')->getString();
+      $exp_month = $payment_method->get('card_exp_month')->getString();
+      $exp_year = $payment_method->get('card_exp_year')->getString();
+    }
+
+    if ($brand) {
+      $cards[(string) $option_id] = [
+        'brand' => $brand,
+        'last4' => $last4,
+        'expMonth' => $exp_month,
+        'expYear' => $exp_year,
+      ];
+    }
+  }
+
+  if ($cards) {
+    $form['payment_information']['#attributes']['class'][] = 'has-saved-cards';
+    // Store card data on the element for our #after_build callback, which runs
+    // after Radios::processRadios() has created the individual radio elements.
+    // NOTE: We must use #after_build instead of #process because at form_alter
+    // time #process doesn't exist yet on the element. Using [] to append would
+    // create a new #process array, and Drupal's $element += $element_info
+    // would then skip adding the default Radios::processRadios() — resulting
+    // in zero child radio elements being created.
+    $radios['#saved_card_data'] = $cards;
+    $radios['#after_build'][] = 'store_fulfillment_payment_radios_after_build';
+    $form['payment_information']['#attached']['library'][] = 'core/components.duccinis_1984_olympics--saved-card';
+    // Temporary diagnostic library — remove after debugging.
+    $form['payment_information']['#attached']['library'][] = 'duccinis_1984_olympics/payment-ajax-diagnostic';
+  }
+}
+
+/**
+ * After-build callback — stamps card data onto individual radio sub-elements.
+ *
+ * Runs after Radios::processRadios() has created $element['1'], $element['2']
+ * etc. from #options.  The Twig template (form-element--radio.html.twig) reads
+ * $variables['card_data'] set by hook_preprocess_form_element() in the theme.
+ *
+ * @see duccinis_1984_olympics_preprocess_form_element()
+ */
+function store_fulfillment_payment_radios_after_build(array $element, FormStateInterface $form_state): array {
+  $saved_cards = $element['#saved_card_data'] ?? [];
+
+  foreach ($saved_cards as $option_id => $card) {
+    $key = (string) $option_id;
+    if (isset($element[$key])) {
+      $element[$key]['#card_data'] = $card;
+      // Visually hide the native <input type="radio"> so the styled label row
+      // becomes the only visual affordance; the input remains accessible.
+      $element[$key]['#attributes']['class'][] = 'visually-hidden';
+      $element[$key]['#attributes']['class'][] = 'saved-card__radio';
+    }
+  }
+
+  // Mark the "add new" gateway option so the template can render the
+  // "+ Use a different card" link style.
+  foreach (array_keys($element['#options'] ?? []) as $opt_id) {
+    if (!is_numeric($opt_id) && isset($element[$opt_id])) {
+      $element[$opt_id]['#is_new_card_option'] = TRUE;
+      $element[$opt_id]['#attributes']['class'][] = 'visually-hidden';
+      $element[$opt_id]['#attributes']['class'][] = 'saved-card__radio';
+    }
+  }
+
+  return $element;
 }

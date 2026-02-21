@@ -4,3 +4,27 @@
  * @file
  * Theme and preprocess functions for forms.
  */
+
+/**
+ * Implements hook_preprocess_form_element() for radio elements.
+ *
+ * Exposes saved-card data as top-level Twig variables so that
+ * form-element--radio.html.twig can render the card badge row without any
+ * JavaScript DOM construction.
+ *
+ * @see store_fulfillment_payment_radios_process()
+ * @see templates/form/form-element--radio.html.twig
+ */
+function duccinis_1984_olympics_preprocess_form_element(array &$variables): void {
+  $element = $variables['element'];
+
+  if (!empty($element['#card_data'])) {
+    $variables['card_data'] = $element['#card_data'];
+    // element_id links the visually-hidden radio input to our custom label.
+    $variables['element_id'] = $element['#id'] ?? NULL;
+  }
+  elseif (!empty($element['#is_new_card_option'])) {
+    $variables['is_new_card'] = TRUE;
+    $variables['element_id'] = $element['#id'] ?? NULL;
+  }
+}
