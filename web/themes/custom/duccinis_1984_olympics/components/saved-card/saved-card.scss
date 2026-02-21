@@ -1,0 +1,166 @@
+// Component-local tokens (from the 1984 Olympics design system).
+// Kept here so the SDC CSS bundle doesn't drag in Bootstrap's :root block
+// or the Google Fonts @import that lives in _variables.scss.
+$olympics-blue: #0077C0;
+$olympics-magenta: #D62976;
+$olympics-white: #FFFFFF;
+$font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
+
+// ============================================
+// Saved Card Component
+// Checkout payment method display — 1984 Olympics theme.
+//
+// HTML structure (from form-element--radio.html.twig):
+//
+//   .saved-card-item
+//     input.saved-card__radio.visually-hidden   ← the real <input>
+//     label.saved-card                          ← the click/display target
+//       .saved-card__brand
+//       .saved-card__details
+//         .saved-card__number
+//         .saved-card__expiry
+//       .saved-card__check
+//
+//   .saved-card-item--new
+//     input.saved-card__radio.visually-hidden
+//     label.saved-card__new-link
+//
+// Selection state is driven entirely by CSS :checked on the hidden input.
+// No JavaScript required for display logic.
+// ============================================
+
+// ── Wrapper ──
+
+.saved-card-item {
+  margin-bottom: 0.5rem;
+}
+
+// ── Card row label ──
+
+.saved-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background: $olympics-white;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 0;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba($olympics-blue, 0.15);
+  }
+}
+
+// ── CSS :checked-driven selected state ──
+// Works because the visually-hidden radio sits immediately before the label
+// in the DOM (.saved-card-item structure).
+
+.saved-card__radio:checked + .saved-card {
+  border-color: $olympics-blue;
+  background: lighten($olympics-blue, 48%);
+
+  .saved-card__check {
+    opacity: 1;
+  }
+}
+
+.saved-card__radio:not(:checked) + .saved-card {
+  .saved-card__check {
+    opacity: 0;
+  }
+}
+
+// ── Brand badge ──
+
+.saved-card__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: $olympics-white;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  font-family: $font-bebas;
+
+  &--visa       { background: linear-gradient(135deg, #1a1f71, #2a6cca); }
+  &--mastercard { background: linear-gradient(135deg, #eb001b, #f79e1b); }
+  &--amex       { background: linear-gradient(135deg, #006fcf, #00a4e4); }
+  &--discover   { background: linear-gradient(135deg, #ff6000, #ffb300); color: #1a1a1a; }
+  &--dinersclub { background: linear-gradient(135deg, #0079be, #00a2e8); }
+  &--jcb        { background: linear-gradient(135deg, #0e4c96, #e20138); }
+  &--unionpay   { background: linear-gradient(135deg, #002e6e, #e21836); }
+  &--unknown,
+  &:not([class*="--"]) { background: #6b7280; }
+}
+
+// ── Card details ──
+
+.saved-card__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.saved-card__number {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.saved-card__expiry {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+// ── Checkmark ──
+
+.saved-card__check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $olympics-blue;
+  color: $olympics-white;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease;
+}
+
+// ── "Use a different card" link ──
+
+.saved-card-item--new {
+  margin-top: 0.25rem;
+}
+
+.saved-card__new-link {
+  display: block;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: $olympics-blue;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    text-decoration: underline;
+    color: darken($olympics-blue, 10%);
+  }
+}
+
+// CSS :checked drives the active style for the new-card option too.
+.saved-card__radio:checked + .saved-card__new-link {
+  color: $olympics-magenta;
+  font-weight: 600;
+}
