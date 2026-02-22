@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Saved Card SDC component.
+ *
+ * This component is rendered by JavaScript (Drupal behavior) that reads
+ * drupalSettings.savedCards and builds the card UI dynamically.
+ * The Twig template provides a minimal wrapper that JS populates.
+ *
+ * Available variables:
+ * - cards: Array of saved card data.
+ * - selected_id: Currently selected card ID.
+ */
+#}
+{# The JS behavior handles rendering; this template is the SDC scaffold. #}
+<div class="saved-card-wrapper" data-saved-card-component>
+  {% if cards is defined and cards is iterable %}
+    {% for card in cards %}
+      <div class="saved-card{% if card.id == selected_id %} saved-card--selected{% endif %}"
+           data-card-id="{{ card.id }}">
+        <span class="saved-card__brand saved-card__brand--{{ card.brand|lower }}">
+          {{ card.brand|upper }}
+        </span>
+        <span class="saved-card__details">
+          <span class="saved-card__number">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; {{ card.last4 }}</span>
+          <span class="saved-card__expiry">{{ 'Expires'|t }} {{ card.expMonth }}/{{ card.expYear }}</span>
+        </span>
+        <span class="saved-card__check">&#10003;</span>
+      </div>
+    {% endfor %}
+    <a href="#" class="saved-card__new-link">+ {{ 'Use a different card'|t }}</a>
+  {% endif %}
+</div>

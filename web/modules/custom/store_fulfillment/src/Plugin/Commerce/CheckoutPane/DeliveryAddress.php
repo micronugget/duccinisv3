@@ -90,6 +90,16 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
       if ($method) {
         return $method === 'delivery';
       }
+      // When a button has #limit_validation_errors (e.g. the CustomerProfile
+      // inline form's Edit button), getValue() only returns values for the
+      // validated sub-tree.  Check the raw POST input as a fallback so the
+      // pane still builds the full address form and the AJAX callback is
+      // discoverable.
+      $user_input = $form_state->getUserInput();
+      $method = $user_input['fulfillment_time']['fulfillment_method'] ?? NULL;
+      if ($method) {
+        return $method === 'delivery';
+      }
     }
     // Fall back to persisted order data.
     return $this->order->getData('fulfillment_method') === 'delivery';
