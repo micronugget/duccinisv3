@@ -1,0 +1,15 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Saved Card
+status: experimental
+description: Saved payment method card display with brand badge, masked number, expiry, and toggle to use a different card.
+props:
+  type: object
+  properties:
+    cards:
+      type: array
+      title: Saved Cards
+      description: Array of saved card objects with brand, last4, expMonth, expYear.
+    selected_id:
+      type: string
+      title: Selected Card ID
+      description: The ID of the currently selected payment method.
