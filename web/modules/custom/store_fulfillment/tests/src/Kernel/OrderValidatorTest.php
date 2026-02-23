@@ -6,7 +6,7 @@ namespace Drupal\Tests\store_fulfillment\Kernel;
 
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_store\Entity\Store;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 
 /**
  * Tests the OrderValidator service.
@@ -14,7 +14,7 @@ use Drupal\KernelTests\KernelTestBase;
  * @coversDefaultClass \Drupal\store_fulfillment\OrderValidator
  * @group store_fulfillment
  */
-class OrderValidatorTest extends KernelTestBase {
+class OrderValidatorTest extends CommerceKernelTestBase {
 
   /**
    * The order validator service ID.
@@ -25,17 +25,13 @@ class OrderValidatorTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'system',
-    'user',
-    'field',
-    'options',
-    'text',
-    'datetime',
-    'commerce',
-    'commerce_price',
-    'commerce_store',
+    'profile',
+    'state_machine',
+    'entity_reference_revisions',
+    'commerce_number_pattern',
     'commerce_order',
     'store_resolver',
+    'geocoder',
     'store_fulfillment',
   ];
 
@@ -59,10 +55,26 @@ class OrderValidatorTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    $this->installEntitySchema('user');
-    $this->installEntitySchema('commerce_store');
     $this->installEntitySchema('commerce_order');
-    $this->installConfig(['commerce_store', 'commerce_order', 'store_fulfillment']);
+    $this->installConfig(['commerce_order', 'store_fulfillment']);
+
+    // Create the store_hours field (normally created by store_resolver_install();
+    // we create only this field to avoid pulling in commerce_product dependency).
+    $field_storage = \Drupal\field\Entity\FieldStorageConfig::loadByName('commerce_store', 'store_hours');
+    if (!$field_storage) {
+      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+        'field_name' => 'store_hours',
+        'entity_type' => 'commerce_store',
+        'type' => 'string_long',
+        'cardinality' => -1,
+      ]);
+      $field_storage->save();
+      \Drupal\field\Entity\FieldConfig::create([
+        'field_storage' => $field_storage,
+        'bundle' => 'online',
+        'label' => 'Store Hours',
+      ])->save();
+    }
 
     $this->orderValidator = $this->container->get(self::ORDER_VALIDATOR_SERVICE);
 
