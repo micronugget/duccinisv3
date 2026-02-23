@@ -6,15 +6,17 @@ namespace Drupal\Tests\store_fulfillment\Kernel;
 
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderInterface;
+use Drupal\commerce_order\Entity\OrderType;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_shipping\Entity\Shipment;
 use Drupal\commerce_store\Entity\Store;
 use Drupal\commerce_store\Entity\StoreInterface;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\profile\Entity\Profile;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
 use Drupal\store_fulfillment\EventSubscriber\OrderPlacementDeliveryRadiusValidator;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,39 +25,46 @@ use Psr\Log\LoggerInterface;
  * @group store_fulfillment
  * @coversDefaultClass \Drupal\store_fulfillment\EventSubscriber\OrderPlacementDeliveryRadiusValidator
  */
-class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
+class OrderPlacementDeliveryRadiusValidatorTest extends CommerceKernelTestBase {
 
   /**
    * {@inheritdoc}
    */
   protected static $modules = [
-    'system',
-    'user',
-    'address',
     'profile',
     'state_machine',
-    'commerce',
-    'commerce_price',
-    'commerce_store',
+    'entity_reference_revisions',
+    'physical',
+    'commerce_number_pattern',
     'commerce_order',
     'commerce_product',
     'commerce_shipping',
+    'geofield',
+    'geocoder',
+    'store_resolver',
     'store_fulfillment',
   ];
 
   /**
-   * Test store entity.
+   * Test store entity (overrides parent's untyped $store).
    *
    * @var \Drupal\commerce_store\Entity\StoreInterface
    */
-  protected StoreInterface $store;
+  protected $store;
 
   /**
-   * Test logger.
+   * Test logger channel (LoggerInterface mock).
    *
    * @var \Psr\Log\LoggerInterface
    */
   protected $logger;
+
+  /**
+   * Logger factory mock wrapping $logger.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerFactory;
 
   /**
    * {@inheritdoc}
@@ -63,13 +72,40 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    $this->installEntitySchema('user');
-    $this->installEntitySchema('commerce_store');
     $this->installEntitySchema('commerce_order');
     $this->installEntitySchema('commerce_order_item');
+    $this->installEntitySchema('commerce_product');
+    $this->installEntitySchema('commerce_product_variation');
+    $this->installEntitySchema('commerce_shipping_method');
     $this->installEntitySchema('commerce_shipment');
     $this->installEntitySchema('profile');
-    $this->installConfig(['commerce_order', 'commerce_store', 'commerce_shipping']);
+    $this->installConfig(['commerce_product', 'commerce_order', 'commerce_shipping']);
+
+    // Install store_fulfillment's delivery_radius field directly (skipping
+    // geofield store_location which is not needed for these tests).
+    if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('commerce_store', 'delivery_radius')) {
+      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+        'field_name' => 'delivery_radius',
+        'entity_type' => 'commerce_store',
+        'type' => 'decimal',
+        'settings' => ['precision' => 10, 'scale' => 2],
+      ]);
+      $field_storage->save();
+      \Drupal\field\Entity\FieldConfig::create([
+        'field_storage' => $field_storage,
+        'bundle' => 'online',
+        'label' => 'Delivery Radius',
+        'default_value' => [['value' => 10.00]],
+      ])->save();
+    }
+
+    // Configure the default order type to support shipments, then create the
+    // shipments field on the order entity (mirrors ShippingKernelTestBase).
+    $order_type = OrderType::load('default');
+    $order_type->setThirdPartySetting('commerce_shipping', 'shipment_type', 'default');
+    $order_type->save();
+    $field_definition = commerce_shipping_build_shipment_field_definition($order_type->id());
+    $this->container->get('commerce.configurable_field_manager')->createField($field_definition);
 
     // Create test store.
     $this->store = Store::create([
@@ -88,8 +124,10 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
     ]);
     $this->store->save();
 
-    // Create mock logger.
+    // Create mock logger channel and factory.
     $this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+    $this->loggerFactory = $this->getMockBuilder(LoggerChannelFactoryInterface::class)->getMock();
+    $this->loggerFactory->method('get')->willReturn($this->logger);
   }
 
   /**
@@ -102,7 +140,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
 
     // Create validator that returns valid result.
     $radius_validator = $this->createMockValidator(TRUE, 5.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     // Create mock event.
     $event = $this->createMockWorkflowEvent($order);
@@ -129,7 +167,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
 
     // Create validator that returns invalid result.
     $radius_validator = $this->createMockValidator(FALSE, 15.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     // Create mock event.
     $event = $this->createMockWorkflowEvent($order);
@@ -159,7 +197,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
 
     // Create validator that would fail validation.
     $radius_validator = $this->createMockValidator(FALSE, 15.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     // Create mock event.
     $event = $this->createMockWorkflowEvent($order);
@@ -184,7 +222,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
     $order->save();
 
     $radius_validator = $this->createMockValidator(TRUE, 5.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     $event = $this->createMockWorkflowEvent($order);
 
@@ -211,20 +249,20 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
     $order = $this->createTestOrder('delivery', FALSE);
 
     $radius_validator = $this->createMockValidator(TRUE, 5.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     $event = $this->createMockWorkflowEvent($order);
 
-    // Logger should log warning.
+    // Logger should log warning about no address resolved.
     $this->logger->expects($this->once())
       ->method('warning')
       ->with(
-        $this->stringContains('no shipping profile'),
+        $this->stringContains('no address could be resolved'),
         $this->anything()
       );
 
     $this->expectException(\InvalidArgumentException::class);
-    $this->expectExceptionMessage('No shipping information found');
+    $this->expectExceptionMessage('No delivery address provided');
 
     $event_subscriber->onOrderPlace($event);
   }
@@ -244,15 +282,15 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
     $shipping_profile->save();
 
     $radius_validator = $this->createMockValidator(TRUE, 5.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
 
     $event = $this->createMockWorkflowEvent($order);
 
-    // Logger should log warning.
+    // Logger should log warning about no address resolved.
     $this->logger->expects($this->once())
       ->method('warning')
       ->with(
-        $this->stringContains('has no address'),
+        $this->stringContains('no address could be resolved'),
         $this->anything()
       );
 
@@ -270,7 +308,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
   public function testProperLoggingOccurs(): void {
     $order = $this->createTestOrder('delivery', TRUE);
     $radius_validator = $this->createMockValidator(TRUE, 5.0);
-    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+    $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
     $event = $this->createMockWorkflowEvent($order);
 
     // Verify info log includes order ID and distance.
@@ -318,7 +356,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
         ->getMock();
       $radius_validator->expects($this->never())->method('validateDeliveryAddress');
 
-      $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->logger);
+      $event_subscriber = new OrderPlacementDeliveryRadiusValidator($radius_validator, $this->loggerFactory);
       $event = $this->createMockWorkflowEvent($order);
 
       // Should not throw exception.
@@ -384,7 +422,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends KernelTestBase {
     if ($add_shipment) {
       // Create shipping profile with address.
       $profile = Profile::create([
-        'type' => 'customer_shipping',
+        'type' => 'customer',
         'address' => [
           'country_code' => 'US',
           'administrative_area' => 'CA',
