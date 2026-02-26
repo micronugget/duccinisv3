@@ -16,9 +16,9 @@ configuration:
   collect_billing_information: true
   api_version: null
   authentication_method: stripe_connect
-  access_token: STRIPE_SECRET_KEY_REDACTED
-  stripe_user_id: STRIPE_ACCOUNT_ID_REDACTED
-  publishable_key: STRIPE_PUBLISHABLE_KEY_REDACTED
+  access_token: ''
+  stripe_user_id: ''
+  publishable_key: ''
   secret_key: ''
   webhook_signing_secret: ''
   payment_method_usage: on_session
