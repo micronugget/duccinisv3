@@ -81,5 +81,6 @@ saved-card-fix:
     src/js/saved-card-fix.js: {}
   dependencies:
     - core/drupal
+    - core/drupalSettings
     - core/jquery
     - core/once
