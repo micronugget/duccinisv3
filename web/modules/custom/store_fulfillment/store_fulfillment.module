@@ -36,10 +36,21 @@ function store_fulfillment_form_alter(array &$form, FormStateInterface $form_sta
     }
   }
 
-  // ── Saved-card UI metadata ──
+  // ── Remove redundant payment section headings (issue #25) ──
+  // The outer "Payment information" pane legend is already visually-hidden via
+  // CSS (.checkout-pane > legend). Remove the "Payment method" sub-label and
+  // add the .checkout-section card class to match other checkout panes.
+  if (isset($form['payment_information'])) {
+    $form['payment_information']['#attributes']['class'][] = 'checkout-section';
+  }
+
   if (!isset($form['payment_information']['payment_method'])) {
     return;
   }
+
+  // Hide the "Payment method" fieldset legend / label — the card UI is
+  // self-explanatory per the mockup design brief.
+  $form['payment_information']['payment_method']['#title_display'] = 'invisible';
 
   $radios = &$form['payment_information']['payment_method'];
   $payment_method_storage = \Drupal::entityTypeManager()->getStorage('commerce_payment_method');
@@ -99,8 +110,7 @@ function store_fulfillment_form_alter(array &$form, FormStateInterface $form_sta
     $radios['#saved_card_data'] = $cards;
     $radios['#after_build'][] = 'store_fulfillment_payment_radios_after_build';
     $form['payment_information']['#attached']['library'][] = 'core/components.duccinis_1984_olympics--saved-card';
-    // Temporary diagnostic library — remove after debugging.
-    $form['payment_information']['#attached']['library'][] = 'duccinis_1984_olympics/payment-ajax-diagnostic';
+    $form['payment_information']['#attached']['library'][] = 'duccinis_1984_olympics/saved-card-fix';
   }
 }
 
