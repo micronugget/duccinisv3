@@ -1,0 +1,85 @@
+{#
+/**
+ * @file
+ * Duccini's 1984 Olympics — Checkout order summary (sticky sidebar card).
+ *
+ * Issue #27: Sticky order summary sidebar card.
+ *
+ * Available variables:
+ * - order_entity: The order entity.
+ * - checkout_step: The current checkout step.
+ * - totals: An array of order total values:
+ *   - subtotal: The order subtotal price.
+ *   - adjustments: An array of adjustment totals (type, label, total, weight).
+ *   - total: The order total price.
+ * - rendered_totals: The rendered order totals.
+ *
+ * @see commerce-checkout-order-summary.html.twig
+ */
+#}
+
+{% set items = order_entity.getItems %}
+{% set item_count = items|length %}
+
+<div{{ attributes.addClass('checkout-order-summary') }}>
+  <div class="order-summary-card">
+
+    {# ── Header: "Your Order" + item count badge ── #}
+    <div class="order-summary-header">
+      <h3 class="order-summary-title">{{ 'Your Order'|t }}</h3>
+      <span class="order-summary-count">
+        {%- if item_count == 1 -%}
+          {{ '1 item'|t }}
+        {%- else -%}
+          {{ '@count items'|t({'@count': item_count}) }}
+        {%- endif -%}
+      </span>
+    </div>
+
+    {# ── Line items: qty badge · name · price ── #}
+    <div class="order-summary-items">
+      {% for order_item in items %}
+        <div class="order-summary-item">
+          <span class="order-summary-item__qty" aria-label="{{ 'Quantity'|t }}">
+            {{- order_item.getQuantity|number_format(0) -}}
+          </span>
+          <span class="order-summary-item__name">
+            {%- if order_item.hasPurchasedEntity -%}
+              {{- order_item.getPurchasedEntity.label -}}
+            {%- else -%}
+              {{- order_item.label -}}
+            {%- endif -%}
+          </span>
+          <span class="order-summary-item__price">
+            {{- order_item.getTotalPrice|commerce_price_format -}}
+          </span>
+        </div>
+      {% endfor %}
+    </div>
+
+    {# ── Totals: subtotal · adjustments · grand total ── #}
+    <div class="order-summary-totals">
+      {% if totals.subtotal %}
+        <div class="order-summary-total-row">
+          <span>{{ 'Subtotal'|t }}</span>
+          <span>{{ totals.subtotal|commerce_price_format }}</span>
+        </div>
+      {% endif %}
+
+      {% for adjustment in totals.adjustments %}
+        <div class="order-summary-total-row">
+          <span>{{ adjustment.label }}</span>
+          <span>{{ adjustment.total|commerce_price_format }}</span>
+        </div>
+      {% endfor %}
+
+      {% if totals.total %}
+        <div class="order-summary-total-row order-summary-total-row--grand">
+          <span>{{ 'Total'|t }}</span>
+          <span>{{ totals.total|commerce_price_format }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
