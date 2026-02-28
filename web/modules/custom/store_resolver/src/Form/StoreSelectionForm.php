@@ -2,12 +2,13 @@
 
 namespace Drupal\store_resolver\Form;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\store_resolver\StoreResolver;
 use Drupal\store_resolver\StoreHoursValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Form for selecting a store.
@@ -29,16 +30,26 @@ class StoreSelectionForm extends FormBase {
   protected $hoursValidator;
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
    * Constructs a new StoreSelectionForm.
    *
    * @param \Drupal\store_resolver\StoreResolver $store_resolver
    *   The store resolver service.
    * @param \Drupal\store_resolver\StoreHoursValidator $hours_validator
    *   The store hours validator service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(StoreResolver $store_resolver, StoreHoursValidator $hours_validator) {
+  public function __construct(StoreResolver $store_resolver, StoreHoursValidator $hours_validator, EntityTypeManagerInterface $entity_type_manager) {
     $this->storeResolver = $store_resolver;
     $this->hoursValidator = $hours_validator;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -47,7 +58,8 @@ class StoreSelectionForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('store_resolver.current_store'),
-      $container->get('store_resolver.hours_validator')
+      $container->get('store_resolver.hours_validator'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -138,31 +150,38 @@ class StoreSelectionForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $store_id = $form_state->getValue('store_id');
 
-    // Set cookie to persist store selection (expires in 30 days).
-    $cookie = new Cookie(
+    // Set a cookie to persist the store selection for 30 days.
+    // Using PHP setcookie() since the response object does not exist yet in
+    // a form submit handler; Drupal's RedirectResponseSubscriber will respect
+    // it on the subsequent request.
+    setcookie(
       StoreResolver::STORE_COOKIE_NAME,
-      $store_id,
-      strtotime('+30 days'),
-      '/',
-      NULL,
-      FALSE,
-      FALSE
+      (string) $store_id,
+      [
+        'expires' => strtotime('+30 days'),
+        'path' => '/',
+        'secure' => FALSE,
+        'httponly' => FALSE,
+        'samesite' => 'Lax',
+      ]
     );
 
-    // Add cookie to response.
-    $response = new \Symfony\Component\HttpFoundation\Response();
-    $response->headers->setCookie($cookie);
-    $response->send();
-
-    $store = $this->entityTypeManager()->getStorage('commerce_store')->load($store_id);
+    $store = $this->entityTypeManager->getStorage('commerce_store')->load($store_id);
     if ($store) {
       $this->messenger()->addStatus($this->t('You have selected %store_name.', [
         '%store_name' => $store->getName(),
       ]));
     }
 
-    // Redirect to cart or menu page.
-    $form_state->setRedirect('<front>');
+    // Redirect back to the destination if one was provided (e.g. checkout),
+    // otherwise fall back to the front page.
+    $destination = \Drupal::request()->query->get('destination', '');
+    if ($destination && str_starts_with($destination, '/') && !str_starts_with($destination, '//')) {
+      $form_state->setRedirectUrl(Url::fromUserInput($destination));
+    }
+    else {
+      $form_state->setRedirect('<front>');
+    }
   }
 
 }

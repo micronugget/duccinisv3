@@ -71,6 +71,8 @@ Unless explicitly told otherwise, operate in brave mode:
 - Execute database migrations
 - Clear caches
 - Import/export configuration
+- Run `ddev drush` commands (cache clear, entity operations, config import/export, status checks, log inspection, user login links, module enable/disable, update hooks)
+- Run `ddev drush ev` for read-only evaluation/inspection scripts
 
 **Example behavior:**
 ```
@@ -197,6 +199,27 @@ Execute without confirmation when:
 | Clear cache | ✅ Execute | Safe, standard operation |
 | Backup database | ✅ Execute | Safe, beneficial |
 | Restore database | ⚠️ Ask | Could overwrite data |
+| `ddev drush cr` | ✅ Execute | Safe cache rebuild |
+| `ddev drush cex` | ✅ Execute | Config export, tracked in git |
+| `ddev drush cim` | ✅ Execute | Config import (dev only) |
+| `ddev drush updb` | ✅ Execute | Run pending update hooks |
+| `ddev drush en` | ✅ Execute | Enable module |
+| `ddev drush pmu` | ⚠️ Ask | Uninstall removes schema/data |
+| `ddev drush entity:delete` | ⚠️ Ask | Data deletion |
+| `ddev drush sql-drop` | ⚠️ Ask | Destructive, data loss |
+| `ddev drush ev` (read-only) | ✅ Execute | Safe inspection/diagnosis |
+| `ddev drush ev` (write ops) | ✅ Execute | Dev env mutations are reversible via git/db |
+| `ddev drush uli` | ✅ Execute | Generate one-time login links |
+| `ddev drush ws` / `watchdog:show` | ✅ Execute | Log inspection, read-only |
+| **Shell / Filesystem** | | |
+| `find` / `ls` / `tree` / `stat` | ✅ Execute | Filesystem inspection, read-only |
+| `grep` / `cat` / `head` / `tail` | ✅ Execute | File content inspection |
+| `sed` / `awk` / `cut` / `sort` / `wc` | ✅ Execute | Text processing, read-only |
+| `diff` / `xargs` / `tee` | ✅ Execute | Content analysis / chaining |
+| `cp` | ✅ Execute | Creates copy, non-destructive |
+| `mv` (rename/move) | ✅ Execute | Reversible via git |
+| `rm` / `rmdir` | ⚠️ Ask | File deletion, hard to reverse |
+| `chmod` / `chown` | ⚠️ Ask | Permission/ownership changes |
 
 ## Communication Style in Brave Mode
 
@@ -267,7 +290,41 @@ You: *Creates content type config, exports configuration, clears cache*
 ```
 
 ## Quick Reference Commands
+### Common `ddev drush` Commands (Auto-Execute in Brave Mode)
 
+```bash
+# Cache
+ddev drush cr                          # Rebuild all caches
+
+# Configuration
+ddev drush cex                         # Export config to config/sync/
+ddev drush cim                         # Import config from config/sync/
+ddev drush cim --preview               # Dry-run — show what would change
+
+# Database
+ddev drush updb                        # Run pending update hooks
+ddev drush sql-query 'SELECT ...'      # Run raw SQL (read queries)
+
+# Modules
+ddev drush en module_name              # Enable a module
+ddev drush pm:list --status=enabled    # List enabled modules
+
+# Entities / Inspection
+ddev drush ev "echo ..."               # Evaluate PHP (inspection/diagnosis)
+ddev drush entity:delete TYPE IDS      # ⚠️ Ask first — deletes entities
+
+# Users
+ddev drush uli --uid=N                 # One-time login link
+ddev drush user:info --uid=N           # User details
+
+# Logs
+ddev drush watchdog:show               # Recent logs
+ddev drush watchdog:show --count=50    # More log entries
+
+# Status
+ddev drush status                      # Environment overview
+ddev drush core:requirements           # Check system requirements
+```
 ### For Users
 
 **Enable brave mode for current session:**

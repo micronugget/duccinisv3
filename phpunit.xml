@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="web/core/tests/bootstrap.php"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         failOnWarning="true"
+         cacheDirectory=".phpunit.cache"
+>
+  <php>
+    <ini name="error_reporting" value="32767"/>
+    <ini name="memory_limit" value="512M"/>
+    <env name="SIMPLETEST_BASE_URL" value="https://duccinisv3.ddev.site"/>
+    <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp/browser_output"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+  </php>
+  <testsuites>
+    <testsuite name="store_fulfillment">
+      <directory>web/modules/custom/store_fulfillment/tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

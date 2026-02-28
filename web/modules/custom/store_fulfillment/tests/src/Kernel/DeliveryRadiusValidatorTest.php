@@ -7,7 +7,7 @@ namespace Drupal\Tests\store_fulfillment\Kernel;
 use Drupal\address\AddressInterface;
 use Drupal\commerce_store\Entity\Store;
 use Drupal\commerce_store\Entity\StoreInterface;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\store_fulfillment\DeliveryRadiusCalculator;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
 
@@ -17,19 +17,18 @@ use Drupal\store_fulfillment\DeliveryRadiusValidator;
  * @group store_fulfillment
  * @coversDefaultClass \Drupal\store_fulfillment\DeliveryRadiusValidator
  */
-class DeliveryRadiusValidatorTest extends KernelTestBase {
+class DeliveryRadiusValidatorTest extends CommerceKernelTestBase {
 
   /**
    * {@inheritdoc}
    */
   protected static $modules = [
-    'system',
-    'address',
     'profile',
     'state_machine',
-    'commerce',
-    'commerce_price',
-    'commerce_store',
+    'entity_reference_revisions',
+    'geofield',
+    'geocoder',
+    'store_resolver',
     'store_fulfillment',
   ];
 
@@ -41,11 +40,11 @@ class DeliveryRadiusValidatorTest extends KernelTestBase {
   protected DeliveryRadiusValidator $validator;
 
   /**
-   * Test store entity.
+   * Test store entity (overrides parent's untyped $store).
    *
    * @var \Drupal\commerce_store\Entity\StoreInterface
    */
-  protected StoreInterface $store;
+  protected $store;
 
   /**
    * {@inheritdoc}
@@ -53,8 +52,13 @@ class DeliveryRadiusValidatorTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
 
-    $this->installEntitySchema('commerce_store');
-    $this->installConfig(['commerce_store']);
+    // Install store_fulfillment config.
+    $this->installConfig(['store_fulfillment']);
+    // Run the install hook to create delivery_radius and store_location fields on
+    // the commerce_store entity. The fields are created programmatically in
+    // hook_install, so we must call it explicitly in kernel tests.
+    \Drupal::moduleHandler()->loadInclude('store_fulfillment', 'install');
+    store_fulfillment_install();
 
     // Create test store with coordinates.
     $this->store = Store::create([
@@ -76,7 +80,10 @@ class DeliveryRadiusValidatorTest extends KernelTestBase {
     $calculator = $this->createMockCalculator();
     $this->validator = new DeliveryRadiusValidator(
       $calculator,
-      $this->container->get('string_translation')
+      $this->container->get('string_translation'),
+      $this->container->get('geocoder'),
+      $this->container->get('logger.factory'),
+      $this->container->get('entity_type.manager')
     );
   }
 
@@ -151,6 +158,9 @@ class DeliveryRadiusValidatorTest extends KernelTestBase {
       ->setConstructorArgs([
         $calculator,
         $this->container->get('string_translation'),
+        $this->container->get('geocoder'),
+        $this->container->get('logger.factory'),
+        $this->container->get('entity_type.manager'),
       ])
       ->onlyMethods(['getStoreCoordinates', 'getAddressCoordinates'])
       ->getMock();
@@ -217,7 +227,10 @@ class DeliveryRadiusValidatorTest extends KernelTestBase {
    * @covers ::validateDeliveryAddress
    */
   public function testNoRadiusConfigured(): void {
-    // Don't set delivery_radius field (or set it to empty).
+    // Explicitly clear the delivery_radius field (the install hook sets 10.00
+    // as a default, so we must remove it for this test).
+    $this->store->set('delivery_radius', NULL);
+    $this->store->save();
     $address = $this->createMockAddress();
 
     $result = $this->validator->validateDeliveryAddress($this->store, $address);

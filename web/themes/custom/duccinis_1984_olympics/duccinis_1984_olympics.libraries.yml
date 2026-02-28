@@ -75,3 +75,12 @@ payment-ajax-diagnostic:
     - core/drupal
     - core/drupalSettings
     - core/once
+
+saved-card-fix:
+  js:
+    src/js/saved-card-fix.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
+    - core/once

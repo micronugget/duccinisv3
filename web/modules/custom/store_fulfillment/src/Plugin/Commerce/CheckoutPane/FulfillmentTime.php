@@ -858,8 +858,13 @@ class FulfillmentTime extends CheckoutPaneBase {
 
     $html .= '</div>';
 
-    // "Change" link to store selection.
-    $change_url = Url::fromRoute('store_resolver.select_store')->toString();
+    // "Change" link to store selection. Pass a destination so Drupal's
+    // RedirectResponseSubscriber returns the user to checkout after selection.
+    $change_url = Url::fromRoute('store_resolver.select_store', [], [
+      'query' => [
+        'destination' => '/checkout/' . $this->order->id() . '/order_information',
+      ],
+    ])->toString();
     $html .= '<a href="' . htmlspecialchars($change_url, ENT_QUOTES, 'UTF-8') . '" class="fulfillment-address__change">' . $this->t('Change') . '</a>';
 
     $html .= '</div>';
