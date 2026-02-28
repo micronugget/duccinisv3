@@ -62,7 +62,7 @@ class StoreResolver {
     EntityTypeManagerInterface $entity_type_manager,
     RequestStack $request_stack,
     AccountInterface $current_user,
-    EntityRepositoryInterface $entity_repository
+    EntityRepositoryInterface $entity_repository,
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $request_stack;

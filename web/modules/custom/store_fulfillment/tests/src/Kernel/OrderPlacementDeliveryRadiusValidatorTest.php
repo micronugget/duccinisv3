@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\store_fulfillment\Kernel;
 
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_order\Entity\OrderType;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_shipping\Entity\Shipment;
 use Drupal\commerce_store\Entity\Store;
-use Drupal\commerce_store\Entity\StoreInterface;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\profile\Entity\Profile;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
@@ -83,15 +84,15 @@ class OrderPlacementDeliveryRadiusValidatorTest extends CommerceKernelTestBase {
 
     // Install store_fulfillment's delivery_radius field directly (skipping
     // geofield store_location which is not needed for these tests).
-    if (!\Drupal\field\Entity\FieldStorageConfig::loadByName('commerce_store', 'delivery_radius')) {
-      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+    if (!FieldStorageConfig::loadByName('commerce_store', 'delivery_radius')) {
+      $field_storage = FieldStorageConfig::create([
         'field_name' => 'delivery_radius',
         'entity_type' => 'commerce_store',
         'type' => 'decimal',
         'settings' => ['precision' => 10, 'scale' => 2],
       ]);
       $field_storage->save();
-      \Drupal\field\Entity\FieldConfig::create([
+      FieldConfig::create([
         'field_storage' => $field_storage,
         'bundle' => 'online',
         'label' => 'Delivery Radius',

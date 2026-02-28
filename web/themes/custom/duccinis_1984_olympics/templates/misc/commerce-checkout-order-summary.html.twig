@@ -57,29 +57,5 @@
       {% endfor %}
     </div>
 
-    {# ── Totals: subtotal · adjustments · grand total ── #}
-    <div class="order-summary-totals">
-      {% if totals.subtotal %}
-        <div class="order-summary-total-row">
-          <span>{{ 'Subtotal'|t }}</span>
-          <span>{{ totals.subtotal|commerce_price_format }}</span>
-        </div>
-      {% endif %}
-
-      {% for adjustment in totals.adjustments %}
-        <div class="order-summary-total-row">
-          <span>{{ adjustment.label }}</span>
-          <span>{{ adjustment.total|commerce_price_format }}</span>
-        </div>
-      {% endfor %}
-
-      {% if totals.total %}
-        <div class="order-summary-total-row order-summary-total-row--grand">
-          <span>{{ 'Total'|t }}</span>
-          <span>{{ totals.total|commerce_price_format }}</span>
-        </div>
-      {% endif %}
-    </div>
-
   </div>
 </div>

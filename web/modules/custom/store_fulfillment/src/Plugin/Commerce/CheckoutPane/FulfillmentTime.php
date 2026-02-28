@@ -8,16 +8,11 @@ use Drupal\commerce_checkout\Plugin\Commerce\CheckoutPane\CheckoutPaneBase;
 use Drupal\commerce_checkout\Plugin\Commerce\CheckoutFlow\CheckoutFlowInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Element\Radios;
 use Drupal\Core\Url;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\store_fulfillment\OrderValidator;
-use Drupal\store_resolver\StoreResolver;
-use Drupal\store_resolver\StoreHoursValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -77,7 +72,7 @@ class FulfillmentTime extends CheckoutPaneBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, CheckoutFlowInterface $checkout_flow = NULL) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?CheckoutFlowInterface $checkout_flow = NULL) {
     $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition, $checkout_flow);
     $instance->storeResolver = $container->get('store_resolver.current_store');
     $instance->hoursValidator = $container->get('store_resolver.hours_validator');
@@ -336,7 +331,7 @@ class FulfillmentTime extends CheckoutPaneBase {
   }
 
   /**
-   * #process callback: Groups radio options into day-labeled chip grids.
+   * Process callback: Groups radio options into day-labeled chip grids.
    *
    * Runs after Radios::processRadios() to restructure the flat radio list
    * into day-grouped containers with chip styling for each slot.
@@ -586,7 +581,7 @@ class FulfillmentTime extends CheckoutPaneBase {
     $max_scheduling_window = $config->get('maximum_scheduling_window') ?? 14;
     $time_slot_interval = $config->get('time_slot_interval') ?? 15;
 
-    // DEBUG: Log configuration
+    // DEBUG: Log configuration.
     \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Config: min_advance=@min, max_window=@max, interval=@int, is_open=@open', [
       '@min' => $min_advance_notice,
       '@max' => $max_scheduling_window,
@@ -609,7 +604,7 @@ class FulfillmentTime extends CheckoutPaneBase {
       }
     }
 
-    // DEBUG: Log start time
+    // DEBUG: Log start time.
     \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Start time: @time', [
       '@time' => $start_time->format('Y-m-d H:i:s'),
     ]);
@@ -646,14 +641,14 @@ class FulfillmentTime extends CheckoutPaneBase {
       // Increment by configured interval.
       $current->modify("+{$time_slot_interval} minutes");
 
-      // Safety: prevent infinite loop
+      // Safety: prevent infinite loop.
       if ($checked_count > 10000) {
         \Drupal::logger('store_fulfillment')->error('generateTimeSlots - Too many iterations, breaking loop');
         break;
       }
     }
 
-    // DEBUG: Log results
+    // DEBUG: Log results.
     \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Generated @count slots from @checked checks', [
       '@count' => $slot_count,
       '@checked' => $checked_count,
@@ -685,7 +680,7 @@ class FulfillmentTime extends CheckoutPaneBase {
     }
 
     $hours_field = $store->get('store_hours');
-    // If store hours field exists but is empty, assume always open (9 AM - 9 PM).
+    // If store hours field exists but is empty, assume always open (9-21).
     if ($hours_field->isEmpty()) {
       $time = $datetime->format('H:i');
       return $time >= '09:00' && $time < '21:00';
@@ -711,13 +706,13 @@ class FulfillmentTime extends CheckoutPaneBase {
             if (strtolower($hour_day) === $day) {
               // Check if time is within business hours.
               if ($close_time < $open_time) {
-                // Overnight hours. For overnight, opening is >= and closing is <.
+                // Overnight hours: opening is >= and closing is <.
                 if ($time >= $open_time || $time < $close_time) {
                   return TRUE;
                 }
               }
               else {
-                // Normal hours. Use < for close time since store hours mean "open until".
+                // Normal hours: use < for close time ("open until" semantics).
                 if ($time >= $open_time && $time < $close_time) {
                   return TRUE;
                 }

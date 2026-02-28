@@ -58,7 +58,7 @@ class CurrentStoreBlock extends BlockBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition,
     StoreResolver $store_resolver,
-    StoreHoursValidator $hours_validator
+    StoreHoursValidator $hours_validator,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->storeResolver = $store_resolver;

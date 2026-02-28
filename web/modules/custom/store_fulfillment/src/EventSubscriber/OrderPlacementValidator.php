@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\store_fulfillment\EventSubscriber;
 
-use Drupal\commerce_order\Event\OrderEvent;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Drupal\store_fulfillment\OrderValidator;
@@ -39,7 +38,7 @@ class OrderPlacementValidator implements EventSubscriberInterface {
    */
   public function __construct(
     OrderValidator $order_validator,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
   ) {
     $this->orderValidator = $order_validator;
     $this->loggerFactory = $logger_factory;

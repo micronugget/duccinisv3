@@ -1,0 +1,203 @@
+// ============================================================
+// Coupon Row — Sidebar order summary inline coupon field
+// Issue #28: 4.2 Coupon code field in sidebar
+//
+// Renders between the order items list and the totals inside
+// the .order-summary-card.  The coupon_redemption pane (weight
+// 10) owns the totals section; the order_summary pane (weight
+// 5) owns the header + items only.
+// ============================================================
+
+// ── Input row: text field + Apply button ──────────────────
+
+.coupon-row {
+  display: flex;
+  align-items: flex-start; // align top so error messages don't shift button
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+
+  // The Drupal form-item wrapper around the text input.
+  .coupon-row__field {
+    flex: 1;
+    min-width: 0; // allow shrink
+
+    // Remove default Drupal form-item bottom margin inside the flex row.
+    .form-item {
+      margin-bottom: 0;
+    }
+
+    // The visually-hidden label still exists in the DOM for a11y — ensure it
+    // does not affect layout by confirming it's actually sr-only.
+    label.visually-hidden,
+    label.sr-only {
+      @include visually-hidden();
+    }
+
+    input[type="text"].coupon-code-input,
+    input[type="text"].form-text {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+      color: #1a1a1a;
+
+      // Reset Radix / Bootstrap theme overrides (border-width, radius, etc.)
+      border-width: 1px;
+      border-radius: 6px;
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+
+      &:focus {
+        border-color: $olympics-blue;
+        box-shadow: 0 0 0 2px rgba($olympics-blue, 0.12);
+      }
+
+      // Drupal error state — field gets .error class
+      &.error {
+        border-color: $olympics-vermillion;
+        box-shadow: 0 0 0 2px rgba($olympics-vermillion, 0.12);
+      }
+    }
+
+    // Inline validation error message
+    .form-item--error-message {
+      font-size: 0.75rem;
+      color: $olympics-vermillion;
+      margin-top: 0.25rem;
+    }
+  }
+
+  // Apply coupon submit button
+  .btn.btn-apply-coupon,
+  input[type="submit"].btn-apply-coupon {
+    // Override global .btn-primary with a subtle secondary style
+    padding: 0.5rem 0.875rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    // Cancel Bebas Neue / uppercase from global btn overrides
+    font-family: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+    border-width: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    // Align height with the input
+    line-height: 1.4;
+
+    &:hover,
+    &:focus-visible {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+      color: #1a1a1a;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $olympics-blue;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ── Applied coupon row ─────────────────────────────────────
+
+.coupon-applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f0fdf4; // light green tint
+
+  .coupon-applied__info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .coupon-applied__check {
+    color: #059669;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .coupon-applied__name {
+    font-weight: 600;
+    color: #059669;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .coupon-applied__code {
+    font-family: monospace;
+    font-size: 0.75rem;
+    background: #d1fae5;
+    padding: 0.1rem 0.375rem;
+    border-radius: 3px;
+    color: #065f46;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .coupon-applied__remove {
+    flex-shrink: 0;
+
+    // The remove button is a Drupal submit input rendered via input--submit.
+    // Override the primary btn styling to be a subtle link-style action.
+    .btn,
+    input[type="submit"] {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #6b7280;
+      text-decoration: underline;
+      cursor: pointer;
+      font-family: inherit;
+      text-transform: none;
+      letter-spacing: normal;
+      border-width: 0;
+      box-shadow: none;
+      border-radius: 0;
+
+      &:hover,
+      &:focus-visible {
+        color: $olympics-vermillion;
+        background: none;
+        box-shadow: none;
+        border-color: transparent;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// ── Totals (owned by the coupon pane after the coupon row) ─
+
+// The .order-summary-totals class is shared with _order-summary.scss rules,
+// but those are inside .order-summary-card context there. Here the totals
+// sit directly in the coupon pane container which is the next sibling of
+// .checkout-order-summary — they still need the same visual treatment.
+.commerce-checkout-pane-coupon-redemption {
+  .order-summary-totals {
+    border-top: 1px solid #e5e7eb;
+  }
+}

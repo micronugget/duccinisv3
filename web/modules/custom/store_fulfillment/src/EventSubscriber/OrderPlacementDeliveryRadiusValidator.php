@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\store_fulfillment\EventSubscriber;
 
-use Drupal\commerce_order\Event\OrderEvent;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\state_machine\Event\WorkflowTransitionEvent;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
@@ -122,7 +121,8 @@ class OrderPlacementDeliveryRadiusValidator implements EventSubscriberInterface 
    *   The resolved address, or NULL if none found.
    */
   protected function resolveDeliveryAddress($order) {
-    // 0. Try the dedicated delivery address profile (from DeliveryAddress pane).
+    // 0. Try the dedicated delivery address profile (from DeliveryAddress
+    // pane).
     $delivery_profile_id = $order->getData('delivery_address_profile');
     if ($delivery_profile_id) {
       $profile = \Drupal::entityTypeManager()->getStorage('profile')->load($delivery_profile_id);

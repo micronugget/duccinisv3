@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * Theme and preprocess functions for Commerce elements.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for commerce_coupon_redemption_form.
+ *
+ * Injects order totals so the coupon redemption template (weight 10 sidebar
+ * pane) can own the totals section that was removed from the order_summary
+ * template (weight 5 sidebar pane), achieving "coupon between items and
+ * totals" per the Issue #28 mockup.
+ *
+ * Also sets placeholder text and hides the visible label so the coupon input
+ * sits cleanly inside the inline .coupon-row flex layout.
+ */
+function duccinis_1984_olympics_preprocess_commerce_coupon_redemption_form(array &$variables): void {
+  // Cosmetic: hide visible label (screen-reader label stays via visually-hidden
+  // title_display), add placeholder, and add class for SCSS targeting.
+  if (isset($variables['form']['code'])) {
+    $variables['form']['code']['#title_display'] = 'invisible';
+    $variables['form']['code']['#attributes']['placeholder'] = t('Coupon code');
+    $variables['form']['code']['#attributes']['class'][] = 'coupon-code-input';
+  }
+  // Give the Apply button its own class so SCSS can de-emphasise it without
+  // touching the global .btn-primary used elsewhere.
+  if (isset($variables['form']['apply'])) {
+    $variables['form']['apply']['#attributes']['class'][] = 'btn-apply-coupon';
+  }
+
+  // Inject order totals.
+  $order_id = $variables['form']['#configuration']['order_id'] ?? NULL;
+  if (!$order_id) {
+    return;
+  }
+  /** @var \Drupal\commerce_order\Entity\OrderInterface|null $order */
+  $order = \Drupal::entityTypeManager()
+    ->getStorage('commerce_order')
+    ->load($order_id);
+  if (!$order) {
+    return;
+  }
+  /** @var \Drupal\commerce_order\OrderTotalSummaryInterface $total_summary */
+  $total_summary = \Drupal::service('commerce_order.order_total_summary');
+  $variables['totals'] = $total_summary->buildTotals($order);
+}

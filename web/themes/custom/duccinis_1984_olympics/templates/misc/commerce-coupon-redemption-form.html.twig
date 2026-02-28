@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Duccini's 1984 Olympics — Coupon redemption form.
+ *
+ * Issue #28: 4.2 Coupon code field in sidebar.
+ *
+ * Renders between order items and totals within the order summary card.
+ * Totals are injected via preprocess_commerce_coupon_redemption_form() so
+ * this pane (weight 10) can own the totals section that was removed from the
+ * order_summary pane template (weight 5).
+ *
+ * Available variables:
+ * - form: The inline form. Contains:
+ *   - form.code: The coupon code textfield (#access FALSE when max reached).
+ *   - form.apply: The "Apply coupon" submit button.
+ *   - form.coupons[]: Applied coupons — each with code, display_name,
+ *     remove_button.
+ * - totals: Injected by preprocess. Keys:
+ *   - subtotal: Price value object.
+ *   - adjustments[]: array of {type, label, amount, total, percentage}.
+ *   - total: Price value object.
+ */
+#}
+
+{# ── Applied coupons ───────────────────────────────────────────────────────── #}
+{% if form.coupons is iterable %}
+  {% for key, coupon in form.coupons|filter((v, k) => k|first != '#') %}
+    <div class="coupon-applied">
+      <span class="coupon-applied__info">
+        <span class="coupon-applied__check" aria-hidden="true">✓</span>
+        <span class="coupon-applied__name">{{ coupon.display_name }}</span>
+        <span class="coupon-applied__code">{{ coupon.code }}</span>
+      </span>
+      <span class="coupon-applied__remove">{{ coupon.remove_button }}</span>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{# ── Coupon input row ──────────────────────────────────────────────────────── #}
+{% if form.code['#access'] is not same as (false) %}
+  <div class="coupon-row">
+    <div class="coupon-row__field">
+      {{ form.code }}
+    </div>
+    {{ form.apply }}
+  </div>
+{% endif %}
+
+{# Hidden: render any remaining form internals (token, build_id, etc.) #}
+{{ form|without('coupons', 'code', 'apply') }}
+
+{# ── Totals ────────────────────────────────────────────────────────────────── #}
+{% if totals %}
+  <div class="order-summary-totals">
+    {% if totals.subtotal %}
+      <div class="order-summary-total-row">
+        <span>{{ 'Subtotal'|t }}</span>
+        <span>{{ totals.subtotal|commerce_price_format }}</span>
+      </div>
+    {% endif %}
+
+    {% for adjustment in totals.adjustments %}
+      <div class="order-summary-total-row">
+        <span>{{ adjustment.label }}</span>
+        <span>{{ adjustment.total|commerce_price_format }}</span>
+      </div>
+    {% endfor %}
+
+    {% if totals.total %}
+      <div class="order-summary-total-row order-summary-total-row--grand">
+        <span>{{ 'Total'|t }}</span>
+        <span>{{ totals.total|commerce_price_format }}</span>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

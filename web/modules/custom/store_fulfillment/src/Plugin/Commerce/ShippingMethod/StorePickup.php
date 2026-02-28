@@ -4,7 +4,6 @@ namespace Drupal\store_fulfillment\Plugin\Commerce\ShippingMethod;
 
 use Drupal\commerce_price\Price;
 use Drupal\commerce_shipping\Entity\ShipmentInterface;
-use Drupal\commerce_shipping\PackageTypeManagerInterface;
 use Drupal\commerce_shipping\Plugin\Commerce\ShippingMethod\ShippingMethodBase;
 use Drupal\Core\Form\FormStateInterface;
 

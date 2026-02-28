@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Theme override: Bootstrap 5 row/col grid for the Commerce checkout form.
+ *
+ * Replaces Commerce's custom CSS Grid with Bootstrap's responsive grid so
+ * gutters, padding, and breakpoints are handled natively — avoiding conflicts
+ * with Commerce's own commerce_checkout.form.css float/padding rules.
+ *
+ * Available variables:
+ * - form: The form.
+ */
+#}
+<div class="layout-checkout-form clearfix">
+  <div class="row gy-4 align-items-start">
+    <div class="col-12 col-lg-8 layout-region layout-region-checkout-main">
+      {{ form|without('sidebar', 'actions') }}
+    </div>
+    <div class="col-12 col-lg-4 layout-region layout-region-checkout-secondary">
+      {{ form.sidebar }}
+    </div>
+  </div>
+  <div class="layout-region layout-region-checkout-footer">
+    {{ form.actions }}
+  </div>
+</div>

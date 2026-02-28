@@ -93,7 +93,6 @@ class DeliveryRadiusCheckoutTest extends CommerceBrowserTestBase {
     // This test would require mocking the geocoding service to return
     // coordinates that are within the delivery radius.
     // For now, we'll test the form structure.
-
     $this->drupalGet('/checkout/' . $this->createTestOrder()->id());
 
     // Check that fulfillment method radio buttons exist.

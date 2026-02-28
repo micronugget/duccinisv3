@@ -82,7 +82,7 @@ class StoreAjaxController extends ControllerBase {
           );
         }
 
-        // Build the block content directly (matching CurrentStoreBlock::build()).
+        // Build the block content (matching CurrentStoreBlock::build()).
         $build = [
           '#theme' => 'store_resolver_current_store',
           '#store_name' => $store_name,

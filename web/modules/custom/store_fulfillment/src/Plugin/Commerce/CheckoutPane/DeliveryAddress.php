@@ -53,7 +53,7 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, CheckoutFlowInterface $checkout_flow = NULL) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, ?CheckoutFlowInterface $checkout_flow = NULL) {
     $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition, $checkout_flow);
     $instance->inlineFormManager = $container->get('plugin.manager.commerce_inline_form');
     $instance->deliveryRadiusValidator = $container->get('store_fulfillment.delivery_radius_validator');
@@ -285,7 +285,8 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
    * {@inheritdoc}
    */
   public function submitPaneForm(array &$pane_form, FormStateInterface $form_state, array &$complete_form) {
-    // Skip if the profile form was not built (pane rendered hidden placeholder).
+    // Skip if the profile form was not built (pane rendered as hidden
+    // placeholder).
     if (!isset($pane_form['profile']['#inline_form'])) {
       return;
     }

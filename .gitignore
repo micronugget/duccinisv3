@@ -52,3 +52,4 @@ web/sites/default/private/tmp/
 backup*
 databasebackup.sql
 ]*
+node_modules

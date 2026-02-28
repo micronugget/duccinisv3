@@ -126,8 +126,8 @@ class StoreSelectionForm extends FormBase {
 
     $form['message'] = [
       '#markup' => '<div class="store-selection-note">' .
-        $this->t('Please select your preferred store. If the store is currently closed, you can schedule your order for a future time.') .
-        '</div>',
+      $this->t('Please select your preferred store. If the store is currently closed, you can schedule your order for a future time.') .
+      '</div>',
       '#weight' => -10,
     ];
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\store_fulfillment\Kernel;
 
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_store\Entity\Store;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
@@ -58,18 +60,19 @@ class OrderValidatorTest extends CommerceKernelTestBase {
     $this->installEntitySchema('commerce_order');
     $this->installConfig(['commerce_order', 'store_fulfillment']);
 
-    // Create the store_hours field (normally created by store_resolver_install();
-    // we create only this field to avoid pulling in commerce_product dependency).
-    $field_storage = \Drupal\field\Entity\FieldStorageConfig::loadByName('commerce_store', 'store_hours');
+    // Create the store_hours field (normally created by
+    // store_resolver_install(); we create only this field to avoid pulling in
+    // commerce_product dependency).
+    $field_storage = FieldStorageConfig::loadByName('commerce_store', 'store_hours');
     if (!$field_storage) {
-      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+      $field_storage = FieldStorageConfig::create([
         'field_name' => 'store_hours',
         'entity_type' => 'commerce_store',
         'type' => 'string_long',
         'cardinality' => -1,
       ]);
       $field_storage->save();
-      \Drupal\field\Entity\FieldConfig::create([
+      FieldConfig::create([
         'field_storage' => $field_storage,
         'bundle' => 'online',
         'label' => 'Store Hours',
@@ -215,7 +218,7 @@ class OrderValidatorTest extends CommerceKernelTestBase {
     $next_slot = $this->orderValidator->getNextAvailableSlot($this->store);
 
     $this->assertInstanceOf(\DateTime::class, $next_slot, 'Next available slot should return a DateTime object');
-    
+
     $now = new \DateTime('now', new \DateTimeZone('America/New_York'));
     $this->assertGreaterThan($now, $next_slot, 'Next available slot should be in the future');
   }

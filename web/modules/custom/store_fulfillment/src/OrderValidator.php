@@ -49,7 +49,7 @@ class OrderValidator {
   public function __construct(
     StoreHoursValidator $hours_validator,
     TimeInterface $time,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
   ) {
     $this->hoursValidator = $hours_validator;
     $this->time = $time;
@@ -64,6 +64,8 @@ class OrderValidator {
    * @param int|string|null $requested_time
    *   The requested fulfillment time (timestamp or datetime string).
    *   NULL for immediate orders.
+   * @param bool $skip_advance_notice
+   *   Whether to skip the minimum advance notice check.
    *
    * @return array
    *   Validation result with keys:
@@ -110,6 +112,8 @@ class OrderValidator {
    *   The store entity.
    * @param int|string $requested_time
    *   The requested time (timestamp or datetime string).
+   * @param bool $skip_advance_notice
+   *   Whether to skip the minimum advance notice check.
    *
    * @return array
    *   Validation result array.
@@ -292,13 +296,13 @@ class OrderValidator {
             if (strtolower($hour_day) === $day) {
               // Check if time is within business hours.
               if ($close_time < $open_time) {
-                // Overnight hours. For overnight, opening is >= and closing is <.
+                // Overnight hours: opening is >= and closing is <.
                 if ($time >= $open_time || $time < $close_time) {
                   return TRUE;
                 }
               }
               else {
-                // Normal hours. Use < for close time since store hours mean "open until".
+                // Normal hours: use < for close time ("open until" semantics).
                 if ($time >= $open_time && $time < $close_time) {
                   return TRUE;
                 }

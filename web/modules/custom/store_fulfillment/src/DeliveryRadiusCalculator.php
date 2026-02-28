@@ -191,7 +191,8 @@ class DeliveryRadiusCalculator {
    *   Distance in miles.
    */
   public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
-    $earth_radius = 3959; // miles
+    // Miles.
+    $earth_radius = 3959;
 
     $lat_delta = deg2rad($lat2 - $lat1);
     $lon_delta = deg2rad($lon2 - $lon1);

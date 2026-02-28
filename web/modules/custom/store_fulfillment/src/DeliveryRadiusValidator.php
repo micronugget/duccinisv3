@@ -79,8 +79,9 @@ class DeliveryRadiusValidator {
    *
    * @return array
    *   An associative array with the following keys:
-   *   - valid: (bool) TRUE if the address is valid for delivery, FALSE otherwise.
-   *   - message: (string) User-friendly message explaining the validation result.
+   *   - valid: (bool) TRUE if the address is valid for delivery, FALSE
+   *     otherwise.
+   *   - message: (string) User-friendly message explaining the result.
    *   - distance: (float|null) Distance in miles, or NULL if not calculable.
    */
   public function validateDeliveryAddress(StoreInterface $store, AddressInterface $address): array {

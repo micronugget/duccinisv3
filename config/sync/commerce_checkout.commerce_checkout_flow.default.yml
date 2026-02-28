@@ -63,7 +63,7 @@ configuration:
       step: _sidebar
       weight: 5
       wrapper_element: container
-      view: commerce_checkout_order_summary
+      view: null
     customer_comments:
       display_label: null
       step: _disabled

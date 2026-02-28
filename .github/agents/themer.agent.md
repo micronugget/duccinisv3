@@ -74,6 +74,24 @@ ls -lh web/themes/custom/duccinis_1984_olympics/build/css/ | head -5
 ls -lh web/themes/custom/duccinis_1984_olympics/components/ | grep "\.css"
 ```
 
+## Layout: Bootstrap 5 Grid First
+
+**When solving any layout problem — columns, gaps, responsive breakpoints — reach for Bootstrap 5 utilities before writing custom CSS.**
+
+### Rules
+1. **Override Twig templates to emit Bootstrap grid markup** (`row`, `col-*`, `g-*`) rather than writing custom CSS Grid or Flexbox rules in SCSS.
+2. **Use `g-3`, `g-4`, `gap-*` utilities** for gutters — do not add `padding` or `margin` hacks to compensate for competing CSS rules.
+3. **Never write a custom CSS Grid layout** when Bootstrap's `row`/`col-*` system can express it. Custom grid rules collide with Commerce's own `commerce_checkout.form.css` float/padding rules and with our theme's `.layout-region { padding: 2rem }` rule, forcing additional overrides.
+4. **Commerce layout templates to override** for Bootstrap output:
+   - `commerce-checkout-form--with-sidebar.html.twig` → use `<div class="row g-4">` + `col` / `col-lg-4`
+   - `commerce-checkout-form.html.twig` → single-column, no grid needed
+5. **Responsive breakpoint**: sidebar layout triggers at `lg` (992px) via `col-lg-*` — not `md`, which at 720px inner width is too narrow for a 340px fixed sidebar.
+
+### Why Custom Grid Fails Here
+Commerce ships `commerce_checkout.form.css` which applies `float: left; width: 65%; padding-right: 2em` to `.layout-region-checkout-main` at 780px+. Combined with our theme's `.commerce-checkout-flow .layout-region { padding: 2rem }`, any custom CSS Grid adds to these (not replaces them), creating ~6rem of dead whitespace between columns that requires further hacky overrides. Bootstrap grid emitted directly in the template avoids all of this.
+
+---
+
 ## Key Architecture Constraints
 
 These are **not negotiable** — breaking them silently breaks checkout UI:
@@ -170,3 +188,5 @@ web/themes/custom/duccinis_1984_olympics/
 - "`visually-hidden` keeps elements in layout and in the accessibility tree — never use `display:none` on interactive inputs."
 - "Preprocess logic in `includes/*.theme`, never inline in `.theme`."
 - "Mobile-first, accessibility always."
+- "Bootstrap grid first — override the Twig template to emit `row`/`col-*` before writing a single custom CSS Grid rule."
+- "Commerce layout CSS fights custom grid — `commerce_checkout.form.css` adds float+padding rules that compound with theme padding and create un-fixable whitespace. Bootstrap columns in the template sidestep the entire problem."

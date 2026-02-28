@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\store_fulfillment\Functional;
 
+use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_order\Entity\OrderItem;
 use Drupal\commerce_price\Price;
@@ -156,7 +157,7 @@ class PaymentPaneFormAlterTest extends CommerceBrowserTestBase {
    *   A saved draft order belonging to the current user that has items so the
    *   checkout route allows access.
    */
-  protected function createOrder(): \Drupal\commerce_order\Entity\OrderInterface {
+  protected function createOrder(): OrderInterface {
     $order_item = OrderItem::create([
       'type' => 'default',
       'purchased_entity' => $this->variation,

@@ -18,7 +18,7 @@
    * Check if store cookie exists.
    */
   Drupal.storeResolver.hasStoreCookie = function () {
-    return Drupal.storeResolver.getCookie(Drupal.storeResolver.COOKIE_NAME) !== null;
+    return Drupal.storeResolver.getCookie(Drupal.storeResolver.COOKIE_NAME) !== NULL;
   };
 
   /**
@@ -29,10 +29,12 @@
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      while (c.charAt(0) === ' ') { c = c.substring(1, c.length);
+      }
+      if (c.indexOf(nameEQ) === 0) { return c.substring(nameEQ.length, c.length);
+      }
     }
-    return null;
+    return NULL;
   };
 
   /**
@@ -168,7 +170,7 @@
         $(link).on('click', function (e) {
           e.preventDefault();
           Drupal.storeResolver.showModal();
-          return false;
+          return FALSE;
         });
       });
 
@@ -182,7 +184,7 @@
 
           if (!storeId) {
             alert(Drupal.t('Please select a store to continue.'));
-            return false;
+            return FALSE;
           }
 
           // Get store name for the success message.
@@ -197,7 +199,7 @@
           // Refresh blocks via AJAX instead of page reload.
           Drupal.storeResolver.refreshBlocks(storeId, storeName);
 
-          return false;
+          return FALSE;
         });
       });
     }

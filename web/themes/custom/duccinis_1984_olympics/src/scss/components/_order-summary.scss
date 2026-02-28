@@ -2,37 +2,14 @@
 // Order Summary — Sticky Sidebar Card
 // Issue #27: 4.1 Sticky order summary card
 //
-// Adds a grid layout to the Commerce checkout form and makes
-// the order summary sidebar sticky on desktop (md+).
+// The two-column layout is provided by Bootstrap's row/col-* grid emitted
+// directly in the Twig template (commerce-checkout-form--with-sidebar.html.twig).
+// This file only handles sticky positioning and card presentation.
 // ============================================================
 
-// ── Checkout form: two-column grid layout ──────────────────
-
-.layout-checkout-form {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "main"
-    "secondary"
-    "footer";
-  gap: 1.5rem;
-
-  @include media-breakpoint-up(md) {
-    grid-template-columns: 1fr 340px;
-    grid-template-areas:
-      "main secondary"
-      "footer footer";
-    gap: 2rem;
-  }
-}
-
-.layout-region-checkout-main {
-  grid-area: main;
-}
+// ── Sticky sidebar on lg+ ──────────────────────────────────
 
 .layout-region-checkout-secondary {
-  grid-area: secondary;
-
   // Hide the default "Order summary" h3 — the card header replaces it.
   > h3 {
     @include visually-hidden();
@@ -48,15 +25,10 @@
     box-shadow: none;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     position: sticky;
     top: 1.5rem;
-    align-self: start;
   }
-}
-
-.layout-region-checkout-footer {
-  grid-area: footer;
 }
 
 // ── .checkout-order-summary wrapper ───────────────────────

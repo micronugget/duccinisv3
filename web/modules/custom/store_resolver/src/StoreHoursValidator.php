@@ -70,13 +70,13 @@ class StoreHoursValidator {
           }
 
           // Parse the hours format.
-          // Example format: "monday|09:00|17:00" or "monday|11:00|04:00" (overnight)
+          // Example: "monday|09:00|17:00" or "monday|11:00|04:00" (overnight).
           $parts = explode('|', $line);
           if (count($parts) === 3) {
             [$day, $open_time, $close_time] = $parts;
             if (strtolower($day) === $current_day) {
               // Check if current time is within business hours.
-              // Handle overnight hours (e.g., 11:00-04:00 where close is next day).
+              // Handle overnight hours (e.g., 11:00-04:00 crosses midnight).
               if ($close_time < $open_time) {
                 // Overnight hours: open from open_time until midnight,
                 // or from midnight until close_time.
@@ -85,8 +85,8 @@ class StoreHoursValidator {
                 }
               }
               else {
-                // Normal hours: open_time is before close_time on same day.
-                // Use < for close_time so store is considered closed AT closing time.
+                // Normal hours: open_time before close_time on same day.
+                // Use < so the store is closed AT closing time.
                 if ($current_time >= $open_time && $current_time < $close_time) {
                   return TRUE;
                 }
@@ -116,9 +116,9 @@ class StoreHoursValidator {
           $parts = explode('|', $line);
           if (count($parts) === 3) {
             [$day, $open_time, $close_time] = $parts;
-            // Check if previous day has overnight hours that extend into today.
+            // Check if the previous day has overnight hours into today.
             if (strtolower($day) === $previous_day && $close_time < $open_time) {
-              // We're in the early morning hours, check if within overnight period.
+              // Early morning: check if within the overnight period.
               if ($current_time < $close_time) {
                 return TRUE;
               }

@@ -6,7 +6,6 @@ namespace Drupal\Tests\store_fulfillment\Kernel;
 
 use Drupal\address\AddressInterface;
 use Drupal\commerce_store\Entity\Store;
-use Drupal\commerce_store\Entity\StoreInterface;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
 use Drupal\store_fulfillment\DeliveryRadiusCalculator;
 use Drupal\store_fulfillment\DeliveryRadiusValidator;
@@ -54,8 +53,8 @@ class DeliveryRadiusValidatorTest extends CommerceKernelTestBase {
 
     // Install store_fulfillment config.
     $this->installConfig(['store_fulfillment']);
-    // Run the install hook to create delivery_radius and store_location fields on
-    // the commerce_store entity. The fields are created programmatically in
+    // Run the install hook to create delivery_radius and store_location fields
+    // on the commerce_store entity. The fields are created programmatically in
     // hook_install, so we must call it explicitly in kernel tests.
     \Drupal::moduleHandler()->loadInclude('store_fulfillment', 'install');
     store_fulfillment_install();
@@ -145,7 +144,7 @@ class DeliveryRadiusValidatorTest extends CommerceKernelTestBase {
   protected function createValidatorWithMockedGeocoding(
     bool $store_has_coords,
     bool $address_has_coords,
-    float $distance
+    float $distance,
   ): DeliveryRadiusValidator {
     $calculator = $this->getMockBuilder(DeliveryRadiusCalculator::class)
       ->disableOriginalConstructor()

@@ -70,7 +70,7 @@ class ReturnToMenuController extends ControllerBase {
       $cart_render['#cache']['max-age'] = 0;
       $cart_html = $this->renderer->renderRoot($cart_render);
 
-      // Replace the cart block content (using multiple selectors for compatibility).
+      // Replace the cart block content (multiple selectors for compatibility).
       $response->addCommand(new ReplaceCommand(
         '.block-commerce-cart, #block-cart, [data-block-plugin-id="commerce_cart"]',
         $cart_html

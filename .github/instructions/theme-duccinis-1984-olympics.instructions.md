@@ -261,6 +261,41 @@ SDC discovery cache.
 
 ---
 
+## Layout: Bootstrap 5 Grid — Not Custom CSS Grid
+
+**Use Bootstrap 5 `row`/`col-*` utilities in Twig templates for all page-level layout.** Do not write custom `display: grid` rules in SCSS as a substitute.
+
+### Why
+Commerce ships `commerce_checkout.form.css` that applies `float: left; width: 65%; padding-right: 2em` to `.layout-region-checkout-main` at 780px+. Our theme also applies `.commerce-checkout-flow .layout-region { padding: 2rem }`. A custom CSS Grid rule stacks on top of both — it does not replace them. The result is compounding dead whitespace (gap + region padding + float padding ≈ 6rem) that requires ever-more overrides to fix.
+
+### The right approach
+Override the Twig template to emit Bootstrap markup directly:
+
+```twig
+{# commerce-checkout-form--with-sidebar.html.twig #}
+<div class="layout-checkout-form">
+  <div class="row g-4 align-items-start">
+    <div class="col-12 col-lg-8 layout-region layout-region-checkout-main">
+      {{ form|without('sidebar', 'actions') }}
+    </div>
+    <div class="col-12 col-lg-4 layout-region layout-region-checkout-secondary">
+      {{ form.sidebar }}
+    </div>
+  </div>
+  <div class="layout-region layout-region-checkout-footer">
+    {{ form.actions }}
+  </div>
+</div>
+```
+
+**Rules:**
+1. Use `col-lg-*` (992px breakpoint) for the sidebar layout — `col-md-*` at 720px inner width is too narrow for a sidebar.
+2. Use `g-3` or `g-4` for gutters — never add compensating `padding`/`margin` to SCSS.
+3. Retain `layout-region` and `layout-region-checkout-*` classes so Commerce JS and contrib modules that target them continue to work.
+4. If overriding Commerce layout templates, keep `layout-checkout-form` on the outer wrapper for the same reason.
+
+---
+
 ## Overriding Drupal Core/contrib Libraries
 
 The theme overrides several core libraries (e.g., `drupal.ajax`, `drupal.dialog`)
