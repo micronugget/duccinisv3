@@ -12827,6 +12827,37 @@ h1.title::after,
   background: repeating-linear-gradient(90deg, #E63946 0px, #E63946 20px, #FF6B35 20px, #FF6B35 40px, #FFC914 40px, #FFC914 60px, #0077C0 60px, #0077C0 80px);
 }
 
+.checkout-layout {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .checkout-layout {
+    padding-inline: 1.5rem;
+  }
+}
+@media (min-width: 992px) {
+  .checkout-layout > .row {
+    --bs-gutter-x: 2rem;
+  }
+}
+
+.layout-region-checkout-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .layout-region-checkout-main {
+    gap: 2rem;
+  }
+}
+
+.layout-region-checkout-footer {
+  padding-top: 0.5rem;
+}
+
 .menu-accordion__button {
   font-family: "Bebas Neue", "Arial Black", sans-serif !important;
   font-weight: 700;

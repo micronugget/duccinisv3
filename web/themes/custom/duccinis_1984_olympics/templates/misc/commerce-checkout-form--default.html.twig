@@ -1,0 +1,56 @@
+{#
+/**
+ * @file
+ * Theme override: two-column checkout layout for the 'default' flow.
+ *
+ * Uses Bootstrap 5 responsive grid — no fixed pixel widths. The main pane
+ * column and order-summary sidebar scale fluidly at all viewports.
+ *
+ * Breakpoints:
+ *   < md (768px)  — single column, main content above sidebar.
+ *   md–lg         — 7/12 main  /  5/12 sidebar.
+ *   lg+           — 8/12 main  /  4/12 sidebar.
+ *
+ * ARIA landmarks:
+ *   <main>  — checkout panes (contact, fulfillment, payment).
+ *   <aside> — order summary + primary CTA.
+ *
+ * Issue #30: Two-column grid layout (main + sidebar).
+ *
+ * Available variables:
+ * - form: The form.
+ */
+#}
+<div class="checkout-layout">
+  <div class="row gy-4 align-items-start">
+
+    <main id="checkout-main"
+          class="col-12 col-md-7 col-lg-8 layout-region layout-region-checkout-main"
+          aria-label="{{ 'Checkout details'|t }}">
+      {{ form|without('sidebar', 'actions') }}
+    </main>
+
+    <aside class="col-12 col-md-5 col-lg-4 layout-region layout-region-checkout-secondary"
+           aria-label="{{ 'Order summary'|t }}">
+      {{ form.sidebar }}
+      {# Primary CTA lives in the sidebar card — avoids requiring scroll-to-bottom
+         on mobile. The 'next' key is excluded from the footer below to prevent a
+         duplicate submit button. #}
+      {% if form.actions.next is defined %}
+        <div class="cta-section mt-3">
+          {{ form.actions.next }}
+        </div>
+      {% endif %}
+    </aside>
+
+  </div>
+
+  {# Footer: secondary actions only (e.g. "Back to cart"). The primary 'next'
+     submit is rendered above inside the sidebar so it appears once only. #}
+  {% set footer_actions = form.actions|without('next') %}
+  {% if footer_actions|render|trim is not empty %}
+    <div class="layout-region layout-region-checkout-footer mt-3">
+      {{ footer_actions }}
+    </div>
+  {% endif %}
+</div>
