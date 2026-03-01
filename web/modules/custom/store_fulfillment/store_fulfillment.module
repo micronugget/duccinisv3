@@ -20,6 +20,14 @@ function store_fulfillment_form_alter(array &$form, FormStateInterface $form_sta
     return;
   }
 
+  // ── Issue #29: Style the "Continue to Review" submit button ──
+  // Add .btn-continue so the sidebar template can render it with the branded
+  // Bebas Neue / magenta CTA styling. The .btn class from input--submit.html
+  // .twig is kept alongside it.
+  if (isset($form['actions']['next'])) {
+    $form['actions']['next']['#attributes']['class'][] = 'btn-continue';
+  }
+
   // ── Delivery billing removal ──
   if (isset($form['payment_information']['billing_information'])) {
     $method = $form_state->getValue(['fulfillment_time', 'fulfillment_method']);
