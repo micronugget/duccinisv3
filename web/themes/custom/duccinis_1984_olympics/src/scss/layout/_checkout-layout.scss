@@ -1,0 +1,63 @@
+// ============================================================
+// Checkout Layout — Two-column responsive grid
+// Issue #30: 5.1 Two-column grid layout (main + sidebar)
+//
+// Bootstrap 5 col-md-7/col-lg-8 (main) and col-md-5/col-lg-4
+// (sidebar) in the Twig template provide all column widths.
+// No fixed pixel widths appear here — the sidebar is always a
+// fluid Bootstrap fraction of the available container width.
+//
+// Sticky sidebar and sidebar card styling live in:
+//   src/scss/components/_order-summary.scss
+// ============================================================
+
+// ── Outer container ──────────────────────────────────────────
+//
+// Bootstrap's .container/.container-fluid is not used here
+// because Commerce renders the form outside a standard
+// container. We apply max-width + centring directly on the
+// layout wrapper so the checkout page is comfortably readable
+// at wide viewports without constraining Bootstrap's grid.
+
+.checkout-layout {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @include media-breakpoint-up(md) {
+    padding-inline: 1.5rem;
+  }
+
+  // Widen the Bootstrap row gutter on large screens for more
+  // breathing room between the two columns.
+  > .row {
+    @include media-breakpoint-up(lg) {
+      --bs-gutter-x: 2rem;
+    }
+  }
+}
+
+// ── Main column — vertical rhythm between checkout panes ─────
+//
+// Each Commerce checkout pane renders into this column.
+// The flex column + gap replaces ad-hoc margin-bottom rules
+// across individual pane templates.
+
+.layout-region-checkout-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @include media-breakpoint-up(md) {
+    gap: 2rem;
+  }
+}
+
+// ── Footer row ───────────────────────────────────────────────
+//
+// Contains secondary actions only (e.g. "Back to cart").
+// The primary submit lives in the sidebar CTA section.
+
+.layout-region-checkout-footer {
+  padding-top: 0.5rem;
+}

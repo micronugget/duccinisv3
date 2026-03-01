@@ -20,7 +20,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …` |
 | Tests | `ddev exec vendor/bin/phpunit …` (all read-only test runs) |
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
-| Build | `ddev npm run dev` |
+| Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"` |
 | Git (read) | `git status`, `git log`, `git diff`, `git branch` |
 | Git (write, local) | `git add`, `git commit` |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc` |
