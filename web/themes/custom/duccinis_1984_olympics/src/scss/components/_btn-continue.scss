@@ -1,0 +1,61 @@
+// ============================================================
+// Continue to Review CTA — Issue #29
+//
+// Full-width submit button placed inside the order-summary-card
+// in the checkout sidebar. The button IS the actual form submit
+// element (type="submit") moved there by the Twig template, so
+// no extra JS is needed — it submits the form natively.
+// ============================================================
+
+// ── CTA wrapper ────────────────────────────────────────────
+
+.cta-section {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+// ── The button itself ──────────────────────────────────────
+
+.btn-continue {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: $font-bebas;
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+  background: $olympics-magenta; // #D62976
+  color: $olympics-white;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: background 0.15s ease, transform 0.1s ease;
+
+  // Keep Bootstrap from overriding colour on .btn
+  &.btn,
+  &:focus,
+  &:focus-visible {
+    color: $olympics-white;
+    outline: 2px solid rgba($olympics-magenta, 0.4);
+    outline-offset: 3px;
+  }
+
+  &:hover {
+    background: #bf2268;
+    color: $olympics-white;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  // On mobile the button stays inside the summary card — no
+  // separate floating CTA needed. The sidebar stacks below the
+  // main column on xs/sm, so it naturally appears at the bottom.
+  @include media-breakpoint-down(md) {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+}

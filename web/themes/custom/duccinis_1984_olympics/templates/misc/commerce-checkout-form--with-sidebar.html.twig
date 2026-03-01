@@ -7,6 +7,11 @@
  * gutters, padding, and breakpoints are handled natively — avoiding conflicts
  * with Commerce's own commerce_checkout.form.css float/padding rules.
  *
+ * Issue #29: The primary submit ("Continue to Review") is rendered inside
+ * the sidebar card as a full-width branded CTA. The actions region in the
+ * footer is kept visible for any secondary actions (e.g. "Back" links) but
+ * the 'next' key is excluded from it to avoid a duplicate submit button.
+ *
  * Available variables:
  * - form: The form.
  */
@@ -18,9 +23,17 @@
     </div>
     <div class="col-12 col-lg-4 layout-region layout-region-checkout-secondary">
       {{ form.sidebar }}
+      {# ── Issue #29: Branded "Continue to Review" CTA inside the card ── #}
+      {% if form.actions.next is defined %}
+        <div class="cta-section">
+          {{ form.actions.next }}
+        </div>
+      {% endif %}
     </div>
   </div>
+  {# Footer: render any secondary actions (Back link) but skip 'next' so   #}
+  {# the submit button only appears once, in the sidebar CTA above.        #}
   <div class="layout-region layout-region-checkout-footer">
-    {{ form.actions }}
+    {{ form.actions|without('next') }}
   </div>
 </div>
