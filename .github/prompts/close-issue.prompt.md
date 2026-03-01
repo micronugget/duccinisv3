@@ -53,7 +53,23 @@ Parse from the output:
 
 ---
 
-## Step 2 — Verify DDEV Environment
+## Step 2 — Create a Feature Branch
+
+Before writing any code, create and check out a branch named `issue/$ISSUE-<slug>` where `<slug>` is a short kebab-case summary of the issue title:
+
+```bash
+git checkout -b issue/$ISSUE-<slug>
+```
+
+Example: `git checkout -b issue/30-checkout-layout`
+
+This keeps `master` clean and makes the eventual push + PR straightforward.
+
+---
+
+## Step 3 — Verify DDEV Environment
+
+> Already created your branch in Step 2? Good. Continue.
 
 ```bash
 echo "=== DDEV Status ===" && ddev status 2>&1 | head -20
@@ -152,7 +168,7 @@ Use a conventional commit message. Reference the issue number.
 **Ask the user before running these:**
 
 ```bash
-git push origin HEAD
+git push origin issue/$ISSUE-<slug>
 ```
 
 ```bash
