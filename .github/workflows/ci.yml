@@ -22,6 +22,9 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
+      - name: Validate platform requirements
+        run: composer check-platform-reqs --no-dev
+
       - name: Run PHPCS
         run: vendor/bin/phpcs --standard=Drupal web/modules/custom/
 
@@ -57,6 +60,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Validate platform requirements
+        run: composer check-platform-reqs --no-dev
 
       - name: Run Kernel tests
         env:
