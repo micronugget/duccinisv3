@@ -27,7 +27,7 @@ version: 2.0.0
 | `ddev npm run dev` | Compile theme assets (Radix 6 / webpack.mix.js) |
 | `ddev drush uli --uid=3 --uri=https://duccinisv3.ddev.site` | Login link for test user Geena (uid=3, has saved Stripe cards) |
 
-**DDEV site URL:** `https://duccinisv3.ddev.site` | PHP 8.3 | Drupal 11.2 | MariaDB 10.11
+**DDEV site URL:** `https://duccinisv3.ddev.site` | PHP 8.4 | Drupal 11.2 | MariaDB 10.11
 
 Read `.github/copilot-terminal-guide.md` for reliable terminal command patterns (always use `2>&1`, echo markers, `| head -50` for verbose output).
 
@@ -115,6 +115,7 @@ Stores have `delivery_radius` and `store_location` (geofield lat/lon) fields. Ge
 
 ### Pre-commit Gates
 
+- `ddev composer check-platform-reqs --no-dev` — verify no package in `composer.lock` requires a PHP version beyond 8.4
 - `ddev phpunit` — all tests pass
 - `ddev exec phpcs --standard=Drupal` — no coding standard errors
 - `ddev drush cex` — config exported and committed
