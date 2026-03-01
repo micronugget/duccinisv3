@@ -200,9 +200,25 @@ Output a structured report to the user:
 - [x] <criterion 2> — how it was verified
 
 ---
-**To push and close the issue, reply:** `ship it`
-**To push only (no close), reply:** `push branch`
-**To review changes first, reply:** `show diff`
+**Run these commands yourself to ship:**
+
+```bash
+# Push the branch
+git push origin issue/$ISSUE-<slug>
+
+# Open a PR (optional — creates it on GitHub)
+gh pr create --repo micronugget/duccinisv3 \
+  --base master \
+  --head issue/$ISSUE-<slug> \
+  --title "fix(#$ISSUE): <short description>" \
+  --body "Closes #$ISSUE"
+
+# Close the issue directly (if skipping PR)
+gh issue close $ISSUE --repo micronugget/duccinisv3 \
+  --comment "Implemented in commit $(git rev-parse --short HEAD) on branch issue/$ISSUE-<slug>. All quality gates pass."
+```
+
+**Or reply:** `ship it` to have me run `git push` for you.
 ```
 
 Do not proceed further until the user responds.
@@ -211,7 +227,7 @@ Do not proceed further until the user responds.
 
 ## Phase 2 — Ship (requires explicit developer approval)
 
-> **Phase 2 only runs when the developer replies with `ship it`, `push branch`, or another explicit approval phrase.**
+> **Phase 2 only runs when the developer replies with `ship it`.**
 > Never run Phase 2 steps autonomously.
 
 ---
@@ -222,14 +238,21 @@ Do not proceed further until the user responds.
 git push origin issue/$ISSUE-<slug>
 ```
 
----
-
-### Step 11 — Close Issue (only for `ship it` response)
+After pushing, remind the user of the remaining git commands if they want to open a PR or close the issue:
 
 ```bash
+# Open a PR
+gh pr create --repo micronugget/duccinisv3 \
+  --base master --head issue/$ISSUE-<slug> \
+  --title "fix(#$ISSUE): <short description>" \
+  --body "Closes #$ISSUE"
+
+# Close issue directly (no PR)
 gh issue close $ISSUE --repo micronugget/duccinisv3 \
-  --comment "Implemented in commit $(git rev-parse --short HEAD) on branch issue/$ISSUE-<slug>. All quality gates pass."
+  --comment "Implemented in commit $(git rev-parse --short HEAD)."
 ```
+
+Do not run these — present them for the developer to copy-paste.
 
 ---
 
