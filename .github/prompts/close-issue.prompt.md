@@ -25,6 +25,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Git (write, local) | `git add`, `git commit` |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
+| GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 
 **Always ask before running:**
 - `git push` or `git push --force` — visible to collaborators
@@ -40,11 +41,16 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 Run the following, replacing `$ISSUE` with the number extracted from the user's input:
 
 ```bash
-echo "=== Fetching issue ===" && \
-gh issue view $ISSUE --repo micronugget/duccinisv3 2>&1
+gh issue view $ISSUE --repo micronugget/duccinisv3 \
+  --json title,body,labels,state,number 2>/dev/null
 ```
 
 If `gh` is not authenticated, halt and ask the user to run `gh auth login`.
+
+> **Note:** Do **not** use the plain `gh issue view … 2>&1` form. Repos with
+> Projects (classic) enabled return exit code 1 due to a GraphQL deprecation
+> warning even when data is fetched successfully. The `--json` + `2>/dev/null`
+> pattern is the only reliable approach.
 
 Parse from the output:
 - **Title** and **body** (acceptance criteria / description)
@@ -198,7 +204,7 @@ At the end of every session, output this table filled with the actual commands r
 | # | Command | Category | Auto-approvable? |
 |---|---------|----------|-----------------|
 | 1 | ddev status | environment | ✅ yes |
-| 2 | gh issue view 30 … | read/fetch | ✅ yes |
+| 2 | gh issue view 30 --json title,body,labels,state,number 2>/dev/null | GitHub CLI (read) | ✅ yes |
 | … | … | … | … |
 ```
 

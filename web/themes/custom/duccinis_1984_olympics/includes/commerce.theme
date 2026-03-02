@@ -45,7 +45,17 @@ function duccinis_1984_olympics_preprocess_commerce_checkout_form(array &$variab
   // the checkout form. Always linkable as a "continue shopping" escape.
   $cart_url = \Drupal\Core\Url::fromRoute('commerce_cart.page')->toString();
   $steps = [
-    ['label' => t('Cart'), 'state' => 'done', 'url' => $cart_url],
+    [
+      'label'    => t('Cart'),
+      'state'    => 'done',
+      'url'      => $cart_url,
+      'analytics' => [
+        'funnel_event' => 'checkout_step_back',
+        'from_step'    => $step_id,
+        'to_step'      => 'cart',
+        'order_id'     => (string) ($order_id ?? ''),
+      ],
+    ],
   ];
 
   foreach ($step_order as $i => $id) {
@@ -73,10 +83,28 @@ function duccinis_1984_olympics_preprocess_commerce_checkout_form(array &$variab
       }
     }
 
-    $steps[] = ['label' => $labels[$id], 'state' => $state, 'url' => $url];
+    $analytics = NULL;
+    if ($url !== NULL) {
+      $analytics = [
+        'funnel_event' => 'checkout_step_back',
+        'from_step'    => $step_id,
+        'to_step'      => $id,
+        'order_id'     => (string) $order_id,
+      ];
+    }
+
+    $steps[] = [
+      'label'     => $labels[$id],
+      'state'     => $state,
+      'url'       => $url,
+      'analytics' => $analytics,
+    ];
   }
 
   $variables['checkout_progress_steps'] = $steps;
+
+  // Attach analytics library only on pages where the progress bar renders.
+  $variables['form']['#attached']['library'][] = 'duccinis_1984_olympics/checkout-progress-analytics';
 }
 
 /**

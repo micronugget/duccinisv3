@@ -33,7 +33,13 @@
       {% for step in checkout_progress_steps %}
         {%- if step.url %}
           <a href="{{ step.url }}"
-             class="step{{ step.state ? ' ' ~ step.state : '' }}">
+             class="step{{ step.state ? ' ' ~ step.state : '' }}"
+             {% if step.analytics %}
+             data-funnel-event="{{ step.analytics.funnel_event }}"
+             data-from-step="{{ step.analytics.from_step }}"
+             data-to-step="{{ step.analytics.to_step }}"
+             data-order-id="{{ step.analytics.order_id }}"
+             {% endif %}>
             {{- step.label -}}
           </a>
         {%- elseif step.state == 'active' %}

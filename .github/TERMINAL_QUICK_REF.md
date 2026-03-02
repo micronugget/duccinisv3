@@ -91,7 +91,27 @@ Before reporting "complete":
 | Long chains without markers | Add `echo` statements between steps |
 | Assuming success | Check `$?` or grep for success messages |
 
-## 📖 Full Documentation
+## � GitHub CLI (`gh`) Gotcha
+
+`gh issue view --repo owner/repo` returns **exit code 1** when the org has
+Projects (classic) enabled, due to a GraphQL deprecation warning printed to
+stderr. This kills the command even though the data was fetched successfully.
+
+**Fix: always use `--json` + `2>/dev/null`:**
+
+```bash
+# ❌ Fails with exit code 1 (GraphQL deprecation warning)
+gh issue view 77 --repo micronugget/duccinisv3 2>&1
+
+# ✅ Correct — suppress stderr, request JSON
+gh issue view 77 --repo micronugget/duccinisv3 \
+  --json title,body,labels,state,number 2>/dev/null
+```
+
+The `--json` flag bypasses the text renderer that triggers the warning, and
+`2>/dev/null` drops the deprecation stderr so the exit code stays 0.
+
+## �📖 Full Documentation
 
 - **Comprehensive Guide:** `.github/copilot-terminal-guide.md`
 - **Command Patterns Script:** `.github/ddev-command-patterns.sh`

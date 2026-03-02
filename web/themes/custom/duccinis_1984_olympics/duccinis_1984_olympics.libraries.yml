@@ -91,3 +91,10 @@ saved-card-fix:
     - core/drupalSettings
     - core/jquery
     - core/once
+
+checkout-progress-analytics:
+  js:
+    src/js/checkout-progress-analytics.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

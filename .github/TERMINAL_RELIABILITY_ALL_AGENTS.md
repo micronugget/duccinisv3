@@ -329,6 +329,43 @@ The entire AI agent team is now equipped for reliable terminal command execution
 
 ---
 
+## ⚠️ Known Gotcha: GitHub CLI (`gh issue view`) — Exit Code 1
+
+**Discovered:** March 2, 2026
+
+`gh issue view --repo owner/repo` exits with **code 1** on repos whose
+organisation has Projects (classic) enabled. GitHub's API emits a GraphQL
+deprecation warning that `gh` prints to stderr and treats as a fatal error —
+even though the data is fetched successfully.
+
+This causes every agent following the prompt file's Step 1 to halt immediately.
+
+### Fix
+
+**Always use `--json` + `2>/dev/null` for `gh issue view`:**
+
+```bash
+# ❌ Exits with code 1 — breaks the close-issue.prompt.md workflow
+gh issue view 77 --repo micronugget/duccinisv3 2>&1
+
+# ✅ Correct — suppress deprecation stderr, request structured JSON
+gh issue view 77 --repo micronugget/duccinisv3 \
+  --json title,body,labels,state,number 2>/dev/null
+```
+
+The `--json` flag bypasses the text renderer that triggers the warning.
+`2>/dev/null` silences any remaining stderr so exit code stays 0.
+
+### Applies To
+- `close-issue.prompt.md` Step 1
+- Any agent that calls `gh issue view` or `gh issue list`
+
+### Files to Update
+- `.github/prompts/close-issue.prompt.md` — Step 1 fetch command
+- `.github/TERMINAL_QUICK_REF.md` — already updated (March 2, 2026)
+
+---
+
 **Completion Date:** February 11, 2026
 **Status:** ✅ COMPLETE
 **Coverage:** 14/14 agents (100%)
