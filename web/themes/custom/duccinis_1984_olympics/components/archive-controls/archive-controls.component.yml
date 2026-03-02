@@ -1,0 +1,23 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Archive Controls
+status: experimental
+description: Archive badge, icon, and toggle control for menu/order items. 1984 LA Olympics design system.
+props:
+  type: object
+  properties:
+    badge_label:
+      type: string
+      title: Badge Label
+      description: Text displayed inside the archive badge.
+    show_toggle:
+      type: boolean
+      title: Show Toggle
+      description: Whether to render the archive toggle button.
+    toggle_label_show:
+      type: string
+      title: Toggle Label (Show)
+      description: Label for the toggle when archived items are hidden.
+    toggle_label_hide:
+      type: string
+      title: Toggle Label (Hide)
+      description: Label for the toggle when archived items are visible.

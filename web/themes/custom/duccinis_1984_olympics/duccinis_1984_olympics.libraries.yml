@@ -98,3 +98,10 @@ checkout-progress-analytics:
   dependencies:
     - core/drupal
     - core/once
+
+archive-toggle:
+  js:
+    src/js/archive-toggle.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

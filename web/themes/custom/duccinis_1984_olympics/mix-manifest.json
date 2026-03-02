@@ -4,5 +4,7 @@
     "/build/css/main.style.css": "/build/css/main.style.css",
     "/build/css/main.style.css.map": "/build/css/main.style.css.map",
     "/components/saved-card/saved-card.css": "/components/saved-card/saved-card.css",
-    "/components/saved-card/saved-card.css.map": "/components/saved-card/saved-card.css.map"
+    "/components/saved-card/saved-card.css.map": "/components/saved-card/saved-card.css.map",
+    "/components/archive-controls/archive-controls.css": "/components/archive-controls/archive-controls.css",
+    "/components/archive-controls/archive-controls.css.map": "/components/archive-controls/archive-controls.css.map"
 }

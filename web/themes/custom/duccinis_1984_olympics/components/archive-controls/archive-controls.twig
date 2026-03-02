@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Archive Controls — SDC component.
+ *
+ * Provides two elements:
+ * 1. Archive badge — a visual indicator placed on archived menu/order items.
+ * 2. Archive toggle — a button to show/hide archived items in a list.
+ *
+ * Usage (badge only):
+ *   {% include 'duccinis_1984_olympics:archive-controls' with {
+ *     badge_label: 'Archived',
+ *   } %}
+ *
+ * Usage (toggle only):
+ *   {% include 'duccinis_1984_olympics:archive-controls' with {
+ *     show_toggle: true,
+ *     toggle_label_show: 'Show archived',
+ *     toggle_label_hide: 'Hide archived',
+ *   } %}
+ */
+#}
+
+{# ── Archive Badge ── #}
+{% if badge_label is defined and badge_label %}
+  <span class="archive-badge" role="status" aria-label="{{ badge_label }}">
+    <svg class="archive-badge__icon" aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M2 1h12a1 1 0 0 1 1 1v2H1V2a1 1 0 0 1 1-1Zm-1 5h14v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6Zm5 2a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z"/>
+    </svg>
+    <span class="archive-badge__label">{{ badge_label }}</span>
+  </span>
+{% endif %}
+
+{# ── Archive Toggle ── #}
+{% if show_toggle is defined and show_toggle %}
+  {% set label_show = toggle_label_show|default('Show archived') %}
+  {% set label_hide = toggle_label_hide|default('Hide archived') %}
+  <button
+    type="button"
+    class="archive-toggle"
+    aria-pressed="false"
+    data-label-show="{{ label_show }}"
+    data-label-hide="{{ label_hide }}"
+  >
+    <svg class="archive-toggle__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M2 1h12a1 1 0 0 1 1 1v2H1V2a1 1 0 0 1 1-1Zm-1 5h14v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6Zm5 2a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z"/>
+    </svg>
+    <span class="archive-toggle__text">{{ label_show }}</span>
+  </button>
+{% endif %}

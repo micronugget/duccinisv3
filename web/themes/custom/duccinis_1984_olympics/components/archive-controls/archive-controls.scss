@@ -1,0 +1,205 @@
+// ============================================
+// Archive Controls — SDC Component
+// 1984 LA Olympics Design System
+// ============================================
+//
+// Two elements:
+// 1. .archive-badge  — inline status indicator for archived items
+// 2. .archive-toggle — button to show/hide archived items in a list
+//
+// Component-local colour tokens (same pattern as saved-card.scss):
+// kept here so the SDC CSS bundle stays self-contained.
+// ============================================
+
+$olympics-blue:       #0077C0;
+$olympics-magenta:    #D62976;
+$olympics-vermillion: #E63946;
+$olympics-yellow:     #FFC914;
+$olympics-orange:     #FF6B35;
+$olympics-purple:     #6A4C93;
+$olympics-white:      #FFFFFF;
+$font-bebas:          'Bebas Neue', 'Arial Black', sans-serif;
+$font-dm-sans:        'DM Sans', system-ui, -apple-system, sans-serif;
+
+// ── Archive Badge ─────────────────────────────────────────
+
+.archive-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  font-family: $font-bebas;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: $olympics-white;
+  background: linear-gradient(135deg, $olympics-vermillion 0%, $olympics-orange 100%);
+  border: 2px solid $olympics-blue;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 rgba($olympics-blue, 0.25);
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+
+  // Geometric accent stripe on the left
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: $olympics-yellow;
+  }
+
+  // Make the badge position-aware for the stripe
+  position: relative;
+  padding-left: calc(4px + 0.6rem);
+}
+
+.archive-badge__icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.archive-badge__label {
+  // Inherits badge font styles
+}
+
+// Size variants
+.archive-badge--sm {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  padding-left: calc(4px + 0.5rem);
+  gap: 0.25rem;
+
+  .archive-badge__icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.archive-badge--lg {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.8rem;
+  padding-left: calc(4px + 0.8rem);
+  gap: 0.4rem;
+
+  .archive-badge__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// ── Archive Toggle ────────────────────────────────────────
+
+.archive-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  font-family: $font-bebas;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: $olympics-blue;
+  background: $olympics-white;
+  border: 3px solid $olympics-blue;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 $olympics-yellow;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Diagonal stripe overlay (Olympics motif)
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba($olympics-yellow, 0.08) 8px,
+      rgba($olympics-yellow, 0.08) 16px
+    );
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: $olympics-white;
+    background: linear-gradient(90deg, $olympics-blue 0%, darken($olympics-blue, 8%) 100%);
+    border-color: $olympics-magenta;
+    box-shadow: 4px 4px 0 $olympics-magenta;
+    transform: translate(-1px, -1px);
+  }
+
+  &:active {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0 $olympics-yellow;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $olympics-vermillion;
+    outline-offset: 2px;
+  }
+
+  // Pressed / active state (when archived items are visible)
+  &[aria-pressed="true"] {
+    color: $olympics-white;
+    background: linear-gradient(135deg, $olympics-magenta 0%, $olympics-purple 100%);
+    border-color: $olympics-yellow;
+    box-shadow: 3px 3px 0 $olympics-blue;
+
+    &:hover {
+      background: linear-gradient(135deg, darken($olympics-magenta, 8%) 0%, darken($olympics-purple, 8%) 100%);
+      box-shadow: 4px 4px 0 $olympics-blue;
+    }
+
+    .archive-toggle__icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.archive-toggle__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.archive-toggle__text {
+  // Inherits toggle font styles
+}
+
+// ── Responsive ────────────────────────────────────────────
+
+@media (max-width: 576px) {
+  .archive-badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    padding-left: calc(3px + 0.45rem);
+
+    &::before {
+      width: 3px;
+    }
+  }
+
+  .archive-toggle {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    gap: 0.35rem;
+    box-shadow: 2px 2px 0 $olympics-yellow;
+
+    &:hover {
+      box-shadow: 3px 3px 0 $olympics-magenta;
+    }
+  }
+}

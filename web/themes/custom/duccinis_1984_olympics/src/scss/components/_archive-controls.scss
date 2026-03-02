@@ -1,0 +1,107 @@
+// ============================================
+// Archive Controls — Menu Integration
+// 1984 LA Olympics Design System
+// ============================================
+//
+// Styles for archive badge/toggle integration within
+// the menu accordion and order item contexts.
+//
+// Markup contract:
+//   .views-row.is-archived          — archived menu item row
+//   .menu-accordion__archive-toggle — toggle placement in accordion header area
+//   .order-item.is-archived         — archived order line item
+// ============================================
+
+// ── Archived menu rows ────────────────────────────────────
+
+.views-row.is-archived,
+.menu-variation-row.is-archived {
+  opacity: 0.55;
+  position: relative;
+  pointer-events: none;
+
+  // Diagonal strikethrough overlay
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba($olympics-vermillion, 0.08) 6px,
+      rgba($olympics-vermillion, 0.08) 12px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  // Badge sits inside the row, clickable even when row is dimmed
+  .archive-badge {
+    pointer-events: auto;
+    z-index: 2;
+    position: relative;
+  }
+
+  // Disabled add-to-cart link
+  a[href^="/add-to-cart"] {
+    pointer-events: none;
+    opacity: 0.4;
+    filter: grayscale(100%);
+  }
+}
+
+// When toggle is active, restore archived rows
+.menu-accordion__body--show-archived {
+  .views-row.is-archived,
+  .menu-variation-row.is-archived {
+    opacity: 0.75;
+
+    &::after {
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 6px,
+        rgba($olympics-blue, 0.04) 6px,
+        rgba($olympics-blue, 0.04) 12px
+      );
+    }
+  }
+}
+
+// ── Hidden-by-default: archived rows are not visible until toggled ──
+
+.menu-accordion__body:not(.menu-accordion__body--show-archived) {
+  .views-row.is-archived,
+  .menu-variation-row.is-archived {
+    display: none;
+  }
+}
+
+// ── Toggle placement within the accordion ─────────────────
+
+.menu-accordion__archive-toggle-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem 0;
+}
+
+// ── Order item archive badge ──────────────────────────────
+
+.order-item.is-archived {
+  opacity: 0.6;
+  position: relative;
+
+  .archive-badge {
+    margin-left: 0.5rem;
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────
+
+@media (max-width: 576px) {
+  .menu-accordion__archive-toggle-wrapper {
+    justify-content: center;
+    padding: 0.35rem 0.75rem 0;
+  }
+}
