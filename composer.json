@@ -29,7 +29,7 @@
         "drupal/automatic_updates": "^4",
         "drupal/autosave_form": "^1.10",
         "drupal/better_exposed_filters": "^7",
-        "drupal/bpmn_io": "^2.0.6",
+        "drupal/bpmn_io": "^3.0.4",
         "drupal/captcha": "^2.0.7",
         "drupal/coffee": "^2",
         "drupal/commerce_add_to_cart_link": "^2.1",
