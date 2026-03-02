@@ -16,11 +16,14 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: "8.4"
           tools: composer
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Validate platform requirements
+        run: composer check-platform-reqs --no-dev
 
       - name: Run PHPCS
         run: vendor/bin/phpcs --standard=Drupal web/modules/custom/
@@ -51,12 +54,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: "8.4"
           extensions: pdo_mysql, gd, opcache
           tools: composer
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Validate platform requirements
+        run: composer check-platform-reqs --no-dev
 
       - name: Run Kernel tests
         env:
