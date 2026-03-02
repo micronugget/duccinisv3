@@ -365,18 +365,18 @@ Without event tracking, it is impossible to know:
 
 ```
 Sprint A — Block extraction (prerequisite for everything):
-  ARCH-1  Custom block plugin
-  ARCH-4  Checkout header block
-  ARCH-5  Template audit
+  ARCH-1 (#70)  Custom block plugin
+  ARCH-4 (#73)  Checkout header block
+  ARCH-5 (#74)  Template audit
 
 Sprint B — Full funnel coverage:
-  ARCH-2  Progress bar on /cart
-  ARCH-3  Progress bar on review + complete (remove from templates)
-  ARCH-7  Phase 2 visual affordance
+  ARCH-2 (#71)  Progress bar on /cart
+  ARCH-3 (#72)  Progress bar on review + complete (remove from templates)
+  ARCH-7 (#76)  Phase 2 visual affordance
 
 Sprint C — Measurement + platform:
-  ARCH-8  Analytics integration
-  ARCH-6  DrupalCMS 2 migration planning
+  ARCH-8 (#77)  Analytics integration
+  ARCH-6 (#75)  DrupalCMS 2 migration planning
 ```
 
 ---
