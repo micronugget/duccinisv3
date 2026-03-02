@@ -28,6 +28,10 @@
   @include media-breakpoint-up(lg) {
     position: sticky;
     top: 1.5rem;
+    // Issue #37: Prevent the sidebar from overflowing the viewport height
+    // when the order summary is long (tablet / narrow-laptop edge case).
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
   }
 }
 
