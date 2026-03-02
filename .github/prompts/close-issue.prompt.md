@@ -25,6 +25,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Git (write, local) | `git add`, `git commit` |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
+| GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 
 **Always ask before running:**
 - `git push` or `git push --force` — visible to collaborators
@@ -203,7 +204,7 @@ At the end of every session, output this table filled with the actual commands r
 | # | Command | Category | Auto-approvable? |
 |---|---------|----------|-----------------|
 | 1 | ddev status | environment | ✅ yes |
-| 2 | gh issue view 30 … | read/fetch | ✅ yes |
+| 2 | gh issue view 30 --json title,body,labels,state,number 2>/dev/null | GitHub CLI (read) | ✅ yes |
 | … | … | … | … |
 ```
 

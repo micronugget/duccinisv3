@@ -234,8 +234,8 @@ After running the script, verify everything was created:
 # List all issues with "epic" label
 gh issue list --label epic
 
-# View a specific issue
-gh issue view 123
+# View a specific issue (--json avoids exit code 1 from Projects classic deprecation warning)
+gh issue view 123 --json title,body,labels,state,number 2>/dev/null
 
 # List all sub-issues for Epic #1
 gh issue list --label sub-issue --search "Epic #1"
