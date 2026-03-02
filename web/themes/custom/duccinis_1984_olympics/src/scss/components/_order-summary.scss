@@ -44,8 +44,8 @@
 
 .order-summary-card {
   background: $olympics-white;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border: 1px solid var(--duccini-border);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -56,7 +56,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--duccini-border);
 }
 
 .order-summary-title {
@@ -65,7 +65,7 @@
   font-weight: 400; // Bebas Neue is inherently display-weight
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
   margin: 0;
 }
 
@@ -87,7 +87,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1.25rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--duccini-border);
 
   &:last-child {
     border-bottom: none;
@@ -98,14 +98,14 @@
   width: 26px;
   height: 26px;
   min-width: 26px;
-  border-radius: 6px;
-  background: #f3f4f6;
+  border-radius: var(--radius-sm);
+  background: $duccini-bg-strong;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8125rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
   flex-shrink: 0;
 }
 
@@ -113,7 +113,7 @@
   flex: 1;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
   min-width: 0; // allow flex child to shrink for text-overflow
   overflow: hidden;
   text-overflow: ellipsis;
@@ -129,7 +129,7 @@
 .order-summary-item__price {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -138,15 +138,15 @@
 
 .order-summary-totals {
   padding: 0.875rem 1.25rem;
-  background: #fafafa;
-  border-top: 1px solid #e5e7eb;
+  background: var(--duccini-bg);
+  border-top: 1px solid var(--duccini-border);
 }
 
 .order-summary-total-row {
   display: flex;
   justify-content: space-between;
   font-size: 0.8125rem;
-  color: #6b7280;
+  color: $duccini-muted-text;
   margin-bottom: 0.35rem;
 
   &:last-child {
@@ -158,9 +158,9 @@
 .order-summary-total-row--grand {
   font-size: 1rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--duccini-border);
   margin-bottom: 0;
 }

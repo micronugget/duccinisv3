@@ -33,6 +33,57 @@ $olympics-purple: #6A4C93;
 $olympics-light-yellow: #FFE66D;
 $olympics-white: #FFFFFF;
 
+// ============================================================
+// Design Tokens — CSS Custom Properties
+// ============================================================
+// Issue #34: 6.1 CSS custom properties
+//
+// Brand and UI tokens exposed as CSS custom properties so they
+// can be referenced in component stylesheets and (eventually)
+// overridden at runtime without a Sass rebuild.
+//
+// Usage in SCSS: color: var(--duccini-blue);
+// Usage in CSS:  color: var(--duccini-blue);
+// ============================================================
+:root {
+  // ── Brand palette ────────────────────────────────────────
+  --duccini-blue:   #0077C0;  // = $olympics-blue
+  --duccini-pink:   #D62976;  // = $olympics-magenta
+  --duccini-gold:   #FFC914;  // = $olympics-yellow
+  --duccini-orange: #FF6B35;  // = $olympics-orange
+  --duccini-red:    #E63946;  // = $olympics-vermillion
+
+  // ── UI neutrals ──────────────────────────────────────────
+  --duccini-dark:   #1a1a1a;  // primary text / dark surfaces
+  --duccini-border: #e5e7eb;  // card/section borders
+  --duccini-bg:     #fafafa;  // subtle section backgrounds
+
+  // ── Shape ────────────────────────────────────────────────
+  --radius:      10px;        // card / pane border-radius
+  --radius-sm:   6px;         // button / input border-radius
+  --radius-pill: 999px;       // pill toggle border-radius
+}
+
+// ── Secondary UI neutrals (SCSS-only; not required as CSS vars) ──────────
+// Used when a CSS var would break a Sass function call (e.g. rgba()),
+// or for semantic colours outside the core brand palette.
+$duccini-muted-text:    #6b7280;  // secondary / meta text
+$duccini-placeholder:   #9ca3af;  // form placeholder, closed dot
+$duccini-border-mid:    #d1d5db;  // slightly stronger UI border
+$duccini-bg-strong:     #f3f4f6;  // stronger background / badge fill
+$duccini-bg-white:      #ffffff;  // pure white surfaces
+$duccini-pink-hover:    #bf2268;  // hover darken of --duccini-pink
+
+// Semantic — info (fulfillment address strip)
+$duccini-info-bg:       #f0f9ff;
+$duccini-info-border:   #bae6fd;
+
+// Semantic — success (coupon applied)
+$duccini-success:       #059669;
+$duccini-success-bg:    #d1fae5;
+$duccini-success-tint:  #f0fdf4;
+$duccini-success-dark:  #065f46;
+
 // Font stacks
 $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
 $font-archivo: 'Archivo Black', 'Arial Black', sans-serif;

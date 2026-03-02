@@ -15,8 +15,8 @@
   align-items: flex-start; // align top so error messages don't shift button
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  border-top: 1px solid var(--duccini-border);
+  border-bottom: 1px solid var(--duccini-border);
 
   // The Drupal form-item wrapper around the text input.
   .coupon-row__field {
@@ -39,20 +39,20 @@
     input[type="text"].form-text {
       width: 100%;
       padding: 0.5rem 0.75rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
+      border: 1px solid var(--duccini-border);
+      border-radius: var(--radius-sm);
       font-size: 0.8125rem;
       font-family: inherit;
       outline: none;
-      background: #fff;
-      color: #1a1a1a;
+      background: $duccini-bg-white;
+      color: var(--duccini-dark);
 
       // Reset Radix / Bootstrap theme overrides (border-width, radius, etc.)
       border-width: 1px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
 
       &::placeholder {
-        color: #9ca3af;
+        color: $duccini-placeholder;
       }
 
       &:focus {
@@ -80,12 +80,12 @@
   input[type="submit"].btn-apply-coupon {
     // Override global .btn-primary with a subtle secondary style
     padding: 0.5rem 0.875rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background: #fff;
+    border: 1px solid $duccini-border-mid;
+    border-radius: var(--radius-sm);
+    background: $duccini-bg-white;
     font-size: 0.8125rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--duccini-dark);
     // Cancel Bebas Neue / uppercase from global btn overrides
     font-family: inherit;
     text-transform: none;
@@ -99,9 +99,9 @@
 
     &:hover,
     &:focus-visible {
-      background: #f3f4f6;
-      border-color: #9ca3af;
-      color: #1a1a1a;
+      background: $duccini-bg-strong;
+      border-color: $duccini-placeholder;
+      color: var(--duccini-dark);
     }
 
     &:focus-visible {
@@ -119,8 +119,8 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.625rem 1.25rem;
-  border-top: 1px solid #e5e7eb;
-  background: #f0fdf4; // light green tint
+  border-top: 1px solid var(--duccini-border);
+  background: $duccini-success-tint;
 
   .coupon-applied__info {
     display: flex;
@@ -132,14 +132,14 @@
   }
 
   .coupon-applied__check {
-    color: #059669;
+    color: $duccini-success;
     font-weight: 700;
     flex-shrink: 0;
   }
 
   .coupon-applied__name {
     font-weight: 600;
-    color: #059669;
+    color: $duccini-success;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -148,10 +148,10 @@
   .coupon-applied__code {
     font-family: monospace;
     font-size: 0.75rem;
-    background: #d1fae5;
+    background: $duccini-success-bg;
     padding: 0.1rem 0.375rem;
     border-radius: 3px;
-    color: #065f46;
+    color: $duccini-success-dark;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -168,7 +168,7 @@
       padding: 0;
       font-size: 0.75rem;
       font-weight: 500;
-      color: #6b7280;
+      color: $duccini-muted-text;
       text-decoration: underline;
       cursor: pointer;
       font-family: inherit;
@@ -198,6 +198,6 @@
 // .checkout-order-summary — they still need the same visual treatment.
 .commerce-checkout-pane-coupon-redemption {
   .order-summary-totals {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--duccini-border);
   }
 }

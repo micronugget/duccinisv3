@@ -7,9 +7,9 @@
 .fulfillment-address {
   margin-top: 0.75rem;
   padding: 0.75rem 1rem;
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: 6px;
+  background: $duccini-info-bg;
+  border: 1px solid $duccini-info-border;
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
   color: $body-color;
   display: flex;
@@ -38,7 +38,7 @@
     align-items: center;
     gap: 0.3rem;
     font-size: 0.75rem;
-    color: #6b7280;
+    color: $duccini-muted-text;
     margin-top: 0.15rem;
     flex-wrap: wrap;
   }
@@ -67,11 +67,11 @@
   flex-shrink: 0;
 
   &--open {
-    background: #059669;
+    background: $duccini-success;
   }
 
   &--closed {
-    background: #9ca3af;
+    background: $duccini-placeholder;
   }
 }
 

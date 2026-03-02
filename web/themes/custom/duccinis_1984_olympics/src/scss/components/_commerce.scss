@@ -95,8 +95,8 @@
   .checkout-pane,
   .checkout-section {
     background: $olympics-white;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border: 1px solid var(--duccini-border);
+    border-radius: var(--radius);
     padding: 1.25rem;
     margin-bottom: 1rem;
 
