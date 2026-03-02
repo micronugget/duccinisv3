@@ -1,0 +1,25 @@
+duccinis_archive.archive:
+  path: '/admin/duccinis/archive/{commerce_product}'
+  defaults:
+    _controller: '\Drupal\duccinis_archive\Controller\ArchiveController::archive'
+    _title: 'Archive product'
+  requirements:
+    _permission: 'administer commerce_product'
+    _csrf_request_header_token: 'TRUE'
+    commerce_product: \d+
+  methods: [POST]
+  options:
+    _admin_route: TRUE
+
+duccinis_archive.unarchive:
+  path: '/admin/duccinis/unarchive/{commerce_product}'
+  defaults:
+    _controller: '\Drupal\duccinis_archive\Controller\ArchiveController::unarchive'
+    _title: 'Unarchive product'
+  requirements:
+    _permission: 'administer commerce_product'
+    _csrf_request_header_token: 'TRUE'
+    commerce_product: \d+
+  methods: [POST]
+  options:
+    _admin_route: TRUE
