@@ -128,3 +128,11 @@ When all of the above High/Medium issues are addressed, the bar should meet thes
 - [WCAG 2.1 — 1.4.3 Contrast (Minimum)](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum)
 - [WCAG 2.1 — 2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible)
 - [WCAG 2.1 — 2.4.4 Link Purpose](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context)
+
+---
+
+> **Note (2026-03-02):** PB-1 through PB-5 have been superseded by the block-first
+> architecture planning in [ISSUES_BLOCKS_AND_CANVAS.md](ISSUES_BLOCKS_AND_CANVAS.md).
+> See ARCH-7 (visual affordance) and ARCH-8 (analytics). The block sprint (ARCH-1)
+> must land before those issues can be addressed, as the progress bar will move out
+> of Twig templates and into a `CheckoutProgressBarBlock` plugin.
