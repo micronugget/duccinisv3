@@ -10,15 +10,20 @@ applyTo: "web/themes/custom/duccinis_1984_olympics/**"
 The theme uses **Laravel Mix (webpack.mix.js)** with Sass. **Never edit files
 in `build/` directly** — they are generated output.
 
+> **Known issue — NVM:** `ddev npm run dev` (from project root) fails because the
+> root `package.json` has no `dev` script. Always build from inside the theme
+> directory. The `.nvmrc` is pinned to `22`; a DDEV `post-start` hook installs
+> that version via nvm so it resolves correctly after container restarts.
+
 ```bash
-# Compile once (inside DDEV — corepack is enabled there)
-ddev npm run dev
+# Compile once (cd into theme inside DDEV)
+ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev" 2>&1 | tail -20
 
 # Watch mode
-ddev npm run watch
+ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run watch"
 ```
 
-After editing any `.scss` or component `.js` file, run `ddev npm run dev` and
+After editing any `.scss` or component `.js` file, run the compile command above and
 **also run `ddev drush cr`** — Drupal caches the SDC asset manifest and library
 definitions. Without a cache clear the old compiled CSS is served.
 
@@ -315,5 +320,5 @@ works — these files completely replace the corresponding core JS.
 | New or renamed preprocess function | `ddev drush cr` |
 | New `*.libraries.yml` entry | `ddev drush cr` |
 | New SDC component or `.component.yml` change | `ddev drush cr` |
-| `.scss` / `.js` source change | `ddev npm run dev` then `ddev drush cr` |
+| `.scss` / `.js` source change | `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` then `ddev drush cr` |
 | `#attached['library']` added in PHP | `ddev drush cr` |

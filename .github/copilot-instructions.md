@@ -24,7 +24,7 @@ version: 2.0.0
 | `ddev phpunit` | Run PHPUnit test suite (all store_fulfillment tests) |
 | `ddev exec phpcs --standard=Drupal …` | PHP CodeSniffer |
 | `ddev exec phpstan …` | Static analysis |
-| `ddev npm run dev` | Compile theme assets (Radix 6 / webpack.mix.js) |
+| `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` | Compile theme assets (Radix 6 / webpack.mix.js) |
 | `ddev drush uli --uid=3 --uri=https://duccinisv3.ddev.site` | Login link for test user Geena (uid=3, has saved Stripe cards) |
 
 **DDEV site URL:** `https://duccinisv3.ddev.site` | PHP 8.4 | Drupal 11.2 | MariaDB 10.11
@@ -82,7 +82,7 @@ Stores have `delivery_radius` and `store_location` (geofield lat/lon) fields. Ge
 **Active theme:** `duccinis_1984_olympics` — Radix 6.x / Bootstrap 5 / webpack.mix.js
 
 - Build output: `web/themes/custom/duccinis_1984_olympics/build/`
-- Run `ddev npm run dev` from the project root (corepack-enabled inside DDEV)
+- Run `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` from the project root (root `package.json` has no `dev` script; must cd into theme)
 - **SDC:** `components/saved-card/` — compiled via npm build
 - Key files:
   - `templates/form/form-element--radio.html.twig` — renders saved-card rows and "Use a different card" UI

@@ -135,6 +135,16 @@ echo "=== Cache Rebuild ===" && ddev drush cr 2>&1 | tail -5
 ```
 
 ### 6c. Tests
+> **Frontend-only issues** (theme SCSS, Twig, libraries, JS — no PHP logic changed):  
+> The full suite can hang in this environment. Running `--filter` on the nearest
+> relevant test class is sufficient. Skip to step 6d if no PHP was modified.
+>
+> ```bash
+> echo "=== PHPUnit (targeted) ==" && \
+> ddev exec vendor/bin/phpunit --testsuite=store_fulfillment \
+>   --filter=OrderPlacementDeliveryRadiusValidatorTest \
+>   --colors=never 2>&1 | tail -10
+> ```
 ```bash
 echo "=== PHPUnit ===" && \
 ddev exec vendor/bin/phpunit --testsuite=store_fulfillment \

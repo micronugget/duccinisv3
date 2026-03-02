@@ -16,7 +16,7 @@ You are a frontend specialist for the **duccinis_1984_olympics** Radix 6 / Boots
 [`.github/instructions/theme-duccinis-1984-olympics.instructions.md`](../instructions/theme-duccinis-1984-olympics.instructions.md)
 
 This covers:
-- Build pipeline and when to run `ddev npm run dev`
+- Build pipeline and when to run `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"`
 - SDC component conventions and CSS compilation paths
 - The `#after_build` → preprocess → Twig variable chain for saved-card display
 - The CSS-only `:checked` selection state pattern (no JS for card selection)
@@ -31,7 +31,7 @@ Implement polished, mobile-first theme changes while maintaining the existing sa
 - **SCSS:** Edit source files in `src/scss/` and `components/**/*.scss` — never `build/`
 - **SDC components:** Create/modify components in `components/<name>/` following the `.component.yml` + `.twig` + `.scss` structure
 - **JS behaviors:** Write Drupal behaviors in `src/js/`; register them in `libraries.yml` before attaching
-- **Build:** Run `ddev npm run dev` after every asset change; run `ddev drush cr` after every template, preprocess, library, or SDC change
+- **Build:** Run `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` after every asset change; run `ddev drush cr` after every template, preprocess, library, or SDC change
 - **Accessibility:** Maintain WCAG standards; never remove visually-hidden elements from DOM (they serve ARIA and CSS `:checked` purposes)
 
 ## Terminal Command Best Practices (CRITICAL)
@@ -53,17 +53,22 @@ Implement polished, mobile-first theme changes while maintaining the existing sa
 
 ### Standard Build Pattern
 
+> **Known issue — NVM:** `ddev npm run dev` (from project root) fails because the
+> root `package.json` has no `dev` script. Always run the build from inside the
+> theme directory. The `.nvmrc` in the theme is pinned to `22`; a DDEV post-start
+> hook runs `nvm install 22` so the version resolves correctly after any restart.
+
 ```bash
-# Compile assets (run inside DDEV — corepack is enabled there)
-echo "=== Compiling theme assets ===" && \
-ddev npm run dev 2>&1 | tail -20 && \
+# Compile assets — must cd into the theme directory inside DDEV
+echo "=== Compiling theme assets ==" && \
+ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev" 2>&1 | tail -20 && \
 echo "=== Build done ==="
 
 # Clear Drupal cache after any template/library/preprocess/SDC change
 ddev drush cr 2>&1
 
 # Both together (most common)
-ddev npm run dev 2>&1 | tail -20 && ddev drush cr 2>&1
+ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev" 2>&1 | tail -20 && ddev drush cr 2>&1
 ```
 
 ### Verification
@@ -171,19 +176,19 @@ web/themes/custom/duccinis_1984_olympics/
 ## Technical Stack
 - **Base theme:** Radix 6.x
 - **CSS framework:** Bootstrap 5
-- **Build tool:** Laravel Mix (webpack.mix.js) via `ddev npm run dev`
+- **Build tool:** Laravel Mix (webpack.mix.js) via `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"`
 - **Design tokens:** `$olympics-blue: #0077C0`, `$olympics-magenta: #D62976`, `$font-bebas: 'Bebas Neue'`
 - **SDC:** Single Directory Components for the payment card UI
 
 ## Validation Before Handoff
-- [ ] `ddev npm run dev` completes without errors
+- [ ] `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` completes without errors
 - [ ] `ddev drush cr` completed after all template/library/preprocess/SDC changes
 - [ ] Saved-card `:checked` selection state still works visually (no JS error)
 - [ ] Responsive testing across Bootstrap 5 breakpoints
 - [ ] `ddev drush cex` run if any config was touched (image styles, etc.)
 
 ## Guiding Principles
-- "Run `ddev npm run dev && ddev drush cr` — always both, always in order."
+- "Run `ddev exec \"cd web/themes/custom/duccinis_1984_olympics && npm run dev\"` then `ddev drush cr` — always both, always in order."
 - "`{{ children }}` before `<label>` — the `:checked` CSS depends on it."
 - "`visually-hidden` keeps elements in layout and in the accessibility tree — never use `display:none` on interactive inputs."
 - "Preprocess logic in `includes/*.theme`, never inline in `.theme`."
