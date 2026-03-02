@@ -18,6 +18,7 @@ regions:
   page_bottom: 'Page bottom'
   footer: Footer
 libraries:
+  - duccinis_1984_olympics/google-fonts-dm-sans
   - duccinis_1984_olympics/style
 ckeditor5-stylesheets:
   - build/css/main.style.css

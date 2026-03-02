@@ -4,3 +4,32 @@
  * @file
  * Custom theme hooks.
  */
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Adds preconnect hints for Google Fonts to minimise CLS when DM Sans loads.
+ */
+function duccinis_1984_olympics_page_attachments(array &$attachments): void {
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.googleapis.com',
+      ],
+    ],
+    'google_fonts_preconnect',
+  ];
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.gstatic.com',
+        'crossorigin' => TRUE,
+      ],
+    ],
+    'google_fonts_gstatic_preconnect',
+  ];
+}

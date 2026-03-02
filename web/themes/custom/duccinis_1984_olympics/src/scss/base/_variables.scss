@@ -85,10 +85,14 @@ $duccini-success-tint:  #f0fdf4;
 $duccini-success-dark:  #065f46;
 
 // Font stacks
+$font-dm-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
 $font-archivo: 'Archivo Black', 'Arial Black', sans-serif;
 
 // Bootstrap Variable Overrides
+// Body/UI font set to DM Sans (Google Fonts, weights 400–700)
+$font-family-base: $font-dm-sans;
+
 // ============================================
 
 // Colors
