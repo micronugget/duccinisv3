@@ -14008,6 +14008,7 @@ h1.title::after,
   height: 3px;
   background: #e5e7eb;
   border-radius: 2px;
+  transition: opacity 0.15s ease;
 }
 .checkout-progress .step.active {
   color: #1a1a1a;
@@ -14020,6 +14021,18 @@ h1.title::after,
 }
 .checkout-progress .step.done::after {
   background: #059669;
+}
+.checkout-progress a.step {
+  text-decoration: none;
+  cursor: pointer;
+}
+.checkout-progress a.step:hover::after {
+  opacity: 0.65;
+}
+.checkout-progress a.step:focus-visible {
+  outline: 2px solid #D62976;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /*# sourceMappingURL=main.style.css.map*/
