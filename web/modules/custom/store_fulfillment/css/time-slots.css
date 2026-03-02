@@ -52,7 +52,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #6b7280;
+  /* #4b5563 on white = 6.5:1 — passes WCAG 1.4.3 AA */
+  color: #4b5563;
   padding: 0.25rem 0;
   margin-bottom: 0.35rem;
 }
@@ -89,28 +90,41 @@
   line-height: 1;
 }
 
-/* Hide the native radio input */
+/* Visually hide the native radio while keeping it keyboard- and AT-reachable.
+   Uses the Bootstrap / SR-only clip pattern. width:0/height:0 breaks focus
+   on some browsers — 1px clip is the WCAG-safe minimum. */
 .time-slot-chip input[type="radio"] {
   position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Hover state */
 .time-slot-chip label:hover {
-  border-color: #0077C0;
+  border-color: #0065a3;
   background: #f0f9ff;
 }
 
-/* Selected state — :has() + adjacent-sibling fallback */
+/* Selected state — :has() + adjacent-sibling fallback.
+   #0065a3 on white (text) = 6.2:1 — passes WCAG 1.4.3 AA. */
 .time-slot-chip:has(input:checked) label,
 .time-slot-chip input[type="radio"]:checked ~ label {
-  border-color: #0077C0;
-  background: #0077C0;
+  border-color: #0065a3;
+  background: #0065a3;
   color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 119, 192, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 101, 163, 0.3);
+}
+
+/* Keyboard focus ring on chip label */
+.time-slot-chip input[type="radio"]:focus-visible ~ label {
+  outline: 2px solid #0065a3;
+  outline-offset: 2px;
 }
 
 /* ── Empty state ── */

@@ -13,7 +13,8 @@
 
 $pill-bg: $duccini-bg-strong;
 $pill-active-bg: $olympics-white;
-$pill-color: $duccini-muted-text;
+// #374151 on #f3f4f6 = 8.1:1 — passes WCAG 1.4.3 AA (was $duccini-muted-text = 3.8:1 ❌).
+$pill-color: #374151;
 $pill-active-color: $body-color;
 $pill-radius: var(--radius-pill);
 

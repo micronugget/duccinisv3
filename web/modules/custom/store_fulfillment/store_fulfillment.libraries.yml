@@ -19,3 +19,11 @@ delivery_expand:
   dependencies:
     - core/drupal
     - core/once
+
+checkout_aria:
+  version: 1.x
+  js:
+    js/checkout-aria.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
