@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Provides archive functionality for Commerce products (menu items).
+ *
+ * Archiving a product marks it as hidden-from-menu by automatically
+ * unpublishing it and all its variations. Because the entity module's
+ * QueryAccessHandlerBase injects status = 1 into every entity query
+ * (including Views) for non-admin users, no view-level filter is needed.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function duccinis_archive_entity_base_field_info(EntityTypeInterface $entity_type): array {
+  if ($entity_type->id() !== 'commerce_product') {
+    return [];
+  }
+
+  $fields = [];
+
+  $fields['field_archived'] = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Archived'))
+    ->setDescription(new TranslatableMarkup('Archived menu items are hidden from the menu. Archiving a product automatically unpublishes it and all its variations.'))
+    ->setDefaultValue(FALSE)
+    ->setDisplayOptions('form', [
+      'type' => 'boolean_checkbox',
+      'settings' => ['display_label' => TRUE],
+      'weight' => 100,
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', FALSE);
+
+  return $fields;
+}

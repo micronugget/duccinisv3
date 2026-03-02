@@ -1,0 +1,7 @@
+name: 'Duccinis Archive'
+type: module
+description: 'Adds an "Archived" flag to Commerce products (menu items). Archived products are automatically unpublished and hidden from menu view blocks.'
+package: Custom
+core_version_requirement: ^11
+dependencies:
+  - drupal:commerce_product

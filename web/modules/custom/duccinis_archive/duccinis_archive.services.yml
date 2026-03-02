@@ -1,0 +1,5 @@
+services:
+  duccinis_archive.product_archive_subscriber:
+    class: Drupal\duccinis_archive\EventSubscriber\ProductArchiveSubscriber
+    tags:
+      - { name: event_subscriber }

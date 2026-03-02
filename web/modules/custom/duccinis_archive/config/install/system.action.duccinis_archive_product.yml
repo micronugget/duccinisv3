@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - duccinis_archive
+id: duccinis_archive_product
+label: 'Archive product'
+type: commerce_product
+plugin: duccinis_archive_product
+configuration: {  }
