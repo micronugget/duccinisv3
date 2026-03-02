@@ -48,7 +48,7 @@
         "drupal/easy_breadcrumb": "^2.0.9",
         "drupal/easy_email": "^3.0.2",
         "drupal/easy_email_theme": "^1",
-        "drupal/eca": "^3.0.10",
+        "drupal/eca": "^2.1.4",
         "drupal/editoria11y": "^2.2",
         "drupal/feeds_tamper": "dev-2.x",
         "drupal/field_group": "^3.6 || ^4",
