@@ -12827,6 +12827,36 @@ h1.title::after,
   background: repeating-linear-gradient(90deg, #E63946 0px, #E63946 20px, #FF6B35 20px, #FF6B35 40px, #FFC914 40px, #FFC914 60px, #0077C0 60px, #0077C0 80px);
 }
 
+.checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #1a1a1a;
+}
+.checkout-header h1, .checkout-header .h1 {
+  font-family: "Bebas Neue", "Arial Black", sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  margin: 0;
+}
+.checkout-header .back-link {
+  font-size: 0.875rem;
+  color: #0077C0;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.checkout-header .back-link:hover {
+  text-decoration: underline;
+  color: #0077C0;
+}
+
 .checkout-layout {
   max-width: 1120px;
   margin-inline: auto;

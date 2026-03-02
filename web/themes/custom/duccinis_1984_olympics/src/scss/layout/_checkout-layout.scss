@@ -11,6 +11,44 @@
 //   src/scss/components/_order-summary.scss
 // ============================================================
 
+// ── Checkout header ─────────────────────────────────────────
+//
+// Title + "Back to cart" link row above the two-column grid.
+// Issue #33.
+
+.checkout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid $body-color;
+
+  h1 {
+    font-family: $font-bebas;
+    font-size: 1.75rem;
+    letter-spacing: 0.04em;
+    color: $body-color;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .back-link {
+    font-size: 0.875rem;
+    color: $olympics-blue;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &:hover {
+      text-decoration: underline;
+      color: $olympics-blue;
+    }
+  }
+}
+
 // ── Outer container ──────────────────────────────────────────
 //
 // Bootstrap's .container/.container-fluid is not used here
