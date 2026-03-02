@@ -53,7 +53,6 @@ design-tool export --format svg 2>&1 && \
 echo "=== Export Complete: Exit Code $? ===" && \
 ls -lh assets/ | grep svg
 ```
-
 ## Design Deliverables
 
 ### For Masonry Archive Grid
