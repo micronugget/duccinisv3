@@ -20,11 +20,24 @@
  * @see template_preprocess_fieldset()
  */
 #}
-{% include "radix:fieldset" with {
-  fieldset_utility_classes: [
-    'mb-3',
-  ],
-  legend_utility_classes: [
-    'mb-3',
-  ],
-} %}
+{% if attributes.hasClass('checkout-pane') %}
+  {#
+    Checkout pane wrappers: Commerce sets #type => fieldset with #title =>
+    the pane's display label (e.g. "Fulfillment Time", "Delivery Address",
+    "Payment information"). We suppress that auto-generated legend entirely —
+    each pane's own content provides sufficient visual context.
+    Issue #32: remove redundant pane heading wrappers.
+  #}
+  <div{{ attributes }}>
+    {{ children }}
+  </div>
+{% else %}
+  {% include "radix:fieldset" with {
+    fieldset_utility_classes: [
+      'mb-3',
+    ],
+    legend_utility_classes: [
+      'mb-3',
+    ],
+  } %}
+{% endif %}
