@@ -105,7 +105,7 @@ class OrderPlacementDeliveryRadiusValidatorTest extends CommerceKernelTestBase {
     $order_type = OrderType::load('default');
     $order_type->setThirdPartySetting('commerce_shipping', 'shipment_type', 'default');
     $order_type->save();
-    $field_definition = commerce_shipping_build_shipment_field_definition($order_type->id());
+    $field_definition = Shipment::buildShipmentsFieldDefinition($order_type->id());
     $this->container->get('commerce.configurable_field_manager')->createField($field_definition);
 
     // Create test store.
