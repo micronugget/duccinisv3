@@ -15,15 +15,15 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 
 | Category | Commands |
 |---|---|
-| DDEV environment | `ddev status`, `ddev describe`, `ddev exec …` |
+| DDEV environment | `ddev status`, `ddev describe`, `ddev exec …`, `ddev drush pm-list`, `ddev drush pm:list` |
 | Cache / config | `ddev drush cr`, `ddev drush cex` |
 | Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …` |
 | Tests | `ddev exec vendor/bin/phpunit …` (all read-only test runs) |
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
 | Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"` |
-| Git (read) | `git status`, `git log`, `git diff`, `git branch` |
-| Git (write, local) | `git add`, `git commit` |
-| File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc` |
+| Git (read) | `git status`, `git log`, `git diff`, `git branch`, `git show` |
+| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b` |
+| File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
