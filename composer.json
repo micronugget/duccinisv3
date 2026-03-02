@@ -123,7 +123,10 @@
         },
         "bin-dir": "vendor/bin",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.4"
+        }
     },
     "extra": {
         "drupal-scaffold": {
