@@ -1,10 +1,14 @@
 // Component-local tokens (from the 1984 Olympics design system).
 // Kept here so the SDC CSS bundle doesn't drag in Bootstrap's :root block
 // or the Google Fonts @import that lives in _variables.scss.
+// CSS custom properties from :root (defined in _variables.scss) are
+// available globally and used directly where no Sass function is needed.
 $olympics-blue: #0077C0;
 $olympics-magenta: #D62976;
 $olympics-white: #FFFFFF;
 $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
+$sc-dark: #1a1a1a;
+$sc-muted: #6b7280;
 
 // ============================================
 // Saved Card Component
@@ -42,8 +46,8 @@ $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
+  border: 2px solid var(--duccini-border);
+  border-radius: var(--radius);
   background: $olympics-white;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
@@ -93,12 +97,12 @@ $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
   &--visa       { background: linear-gradient(135deg, #1a1f71, #2a6cca); }
   &--mastercard { background: linear-gradient(135deg, #eb001b, #f79e1b); }
   &--amex       { background: linear-gradient(135deg, #006fcf, #00a4e4); }
-  &--discover   { background: linear-gradient(135deg, #ff6000, #ffb300); color: #1a1a1a; }
+  &--discover   { background: linear-gradient(135deg, #ff6000, #ffb300); color: $sc-dark; }
   &--dinersclub { background: linear-gradient(135deg, #0079be, #00a2e8); }
   &--jcb        { background: linear-gradient(135deg, #0e4c96, #e20138); }
   &--unionpay   { background: linear-gradient(135deg, #002e6e, #e21836); }
   &--unknown,
-  &:not([class*="--"]) { background: #6b7280; }
+  &:not([class*="--"]) { background: $sc-muted; }
 }
 
 // ── Card details ──
@@ -113,12 +117,12 @@ $font-bebas: 'Bebas Neue', 'Arial Black', sans-serif;
 .saved-card__number {
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--duccini-dark);
 }
 
 .saved-card__expiry {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: $sc-muted;
 }
 
 // ── Checkmark ──

@@ -11,7 +11,7 @@
 
 .cta-section {
   padding: 1rem 1.25rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--duccini-border);
 }
 
 // ── The button itself ──────────────────────────────────────
@@ -26,8 +26,8 @@
   text-transform: uppercase;
   text-align: center;
   border: none;
-  border-radius: 6px;
-  background: $olympics-magenta; // #D62976
+  border-radius: var(--radius-sm);
+  background: $olympics-magenta; // var(--duccini-pink)
   color: $olympics-white;
   cursor: pointer;
   line-height: 1.2;
@@ -43,7 +43,7 @@
   }
 
   &:hover {
-    background: #bf2268;
+    background: $duccini-pink-hover;
     color: $olympics-white;
   }
 

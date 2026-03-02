@@ -11,11 +11,11 @@
 //         label.form-check-label ← pill surface
 // ============================================
 
-$pill-bg: #f3f4f6;
+$pill-bg: $duccini-bg-strong;
 $pill-active-bg: $olympics-white;
-$pill-color: #6b7280;
+$pill-color: $duccini-muted-text;
 $pill-active-color: $body-color;
-$pill-radius: 999px;
+$pill-radius: var(--radius-pill);
 
 .pill-toggle {
   // Radix wraps radios in a .form-radios div; flex layout goes here.
