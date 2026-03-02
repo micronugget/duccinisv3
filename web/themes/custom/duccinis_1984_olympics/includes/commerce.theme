@@ -6,6 +6,80 @@
  */
 
 /**
+ * Implements hook_preprocess_HOOK() for commerce_checkout_form.
+ *
+ * Injects checkout_progress_steps into the checkout form template so the
+ * progress bar can show Cart → Order Details → Review → Complete with correct
+ * done/active/future states.
+ *
+ * Done steps are given back-navigation URLs to support funnel re-entry.
+ * Active and future steps are non-clickable by design (no skipping forward).
+ * On the complete step, checkout step back-links are suppressed because the
+ * order is already placed and those URLs would redirect away anyway.
+ */
+function duccinis_1984_olympics_preprocess_commerce_checkout_form(array &$variables): void {
+  $step_id = $variables['form']['#step_id'] ?? 'order_information';
+
+  // Canonical step order (matching the default checkout flow).
+  $step_order = ['order_information', 'review', 'complete'];
+  $current_index = array_search($step_id, $step_order, TRUE);
+  if ($current_index === FALSE) {
+    $current_index = 0;
+  }
+
+  // Resolve the order for building checkout step URLs.
+  $order = \Drupal::routeMatch()->getParameter('commerce_order');
+  $order_id = $order ? $order->id() : NULL;
+
+  // On the complete step the order is already placed; suppress checkout
+  // back-links to avoid confusing re-entry attempts after payment.
+  $allow_back_nav = ($step_id !== 'complete');
+
+  $labels = [
+    'order_information' => t('Order Details'),
+    'review'            => t('Review'),
+    'complete'          => t('Complete'),
+  ];
+
+  // Cart is conceptually index -1 and is always "done" when the user reaches
+  // the checkout form. Always linkable as a "continue shopping" escape.
+  $cart_url = \Drupal\Core\Url::fromRoute('commerce_cart.page')->toString();
+  $steps = [
+    ['label' => t('Cart'), 'state' => 'done', 'url' => $cart_url],
+  ];
+
+  foreach ($step_order as $i => $id) {
+    if ($i < $current_index) {
+      $state = 'done';
+    }
+    elseif ($i === $current_index) {
+      $state = 'active';
+    }
+    else {
+      $state = '';
+    }
+
+    // Only done steps in an active checkout get a back-navigation URL.
+    $url = NULL;
+    if ($state === 'done' && $order_id && $allow_back_nav) {
+      try {
+        $url = \Drupal\Core\Url::fromRoute('commerce_checkout.form', [
+          'commerce_order' => $order_id,
+          'step' => $id,
+        ])->toString();
+      }
+      catch (\Exception $e) {
+        // URL generation failure is non-fatal; step renders without a link.
+      }
+    }
+
+    $steps[] = ['label' => $labels[$id], 'state' => $state, 'url' => $url];
+  }
+
+  $variables['checkout_progress_steps'] = $steps;
+}
+
+/**
  * Implements hook_preprocess_HOOK() for commerce_coupon_redemption_form.
  *
  * Injects order totals so the coupon redemption template (weight 10 sidebar

@@ -13976,4 +13976,63 @@ h1.title::after,
   }
 }
 
+.checkout-progress {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  list-style: none;
+  padding: 0;
+}
+.checkout-progress .step {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b7280;
+  position: relative;
+  cursor: default;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.checkout-progress .step::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  transition: opacity 0.15s ease;
+}
+.checkout-progress .step.active {
+  color: #1a1a1a;
+}
+.checkout-progress .step.active::after {
+  background: #D62976;
+}
+.checkout-progress .step.done {
+  color: #059669;
+}
+.checkout-progress .step.done::after {
+  background: #059669;
+}
+.checkout-progress a.step {
+  text-decoration: none;
+  cursor: pointer;
+}
+.checkout-progress a.step:hover::after {
+  opacity: 0.65;
+}
+.checkout-progress a.step:focus-visible {
+  outline: 2px solid #D62976;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /*# sourceMappingURL=main.style.css.map*/

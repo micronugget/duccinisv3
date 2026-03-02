@@ -27,6 +27,24 @@
     <a href="/cart" class="back-link">&#8592; {{ 'Back to cart'|t }}</a>
   </header>
 
+  {# ── Issue #31: Checkout progress bar ── #}
+  {% if checkout_progress_steps %}
+    <nav class="checkout-progress" aria-label="{{ 'Checkout progress'|t }}">
+      {% for step in checkout_progress_steps %}
+        {%- if step.url %}
+          <a href="{{ step.url }}"
+             class="step{{ step.state ? ' ' ~ step.state : '' }}">
+            {{- step.label -}}
+          </a>
+        {%- elseif step.state == 'active' %}
+          <div class="step active" aria-current="step">{{- step.label -}}</div>
+        {%- else %}
+          <div class="step" aria-disabled="true">{{- step.label -}}</div>
+        {%- endif %}
+      {% endfor %}
+    </nav>
+  {% endif %}
+
   <div class="row gy-4 align-items-start">
 
     <main id="checkout-main"
