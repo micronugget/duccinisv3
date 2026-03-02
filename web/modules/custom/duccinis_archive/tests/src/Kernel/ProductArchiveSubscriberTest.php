@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\duccinis_archive\Kernel;
 
+use Drupal\commerce_product\Entity\ProductInterface;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductVariation;
 use Drupal\Tests\commerce\Kernel\CommerceKernelTestBase;
@@ -52,7 +53,7 @@ class ProductArchiveSubscriberTest extends CommerceKernelTestBase {
    * @return \Drupal\commerce_product\Entity\ProductInterface
    *   The saved product entity.
    */
-  protected function createActiveProduct(): \Drupal\commerce_product\Entity\ProductInterface {
+  protected function createActiveProduct(): ProductInterface {
     $variation1 = ProductVariation::create([
       'type'   => 'default',
       'sku'    => 'TEST-VAR-1',

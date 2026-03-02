@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - duccinis_archive
+id: duccinis_unarchive_product
+label: 'Unarchive product'
+type: commerce_product
+plugin: duccinis_unarchive_product
+configuration: {  }
