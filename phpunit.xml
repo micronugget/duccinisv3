@@ -20,5 +20,8 @@
     <testsuite name="store_fulfillment">
       <directory>web/modules/custom/store_fulfillment/tests</directory>
     </testsuite>
+    <testsuite name="duccinis_archive">
+      <directory>web/modules/custom/duccinis_archive/tests</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

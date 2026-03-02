@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Install, update and uninstall functions for the duccinis_archive module.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Implements hook_install().
+ *
+ * Explicitly installs the field_archived base field storage definition so
+ * that the column is added to commerce_product_field_data on module install.
+ * This is required because hook_entity_base_field_info() only makes the field
+ * known to the runtime; installing the schema requires a separate call.
+ */
+function duccinis_archive_install(): void {
+  $definition = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Archived'))
+    ->setDescription(new TranslatableMarkup('Archived menu items are hidden from the menu. Archiving a product automatically unpublishes it and all its variations.'))
+    ->setDefaultValue(FALSE)
+    ->setDisplayOptions('form', [
+      'type'     => 'boolean_checkbox',
+      'settings' => ['display_label' => TRUE],
+      'weight'   => 100,
+    ])
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', FALSE);
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('field_archived', 'commerce_product', 'duccinis_archive', $definition);
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Removes the field_archived base field storage definition when the
+ * module is uninstalled.
+ */
+function duccinis_archive_uninstall(): void {
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $definition = $update_manager->getFieldStorageDefinition('field_archived', 'commerce_product');
+  if ($definition) {
+    $update_manager->uninstallFieldStorageDefinition($definition);
+  }
+}

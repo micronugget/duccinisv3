@@ -43,6 +43,7 @@ module:
   datetime: 0
   dblog: 0
   drupal_cms_helper: 0
+  duccinis_archive: 0
   dynamic_page_cache: 0
   easy_breadcrumb: 0
   easy_email: 0
