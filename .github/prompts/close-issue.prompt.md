@@ -25,6 +25,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Git (write, local) | `git add`, `git commit` |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
+| Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 
 **Always ask before running:**
