@@ -17,7 +17,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 |---|---|
 | DDEV environment | `ddev status`, `ddev describe`, `ddev exec …`, `ddev drush pm-list`, `ddev drush pm:list` |
 | Cache / config | `ddev drush cr`, `ddev drush cex` |
-| Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …` |
+| Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …`, `ddev exec vendor/bin/phpcbf …` |
 | Tests | `ddev exec vendor/bin/phpunit …` (all read-only test runs) |
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
 | Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"` |
