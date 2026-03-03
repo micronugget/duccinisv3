@@ -27,6 +27,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
+| Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
 
 **Always ask before running:**
 - `git push origin main` or `git push --force` — visible to all collaborators / destructive
