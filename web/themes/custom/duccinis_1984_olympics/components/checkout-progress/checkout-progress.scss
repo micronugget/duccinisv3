@@ -47,6 +47,11 @@ $cp-active-text:      $body-color;
     cursor: default;
     user-select: none;
 
+    // Locked future steps: communicate non-interactivity to pointer users.
+    &[aria-disabled="true"] {
+      cursor: not-allowed;
+    }
+
     // Underline bar via ::after pseudo-element.
     &::after {
       content: '';

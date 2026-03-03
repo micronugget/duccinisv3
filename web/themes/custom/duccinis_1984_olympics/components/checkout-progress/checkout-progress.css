@@ -19,6 +19,9 @@
   -webkit-user-select: none;
           user-select: none;
 }
+.checkout-progress .step[aria-disabled=true] {
+  cursor: not-allowed;
+}
 .checkout-progress .step::after {
   content: "";
   position: absolute;

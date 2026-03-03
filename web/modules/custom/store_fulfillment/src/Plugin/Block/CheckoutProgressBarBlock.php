@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\store_fulfillment\Plugin\Block;
 
+use Drupal\commerce_cart\CartProviderInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -46,12 +48,18 @@ class CheckoutProgressBarBlock extends BlockBase implements ContainerFactoryPlug
    *   Plugin definition.
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route match service.
+   * @param \Drupal\commerce_cart\CartProviderInterface $cartProvider
+   *   The cart provider, used to find the user's active draft order on /cart.
+   * @param \Drupal\Core\Session\AccountInterface $currentUser
+   *   The current user account.
    */
   public function __construct(
     array $configuration,
     string $plugin_id,
     mixed $plugin_definition,
     protected readonly RouteMatchInterface $routeMatch,
+    protected readonly CartProviderInterface $cartProvider,
+    protected readonly AccountInterface $currentUser,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -65,6 +73,8 @@ class CheckoutProgressBarBlock extends BlockBase implements ContainerFactoryPlug
       $plugin_id,
       $plugin_definition,
       $container->get('current_route_match'),
+      $container->get('commerce_cart.cart_provider'),
+      $container->get('current_user'),
     );
   }
 
@@ -124,6 +134,14 @@ class CheckoutProgressBarBlock extends BlockBase implements ContainerFactoryPlug
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags(): array {
+    // Invalidate when any order changes (cart add/remove updates the bar).
+    return Cache::mergeTags(parent::getCacheTags(), ['commerce_order_list']);
+  }
+
+  /**
    * Builds the ordered steps array for the progress bar SDC component.
    *
    * Each step is an associative array with keys:
@@ -155,6 +173,17 @@ class CheckoutProgressBarBlock extends BlockBase implements ContainerFactoryPlug
     $step_id = $this->resolveStepId($route_name, $current_position);
     $order = $this->routeMatch->getParameter('commerce_order');
     $order_id = $order ? $order->id() : NULL;
+
+    // On the cart page, look up the current user's active draft order so the
+    // Order Details step can link to the checkout resume URL.
+    $draft_order_id = NULL;
+    if ($current_position === -1 && $this->currentUser->isAuthenticated()) {
+      $carts = $this->cartProvider->getCarts();
+      if (!empty($carts)) {
+        $cart = reset($carts);
+        $draft_order_id = $cart->id();
+      }
+    }
 
     // On the complete step the order is already placed; suppress back-links to
     // avoid confusing re-entry attempts.
@@ -229,6 +258,26 @@ class CheckoutProgressBarBlock extends BlockBase implements ContainerFactoryPlug
             'from_step'    => $step_id,
             'to_step'      => $id,
             'order_id'     => (string) $order_id,
+          ];
+        }
+      }
+      elseif ($state === '' && $id === 'order_information' && $draft_order_id !== NULL) {
+        // Cart page: link Order Details to the checkout resume URL.
+        try {
+          $url = Url::fromRoute('commerce_checkout.form', [
+            'commerce_order' => $draft_order_id,
+            'step' => 'order_information',
+          ])->toString();
+        }
+        catch (\Exception $e) {
+          // Non-fatal — step renders without a link.
+        }
+        if ($url !== NULL) {
+          $analytics = [
+            'funnel_event' => 'checkout_resume',
+            'from_step'    => 'cart',
+            'to_step'      => 'order_information',
+            'order_id'     => (string) $draft_order_id,
           ];
         }
       }
