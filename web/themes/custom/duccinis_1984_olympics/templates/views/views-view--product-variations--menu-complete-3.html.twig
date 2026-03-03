@@ -6,10 +6,13 @@
  * This display uses Bootstrap 5 accordion with pure Twig rendering.
  * The accordion wrapper is created here, and each group becomes an accordion item
  * via the views-view-unformatted template.
+ *
+ * Includes an archive filter/sort toolbar above the accordion.
  */
 #}
 
 {{ attach_library('duccinis_1984_olympics/menu_accordion') }}
+{{ attach_library('duccinis_1984_olympics/archive-filter-sort') }}
 
 {% set accordion_id = accordion_id|default('menu-complete-3-accordion') %}
 
@@ -28,6 +31,34 @@
       {{ exposed }}
     </div>
   {% endif %}
+
+  {# ── Archive filter/sort toolbar ── #}
+  {% include 'duccinis_1984_olympics:archive-controls' with {
+    show_filter: true,
+    filter_label: 'Category',
+    filter_options: [
+      { value: 'all', label: 'All Categories' },
+      { value: 'pizza', label: 'Pizza' },
+      { value: 'homemade-pasta', label: 'Homemade Pasta' },
+      { value: 'salad', label: 'Salads' },
+      { value: 'fresh-submarines', label: 'Fresh Submarines' },
+      { value: 'famous-stromboli', label: 'Famous Stromboli' },
+      { value: 'chicken-wings', label: 'Buffalo Wings' },
+      { value: 'gyro', label: 'Gyro Special' },
+      { value: 'side-orders', label: 'Side Orders' },
+      { value: 'desserts', label: 'Desserts' },
+      { value: 'beverages', label: 'Beverages' },
+      { value: 'specials', label: 'Specials' },
+      { value: 'menu-extras', label: 'Menu Extras' },
+    ],
+    show_sort: true,
+    sort_label: 'Sort',
+    sort_options: [
+      { value: 'default', label: 'Default' },
+      { value: 'name-asc', label: 'Name A – Z' },
+      { value: 'name-desc', label: 'Name Z – A' },
+    ],
+  } %}
 
   {% if attachment_before %}
     <div class="attachment attachment-before">

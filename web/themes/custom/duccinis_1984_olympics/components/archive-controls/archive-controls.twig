@@ -3,20 +3,26 @@
  * @file
  * Archive Controls — SDC component.
  *
- * Provides two elements:
+ * Provides:
  * 1. Archive badge — a visual indicator placed on archived menu/order items.
  * 2. Archive toggle — a button to show/hide archived items in a list.
+ * 3. Filter dropdown — client-side category filter for menu items.
+ * 4. Sort dropdown — client-side sort control for menu/order items.
  *
- * Usage (badge only):
+ * Usage (filter + sort toolbar):
  *   {% include 'duccinis_1984_olympics:archive-controls' with {
- *     badge_label: 'Archived',
- *   } %}
- *
- * Usage (toggle only):
- *   {% include 'duccinis_1984_olympics:archive-controls' with {
- *     show_toggle: true,
- *     toggle_label_show: 'Show archived',
- *     toggle_label_hide: 'Hide archived',
+ *     show_filter: true,
+ *     filter_label: 'Filter',
+ *     filter_options: [
+ *       { value: 'all', label: 'All Categories' },
+ *       { value: 'pizza', label: 'Pizza' },
+ *     ],
+ *     show_sort: true,
+ *     sort_label: 'Sort',
+ *     sort_options: [
+ *       { value: 'default', label: 'Default' },
+ *       { value: 'name-asc', label: 'Name A–Z' },
+ *     ],
  *   } %}
  */
 #}
@@ -31,20 +37,93 @@
   </span>
 {% endif %}
 
-{# ── Archive Toggle ── #}
-{% if show_toggle is defined and show_toggle %}
-  {% set label_show = toggle_label_show|default('Show archived') %}
-  {% set label_hide = toggle_label_hide|default('Hide archived') %}
-  <button
-    type="button"
-    class="archive-toggle"
-    aria-pressed="false"
-    data-label-show="{{ label_show }}"
-    data-label-hide="{{ label_hide }}"
-  >
-    <svg class="archive-toggle__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-      <path d="M2 1h12a1 1 0 0 1 1 1v2H1V2a1 1 0 0 1 1-1Zm-1 5h14v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6Zm5 2a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z"/>
-    </svg>
-    <span class="archive-toggle__text">{{ label_show }}</span>
-  </button>
+{# ── Controls Toolbar (filter + sort + toggle) ── #}
+{% if (show_filter is defined and show_filter) or (show_sort is defined and show_sort) or (show_toggle is defined and show_toggle) %}
+  <div class="archive-controls-toolbar">
+
+    {# ── Category Filter Dropdown ── #}
+    {% if show_filter is defined and show_filter %}
+      {% set f_label = filter_label|default('Filter') %}
+      <div class="archive-controls-dropdown dropdown">
+        <button
+          type="button"
+          class="archive-controls-dropdown__btn dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <svg class="archive-controls-dropdown__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .39.812L9.5 7.606V13.5a.5.5 0 0 1-.724.447l-2-1A.5.5 0 0 1 6.5 12.5V7.606L1.61 1.812A.5.5 0 0 1 2 1Z"/>
+          </svg>
+          <span class="archive-controls-dropdown__text">{{ f_label }}</span>
+        </button>
+        {% if filter_options is defined and filter_options %}
+          <ul class="dropdown-menu archive-controls-dropdown__menu">
+            {% for option in filter_options %}
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item archive-filter-option{{ option.value == 'all' ? ' active' : '' }}"
+                  data-filter-value="{{ option.value }}"
+                >
+                  {{ option.label }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {# ── Sort Dropdown ── #}
+    {% if show_sort is defined and show_sort %}
+      {% set s_label = sort_label|default('Sort') %}
+      <div class="archive-controls-dropdown archive-controls-dropdown--sort dropdown">
+        <button
+          type="button"
+          class="archive-controls-dropdown__btn dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <svg class="archive-controls-dropdown__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L3.5 11.293V2.5Zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5ZM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5Zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3Zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1Z"/>
+          </svg>
+          <span class="archive-controls-dropdown__text">{{ s_label }}</span>
+        </button>
+        {% if sort_options is defined and sort_options %}
+          <ul class="dropdown-menu archive-controls-dropdown__menu">
+            {% for option in sort_options %}
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item archive-sort-option{{ loop.first ? ' active' : '' }}"
+                  data-sort-value="{{ option.value }}"
+                >
+                  {{ option.label }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {# ── Archive Toggle ── #}
+    {% if show_toggle is defined and show_toggle %}
+      {% set label_show = toggle_label_show|default('Show archived') %}
+      {% set label_hide = toggle_label_hide|default('Hide archived') %}
+      <button
+        type="button"
+        class="archive-toggle"
+        aria-pressed="false"
+        data-label-show="{{ label_show }}"
+        data-label-hide="{{ label_hide }}"
+      >
+        <svg class="archive-toggle__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1h12a1 1 0 0 1 1 1v2H1V2a1 1 0 0 1 1-1Zm-1 5h14v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6Zm5 2a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6Z"/>
+        </svg>
+        <span class="archive-toggle__text">{{ label_show }}</span>
+      </button>
+    {% endif %}
+
+  </div>
 {% endif %}

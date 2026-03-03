@@ -144,5 +144,114 @@
     box-shadow: 3px 3px 0 #D62976;
   }
 }
+.archive-controls-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1rem;
+}
+
+.archive-controls-dropdown {
+  position: relative;
+}
+
+.archive-controls-dropdown__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.9rem;
+  font-family: "Bebas Neue", "Arial Black", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: #0077C0;
+  background: #FFFFFF;
+  border: 2px solid #0077C0;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #FFC914;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.archive-controls-dropdown__btn::after {
+  border-top-color: #0077C0;
+}
+.archive-controls-dropdown__btn:hover, .archive-controls-dropdown__btn:focus-visible {
+  color: #FFFFFF;
+  background: #0077C0;
+  border-color: #D62976;
+  box-shadow: 3px 3px 0 #D62976;
+}
+.archive-controls-dropdown__btn:hover::after, .archive-controls-dropdown__btn:focus-visible::after {
+  border-top-color: #FFFFFF;
+}
+.archive-controls-dropdown__btn:focus-visible {
+  outline: 3px solid #E63946;
+  outline-offset: 2px;
+}
+.archive-controls-dropdown__btn.show {
+  color: #FFFFFF;
+  background: #0077C0;
+}
+.archive-controls-dropdown__btn.show::after {
+  border-top-color: #FFFFFF;
+}
+
+.archive-controls-dropdown__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.archive-controls-dropdown__menu {
+  border: 2px solid #0077C0;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(0, 119, 192, 0.15);
+  padding: 0.25rem 0;
+  min-width: 10rem;
+}
+.archive-controls-dropdown__menu .dropdown-item {
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+  font-size: 0.875rem;
+  padding: 0.4rem 1rem;
+  color: rgb(0, 87.390625, 141);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.archive-controls-dropdown__menu .dropdown-item:hover, .archive-controls-dropdown__menu .dropdown-item:focus-visible {
+  background: rgba(0, 119, 192, 0.08);
+  color: #0077C0;
+}
+.archive-controls-dropdown__menu .dropdown-item.active {
+  background: #0077C0;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.archive-controls-dropdown--sort .archive-controls-dropdown__btn {
+  box-shadow: 2px 2px 0 rgb(234.5, 148, 186.5);
+}
+.archive-controls-dropdown--sort .archive-controls-dropdown__btn:hover, .archive-controls-dropdown--sort .archive-controls-dropdown__btn:focus-visible {
+  box-shadow: 3px 3px 0 #E63946;
+  border-color: #E63946;
+}
+
+@media (max-width: 576px) {
+  .archive-controls-toolbar {
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+  .archive-controls-dropdown__btn {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.65rem;
+    gap: 0.3rem;
+  }
+  .archive-controls-dropdown__menu .dropdown-item {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+  }
+}
 
 /*# sourceMappingURL=archive-controls.css.map*/

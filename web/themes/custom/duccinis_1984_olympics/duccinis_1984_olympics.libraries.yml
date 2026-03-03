@@ -105,3 +105,10 @@ archive-toggle:
   dependencies:
     - core/drupal
     - core/once
+
+archive-filter-sort:
+  js:
+    src/js/archive-filter-sort.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

@@ -20,7 +20,7 @@
 
 {# Only render accordion item structure if we have a group title #}
 {% if title %}
-  <div class="accordion-item menu-accordion__item">
+  <div class="accordion-item menu-accordion__item" data-category="{{ item_id }}" data-original-index="{{ loop.index0 }}">
     <h2 class="accordion-header menu-accordion__header" id="{{ heading_id }}">
       <button
         class="accordion-button collapsed menu-accordion__button"
