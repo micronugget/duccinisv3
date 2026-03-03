@@ -11,6 +11,78 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
+ * Implements hook_schema().
+ *
+ * Defines the duccinis_archive_log table used by ArchiveAuditLogger to record
+ * every archive and unarchive action with the acting user and timestamp.
+ */
+function duccinis_archive_schema(): array {
+  return [
+    'duccinis_archive_log' => [
+      'description' => 'Audit log of archive and unarchive actions on Commerce products.',
+      'fields' => [
+        'id' => [
+          'description' => 'Primary key.',
+          'type'        => 'serial',
+          'unsigned'    => TRUE,
+          'not null'    => TRUE,
+        ],
+        'product_id' => [
+          'description' => 'The Commerce product entity ID.',
+          'type'        => 'int',
+          'unsigned'    => TRUE,
+          'not null'    => TRUE,
+          'default'     => 0,
+        ],
+        'product_title' => [
+          'description' => 'Product title at the time of the action (denormalised for history).',
+          'type'        => 'varchar',
+          'length'      => 255,
+          'not null'    => TRUE,
+          'default'     => '',
+        ],
+        'action' => [
+          'description' => "Either 'archive' or 'unarchive'.",
+          'type'        => 'varchar',
+          'length'      => 16,
+          'not null'    => TRUE,
+          'default'     => '',
+        ],
+        'uid' => [
+          'description' => 'The user ID of the actor (0 = anonymous / CLI).',
+          'type'        => 'int',
+          'unsigned'    => TRUE,
+          'not null'    => TRUE,
+          'default'     => 0,
+        ],
+        'timestamp' => [
+          'description' => 'Unix timestamp of the action.',
+          'type'        => 'int',
+          'not null'    => TRUE,
+          'default'     => 0,
+        ],
+      ],
+      'primary key' => ['id'],
+      'indexes' => [
+        'product_id' => ['product_id'],
+        'timestamp'  => ['timestamp'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Creates the duccinis_archive_log table on existing installations.
+ */
+function duccinis_archive_update_8001(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('duccinis_archive_log')) {
+    $tables = duccinis_archive_schema();
+    $schema->createTable('duccinis_archive_log', $tables['duccinis_archive_log']);
+  }
+}
+
+/**
  * Implements hook_install().
  *
  * Explicitly installs the field_archived base field storage definition so

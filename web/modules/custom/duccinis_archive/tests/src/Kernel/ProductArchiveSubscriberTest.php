@@ -45,6 +45,9 @@ class ProductArchiveSubscriberTest extends CommerceKernelTestBase {
     // Run the install hook so that the field_archived DB column is created.
     \Drupal::moduleHandler()->loadInclude('duccinis_archive', 'install');
     duccinis_archive_install();
+
+    // Install the audit log table.
+    $this->installSchema('duccinis_archive', ['duccinis_archive_log']);
   }
 
   /**

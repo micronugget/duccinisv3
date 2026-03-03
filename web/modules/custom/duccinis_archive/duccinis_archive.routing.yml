@@ -23,3 +23,14 @@ duccinis_archive.unarchive:
   methods: [POST]
   options:
     _admin_route: TRUE
+
+duccinis_archive.history:
+  path: '/admin/duccinis/archive-history'
+  defaults:
+    _controller: '\Drupal\duccinis_archive\Controller\ArchiveHistoryController::build'
+    _title: 'Archive history'
+  requirements:
+    _permission: 'administer commerce_product'
+  methods: [GET]
+  options:
+    _admin_route: TRUE

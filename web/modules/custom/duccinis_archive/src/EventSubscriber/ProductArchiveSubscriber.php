@@ -6,6 +6,7 @@ namespace Drupal\duccinis_archive\EventSubscriber;
 
 use Drupal\commerce_product\Event\ProductEvent;
 use Drupal\commerce_product\Event\ProductEvents;
+use Drupal\duccinis_archive\ArchiveAuditLogger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -15,11 +16,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * variations are unpublished. When field_archived transitions back to FALSE
  * the product and its variations are re-published.
  *
- * This happens at the entity level — before any view query runs — so no view
- * filter is required: the entity module's QueryAccessHandlerBase already
- * injects status = 1 into every view query for non-admin users.
+ * Also writes an entry to duccinis_archive_log via ArchiveAuditLogger whenever
+ * the archived state changes, providing a complete audit trail of all
+ * archive and unarchive actions regardless of how they were triggered
+ * (AJAX endpoint, bulk action, or product edit form).
  */
 class ProductArchiveSubscriber implements EventSubscriberInterface {
+
+  /**
+   * Constructs a ProductArchiveSubscriber.
+   *
+   * @param \Drupal\duccinis_archive\ArchiveAuditLogger $auditLogger
+   *   The archive audit logger.
+   */
+  public function __construct(
+    private readonly ArchiveAuditLogger $auditLogger,
+  ) {}
 
   /**
    * {@inheritdoc}
@@ -36,7 +48,8 @@ class ProductArchiveSubscriber implements EventSubscriberInterface {
    * Sets the product's own published status when the archived flag changes.
    *
    * Runs before the product is written to the database, so the correct
-   * status value is persisted in a single save operation.
+   * status value is persisted in a single save operation. Also writes to
+   * the archive audit log whenever the archived state actually changes.
    */
   public function onProductPresave(ProductEvent $event): void {
     $product = $event->getProduct();
@@ -49,6 +62,12 @@ class ProductArchiveSubscriber implements EventSubscriberInterface {
 
     if ($is_archived) {
       $product->setUnpublished();
+      // Log only on state change (new products or flag just turned on).
+      $was_archived = $product->original
+        && (bool) $product->original->get('field_archived')->value;
+      if (!$was_archived) {
+        $this->auditLogger->log($product, 'archive');
+      }
       return;
     }
 
@@ -59,6 +78,7 @@ class ProductArchiveSubscriber implements EventSubscriberInterface {
 
     if ($was_archived) {
       $product->setPublished();
+      $this->auditLogger->log($product, 'unarchive');
     }
   }
 

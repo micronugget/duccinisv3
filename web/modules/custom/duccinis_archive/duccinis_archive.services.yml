@@ -1,5 +1,14 @@
 services:
+  duccinis_archive.audit_logger:
+    class: Drupal\duccinis_archive\ArchiveAuditLogger
+    arguments:
+      - '@database'
+      - '@current_user'
+      - '@datetime.time'
+
   duccinis_archive.product_archive_subscriber:
     class: Drupal\duccinis_archive\EventSubscriber\ProductArchiveSubscriber
+    arguments:
+      - '@duccinis_archive.audit_logger'
     tags:
       - { name: event_subscriber }

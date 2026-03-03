@@ -39,6 +39,9 @@ class ProductArchiveActionTest extends CommerceKernelTestBase {
 
     \Drupal::moduleHandler()->loadInclude('duccinis_archive', 'install');
     duccinis_archive_install();
+
+    // Install the audit log table.
+    $this->installSchema('duccinis_archive', ['duccinis_archive_log']);
   }
 
   /**
