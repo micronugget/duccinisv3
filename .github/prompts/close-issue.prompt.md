@@ -20,16 +20,16 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …`, `ddev exec vendor/bin/phpcbf …` |
 | Tests | `ddev exec vendor/bin/phpunit …` (all read-only test runs) |
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
-| Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"` |
+| Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"`, `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` |
 | Git (read) | `git status`, `git log`, `git diff`, `git branch`, `git show` |
-| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b` |
+| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git push origin <feature-branch>` (non-force, feature branches only) |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 
 **Always ask before running:**
-- `git push` or `git push --force` — visible to collaborators
+- `git push origin main` or `git push --force` — visible to all collaborators / destructive
 - `ddev drush cim -y` — could overwrite local config
 - `gh issue close` — publicly closes the issue
 - Any `DROP TABLE`, `DELETE FROM`, or destructive DB operations
