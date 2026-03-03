@@ -53,3 +53,4 @@ backup*
 databasebackup.sql
 ]*
 node_modules
+tests/Nightwatch/reports/

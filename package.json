@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "npm": "^11.10.1"
+  },
+  "devDependencies": {
+    "chromedriver": "^145.0.6",
+    "nightwatch": "^3.9.0"
+  },
+  "scripts": {
+    "test:nightwatch": "nightwatch",
+    "test:nightwatch:archive": "nightwatch tests/Nightwatch/Tests/archiveFeature.js"
   }
 }
