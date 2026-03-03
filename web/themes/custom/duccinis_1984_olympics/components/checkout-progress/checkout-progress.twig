@@ -1,0 +1,54 @@
+{#
+/**
+ * @file
+ * Checkout Progress — SDC component.
+ *
+ * Renders a horizontal four-step funnel progress indicator for the checkout
+ * flow: Cart → Order Details → Review → Complete.
+ *
+ * Done steps are rendered as <a> links with optional analytics data
+ * attributes. The active step uses aria-current="step". Future steps use
+ * aria-disabled="true" so assistive technologies convey non-interactivity.
+ *
+ * Available variables:
+ * - steps: Array of step objects:
+ *     - label:     Translated step name (string).
+ *     - state:     'done' | 'active' | '' (future).
+ *     - url:       Back-navigation URL for done steps; null otherwise.
+ *     - analytics: Object with funnel tracking keys, or null.
+ *         - funnel_event, from_step, to_step, order_id
+ * - aria_label: Optional nav landmark label. Defaults to 'Checkout progress'.
+ *
+ * Usage from a block build() array:
+ *   '#type'      => 'component',
+ *   '#component' => 'duccinis_1984_olympics:checkout-progress',
+ *   '#props'     => ['steps' => $steps],
+ *
+ * Usage from Twig templates:
+ *   {% include 'duccinis_1984_olympics:checkout-progress' with {
+ *     steps: checkout_progress_steps,
+ *   } only %}
+ */
+#}
+{% set nav_label = aria_label|default('Checkout progress'|t) %}
+
+<nav class="checkout-progress" aria-label="{{ nav_label }}">
+  {% for step in steps %}
+    {%- if step.url %}
+      <a href="{{ step.url }}"
+         class="step{{ step.state ? ' ' ~ step.state : '' }}"
+         {% if step.analytics %}
+         data-funnel-event="{{ step.analytics.funnel_event }}"
+         data-from-step="{{ step.analytics.from_step }}"
+         data-to-step="{{ step.analytics.to_step }}"
+         data-order-id="{{ step.analytics.order_id }}"
+         {% endif %}>
+        {{- step.label -}}
+      </a>
+    {%- elseif step.state == 'active' %}
+      <div class="step active" aria-current="step">{{- step.label -}}</div>
+    {%- else %}
+      <div class="step" aria-disabled="true">{{- step.label -}}</div>
+    {%- endif %}
+  {% endfor %}
+</nav>

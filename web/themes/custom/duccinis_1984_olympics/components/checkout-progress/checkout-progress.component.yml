@@ -1,0 +1,15 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Checkout Progress
+status: experimental
+description: Four-step horizontal funnel indicator for the checkout flow. Cart → Order Details → Review → Complete. Rendered by CheckoutProgressBarBlock.
+props:
+  type: object
+  properties:
+    steps:
+      type: array
+      title: Steps
+      description: 'Ordered array of step objects. Each step has: label (string), state (''done''|''active''|''''), url (string|null), analytics (object|null with funnel_event/from_step/to_step/order_id keys).'
+    aria_label:
+      type: string
+      title: ARIA label
+      description: 'Accessible label for the <nav> landmark. Defaults to "Checkout progress".'
