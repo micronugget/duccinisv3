@@ -16,16 +16,13 @@
  *   <aside> — order summary + primary CTA.
  *
  * Issue #30: Two-column grid layout (main + sidebar).
+ * Issue #73: Hardcoded checkout header removed; now rendered by CheckoutHeaderBlock.
  *
  * Available variables:
  * - form: The form.
  */
 #}
 <div class="checkout-layout">
-  <header class="checkout-header">
-    <h1>{{ 'Checkout'|t }}</h1>
-    <a href="/cart" class="back-link">&#8592; {{ 'Back to cart'|t }}</a>
-  </header>
 
   <div class="row gy-4 align-items-start">
 
