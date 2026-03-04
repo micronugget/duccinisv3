@@ -54,3 +54,19 @@ databasebackup.sql
 ]*
 node_modules
 tests/Nightwatch/reports/
+
+# Binary installers and packages
+*.deb
+*.rpm
+*.exe
+*.dmg
+
+# Log files
+logs/
+*.log
+
+# PHPUnit cache
+.phpunit.cache/
+
+# VS Code workspace files
+*.code-workspace

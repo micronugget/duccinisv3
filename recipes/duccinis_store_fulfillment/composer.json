@@ -1,0 +1,17 @@
+{
+    "name": "duccinis/store_fulfillment",
+    "description": "Core multi-store ordering, pickup/delivery fulfillment, Stripe payment and delivery-radius validation for Duccinis.",
+    "type": "drupal-recipe",
+    "license": ["GPL-2.0-or-later"],
+    "require": {
+        "drupal/core": "^11",
+        "drupal/commerce": "^3.3",
+        "drupal/commerce_shipping": "^3.0",
+        "drupal/commerce_stripe": "^2.1",
+        "drupal/commerce_add_to_cart_link": "^2.1",
+        "drupal/geocoder": "^4.10",
+        "drupal/geofield": "^10.3",
+        "geocoder-php/nominatim-provider": "^5.7"
+    },
+    "version": "1.0.0"
+}

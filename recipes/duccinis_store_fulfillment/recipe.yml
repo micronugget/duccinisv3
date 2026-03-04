@@ -1,0 +1,60 @@
+name: Duccinis Store Fulfillment
+type: Duccinis
+description: >
+  Core multi-store ordering, pickup and delivery fulfillment, Stripe payment,
+  and geocoded delivery-radius validation for the Duccinis pizza chain.
+  Installs Commerce (with checkout, payment, shipping, product), geofield,
+  geocoder, and all Duccinis custom modules.
+
+# Prerequisite: drupal/commerce, drupal/commerce_shipping, drupal/commerce_stripe,
+# drupal/geofield, drupal/geocoder and geocoder-php/nominatim-provider must be
+# present in the project's composer.json. See composer.json next to this file.
+
+install:
+  # Drupal Commerce core modules.
+  - commerce
+  - commerce_cart
+  - commerce_checkout
+  - commerce_log
+  - commerce_number_pattern
+  - commerce_order
+  - commerce_payment
+  - commerce_price
+  - commerce_product
+  - commerce_promotion
+  - commerce_store
+  - commerce_tax
+  # Commerce contrib modules.
+  - commerce_add_to_cart_link
+  - commerce_shipping
+  - commerce_stripe
+  - commerce_stripe_webhook_event
+  # Feeds for product CSV import.
+  - commerce_feeds
+  - feeds
+  - feeds_tamper
+  # Geocoding and location (delivery-radius validation).
+  - geofield
+  - geocoder
+  # Duccinis custom modules.
+  - store_resolver
+  - store_fulfillment
+  - back_to_cart_button
+  - commerce_reorder
+
+config:
+  # Import geocoder Nominatim provider configuration.
+  import:
+    geocoder.geocoder_provider.nominatim:
+      - geocoder.settings
+
+  # Additional config actions applied after install.
+  actions:
+    # Checkout flow — the duccinis default flow with custom panes.
+    # Full config lives in config/sync/commerce_checkout.commerce_checkout_flow.default.yml.
+    commerce_checkout.commerce_checkout_flow.default:
+      createIfNotExists: false   # Managed via config/sync; no recipe override needed.
+
+    # Stripe payment gateway config values (API keys) MUST be supplied via
+    # $config overrides in settings.php — they are NOT stored in config/sync.
+    # See DRUPALCMS2_MIGRATION_RUNBOOK.md §4 for the settings.php snippet.
