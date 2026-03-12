@@ -1,7 +1,7 @@
 ---
-description: "Close a GitHub issue on duccinisv3 — fetches issue details, explores the codebase, implements the fix, runs tests, exports config, commits, and reports commands for brave-mode approval."
+description: "Close a GitHub issue on duccinisv4 — fetches issue details, explores the codebase, implements the fix, runs tests, exports config, commits, and reports commands for brave-mode approval."
 name: "Close Issue"
-argument-hint: "GitHub issue URL or number (e.g. 30 or https://github.com/micronugget/duccinisv3/issues/30)"
+argument-hint: "GitHub issue URL or number (e.g. 30 or https://github.com/micronugget/duccinisv4/issues/30)"
 agent: "agent"
 ---
 
@@ -43,7 +43,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 Run the following, replacing `$ISSUE` with the number extracted from the user's input:
 
 ```bash
-gh issue view $ISSUE --repo micronugget/duccinisv3 \
+gh issue view $ISSUE --repo micronugget/duccinisv4 \
   --json title,body,labels,state,number 2>/dev/null
 ```
 
@@ -63,15 +63,17 @@ Parse from the output:
 
 ## Step 2 — Create a Feature Branch
 
+> **⚠️ Branching rule for issues #94–141:** All migration epic branches **must base off `migration_branch`**, not `master`. PRs and merges target `migration_branch`; `migration_branch` → `master` only when the full epic is done.
+
 Before writing any code, create and check out a branch named `issue/$ISSUE-<slug>` where `<slug>` is a short kebab-case summary of the issue title:
 
 ```bash
-git checkout -b issue/$ISSUE-<slug>
+git checkout migration_branch && git checkout -b issue/$ISSUE-<slug>
 ```
 
-Example: `git checkout -b issue/30-checkout-layout`
+Example: `git checkout migration_branch && git checkout -b issue/94-scrub-api-keys`
 
-This keeps `master` clean and makes the eventual push + PR straightforward.
+This keeps `master` clean. For issues #94–141 the PR base is `migration_branch`, not `master`.
 
 ---
 
@@ -190,7 +192,7 @@ git push origin issue/$ISSUE-<slug>
 ```
 
 ```bash
-gh issue close $ISSUE --repo micronugget/duccinisv3 \
+gh issue close $ISSUE --repo micronugget/duccinisv4 \
   --comment "Implemented in commit $(git rev-parse --short HEAD). All tests pass."
 ```
 
