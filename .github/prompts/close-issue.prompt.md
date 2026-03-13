@@ -26,6 +26,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
+| Drupal recipes | `ddev drush recipe <path>` — applies a recipe; all actions are logged and reversible via `ddev drush cim` |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |

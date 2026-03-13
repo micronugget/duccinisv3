@@ -1,0 +1,26 @@
+uuid: 3c7af534-1ac7-4317-b122-0af6e06a820e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.editoria11y_results
+  module:
+    - views
+active_version: 479182c6f19aa289
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:editoria11y_results-block_recent_issues'
+        label: 'Editoria11y - Recent alerts'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Editoria11y - Recent alerts'
+id: block.views_block.editoria11y_results-block_recent_issues
+provider: views
+source: block
+source_local_id: 'views_block:editoria11y_results-block_recent_issues'
