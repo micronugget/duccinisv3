@@ -55,9 +55,10 @@
   ```
   _Done when: `git status` no longer tracks any of the above file types._
 
-- [ ] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
+- [x] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
   Navigate to repo Settings → Security → Secret scanning and enable.
   _Done when: Secret scanning is active and shows no open alerts._
+  ✅ Completed 2026-03-13: Secret scanning + push protection enabled. Alert #1 (Stripe test key in git history) resolved as `revoked`. Zero open alerts.
 
 ---
 
