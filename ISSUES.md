@@ -83,10 +83,13 @@
   Update V3 packages to match V4 versions.
   _Done when: `composer outdated | grep drupal/` shows no version gaps vs V4._
 
-- [ ] **#2.4 — Evaluate and integrate DrupalCMS 2 recipe bundles**
+- [x] **#2.4 — Evaluate and integrate DrupalCMS 2 recipe bundles** _(applied 2026-03-13, issue #102)_
   V4's `drupalcms2migration` branch includes recipes for: `drupal_cms_accessibility_tools`, `drupal_cms_ai`, `drupal_cms_forms`, `drupal_cms_google_analytics`, `drupal_cms_seo_tools`, `drupal_cms_starter`.
-  Review each recipe against V3's already-installed modules to avoid conflicts.
-  Apply relevant recipes to V3 and export config.
+  Review each recipe against V4's already-installed modules to avoid conflicts.
+  Applied relevant recipes to V4 and exported config.
+  **Applied:** `drupal_cms_accessibility_tools` (editoria11y), `drupal_cms_forms` (webform), `drupal_cms_google_analytics` (google_tag), `drupal_cms_seo_tools` (metatag, simple_sitemap, sitemap, robotstxt, yoast_seo, seo_checklist, field_group, token_or)
+  **Skipped:** `drupal_cms_ai` — `ai_assistant_api` + `ai_chatbot` packages not in composer.lock; `drupal_cms_starter` — V4 already fully configured, re-applying would be risky.
+  **Note:** Pre-requisite `layout_builder__layout` field storage had to be bootstrapped manually (`enableLayoutBuilder` + `setOverridable` on `node.page.default`) before recipe system could proceed — possible Drupal recipe bug with `allowLayoutOverrides` action.
   _Done when: Applicable recipes are applied; `ddev drush cr` shows no errors._
 
 ---

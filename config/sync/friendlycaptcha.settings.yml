@@ -1,4 +1,4 @@
-site_key: '${site_uuid}'
-api_key: '${site_uuid}'
+site_key: 9d606bb4-e751-44b5-b189-fd3139ca629c
+api_key: 9d606bb4-e751-44b5-b189-fd3139ca629c
 api_endpoint: local
 enable_validation_logging: false

@@ -4,17 +4,21 @@ status: true
 dependencies:
   config:
     - dashboard.dashboard.welcome
+    - filter.format.webform_default
   module:
     - captcha
     - coffee
     - contextual
     - dashboard
+    - editoria11y
     - file
+    - filter
     - honeypot
     - klaro
     - media
     - navigation
     - node
+    - sitemap
     - system
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
@@ -28,10 +32,14 @@ permissions:
   - 'access content'
   - 'access contextual links'
   - 'access navigation'
+  - 'access sitemap'
   - 'bypass honeypot protection'
   - 'delete own files'
+  - 'mark as hidden in editoria11y'
   - 'skip CAPTCHA'
   - 'use klaro'
+  - 'use text format webform_default'
+  - 'view editoria11y checker'
   - 'view media'
   - 'view own unpublished content'
   - 'view the administration theme'

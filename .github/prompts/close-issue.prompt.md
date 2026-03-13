@@ -26,9 +26,10 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
+| Drupal recipes | `ddev drush recipe <path>` — applies a recipe; all actions are logged and reversible via `ddev drush cim` |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
-| Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
+| Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects; **also** narrow field-storage bootstrap: `enableLayoutBuilder()`, `setOverridable()`, and equivalent non-destructive entity config methods when required as a recipe pre-condition) |
 
 **Always ask before running:**
 - `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators
