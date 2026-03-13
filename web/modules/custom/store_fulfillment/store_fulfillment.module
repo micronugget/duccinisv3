@@ -117,8 +117,13 @@ function store_fulfillment_form_alter(array &$form, FormStateInterface $form_sta
     // in zero child radio elements being created.
     $radios['#saved_card_data'] = $cards;
     $radios['#after_build'][] = 'store_fulfillment_payment_radios_after_build';
-    $form['payment_information']['#attached']['library'][] = 'core/components.duccinis_1984_olympics--saved-card';
-    $form['payment_information']['#attached']['library'][] = 'duccinis_1984_olympics/saved-card-fix';
+    // Only attach theme-specific libraries when the custom theme is active.
+    // Skipped during testing (stark theme) and on any other theme, which
+    // prevents UnknownExtensionException when the theme is not installed.
+    if (\Drupal::service('theme_handler')->themeExists('duccinis_1984_olympics')) {
+      $form['payment_information']['#attached']['library'][] = 'core/components.duccinis_1984_olympics--saved-card';
+      $form['payment_information']['#attached']['library'][] = 'duccinis_1984_olympics/saved-card-fix';
+    }
   }
 }
 
