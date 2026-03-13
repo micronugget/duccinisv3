@@ -29,12 +29,14 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Drupal recipes | `ddev drush recipe <path>` — applies a recipe; all actions are logged and reversible via `ddev drush cim` |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
-| Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects; **also** narrow field-storage bootstrap: `enableLayoutBuilder()`, `setOverridable()`, and equivalent non-destructive entity config methods when required as a recipe pre-condition) |
+| GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
+| Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
 
 **Always ask before running:**
 - `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators
 - `git push --force` — destructive remote history rewrite
 - `git-filter-repo …` — **Security remediation**: irreversibly rewrites local git history; confirm before running
+- `gh api --method PATCH repos/…/secret-scanning/alerts/$N` — **Security remediation**: resolves/dismisses a public secret scanning alert; confirm before running
 - `ddev drush cim -y` — could overwrite local config
 - `gh issue close` — publicly closes the issue
 - `gh pr create` — opens a public pull request

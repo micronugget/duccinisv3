@@ -55,9 +55,10 @@
   ```
   _Done when: `git status` no longer tracks any of the above file types._
 
-- [ ] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
+- [x] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
   Navigate to repo Settings → Security → Secret scanning and enable.
   _Done when: Secret scanning is active and shows no open alerts._
+  ✅ Completed 2026-03-13: Secret scanning + push protection enabled. Alert #1 (Stripe test key in git history) resolved as `revoked`. Zero open alerts.
 
 ---
 
@@ -77,10 +78,10 @@
   Add it to V3's `composer.json` and enable the module.
   _Done when: Module is listed in `core.extension.yml`._
 
-- [ ] **#2.3 — Reconcile contrib module version drift**
+- [x] **#2.3 — Reconcile contrib module version drift** _(verified 2026-03-13, issue #101)_
   Compare V3 and V4 `composer.lock` for divergent contrib package versions.
   Key packages to check: `drupal/radix`, `drupal/geocoder`, `drupal/commerce_stripe`, `drupal/eca`, `drupal/gin`, `drupal/easy_email`, `drupal/trash`.
-  Update V3 packages to match V4 versions.
+  **Verification result:** V4 is at parity or ahead of V3 on all 7 key packages and all 109 drupal/* packages in V3 are present in V4 (V4 has 116 total). `composer outdated | grep drupal/` returns empty — no drupal packages outdated in V4. No changes required.
   _Done when: `composer outdated | grep drupal/` shows no version gaps vs V4._
 
 - [x] **#2.4 — Evaluate and integrate DrupalCMS 2 recipe bundles** _(applied 2026-03-13, issue #102)_
