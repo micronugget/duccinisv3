@@ -1,12 +1,12 @@
-uuid: f3df6c99-c04e-4549-82bf-c29da9e7aa0b
+uuid: f2a8931b-8724-4d1b-8e33-4233e5ee7538
 langcode: en
 status: true
 dependencies:
   config:
     - image.style.thumbnail
   module:
-    - image
     - media
+    - svg_image
     - user
 _core:
   default_config_hash: zwbF6kYhafeyYkQp4JM4qtykNGzfTn3ZXBTXzlVcUa8

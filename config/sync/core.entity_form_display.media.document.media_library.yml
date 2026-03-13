@@ -1,4 +1,4 @@
-uuid: bbb03e1a-0255-42ab-8ee3-fc2942a20cfc
+uuid: a2e4b01e-08a0-49a2-9cfe-c2ce4c3dbf1d
 langcode: en
 status: true
 dependencies:
@@ -15,7 +15,7 @@ mode: media_library
 content:
   name:
     type: string_textfield
-    weight: -1
+    weight: -5
     region: content
     settings:
       size: 60

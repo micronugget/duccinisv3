@@ -1,11 +1,11 @@
-uuid: 17b0d51a-d12b-4cf6-aaf3-581f4af9cd1a
+uuid: e2612467-362a-445e-819d-0aefc64a6e6d
 langcode: en
 status: true
 dependencies:
   module:
     - focal_point
 _core:
-  default_config_hash: dsu5W-V8UIomtuVkd_y5u0-3fTBdYOkWH6g2gN5GZZI
+  default_config_hash: A3iZlVRGQSdWC4GXk3Heqq062ucmku4xHtTjXj48YVw
 name: 5_2_1000x400_focal_point_webp
 label: '5:2 | 1000x400 | Focal Point | WebP'
 effects:
@@ -19,7 +19,7 @@ effects:
       crop_type: focal_point
   813f987a-dda6-417e-a257-fc33cc18bdd0:
     uuid: 813f987a-dda6-417e-a257-fc33cc18bdd0
-    id: image_convert
+    id: image_convert_avif
     weight: 2
     data:
       extension: webp

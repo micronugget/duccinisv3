@@ -1,1 +1,1 @@
-default_transport: gmail_smtp
+default_transport: native

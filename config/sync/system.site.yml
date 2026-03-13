@@ -1,14 +1,14 @@
 _core:
   default_config_hash: HlN7eAN2N4JIHsYv56V4E7sqC9bS609KwvGFjyD_mgk
 langcode: en
-uuid: 65f2bcf5-e93b-4de0-8352-f8509dda007c
-name: duccinisv3
+uuid: 9d606bb4-e751-44b5-b189-fd3139ca629c
+name: duccinisv4.ddev.site
 mail: lee@amstercad.com
 slogan: ''
 page:
   403: /user/login
   404: ''
-  front: /node/2
+  front: /page/1
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en

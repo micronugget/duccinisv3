@@ -1,4 +1,4 @@
-uuid: 03b7ab90-c9cb-46c5-a738-6c4bcc004097
+uuid: 4db3ac99-1f2e-4c71-bf46-fb8c491d73af
 langcode: en
 status: true
 dependencies:
@@ -7,77 +7,82 @@ dependencies:
     - eca_content
     - eca_misc
     - eca_user
+    - modeler_api
+third_party_settings:
+  modeler_api:
+    modeler_id: bpmn_io
+    label: 'Unpublished 404'
 _core:
-  default_config_hash: yTrWRUJ0MTfHyHgtVLlFBbFtUzss0dvA6O08vWM8fX4
+  default_config_hash: UdhfmnCgdujVnVfrjbagf_Xp65vpwyhw-Hgs8gJjE10
 id: unpublished_404
-modeller: bpmn_io
-label: 'Unpublished 404'
-version: 1.0.0
 weight: 0
+template: null
 events:
-  Event_uncaught_exception:
+  kernel__exception_status_code_exception:
     plugin: 'kernel:exception_status_code'
     label: 'Uncaught Exception'
     configuration: {  }
     successors:
       -
-        id: Activity_and
-        condition: Flow_is_403
+        id: eca_void_and_condition_and
+        condition: eca_scalar_403
 conditions:
-  Flow_is_403:
+  eca_scalar_403:
     plugin: eca_scalar
+    label: '403?'
     configuration:
       negate: false
-      case: false
       left: '[event:code]'
       right: '403'
       operator: equal
       type: value
-  Flow_unpublished:
-    plugin: eca_entity_field_value
-    configuration:
       case: false
+  eca_entity_field_value_unpublished_1:
+    plugin: eca_entity_field_value
+    label: 'unpublished?'
+    configuration:
+      negate: true
       expected_value: '1'
       field_name: status
       operator: equal
       type: value
-      negate: true
+      case: false
       entity: node
 gateways: {  }
 actions:
-  Activity_and:
-    plugin: eca_void_and_condition
+  eca_void_and_condition_and:
     label: AND
+    plugin: eca_void_and_condition
     configuration: {  }
     successors:
       -
-        id: Activity_switch_user_1
+        id: eca_switch_account_1
         condition: ''
-  Activity_switch_user_1:
-    plugin: eca_switch_account
+  eca_switch_account_1:
     label: 'Switch to user 1'
+    plugin: eca_switch_account
     configuration:
       user_id: '1'
     successors:
       -
-        id: Activity_load_node_from_route
+        id: eca_token_load_route_param_route
         condition: ''
-  Activity_load_node_from_route:
-    plugin: eca_token_load_route_param
+  eca_token_load_route_param_route:
     label: 'Load node from route'
+    plugin: eca_token_load_route_param
     configuration:
       token_name: node
-      request: '2'
+      request: 2
       parameter_name: node
     successors:
       -
-        id: Activity_not_found_exception
-        condition: Flow_unpublished
-  Activity_not_found_exception:
-    plugin: eca_throw_exception
+        id: eca_throw_exception_exception
+        condition: eca_entity_field_value_unpublished_1
+  eca_throw_exception_exception:
     label: 'Not found exception'
+    plugin: eca_throw_exception
     configuration:
       exception_type: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
       response_message: ''
-      log_exception: false
+      log_exception: true
     successors: {  }

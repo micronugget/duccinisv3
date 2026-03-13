@@ -1,4 +1,4 @@
-uuid: efc7577a-340f-454b-909c-3e2dff5f05ed
+uuid: 8f4fdf70-374e-46d1-b2f2-2465739f197f
 langcode: en
 status: true
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
     - image.style.thumbnail
     - media.type.document
   module:
-    - image
+    - svg_image
 _core:
   default_config_hash: YcWqjhIlo-2RZUM5ogvRsrKB7M3voF2XB3lVLwgOlLU
 id: media.document.media_library

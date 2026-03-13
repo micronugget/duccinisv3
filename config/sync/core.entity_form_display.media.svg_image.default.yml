@@ -1,4 +1,4 @@
-uuid: 64c4581c-68be-421f-935f-a1d6551d9eca
+uuid: 44ee4d20-ca5e-4560-a114-eb47f7776740
 langcode: en
 status: true
 dependencies:
@@ -9,15 +9,21 @@ dependencies:
   module:
     - svg_image
 _core:
-  default_config_hash: JLgK8EtXsFEkXMebLDxNafl20wBLb0-O-zsvJXlKthg
+  default_config_hash: biIljnupqHp3JtdKmq04LZM5jiDSpwPK7JHeTqJA4tE
 id: media.svg_image.default
 targetEntityType: media
 bundle: svg_image
 mode: default
 content:
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_media_svg_image:
     type: image_image
-    weight: 0
+    weight: 1
     region: content
     settings:
       progress_indicator: throbber
@@ -38,11 +44,19 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
 hidden:
-  created: true
   path: true
   publish_on: true
   publish_state: true
-  uid: true
   unpublish_on: true
   unpublish_state: true

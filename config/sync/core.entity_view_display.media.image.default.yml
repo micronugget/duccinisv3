@@ -1,4 +1,4 @@
-uuid: ba6d93f1-be67-4069-aa23-fcf8344422ac
+uuid: bcf0eace-198d-4930-8258-19b632ec37ba
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,7 @@ dependencies:
     - image.style.large
     - media.type.image
   module:
-    - image
+    - svg_image
 _core:
   default_config_hash: t2YAVeSqMs3Gpnfp_plCnQ2TsoC0u57VCUWl8e2jMMM
 id: media.image.default

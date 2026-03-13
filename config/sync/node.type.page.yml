@@ -1,4 +1,4 @@
-uuid: 5f3b8778-5984-4273-9ff7-f5e697ae9679
+uuid: 502427e3-e6dc-48c2-b76e-dbc3b0a82ff2
 langcode: en
 status: true
 dependencies:
@@ -19,10 +19,10 @@ third_party_settings:
     unpublish_required: false
     unpublish_revision: true
 _core:
-  default_config_hash: ofBTVP5AmqIoiRQxuySnBpPvyzCT2nG0UVvuAZaGt3g
-name: 'Basic page'
+  default_config_hash: Dd_UIheMYCyUSYpcYZ23-hLtWuOcpDJ7H42ddcw68sI
+name: 'Utility page'
 type: page
-description: "Use <em>basic pages</em> for your static content, such as an 'About us' page."
+description: "Use <em>utility page</em> for your static content, such as a 'Privacy policy' page."
 help: null
 new_revision: true
 preview_mode: 1

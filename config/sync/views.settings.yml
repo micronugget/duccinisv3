@@ -1,5 +1,4 @@
-display_extenders:
-  - matomo
+display_extenders: {  }
 sql_signature: false
 ui:
   show:

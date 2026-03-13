@@ -1,4 +1,4 @@
-uuid: 02dcfb5c-d881-4d2f-b113-a9b0fad67e35
+uuid: f4c7e8db-8a5b-4706-b0d0-eb9ac32b1068
 langcode: en
 status: true
 dependencies:
@@ -6,10 +6,13 @@ dependencies:
     - image.style.uncropped_500w_webp
     - image.style.uncropped_600w_webp
     - image.style.uncropped_720w_webp
-  theme:
-    - olivero
+  module:
+    - eca_render
+  enforced:
+    config:
+      - eca.eca.define_breakpoints
 _core:
-  default_config_hash: Iw3zoqONo4dtgurC42v0smJG9beZpFsBarFpbiBDIGw
+  default_config_hash: q3PG9I0VEj-m_uPaeXScrDujvqUQwpbfIhxhJ9Lc3jM
 id: uncropped_medium
 label: 'Uncropped Medium'
 image_style_mappings:
@@ -21,7 +24,7 @@ image_style_mappings:
         - uncropped_500w_webp
         - uncropped_600w_webp
         - uncropped_720w_webp
-    breakpoint_id: olivero.sm
+    breakpoint_id: custom.sm
     multiplier: 1x
-breakpoint_group: olivero
+breakpoint_group: custom
 fallback_image_style: uncropped_500w_webp

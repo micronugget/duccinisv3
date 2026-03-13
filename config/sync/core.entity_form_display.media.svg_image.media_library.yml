@@ -1,4 +1,4 @@
-uuid: 354ead26-4780-4a0f-95c1-1295439a4fa9
+uuid: 2cd8dc74-ee6e-492c-a907-58da1c54bd74
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ dependencies:
   module:
     - svg_image
 _core:
-  default_config_hash: jZjgtY49s-hqyIAMN42-MR1Gi43lmpHbHFqrZ4CKFOg
+  default_config_hash: uoj_uZP7YIE2WjG1YY5Mz15kUaL-cIqqmJSYyZZ2xFk
 id: media.svg_image.media_library
 targetEntityType: media
 bundle: svg_image
@@ -26,7 +26,7 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: 0
+    weight: -5
     region: content
     settings:
       size: 60

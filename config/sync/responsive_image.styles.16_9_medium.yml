@@ -1,4 +1,4 @@
-uuid: ba1e3bc9-f14c-4f77-bed0-909b2dd7a287
+uuid: 1f3d261c-3af0-4755-844e-8690308a301c
 langcode: en
 status: true
 dependencies:
@@ -6,10 +6,13 @@ dependencies:
     - image.style.16_9_512x288_focal_point_webp
     - image.style.16_9_608x342_focal_point_webp
     - image.style.16_9_720x405_focal_point_webp
-  theme:
-    - olivero
+  module:
+    - eca_render
+  enforced:
+    config:
+      - eca.eca.define_breakpoints
 _core:
-  default_config_hash: Mq4zS3NclUIsDOU5ZLBG6N7UJ3_jELLRHlnDr8mwmtk
+  default_config_hash: 9ahqU2VrRv1RgId_uNhtIVcPaiSe6rZKYUEweqrmu90
 id: 16_9_medium
 label: '16:9 Medium'
 image_style_mappings:
@@ -21,7 +24,7 @@ image_style_mappings:
         - 16_9_512x288_focal_point_webp
         - 16_9_608x342_focal_point_webp
         - 16_9_720x405_focal_point_webp
-    breakpoint_id: olivero.sm
+    breakpoint_id: custom.sm
     multiplier: 1x
-breakpoint_group: olivero
+breakpoint_group: custom
 fallback_image_style: 16_9_512x288_focal_point_webp

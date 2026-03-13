@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - canvas
     - node
 label: Default
 id: default
@@ -29,3 +30,13 @@ matchers:
       substitution_type: media
       limit: 100
     weight: 0
+  3cee9e9b-7548-4496-b345-b1b29340e782:
+    id: 'entity:canvas_page'
+    uuid: 3cee9e9b-7548-4496-b345-b1b29340e782
+    settings:
+      metadata: 'by [canvas_page:owner] on [canvas_page:created:date:custom:j M Y]'
+      bundles: null
+      group_by_bundle: null
+      substitution_type: canonical
+      limit: 100
+    weight: -10

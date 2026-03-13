@@ -1,4 +1,0 @@
-ignored_config_entities:
-  - feeds.feed_type.fresh_submarines
-ignored_extensions: {  }
-blacklist: {  }

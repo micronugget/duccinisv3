@@ -1,16 +1,14 @@
-uuid: 061984ae-92a4-4d50-b737-0f039b8fb908
+uuid: 89328886-f7ca-4119-82ff-227eefbcf566
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - workflows.workflow.basic_editorial
   module:
-    - content_moderation
     - node
     - user
 _core:
-  default_config_hash: 65aJ1NYfywgFx8kOvKrRkhAWEBRTS77dG0Sx6mCtf6Q
+  default_config_hash: o6UTgnAaDsgfZ4oFMICO7uZKGLN_BOkJGuFw7RCGxRU
 id: publishing_content
 label: 'Publishing content'
 module: views

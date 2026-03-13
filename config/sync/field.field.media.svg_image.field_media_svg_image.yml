@@ -1,9 +1,10 @@
-uuid: 4bb783de-d2ee-4e19-8514-288cb76eac43
+uuid: b2a91af5-b3f1-43d3-b61b-316701e2f97f
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.media.field_media_svg_image
+    - image.style.canvas_parametrized_width
     - media.type.svg_image
   module:
     - image

@@ -1,9 +1,9 @@
-uuid: 49b39b83-c5a6-478b-9655-6303fb4890f8
+uuid: d155d697-a96b-4ac4-b043-3bcf91cb475e
 langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: NCBRwf613YXQfSoyCbeMJgvLQaOKdmlWc-ji1hPnyUE
+  default_config_hash: _PHEj_E8u6OZyxkBRGTpmRVYzY9PW53LWTcsgeZy9kw
 name: uncropped_300w_webp
 label: 'Uncropped | 300w | WebP'
 effects:
@@ -17,7 +17,7 @@ effects:
       upscale: false
   edf92b44-e86e-4b5c-b11c-fd6e44ebda67:
     uuid: edf92b44-e86e-4b5c-b11c-fd6e44ebda67
-    id: image_convert
+    id: image_convert_avif
     weight: 2
     data:
       extension: webp

@@ -17,9 +17,6 @@ default:
   title:
     -
       value: 'Privacy policy'
-  created:
-    -
-      value: 1729164335
   promote:
     -
       value: false
@@ -38,5 +35,5 @@ default:
       value: 'Nothing here yet.'
   field_content:
     -
-      value: '<h2>This content needs to be edited before publishing</h2><p>Please note that your site requires a privacy statement.</p>'
+      value: '<h2>This content needs to be edited before publishing</h2><p>Note that your site requires a privacy statement.</p>'
       format: content_format

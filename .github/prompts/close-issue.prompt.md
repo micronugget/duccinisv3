@@ -22,17 +22,21 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
 | Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"`, `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` |
 | Git (read) | `git status`, `git log`, `git diff`, `git branch`, `git show` |
-| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git push origin <feature-branch>` (non-force, feature branches only) |
+| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git stash`, `git merge`, `git rebase`, `git cherry-pick`, `git push origin <feature-branch>` (non-force, feature/issue branches only) |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
+| GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
 
 **Always ask before running:**
-- `git push origin main` or `git push --force` — visible to all collaborators / destructive
+- `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators
+- `git push --force` — destructive remote history rewrite
+- `git-filter-repo …` — **Security remediation**: irreversibly rewrites local git history; confirm before running
 - `ddev drush cim -y` — could overwrite local config
 - `gh issue close` — publicly closes the issue
+- `gh pr create` — opens a public pull request
 - Any `DROP TABLE`, `DELETE FROM`, or destructive DB operations
 - Any command that modifies `web/sites/default/settings.php`
 
@@ -43,11 +47,15 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 Run the following, replacing `$ISSUE` with the number extracted from the user's input:
 
 ```bash
-gh issue view $ISSUE --repo micronugget/duccinisv4 \
+gh issue view $ISSUE --repo micronugget/duccinisv3 \
   --json title,body,labels,state,number 2>/dev/null
 ```
 
-If `gh` is not authenticated, halt and ask the user to run `gh auth login`.
+If `gh` is not authenticated, halt and ask the user to run:
+```bash
+gh auth login --hostname github.com --web
+```
+This opens a browser window to approve access. No token copying required.
 
 > **Note:** Do **not** use the plain `gh issue view … 2>&1` form. Repos with
 > Projects (classic) enabled return exit code 1 due to a GraphQL deprecation
@@ -188,13 +196,27 @@ Use a conventional commit message. Reference the issue number.
 **Ask the user before running these:**
 
 ```bash
+# Push the feature branch
 git push origin issue/$ISSUE-<slug>
 ```
 
 ```bash
-gh issue close $ISSUE --repo micronugget/duccinisv4 \
+# Open a PR targeting migration_branch (issues #94–141) or master (pre-#94)
+gh pr create --repo micronugget/duccinisv3 \
+  --base migration_branch \
+  --head issue/$ISSUE-<slug> \
+  --title "fix: close issue #$ISSUE — <short description>" \
+  --body "Closes #$ISSUE"
+```
+
+```bash
+# Close the issue
+gh issue close $ISSUE --repo micronugget/duccinisv3 \
   --comment "Implemented in commit $(git rev-parse --short HEAD). All tests pass."
 ```
+
+> **If any `gh` command fails with `Resource not accessible by personal access token`:**
+> Run `gh auth login --hostname github.com --web` to re-authenticate with full repo scope.
 
 ---
 

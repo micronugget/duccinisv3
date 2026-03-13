@@ -1,20 +1,23 @@
-uuid: a5d6ec1a-4f46-4db3-bad6-dd708fe5bf57
+uuid: d19a1fab-5e53-4c4e-b393-340f9243f3aa
 langcode: en
 status: true
 dependencies:
   config:
     - image.style.uncropped_300w_webp
-  theme:
-    - olivero
+  module:
+    - eca_render
+  enforced:
+    config:
+      - eca.eca.define_breakpoints
 _core:
-  default_config_hash: U13C9GPgeAZyWtnEn7aWWR48yP3-4mAndLliGh_VoSw
+  default_config_hash: hQfCdJPd9MUZoVN8A2Z0GnBNq_lPJyEj0GWB_yb_C5I
 id: uncropped_small
 label: 'Uncropped Small'
 image_style_mappings:
   -
     image_mapping_type: image_style
     image_mapping: uncropped_300w_webp
-    breakpoint_id: olivero.sm
+    breakpoint_id: custom.sm
     multiplier: 1x
-breakpoint_group: olivero
+breakpoint_group: custom
 fallback_image_style: uncropped_300w_webp

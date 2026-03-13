@@ -1,10 +1,9 @@
-uuid: af6916d6-f84b-4dd2-9711-8f2207b996e3
+uuid: 69bb1b55-8328-44b4-94e3-0a15f57659d0
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.card
-    - core.entity_view_mode.node.rss
   module:
     - node
     - taxonomy

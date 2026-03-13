@@ -1,11 +1,11 @@
-uuid: 1ae09541-7599-46ca-a6ee-d68a5b0da75f
+uuid: bdd35f6f-82db-43f4-a3e8-a9d4252db653
 langcode: en
 status: true
 dependencies:
   module:
     - node
 _core:
-  default_config_hash: '-OA36tRZkthwtA4QzlWDUFHfvtKu1rJCY9S9FMX4fhI'
+  default_config_hash: BK71CAhdqkCn5KTXHSohFG2hjhkr5H0K3uwnW6XzeXI
 label: Default
 id: default
 description: 'A default Linkit profile'
@@ -32,3 +32,13 @@ matchers:
       substitution_type: media
       limit: 100
     weight: 0
+  3cee9e9b-7548-4496-b345-b1b29340e782:
+    id: 'entity:canvas_page'
+    uuid: 3cee9e9b-7548-4496-b345-b1b29340e782
+    settings:
+      metadata: 'by [canvas_page:owner] on [canvas_page:created:date:custom:j M Y]'
+      bundles: null
+      group_by_bundle: null
+      substitution_type: canonical
+      limit: 100
+    weight: -10

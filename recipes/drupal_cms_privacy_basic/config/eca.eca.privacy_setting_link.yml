@@ -6,13 +6,15 @@ dependencies:
     - eca_config
     - eca_content
     - eca_user
+    - modeler_api
+third_party_settings:
+  modeler_api:
+    modeler_id: bpmn_io
+    label: 'Show link to privacy settings'
 id: privacy_setting_link
-modeller: bpmn_io
-label: 'Show link to privacy settings'
-version: 1.0.0
 weight: 0
 events:
-  Event_save_config:
+  config__save_config:
     plugin: 'config:save'
     label: 'Save config'
     configuration:
@@ -21,85 +23,90 @@ events:
       write_mode: ''
     successors:
       -
-        id: Activity_and_1
-        condition: Flow_klaro_app
+        id: eca_void_and_condition_1
+        condition: eca_scalar_app
 conditions:
-  Flow_klaro_app:
+  eca_scalar_app:
     plugin: eca_scalar
+    label: 'klaro app?'
     configuration:
       negate: false
-      case: false
       left: '[config_name]'
       right: klaro.klaro_app.
       operator: beginswith
       type: value
-  Flow_enabled:
+      case: false
+  eca_scalar_enabled:
     plugin: eca_scalar
+    label: 'active?'
     configuration:
       negate: false
-      case: false
       left: '[config:status]'
       right: '1'
       operator: equal
       type: value
-  Flow_was_disabled:
-    plugin: eca_scalar
-    configuration:
       case: false
+  eca_scalar_disabled:
+    plugin: eca_scalar
+    label: 'was inactive?'
+    configuration:
+      negate: true
       left: '[config_original:status]'
       right: '1'
       operator: equal
       type: value
-      negate: true
-  Flow_disabled:
-    plugin: eca_entity_field_value
-    configuration:
       case: false
-      expected_value: '1'
-      field_name: enabled
-      operator: equal
-      type: value
-      negate: true
-      entity: menulink
-  Flow_not_required:
+  eca_scalar_required_1:
     plugin: eca_scalar
+    label: 'not required?'
     configuration:
-      case: false
+      negate: true
       left: '[config:required]'
       right: '1'
       operator: equal
       type: value
+      case: false
+  eca_entity_field_value_disabled:
+    plugin: eca_entity_field_value
+    label: 'menu disabled?'
+    configuration:
       negate: true
+      expected_value: '1'
+      field_name: enabled
+      operator: equal
+      type: value
+      case: false
+      entity: menulink
 gateways: {  }
 actions:
-  Activity_and_1:
-    plugin: eca_void_and_condition
+  eca_void_and_condition_1:
     label: AND
+    plugin: eca_void_and_condition
     configuration: {  }
     successors:
       -
-        id: Activity_and_2
-        condition: Flow_enabled
-  Activity_and_2:
-    plugin: eca_void_and_condition
+        id: eca_void_and_condition_2
+        condition: eca_scalar_enabled
+  eca_void_and_condition_2:
     label: AND
+    plugin: eca_void_and_condition
     configuration: {  }
     successors:
       -
-        id: Activity_and_3
-        condition: Flow_was_disabled
-  Activity_and_3:
-    plugin: eca_switch_account
+        id: eca_switch_account_3
+        condition: eca_scalar_disabled
+  eca_switch_account_3:
     label: 'Switch to user 1'
+    plugin: eca_switch_account
     configuration:
       user_id: '1'
     successors:
       -
-        id: Activity_load_menu_link
-        condition: Flow_not_required
-  Activity_load_menu_link:
-    plugin: eca_token_load_entity
+        id: eca_token_load_entity_link
+        condition: eca_scalar_required_1
+  eca_token_load_entity_link:
     label: 'Load menu link'
+    plugin: eca_token_load_entity
     configuration:
       token_name: menulink
       from: properties
@@ -113,11 +120,11 @@ actions:
       object: ''
     successors:
       -
-        id: Activity_enable_menu_link
-        condition: Flow_disabled
-  Activity_enable_menu_link:
-    plugin: eca_set_field_value
+        id: eca_set_field_value_link_1
+        condition: eca_entity_field_value_disabled
+  eca_set_field_value_link_1:
     label: 'Enable menu link'
+    plugin: eca_set_field_value
     configuration:
       field_name: enabled
       field_value: '1'

@@ -1,4 +1,4 @@
-uuid: c3b2cb6e-9beb-475a-b3aa-da5e3a1265e2
+uuid: e2307259-557c-4cf7-9abf-7e6f03b220d5
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,6 @@ dependencies:
     - media.type.document
   module:
     - file
-    - path
 _core:
   default_config_hash: j3PwHXJrIDYYTMBtwbGTChh6m3fzbh9KJyHZ4wJdb1U
 id: media.document.default
@@ -30,17 +29,11 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: -1
+    weight: -5
     region: content
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
-  path:
-    type: path
-    weight: 30
-    region: content
-    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
@@ -60,6 +53,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
+  path: true
   publish_on: true
   publish_state: true
   unpublish_on: true

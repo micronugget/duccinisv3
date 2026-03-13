@@ -1,4 +1,4 @@
-uuid: 3c020bb4-e224-4320-a095-add0ba8a6e45
+uuid: a8a11620-3c0e-4ca2-a62e-7c3d1fda04e7
 langcode: en
 status: true
 dependencies:
@@ -28,7 +28,7 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: -1
+    weight: -5
     region: content
     settings:
       size: 60

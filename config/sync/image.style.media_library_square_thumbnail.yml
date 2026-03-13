@@ -1,17 +1,17 @@
-uuid: d8758c1e-6789-4420-aaaf-b7c07e31c4e2
+uuid: 368da817-50a5-4fbf-bc30-8d45f04af66c
 langcode: en
 status: true
 dependencies:
   module:
     - focal_point
 _core:
-  default_config_hash: QSJDZnSyRhy4KYDGLGFDV80vWMsrnlKN08TxWwxg4wY
+  default_config_hash: ZQBi9pTdEEbuTVyss_xMqXnCe__cm-Pq2iRWTcDR4C8
 name: media_library_square_thumbnail
 label: 'Media Library Square Thumbnail'
 effects:
   e1133a5d-4918-4fd3-8b1e-c4b21222cc59:
     uuid: e1133a5d-4918-4fd3-8b1e-c4b21222cc59
-    id: image_convert
+    id: image_convert_avif
     weight: -9
     data:
       extension: webp

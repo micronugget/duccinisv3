@@ -1,4 +1,4 @@
-uuid: 754a9141-ca08-4329-adff-ac70deab9ce2
+uuid: 27f6b94e-7938-4096-8c37-dd5d7bd1cbc9
 langcode: en
 status: true
 dependencies:
@@ -8,32 +8,35 @@ dependencies:
     - image.style.5_2_1000x400_focal_point_webp
     - image.style.5_2_1300x520_focal_point_webp
     - image.style.5_2_1800x720_focal_point_webp
-  theme:
-    - olivero
+  module:
+    - eca_render
+  enforced:
+    config:
+      - eca.eca.define_breakpoints
 _core:
-  default_config_hash: r53rfarUKfKsYhtkVlH-z6Pj7GDn2OxaNkcH9ETAnIw
+  default_config_hash: N3_sazjSB1NNOMy5_74FbazvFWq3qbWBTLhbdxdHiik
 id: hero_wide
 label: 'Hero Wide'
 image_style_mappings:
   -
     image_mapping_type: image_style
     image_mapping: 5_2_1800x720_focal_point_webp
-    breakpoint_id: olivero.xl
+    breakpoint_id: custom.xl
     multiplier: 1x
   -
     image_mapping_type: image_style
     image_mapping: 5_2_1300x520_focal_point_webp
-    breakpoint_id: olivero.lg
+    breakpoint_id: custom.lg
     multiplier: 1x
   -
     image_mapping_type: image_style
     image_mapping: 5_2_1000x400_focal_point_webp
-    breakpoint_id: olivero.md
+    breakpoint_id: custom.md
     multiplier: 1x
   -
     image_mapping_type: image_style
     image_mapping: 16_9_704x396_focal_point_webp
-    breakpoint_id: olivero.sm
+    breakpoint_id: custom.sm
     multiplier: 1x
-breakpoint_group: olivero
+breakpoint_group: custom
 fallback_image_style: 16_9_512x288_focal_point_webp
