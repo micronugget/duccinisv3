@@ -159,10 +159,17 @@ class FulfillmentTime extends CheckoutPaneBase {
     // The .pill-toggle class goes on the outer wrapper (not #attributes,
     // which Drupal copies to each <input>). The theme SCSS targets
     // .pill-toggle .form-radios > .form-item for the flex pill layout.
+    //
+    // WCAG 2.1 AA 1.3.1 / 4.1.2: role=radiogroup overrides the default
+    // "group" role of <fieldset> to the semantically correct role for a
+    // set of radio buttons, as required by the ARIA authoring practices.
     $pane_form['fulfillment_method'] = [
       '#type' => 'radios',
       '#title' => $this->t('Fulfillment method'),
       '#title_display' => 'invisible',
+      '#attributes' => [
+        'role' => 'radiogroup',
+      ],
       '#options' => [
         'pickup' => $this->t('🏪 Pickup'),
         'delivery' => $this->t('🚗 Delivery'),
@@ -225,6 +232,12 @@ class FulfillmentTime extends CheckoutPaneBase {
     }
 
     // When? label + ASAP/Schedule pill toggle.
+    // Pre-calculate $is_scheduled here (not only below) so the value is
+    // available when building the fulfillment_type aria-expanded attribute.
+    $default_type = $is_open ? 'asap' : 'scheduled';
+    $current_type = $form_state->getValue(['fulfillment_time', 'fulfillment_type']) ?? $default_type;
+    $is_scheduled = ($current_type === 'scheduled');
+
     $pane_form['when_row'] = [
       '#type' => 'container',
       '#attributes' => [
@@ -235,10 +248,19 @@ class FulfillmentTime extends CheckoutPaneBase {
     $pane_form['when_row']['when_label'] = [
       '#markup' => '<span class="when-label">' . $this->t('When?') . '</span>',
     ];
+    // WCAG 2.1 AA 4.1.2 / 4.1.3: role=radiogroup, aria-controls + aria-expanded
+    // implement the ARIA disclosure pattern for the time-slot chip grid.
+    // aria-expanded starts as true/false matching the initial open state;
+    // time-slot-toggle.js keeps it in sync on user interaction.
     $pane_form['when_row']['fulfillment_type'] = [
       '#type' => 'radios',
       '#title' => $this->t('Fulfillment timing'),
       '#title_display' => 'invisible',
+      '#attributes' => [
+        'role' => 'radiogroup',
+        'aria-controls' => 'time-slots-wrapper',
+        'aria-expanded' => $is_scheduled ? 'true' : 'false',
+      ],
       '#options' => [
         'asap' => $this->t('ASAP'),
         'scheduled' => $this->t('Schedule'),
@@ -258,11 +280,6 @@ class FulfillmentTime extends CheckoutPaneBase {
       ];
     }
 
-    // Determine if schedule section should be open initially.
-    $default_type = $is_open ? 'asap' : 'scheduled';
-    $current_type = $form_state->getValue(['fulfillment_time', 'fulfillment_type']) ?? $default_type;
-    $is_scheduled = ($current_type === 'scheduled');
-
     // Generate time slot options using configuration.
     $time_slots = $this->generateTimeSlots($store, $is_open);
 
@@ -272,6 +289,8 @@ class FulfillmentTime extends CheckoutPaneBase {
         $time_slots_classes[] = 'open';
       }
 
+      // aria-expanded on #time-slots-wrapper reflects initial open/closed
+      // state; time-slot-toggle.js keeps it in sync.
       $pane_form['scheduled_time'] = [
         '#type' => 'radios',
         '#title' => $this->t('Select a time slot'),
@@ -285,20 +304,34 @@ class FulfillmentTime extends CheckoutPaneBase {
         ],
         '#time_slot_timezone' => $store->getTimezone(),
         '#weight' => 0,
-        '#prefix' => '<div class="' . implode(' ', $time_slots_classes) . '" id="time-slots-wrapper">',
+        '#prefix' => '<div class="'
+        . implode(' ', $time_slots_classes)
+        . '" id="time-slots-wrapper" aria-expanded="'
+        . ($is_scheduled ? 'true' : 'false')
+        . '">',
         '#suffix' => '</div>',
       ];
     }
     else {
       $time_slots_open = $is_scheduled ? ' open' : '';
+      $aria_exp = $is_scheduled ? 'true' : 'false';
       $pane_form['scheduled_time'] = [
-        '#markup' => '<div class="time-slots' . $time_slots_open . '" id="time-slots-wrapper"><p class="time-slots__empty">' . $this->t('No time slots available') . '</p></div>',
+        '#markup' => '<div class="time-slots'
+        . $time_slots_open
+        . '" id="time-slots-wrapper" aria-expanded="'
+        . $aria_exp
+        . '"><p class="time-slots__empty">'
+        . $this->t('No time slots available')
+        . '</p></div>',
         '#weight' => 0,
       ];
     }
 
     // Attach the time slot chip grid library.
     $pane_form['#attached']['library'][] = 'store_fulfillment/time_slots';
+    // Attach ARIA live-region + focus-management library (WCAG 2.1 AA 4.1.3
+    // Status Messages, 2.4.3 Focus Order).
+    $pane_form['#attached']['library'][] = 'store_fulfillment/checkout_aria';
 
     return $pane_form;
   }

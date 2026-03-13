@@ -13137,7 +13137,7 @@ h1.title::after,
   cursor: pointer;
   touch-action: manipulation;
   transition: all 0.2s ease;
-  color: #6b7280;
+  color: #374151;
   -webkit-user-select: none;
           user-select: none;
 }

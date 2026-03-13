@@ -126,11 +126,14 @@ class DeliveryAddress extends CheckoutPaneBase implements CheckoutPaneInterface 
 
     // Wrap the entire pane for AJAX targeting from FulfillmentTime.
     // The .delivery-expand wrapper drives the CSS max-height transition.
+    // aria-expanded reflects the open/closed state for assistive technologies
+    // (WCAG 2.1 AA 4.1.2 — Name, Role, Value). delivery-expand.js keeps this
+    // attribute in sync after CSS transitions complete.
     $classes = 'delivery-expand';
     if ($is_delivery) {
       $classes .= ' open';
     }
-    $pane_form['#prefix'] = '<div id="delivery-address-wrapper" class="' . $classes . '">';
+    $pane_form['#prefix'] = '<div id="delivery-address-wrapper" class="' . $classes . '" aria-expanded="' . ($is_delivery ? 'true' : 'false') . '">';
     $pane_form['#suffix'] = '</div>';
 
     // Attach expand/collapse transition styles.
