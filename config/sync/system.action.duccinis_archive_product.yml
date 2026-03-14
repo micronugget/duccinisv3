@@ -1,0 +1,13 @@
+uuid: 3e23ac77-342d-46e2-9fa1-707fefb2e0d9
+langcode: en
+status: true
+dependencies:
+  module:
+    - duccinis_archive
+_core:
+  default_config_hash: gdptjeShh8haVRXWunGCpT2wo5GGHRRjX_ZOtXh5Dho
+id: duccinis_archive_product
+label: 'Archive product'
+type: commerce_product
+plugin: duccinis_archive_product
+configuration: {  }
