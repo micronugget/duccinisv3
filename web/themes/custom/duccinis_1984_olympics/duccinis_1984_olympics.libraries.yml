@@ -75,14 +75,6 @@ jquery.validate:
   dependencies:
     - core/jquery
 
-payment-ajax-diagnostic:
-  js:
-    src/js/diagnostics/payment-ajax-diagnostic.js: {}
-  dependencies:
-    - core/drupal
-    - core/drupalSettings
-    - core/once
-
 saved-card-fix:
   js:
     src/js/saved-card-fix.js: {}
