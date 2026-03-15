@@ -1,0 +1,26 @@
+uuid: 5350d5e9-cf43-4f81-986e-115080e31a6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 6068dc42d2362ee8
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-menus_extras'
+        label: menus_extras
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: menus_extras
+id: block.views_block.product_variations-menus_extras
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-menus_extras'

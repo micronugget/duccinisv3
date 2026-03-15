@@ -1,0 +1,33 @@
+uuid: 5ee1bf68-54e7-4871-b379-873a88261317
+langcode: en
+status: true
+dependencies:
+  module:
+    - scheduler
+third_party_settings:
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: null
+    publish_touch: false
+    show_message_after_update: true
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: null
+  duccinis_product_type_ui:
+    weight: -3
+id: pizza
+label: Pizza
+traits: {  }
+locked: false
+description: ''
+variationTypes:
+  - pizza_custom
+  - pizza_delightz
+  - pizza_jumbo_slice
+multipleVariations: true
+injectVariationFields: true

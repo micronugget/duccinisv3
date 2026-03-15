@@ -1,0 +1,26 @@
+uuid: ea3b3be9-478e-4de9-84f4-c006daa3f80f
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 139eaac1a61a0e9a
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-side_orders'
+        label: side_orders
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: side_orders
+id: block.views_block.product_variations-side_orders
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-side_orders'

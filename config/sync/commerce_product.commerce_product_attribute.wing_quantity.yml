@@ -1,0 +1,7 @@
+uuid: 5315e454-0cab-455d-ab0c-0f077ec565b7
+langcode: en
+status: true
+dependencies: {  }
+id: wing_quantity
+label: 'Wing quantity'
+elementType: select

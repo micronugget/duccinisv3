@@ -1,0 +1,24 @@
+uuid: f0d83d0c-95e8-4c37-91d1-b43a73f98832
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_attribute.pizza_size
+    - commerce_product.commerce_product_variation_type.pizza_custom
+    - field.storage.commerce_product_variation.attribute_pizza_size
+id: commerce_product_variation.pizza_custom.attribute_pizza_size
+field_name: attribute_pizza_size
+entity_type: commerce_product_variation
+bundle: pizza_custom
+label: 'Pizza size'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product_attribute_value'
+  handler_settings:
+    target_bundles:
+      pizza_size: pizza_size
+field_type: entity_reference

@@ -1,0 +1,10 @@
+uuid: d2cf00f3-4b8d-4cd4-bdc1-1527ecab3cb7
+langcode: en
+status: true
+dependencies: {  }
+id: potato_chips
+label: 'Potato Chips'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: false

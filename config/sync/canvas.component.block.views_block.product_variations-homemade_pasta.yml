@@ -1,0 +1,26 @@
+uuid: bd4e61b1-e3f7-4ef6-b773-2d64205ef45c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 380c19981815b302
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-homemade_pasta'
+        label: homemade_pasta
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: homemade_pasta
+id: block.views_block.product_variations-homemade_pasta
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-homemade_pasta'

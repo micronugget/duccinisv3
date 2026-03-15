@@ -1,0 +1,7 @@
+uuid: 09dacc36-1016-4595-9509-0bba7a2ad810
+langcode: en
+status: true
+dependencies: {  }
+id: beverage_size
+label: 'Beverage size'
+elementType: select
