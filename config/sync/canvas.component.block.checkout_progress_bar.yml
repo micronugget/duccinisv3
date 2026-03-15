@@ -1,0 +1,23 @@
+uuid: 68f7467d-45c8-47cc-9390-c1b35e1271ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - store_fulfillment
+active_version: dca2c89732423171
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: checkout_progress_bar
+        label: 'Checkout progress bar'
+        label_display: '0'
+        provider: store_fulfillment
+        show_cart_step: true
+    fallback_metadata:
+      slot_definitions: null
+label: 'Checkout progress bar'
+id: block.checkout_progress_bar
+provider: store_fulfillment
+source: block
+source_local_id: checkout_progress_bar

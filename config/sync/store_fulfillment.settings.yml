@@ -1,0 +1,6 @@
+_core:
+  default_config_hash: eri640dmTiFIbpe2hjORs4CLaGjXsT09N0oBRU8gogI
+minimum_advance_notice: 30
+maximum_scheduling_window: 14
+asap_cutoff_before_closing: 15
+time_slot_interval: 15

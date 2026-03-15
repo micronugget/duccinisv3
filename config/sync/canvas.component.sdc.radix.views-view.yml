@@ -1,0 +1,158 @@
+uuid: 9ef48c11-0850-4686-88cd-563fbd406a50
+langcode: en
+status: true
+dependencies:
+  theme:
+    - radix
+active_version: 90106a89a2682248
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        content:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_title_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_header_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_filters_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_rows_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_empty_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_footer_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_attachment_before_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_attachment_after_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_pager_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_more_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        views_feed_icons_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions:
+        views_view_wrapper:
+          title: 'Views wrapper'
+          description: 'The wrapper for the view.'
+        views_view_title:
+          title: 'Views title'
+          description: 'The title for the view.'
+        views_header:
+          title: 'Views header'
+          description: 'The header for the view.'
+        views_filters:
+          title: 'Views filters'
+          description: 'The filters for the view.'
+        views_attachment_before:
+          title: 'Views attachment before'
+          description: 'The attachment before the view.'
+        views_rows:
+          title: 'Views rows'
+          description: 'The rows for the view.'
+        views_pager:
+          title: 'Views pager'
+          description: 'The pager for the view.'
+        views_attachment_after:
+          title: 'Views attachment after'
+          description: 'The attachment after the view.'
+        views_more:
+          title: 'Views more'
+          description: 'The more link for the view.'
+        views_footer:
+          title: 'Views footer'
+          description: 'The footer for the view.'
+        views_feed_icons:
+          title: 'Views feed icons'
+          description: 'The feed icons for the view.'
+label: 'Views view'
+id: sdc.radix.views-view
+provider: radix
+source: sdc
+source_local_id: 'radix:views-view'

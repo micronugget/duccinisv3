@@ -1,0 +1,27 @@
+uuid: a081d543-7abc-4ec1-b908-bfbd39a3713c
+langcode: en
+status: true
+dependencies:
+  theme:
+    - radix
+active_version: c97a6ac3c687d2c6
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions: {  }
+    fallback_metadata:
+      slot_definitions:
+        branding:
+          title: Branding
+          description: 'The branding section of the navigation.'
+        left:
+          title: Left
+          description: 'The left side of the navigation.'
+        right:
+          title: Right
+          description: 'The right side of the navigation.'
+label: 'Page Navigation'
+id: sdc.radix.page-navigation
+provider: radix
+source: sdc
+source_local_id: 'radix:page-navigation'

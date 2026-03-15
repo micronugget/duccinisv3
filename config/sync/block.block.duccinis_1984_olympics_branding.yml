@@ -1,0 +1,25 @@
+uuid: aca1d92c-e12a-45e9-80ae-23167727533e
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: GOi_FexBSSlokrxp4H60P0C6YJ56SC-7ZLJ0qVK_ewA
+id: duccinis_1984_olympics_branding
+theme: duccinis_1984_olympics
+region: navbar_branding
+weight: -1
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

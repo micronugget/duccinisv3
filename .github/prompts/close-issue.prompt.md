@@ -26,9 +26,11 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
+| Drupal module ops (post-enable sync) | `ddev drush cim -y` immediately after `ddev drush en … -y` + `ddev drush cex -y` — safe when used only to apply the newly-exported module list back; not to overwrite in-progress local config |
 | Drupal recipes | `ddev drush recipe <path>` — applies a recipe; all actions are logged and reversible via `ddev drush cim` |
 | Config import (additive only) | `ddev drush cim -y` **when** a prior `ddev drush config:status` confirms zero "Only in DB" and zero "Different" rows — i.e. the sync dir contains only "Only in sync dir" new entries; no existing config will be deleted or overwritten |
 | GitHub CLI (read) | `gh issue view … --json … 2>/dev/null`, `gh issue list … 2>/dev/null` |
+| GitHub CLI (issue tracking) | `gh issue create --repo … --title … --body …` — creates a tracking issue; no code affected |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |

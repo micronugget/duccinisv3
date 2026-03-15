@@ -1,0 +1,19 @@
+uuid: b6fcb18f-e667-4e5f-9caf-28326b0aa3d6
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_store
+id: commerce_store.store_hours
+field_name: store_hours
+entity_type: commerce_store
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,22 @@
+uuid: ddfbd61d-1f75-47ce-883a-a81ead046a01
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: tX0aEIS0CFi2YcxkCgdZdUntIdG1S3tKyAgzV9WrJjE
+id: duccinis_1984_olympics_breadcrumbs
+theme: duccinis_1984_olympics
+region: header
+weight: -5
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

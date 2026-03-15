@@ -1,0 +1,20 @@
+uuid: 5b006a90-9250-425a-b6e3-28f30b100775
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: YVgbJ9Bg0q0B72Oxt-qKeORsEn91bEsMf3gLM779C4M
+id: duccinis_1984_olympics_page_title
+theme: duccinis_1984_olympics
+region: header
+weight: -2
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }
