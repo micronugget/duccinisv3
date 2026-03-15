@@ -7,4 +7,16 @@ configEntityTypeId: component
 weight: 0
 items:
   - block.views_block.commerce_activity-block_1
+  - block.views_block.product_variations-beverages
+  - block.views_block.product_variations-desserts
+  - block.views_block.product_variations-famous_stromboli
+  - block.views_block.product_variations-fresh_buffalo_wings
+  - block.views_block.product_variations-fresh_submarines
+  - block.views_block.product_variations-gyro_special
+  - block.views_block.product_variations-homemade_pasta
+  - block.views_block.product_variations-menus_extras
+  - block.views_block.product_variations-pizza
+  - block.views_block.product_variations-salads
+  - block.views_block.product_variations-side_orders
+  - block.views_block.product_variations-specials
   - block.views_block.recent_pages-block_recent_pages
