@@ -19,11 +19,15 @@ $body-color:          #1a1a1a;
 
 // Component tokens
 $cp-step-height:      3px;
+$cp-active-bar-height: 5px;
 $cp-done-color:       #059669;   // green
 $cp-active-color:     $olympics-magenta;
 $cp-muted-color:      #6b7280;   // gray text (future)
 $cp-border-color:     #e5e7eb;   // gray bar (future)
 $cp-active-text:      $body-color;
+
+// Breakpoint — matches Bootstrap sm
+$cp-sm-breakpoint:    576px;
 
 // ── Layout ────────────────────────────────────────────────────────────────────
 
@@ -52,6 +56,18 @@ $cp-active-text:      $body-color;
       cursor: not-allowed;
     }
 
+    // Chevron separator before all steps except the first.
+    & + .step::before {
+      content: '›';
+      position: absolute;
+      left: -0.5em;
+      top: 50%;
+      transform: translateY(-60%);
+      font-size: 0.9rem;
+      color: $cp-muted-color;
+      pointer-events: none;
+    }
+
     // Underline bar via ::after pseudo-element.
     &::after {
       content: '';
@@ -65,12 +81,14 @@ $cp-active-text:      $body-color;
       transition: opacity 0.15s ease;
     }
 
-    // Active step.
+    // Active step — taller bar and heavier label weight.
     &.active {
       color: $cp-active-text;
+      font-weight: 800;
 
       &::after {
         background: $cp-active-color;
+        height: $cp-active-bar-height;
       }
     }
 
@@ -84,9 +102,11 @@ $cp-active-text:      $body-color;
     }
   }
 
-  // Clickable done-step anchors: strip link chrome, add pointer + focus ring.
+  // Clickable done-step anchors: visible underline (WCAG 1.4.1), pointer,
+  // and focus ring.
   a.step {
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
     cursor: pointer;
 
     &:hover::after {
@@ -98,6 +118,44 @@ $cp-active-text:      $body-color;
       outline: 2px solid $cp-active-color;
       outline-offset: 2px;
       border-radius: 2px;
+    }
+  }
+
+  // ── Mobile fallback (< 576px) ────────────────────────────────────────────
+  // At 320px only the active step label + "Step N of 4" counter is shown.
+  // Done and future steps collapse to zero width so there is no overflow.
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    // Hide non-active steps from view but keep them in the DOM for
+    // screen readers (use font-size/padding collapse rather than display:none).
+    .step:not(.active) {
+      flex: 0;
+      overflow: hidden;
+      font-size: 0;
+      padding: 0;
+      opacity: 0;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    // Active step expands to full width and shows its counter.
+    .step.active {
+      flex: 1;
+      font-size: 0.75rem;
+
+      // "Step N of 4" counter appended via CSS attr().
+      &::before {
+        content: attr(data-step-counter);
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+        color: $cp-muted-color;
+        margin-bottom: 0.15rem;
+      }
     }
   }
 }

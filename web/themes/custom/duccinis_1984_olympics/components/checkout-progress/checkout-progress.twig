@@ -31,9 +31,11 @@
  */
 #}
 {% set nav_label = aria_label|default('Checkout progress'|t) %}
+{% set total_steps = steps|length %}
 
 <nav class="checkout-progress" aria-label="{{ nav_label }}">
   {% for step in steps %}
+    {%- set step_number = loop.index -%}
     {%- if step.url %}
       <a href="{{ step.url }}"
          class="step{{ step.state ? ' ' ~ step.state : '' }}"
@@ -46,9 +48,16 @@
         {{- step.label -}}
       </a>
     {%- elseif step.state == 'active' %}
-      <div class="step active" aria-current="step">{{- step.label -}}</div>
+      <div class="step active"
+           aria-current="step"
+           data-step-counter="{{ 'Step @current of @total'|t({'@current': step_number, '@total': total_steps}) }}">
+        {{- step.label -}}
+      </div>
     {%- else %}
-      <div class="step" aria-disabled="true">{{- step.label -}}</div>
+      <div class="step" aria-disabled="true"
+           title="{{ 'Complete this step first'|t }}">
+        {{- step.label -}}
+      </div>
     {%- endif %}
   {% endfor %}
 </nav>
