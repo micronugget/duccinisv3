@@ -1,0 +1,20 @@
+uuid: 65ce02d2-e4ec-45f0-ae5a-d860d6a3a8ef
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: bD6FDrFYtdGpdAgjiNuXzQheCdYZPi11eK1YJs9fvmo
+id: duccinis_1984_olympics_local_actions
+theme: duccinis_1984_olympics
+region: header
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

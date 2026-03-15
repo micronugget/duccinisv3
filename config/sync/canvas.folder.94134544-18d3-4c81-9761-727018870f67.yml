@@ -6,4 +6,5 @@ name: Other
 configEntityTypeId: component
 weight: 0
 items:
+  - sdc.commerce.commerce-status-badge
   - sdc.navigation.title

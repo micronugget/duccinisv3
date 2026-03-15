@@ -1,0 +1,26 @@
+uuid: 18db8382-c8c2-4175-a178-179610a34b93
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.commerce_activity
+  module:
+    - views
+active_version: e71077a0f9e405a0
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:commerce_activity-block_1'
+        label: 'Commerce Activity'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Commerce Activity'
+id: block.views_block.commerce_activity-block_1
+provider: views
+source: block
+source_local_id: 'views_block:commerce_activity-block_1'

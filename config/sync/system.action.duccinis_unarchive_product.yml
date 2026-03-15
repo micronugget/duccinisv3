@@ -1,0 +1,13 @@
+uuid: fc7a34d0-9321-4595-ad9c-a8439005ca49
+langcode: en
+status: true
+dependencies:
+  module:
+    - duccinis_archive
+_core:
+  default_config_hash: Eq2AgCSwSl6HmWSLP7gaEpPpuvc4p2xxFIR7tTrYwkA
+id: duccinis_unarchive_product
+label: 'Unarchive product'
+type: commerce_product
+plugin: duccinis_unarchive_product
+configuration: {  }
