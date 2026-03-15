@@ -169,4 +169,38 @@ class ProductArchiveSubscriberTest extends CommerceKernelTestBase {
     $this->assertFalse($first->isPublished(), 'Manually unpublished variation stays unpublished after unrelated product save.');
   }
 
+  /**
+   * Archived product is excluded from a published entity query.
+   *
+   * Views and Commerce listings query for published (status=1) products only.
+   * This test simulates that query to confirm archived products are invisible
+   * from any listing the moment they are archived.
+   *
+   * @covers ::onProductPresave
+   */
+  public function testArchivedProductIsExcludedFromPublishedEntityQuery(): void {
+    $product = $this->createActiveProduct();
+    $product_id = $product->id();
+
+    // Sanity check: the product appears in a published-only query.
+    $ids_before = \Drupal::entityQuery('commerce_product')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->execute();
+    $this->assertContains((string) $product_id, array_values($ids_before),
+      'Published product appears in status=1 entity query before archiving.');
+
+    // Archive the product.
+    $product->set('field_archived', TRUE);
+    $product->save();
+
+    // The archived product must no longer appear in a published-only query.
+    $ids_after = \Drupal::entityQuery('commerce_product')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->execute();
+    $this->assertNotContains((string) $product_id, array_values($ids_after),
+      'Archived product is excluded from status=1 entity query (hidden from views).');
+  }
+
 }
