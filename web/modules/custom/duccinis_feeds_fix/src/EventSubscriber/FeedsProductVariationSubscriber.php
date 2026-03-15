@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\duccinis_feeds_fix\EventSubscriber;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\feeds\Event\EntityEvent;
 use Drupal\feeds\Event\FeedsEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -15,6 +18,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * variations and merges them with newly mapped ones.
  */
 class FeedsProductVariationSubscriber implements EventSubscriberInterface {
+
+  /**
+   * Constructs a FeedsProductVariationSubscriber object.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   */
+  public function __construct(
+    protected readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * {@inheritdoc}
@@ -55,7 +68,7 @@ class FeedsProductVariationSubscriber implements EventSubscriberInterface {
     $current_variations = $entity->get('variations')->getValue();
 
     // Load the original entity from the database to get existing variations.
-    $storage = \Drupal::entityTypeManager()->getStorage('commerce_product');
+    $storage = $this->entityTypeManager->getStorage('commerce_product');
     $original = $storage->load($entity->id());
 
     if (!$original) {
