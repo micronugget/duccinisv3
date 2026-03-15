@@ -1,0 +1,23 @@
+uuid: 2f3a4b5c-6d7e-4890-9a1b-2c3d4e5f6a7b
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.stromboli
+    - field.storage.commerce_product_variation.feeds_item
+  module:
+    - feeds
+id: commerce_product_variation.stromboli.feeds_item
+field_name: feeds_item
+entity_type: commerce_product_variation
+bundle: stromboli
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item
