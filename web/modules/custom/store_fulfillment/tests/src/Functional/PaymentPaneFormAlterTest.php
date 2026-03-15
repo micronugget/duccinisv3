@@ -150,6 +150,141 @@ class PaymentPaneFormAlterTest extends CommerceBrowserTestBase {
     );
   }
 
+  // ─── Issue #106: #after_build regression tests ──────────────────────────
+
+  /**
+   * Tests that saved-card radio inputs exist in the DOM when the user has a stored payment method.
+   *
+   * This is the primary regression test for issue #106.  The original bug: the
+   * module used #process instead of #after_build.  Using #process overwrote
+   * Drupal's default #process array (including Radios::processRadios()) and
+   * produced ZERO child radio elements — the radio list appeared empty.  The
+   * fix registers our callback via #after_build so Radios::processRadios()
+   * always runs first.
+   *
+   * If this test fails with "zero radio inputs found", the #after_build →
+   * #process regression has been reintroduced.
+   */
+  public function testSavedCardRadioInputsExistInDom(): void {
+    $this->createSavedPaymentMethodForAdminUser();
+    $order = $this->createOrder();
+    $this->drupalGet('/checkout/' . $order->id() . '/order_information');
+    $this->assertSession()->statusCodeEquals(200);
+
+    $radios = $this->getSession()->getPage()->findAll(
+      'css',
+      '#edit-payment-information input[type="radio"]',
+    );
+    $this->assertNotEmpty(
+      $radios,
+      'At least one radio input must be rendered inside #edit-payment-information. '
+      . 'Zero radios means Radios::processRadios() did not run — a sign that #process '
+      . 'was used instead of #after_build (issue #106 regression).',
+    );
+  }
+
+  /**
+   * Tests that the payment_information wrapper receives the has-saved-cards class when the user has a stored payment method.
+   *
+   * This class is added by store_fulfillment_form_alter() when the saved-card
+   * detection loop finds at least one eligible payment method.  Its presence
+   * proves the loop ran and that #after_build was registered.
+   */
+  public function testPaymentPaneHasSavedCardsClassWhenSavedMethodExists(): void {
+    $this->createSavedPaymentMethodForAdminUser();
+    $order = $this->createOrder();
+    $this->drupalGet('/checkout/' . $order->id() . '/order_information');
+    $this->assertSession()->statusCodeEquals(200);
+
+    $this->assertSession()->elementExists(
+      'css',
+      '#edit-payment-information.has-saved-cards',
+    );
+  }
+
+  /**
+   * Tests that saved-card radio inputs carry the visually-hidden CSS class.
+   *
+   * The #after_build callback adds this class to hide the native
+   * input[type="radio"] so the styled SDC label row is the visual affordance.
+   * Its presence confirms the callback ran after Radios::processRadios().
+   */
+  public function testSavedCardRadioInputsHaveVisuallyHiddenClass(): void {
+    $this->createSavedPaymentMethodForAdminUser();
+    $order = $this->createOrder();
+    $this->drupalGet('/checkout/' . $order->id() . '/order_information');
+    $this->assertSession()->statusCodeEquals(200);
+
+    $this->assertSession()->elementExists(
+      'css',
+      '#edit-payment-information input[type="radio"].visually-hidden',
+    );
+  }
+
+  /**
+   * Tests the payment pane lacks has-saved-cards class with no stored methods.
+   *
+   * Control case: without saved methods the #after_build callback is never
+   * registered, so the class must not appear.
+   */
+  public function testPaymentPaneLacksSavedCardsClassWithNoSavedMethods(): void {
+    // No saved payment method created.
+    $order = $this->createOrder();
+    $this->drupalGet('/checkout/' . $order->id() . '/order_information');
+    $this->assertSession()->statusCodeEquals(200);
+
+    $this->assertSession()->elementNotExists(
+      'css',
+      '#edit-payment-information.has-saved-cards',
+    );
+  }
+
+  // ─── Helpers ────────────────────────────────────────────────────────────
+
+  /**
+   * Creates a reusable credit-card payment method owned by the admin user.
+   *
+   * Uses the 'example' gateway (example_onsite plugin) from setUp().  The
+   * card_type field triggers the Commerce-core branch in store_fulfillment
+   * form_alter so that #saved_card_data is populated and #after_build is
+   * registered on the radios element.
+   *
+   * A billing profile with a US address is required because the test store has
+   * billing_countries = ['US'] and Commerce's loadReusable() filters out any
+   * payment method whose billing profile country does not match.
+   */
+  protected function createSavedPaymentMethodForAdminUser(): void {
+    // Create a billing profile with a US address to satisfy the store's
+    // billing_countries filter in PaymentMethodStorage::loadReusable().
+    $billing_profile = $this->createEntity('profile', [
+      'type' => 'customer',
+      'uid' => $this->adminUser->id(),
+      'address' => [
+        'country_code' => 'US',
+        'administrative_area' => 'DC',
+        'locality' => 'Washington',
+        'postal_code' => '20009',
+        'address_line1' => '1800 Adams Mill Rd NW',
+        'given_name' => 'Test',
+        'family_name' => 'User',
+      ],
+    ]);
+
+    $payment_method = $this->createEntity('commerce_payment_method', [
+      'type' => 'credit_card',
+      'uid' => $this->adminUser->id(),
+      'payment_gateway' => 'example',
+      'card_type' => 'visa',
+      'card_number' => '1111',
+      'billing_profile' => $billing_profile,
+      'remote_id' => 789,
+      'reusable' => TRUE,
+      'expires' => strtotime('+5 years'),
+    ]);
+    $payment_method->setBillingProfile($billing_profile);
+    $payment_method->save();
+  }
+
   /**
    * Creates a minimal draft order with one item for checkout testing.
    *
