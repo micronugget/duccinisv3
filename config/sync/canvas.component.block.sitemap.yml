@@ -1,0 +1,22 @@
+uuid: f9ccb344-cb69-4c5f-94ed-c7436b935032
+langcode: en
+status: true
+dependencies:
+  module:
+    - sitemap
+active_version: e788dac5d4732030
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: sitemap
+        label: Sitemap
+        label_display: '0'
+        provider: sitemap
+    fallback_metadata:
+      slot_definitions: null
+label: Sitemap
+id: block.sitemap
+provider: sitemap
+source: block
+source_local_id: sitemap

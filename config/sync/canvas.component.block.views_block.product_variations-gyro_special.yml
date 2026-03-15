@@ -1,0 +1,26 @@
+uuid: 2bf36df9-4c30-4e11-b3f3-3d6b923baafa
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 8a29dbb23bb4d6e0
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-gyro_special'
+        label: gyro_special
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: gyro_special
+id: block.views_block.product_variations-gyro_special
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-gyro_special'

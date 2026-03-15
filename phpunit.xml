@@ -11,7 +11,7 @@
   <php>
     <ini name="error_reporting" value="32767"/>
     <ini name="memory_limit" value="512M"/>
-    <env name="SIMPLETEST_BASE_URL" value="https://duccinisv3.ddev.site"/>
+    <env name="SIMPLETEST_BASE_URL" value="https://duccinisv4.ddev.site"/>
     <env name="SIMPLETEST_DB" value="mysql://db:db@db/db"/>
     <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp/browser_output"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>

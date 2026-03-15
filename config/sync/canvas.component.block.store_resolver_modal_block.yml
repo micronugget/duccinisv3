@@ -1,0 +1,22 @@
+uuid: 1876fa62-bfe2-4834-ba2f-18a477d72b0b
+langcode: en
+status: true
+dependencies:
+  module:
+    - store_resolver
+active_version: e0e3e8cd638f2de7
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: store_resolver_modal_block
+        label: 'Store Selection Modal'
+        label_display: '0'
+        provider: store_resolver
+    fallback_metadata:
+      slot_definitions: null
+label: 'Store Selection Modal'
+id: block.store_resolver_modal_block
+provider: store_resolver
+source: block
+source_local_id: store_resolver_modal_block

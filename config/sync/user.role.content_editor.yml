@@ -16,6 +16,7 @@ dependencies:
     - canvas
     - content_moderation
     - dashboard
+    - editoria11y
     - filter
     - media
     - media_library_bulk_upload
@@ -61,6 +62,7 @@ permissions:
   - 'edit any svg_image media'
   - 'edit any video media'
   - 'edit canvas_page'
+  - 'mark as hidden in editoria11y'
   - 'revert all revisions'
   - 'schedule publishing of nodes'
   - 'use basic_editorial transition create_new_draft'
@@ -74,6 +76,7 @@ permissions:
   - 'use text format content_format'
   - 'view all revisions'
   - 'view any unpublished content'
+  - 'view editoria11y checker'
   - 'view own unpublished content'
   - 'view own unpublished media'
   - 'view scheduled content'

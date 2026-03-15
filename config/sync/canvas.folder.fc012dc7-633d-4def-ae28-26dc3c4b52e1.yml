@@ -1,0 +1,10 @@
+uuid: fc012dc7-633d-4def-ae28-26dc3c4b52e1
+langcode: en
+status: true
+dependencies: {  }
+name: 'Store Fulfillment'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.checkout_header
+  - block.checkout_progress_bar

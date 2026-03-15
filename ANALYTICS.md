@@ -46,13 +46,15 @@ window.dataLayer.push({
 ## Implementation
 
 - **Data attributes** are emitted server-side by
-  `duccinis_1984_olympics_preprocess_commerce_checkout_form()` in
-  `web/themes/custom/duccinis_1984_olympics/includes/commerce.theme`.
+  `CheckoutProgressBarBlock::buildSteps()` in
+  `web/modules/custom/store_fulfillment/src/Plugin/Block/CheckoutProgressBarBlock.php`
+  and rendered by the SDC component
+  `web/themes/custom/duccinis_1984_olympics/components/checkout-progress/checkout-progress.twig`.
 - **JS behavior** lives in
   `web/themes/custom/duccinis_1984_olympics/src/js/checkout-progress-analytics.js`
   (library: `duccinis_1984_olympics/checkout-progress-analytics`).
-- Library is attached **only** on pages that render the checkout progress bar
-  (i.e. Commerce checkout pages), so there is no global JS bloat.
+- Library is attached via `CheckoutProgressBarBlock::build()` — **only** on pages
+  where the block renders — so there is no global JS bloat.
 
 ---
 

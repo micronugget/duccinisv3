@@ -1,0 +1,26 @@
+uuid: af426a7b-f467-411e-8ccf-e04b18f36ee3
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: ef79cbe3219d496e
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-fresh_buffalo_wings'
+        label: 'Fresh Buffalo Wings'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Fresh Buffalo Wings'
+id: block.views_block.product_variations-fresh_buffalo_wings
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-fresh_buffalo_wings'

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .checkout-progress {
   display: flex;
   gap: 0;
@@ -22,6 +23,16 @@
 .checkout-progress .step[aria-disabled=true] {
   cursor: not-allowed;
 }
+.checkout-progress .step + .step::before {
+  content: "›";
+  position: absolute;
+  left: -0.5em;
+  top: 50%;
+  transform: translateY(-60%);
+  font-size: 0.9rem;
+  color: #6b7280;
+  pointer-events: none;
+}
 .checkout-progress .step::after {
   content: "";
   position: absolute;
@@ -35,9 +46,11 @@
 }
 .checkout-progress .step.active {
   color: #1a1a1a;
+  font-weight: 800;
 }
 .checkout-progress .step.active::after {
   background: #D62976;
+  height: 5px;
 }
 .checkout-progress .step.done {
   color: #059669;
@@ -46,7 +59,8 @@
   background: #059669;
 }
 .checkout-progress a.step {
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
   cursor: pointer;
 }
 .checkout-progress a.step:hover::after {
@@ -56,6 +70,32 @@
   outline: 2px solid #D62976;
   outline-offset: 2px;
   border-radius: 2px;
+}
+@media (max-width: 575px) {
+  .checkout-progress .step:not(.active) {
+    flex: 0;
+    overflow: hidden;
+    font-size: 0;
+    padding: 0;
+    opacity: 0;
+  }
+  .checkout-progress .step:not(.active)::before, .checkout-progress .step:not(.active)::after {
+    display: none;
+  }
+  .checkout-progress .step.active {
+    flex: 1;
+    font-size: 0.75rem;
+  }
+  .checkout-progress .step.active::before {
+    content: attr(data-step-counter);
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #6b7280;
+    margin-bottom: 0.15rem;
+  }
 }
 
 /*# sourceMappingURL=checkout-progress.css.map*/

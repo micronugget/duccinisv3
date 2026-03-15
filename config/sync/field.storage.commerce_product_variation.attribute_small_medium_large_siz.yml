@@ -1,0 +1,19 @@
+uuid: 0de40f2f-2081-43a0-ae57-4536ab74480d
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_product
+id: commerce_product_variation.attribute_small_medium_large_siz
+field_name: attribute_small_medium_large_siz
+entity_type: commerce_product_variation
+type: entity_reference
+settings:
+  target_type: commerce_product_attribute_value
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

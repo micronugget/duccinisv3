@@ -1,0 +1,27 @@
+uuid: 3e60783a-54da-41de-aebe-2b53586c960d
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.footer
+  module:
+    - system
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: uWcZ3c0xrfYh5ca5fDSFTu8ZJDyFJ3H8CT3cpUVL8fE
+id: duccinis_1984_olympics_footer
+theme: duccinis_1984_olympics
+region: footer
+weight: -5
+provider: null
+plugin: 'system_menu_block:footer'
+settings:
+  id: 'system_menu_block:footer'
+  label: 'Footer menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

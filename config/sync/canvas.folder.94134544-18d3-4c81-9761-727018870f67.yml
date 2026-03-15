@@ -6,4 +6,19 @@ name: Other
 configEntityTypeId: component
 weight: 0
 items:
+  - sdc.commerce.commerce-status-badge
   - sdc.navigation.title
+  - sdc.radix.badge
+  - sdc.radix.close-button
+  - sdc.radix.collapse
+  - sdc.radix.field
+  - sdc.radix.figure
+  - sdc.radix.html
+  - sdc.radix.navbar
+  - sdc.radix.page-navigation
+  - sdc.radix.progress
+  - sdc.radix.select
+  - sdc.radix.textarea
+  - sdc.radix.views-view
+  - sdc.radix.views-view--grid
+  - sdc.radix.views-view--unformatted

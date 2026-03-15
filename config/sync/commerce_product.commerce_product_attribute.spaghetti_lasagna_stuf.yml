@@ -1,0 +1,7 @@
+uuid: 361e67d6-57f7-4b83-9eab-133cf2e0e337
+langcode: en
+status: true
+dependencies: {  }
+id: spaghetti_lasagna_stuf
+label: 'Spaghetti, Lasagna, Stuffed Shells'
+elementType: select

@@ -1,0 +1,26 @@
+uuid: f8544daa-6409-404c-8e45-af9e6f3b94c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 85b7f8b2c1ace958
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-salads'
+        label: salads
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: salads
+id: block.views_block.product_variations-salads
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-salads'

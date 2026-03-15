@@ -1,5 +1,0 @@
-# Schema for the configuration files of the duccinis_theme theme.
-
-duccinis_theme.settings:
-  type: theme_settings
-  label: 'duccinis_theme settings'

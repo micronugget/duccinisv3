@@ -1,0 +1,10 @@
+uuid: c574b9ee-3fe6-4f5f-a106-34bb55d63f68
+langcode: en
+status: true
+dependencies: {  }
+id: small_medium_large_sizes
+label: 'Small / Medium / Large sizes'
+traits: {  }
+locked: false
+orderItemType: null
+generateTitle: true

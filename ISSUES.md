@@ -55,9 +55,10 @@
   ```
   _Done when: `git status` no longer tracks any of the above file types._
 
-- [ ] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
+- [x] **#1.6 — Enable GitHub Secret Scanning on V3 repository**
   Navigate to repo Settings → Security → Secret scanning and enable.
   _Done when: Secret scanning is active and shows no open alerts._
+  ✅ Completed 2026-03-13: Secret scanning + push protection enabled. Alert #1 (Stripe test key in git history) resolved as `revoked`. Zero open alerts.
 
 ---
 
@@ -77,16 +78,19 @@
   Add it to V3's `composer.json` and enable the module.
   _Done when: Module is listed in `core.extension.yml`._
 
-- [ ] **#2.3 — Reconcile contrib module version drift**
+- [x] **#2.3 — Reconcile contrib module version drift** _(verified 2026-03-13, issue #101)_
   Compare V3 and V4 `composer.lock` for divergent contrib package versions.
   Key packages to check: `drupal/radix`, `drupal/geocoder`, `drupal/commerce_stripe`, `drupal/eca`, `drupal/gin`, `drupal/easy_email`, `drupal/trash`.
-  Update V3 packages to match V4 versions.
+  **Verification result:** V4 is at parity or ahead of V3 on all 7 key packages and all 109 drupal/* packages in V3 are present in V4 (V4 has 116 total). `composer outdated | grep drupal/` returns empty — no drupal packages outdated in V4. No changes required.
   _Done when: `composer outdated | grep drupal/` shows no version gaps vs V4._
 
-- [ ] **#2.4 — Evaluate and integrate DrupalCMS 2 recipe bundles**
+- [x] **#2.4 — Evaluate and integrate DrupalCMS 2 recipe bundles** _(applied 2026-03-13, issue #102)_
   V4's `drupalcms2migration` branch includes recipes for: `drupal_cms_accessibility_tools`, `drupal_cms_ai`, `drupal_cms_forms`, `drupal_cms_google_analytics`, `drupal_cms_seo_tools`, `drupal_cms_starter`.
-  Review each recipe against V3's already-installed modules to avoid conflicts.
-  Apply relevant recipes to V3 and export config.
+  Review each recipe against V4's already-installed modules to avoid conflicts.
+  Applied relevant recipes to V4 and exported config.
+  **Applied:** `drupal_cms_accessibility_tools` (editoria11y), `drupal_cms_forms` (webform), `drupal_cms_google_analytics` (google_tag), `drupal_cms_seo_tools` (metatag, simple_sitemap, sitemap, robotstxt, yoast_seo, seo_checklist, field_group, token_or)
+  **Skipped:** `drupal_cms_ai` — `ai_assistant_api` + `ai_chatbot` packages not in composer.lock; `drupal_cms_starter` — V4 already fully configured, re-applying would be risky.
+  **Note:** Pre-requisite `layout_builder__layout` field storage had to be bootstrapped manually (`enableLayoutBuilder` + `setOverridable` on `node.page.default`) before recipe system could proceed — possible Drupal recipe bug with `allowLayoutOverrides` action.
   _Done when: Applicable recipes are applied; `ddev drush cr` shows no errors._
 
 ---
