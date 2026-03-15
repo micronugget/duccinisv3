@@ -1,0 +1,24 @@
+uuid: edae893a-1dcb-4e8c-b23f-6acbafb77391
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_attribute.small_medium_large_siz
+    - commerce_product.commerce_product_variation_type.potato_chips
+    - field.storage.commerce_product_variation.attribute_small_medium_large_siz
+id: commerce_product_variation.potato_chips.attribute_small_medium_large_siz
+field_name: attribute_small_medium_large_siz
+entity_type: commerce_product_variation
+bundle: potato_chips
+label: 'Small / Medium / Large sizes'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product_attribute_value'
+  handler_settings:
+    target_bundles:
+      small_medium_large_siz: small_medium_large_siz
+field_type: entity_reference

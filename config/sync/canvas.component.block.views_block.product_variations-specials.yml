@@ -1,0 +1,26 @@
+uuid: 78ba73d9-ac90-478b-83ea-08e8dfd7aa0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.product_variations
+  module:
+    - views
+active_version: 0fccd828fdd77e54
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:product_variations-specials'
+        label: specials
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: specials
+id: block.views_block.product_variations-specials
+provider: views
+source: block
+source_local_id: 'views_block:product_variations-specials'

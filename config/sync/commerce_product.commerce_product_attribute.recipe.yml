@@ -1,0 +1,7 @@
+uuid: 4f2389fa-710b-4565-a7ff-e1885d3d50c0
+langcode: en
+status: true
+dependencies: {  }
+id: recipe
+label: Recipe
+elementType: select
