@@ -8,6 +8,10 @@ dependencies:
   module:
     - captcha
     - coffee
+    - commerce_checkout
+    - commerce_order
+    - commerce_payment
+    - commerce_product
     - contextual
     - dashboard
     - editoria11y
@@ -28,6 +32,7 @@ weight: 1
 is_admin: false
 permissions:
   - 'access administration pages'
+  - 'access checkout'
   - 'access coffee'
   - 'access content'
   - 'access contextual links'
@@ -35,12 +40,15 @@ permissions:
   - 'access sitemap'
   - 'bypass honeypot protection'
   - 'delete own files'
+  - 'manage own commerce_payment_method'
   - 'mark as hidden in editoria11y'
   - 'skip CAPTCHA'
   - 'use klaro'
   - 'use text format webform_default'
+  - 'view commerce_product'
   - 'view editoria11y checker'
   - 'view media'
+  - 'view own commerce_order'
   - 'view own unpublished content'
   - 'view the administration theme'
   - 'view welcome dashboard'
