@@ -1,0 +1,56 @@
+uuid: cc3112a8-3fac-48dc-a721-eda2043e633d
+langcode: en
+status: true
+dependencies:
+  theme:
+    - radix
+active_version: d3269d5489f4f43b
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        doc_lang:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        body_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        body_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions:
+        head_start:
+          title: Head
+          description: 'Serves as a container for metadata (data about data) and is placed between the `<head>` tags.'
+        head_end:
+          title: 'Head End'
+          description: 'Optional. Can contain information or elements to be included at the end of the head.'
+        body_start:
+          title: Body
+          description: "Defines the document's body and contains all the contents of an HTML document, such as text, hyperlinks, images, tables, lists, etc."
+        body_end:
+          title: Foot
+          description: 'Optional. Can contain information or elements to be included at the end of the document.'
+label: 'HTML Document'
+id: sdc.radix.html
+provider: radix
+source: sdc
+source_local_id: 'radix:html'

@@ -1,0 +1,22 @@
+uuid: 56280970-2d2b-43f9-bba2-73f8fb297978
+langcode: en
+status: true
+dependencies:
+  module:
+    - store_resolver
+active_version: f3e906738a20f95b
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: store_resolver_current_store
+        label: 'Current Store'
+        label_display: '0'
+        provider: store_resolver
+    fallback_metadata:
+      slot_definitions: null
+label: 'Current Store'
+id: block.store_resolver_current_store
+provider: store_resolver
+source: block
+source_local_id: store_resolver_current_store

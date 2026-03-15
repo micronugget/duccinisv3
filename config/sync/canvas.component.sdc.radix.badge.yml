@@ -1,0 +1,61 @@
+uuid: d45cdcbf-a1c6-4d16-b1b0-61a3dd1386f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+  theme:
+    - radix
+active_version: 936bda22205b5678
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        badge_html_tag:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+        badge_url:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        color:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+        badge_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions:
+        badge_content:
+          title: 'Badge Content'
+          description: 'Badge content block.'
+        content:
+          title: 'Default Content'
+          description: 'Default content for Badge.'
+label: Badge
+id: sdc.radix.badge
+provider: radix
+source: sdc
+source_local_id: 'radix:badge'

@@ -7,3 +7,5 @@ configEntityTypeId: component
 weight: 0
 items:
   - block.commerce_checkout_progress
+  - block.store_resolver_current_store
+  - block.store_resolver_modal_block

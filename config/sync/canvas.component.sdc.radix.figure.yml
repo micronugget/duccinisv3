@@ -1,0 +1,54 @@
+uuid: 9a7efcc8-85df-43cd-a004-5d6cfcb0279c
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+  theme:
+    - radix
+active_version: fea85a2caf296d54
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        figure_utility_classes:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        align:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+        image:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        caption:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: Figure
+id: sdc.radix.figure
+provider: radix
+source: sdc
+source_local_id: 'radix:figure'

@@ -1,0 +1,38 @@
+uuid: d3e35f14-2292-46f3-94c8-22f3768d0d3f
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+  theme:
+    - radix
+active_version: 023879f9de7c50a2
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        navbar_container_type:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value: null
+          expression: ℹ︎list_string␟value
+    fallback_metadata:
+      slot_definitions:
+        branding:
+          title: Branding
+          description: 'Site branding.'
+        navigation:
+          title: Content
+          description: 'site navigation.'
+        navbar_toggler:
+          title: Toggler
+          description: 'Navbar toggler.'
+label: Navbar
+id: sdc.radix.navbar
+provider: radix
+source: sdc
+source_local_id: 'radix:navbar'

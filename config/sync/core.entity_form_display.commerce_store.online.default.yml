@@ -4,6 +4,10 @@ status: true
 dependencies:
   config:
     - commerce_store.commerce_store_type.online
+    - field.field.commerce_store.online.delivery_radius
+    - field.field.commerce_store.online.products
+    - field.field.commerce_store.online.store_hours
+    - field.field.commerce_store.online.store_location
   module:
     - address
     - path
@@ -16,9 +20,9 @@ mode: default
 content:
   address:
     type: address_default
-    settings: {  }
     weight: 4
     region: content
+    settings: {  }
     third_party_settings: {  }
   billing_countries:
     type: options_select
@@ -34,18 +38,18 @@ content:
     third_party_settings: {  }
   is_default:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 9
     region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   mail:
     type: email_default
     weight: 1
     region: content
     settings:
-      size: 60
       placeholder: ''
+      size: 60
     third_party_settings: {  }
   name:
     type: string_textfield
@@ -63,17 +67,23 @@ content:
     third_party_settings: {  }
   prices_include_tax:
     type: boolean_checkbox
-    settings:
-      display_label: true
     weight: 6
     region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  shipping_countries:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
+    weight: 10
+    region: content
     settings:
       display_label: true
-    region: content
-    weight: 10
     third_party_settings: {  }
   tax_registrations:
     type: options_select
@@ -89,4 +99,8 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  delivery_radius: true
+  products: true
+  store_hours: true
+  store_location: true
   uid: true
