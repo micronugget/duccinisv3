@@ -61,8 +61,13 @@ tests/Nightwatch/reports/
 *.exe
 *.dmg
 
+# Debug artifact directories
+/output/
+/output2/
+/output3/
+/logs/
+
 # Log files
-logs/
 *.log
 
 # PHPUnit cache
