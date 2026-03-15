@@ -33,6 +33,8 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | GitHub CLI (issue tracking) | `gh issue create --repo … --title … --body …` — creates a tracking issue; no code affected |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
+| GitHub CLI (PR) | `gh pr create --repo … --base <target-branch> --head issue/<N>-<slug> …` — opens a PR from a feature/issue branch; auto-approvable when the branch is already pushed and base is `migration_branch` or a non-default feature branch |
+| GitHub CLI (issue close) | `gh issue close <N> --repo … --comment "…"` — closes the issue after work is committed and pushed; auto-approvable as the natural conclusion of the close-issue workflow |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
 
 **Always ask before running:**
@@ -41,8 +43,8 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 - `git-filter-repo …` — **Security remediation**: irreversibly rewrites local git history; confirm before running
 - `gh api --method PATCH repos/…/secret-scanning/alerts/$N` — **Security remediation**: resolves/dismisses a public secret scanning alert; confirm before running
 - `ddev drush cim -y` — could overwrite local config (**exception:** auto-approvable when `ddev drush config:status` shows zero "Only in DB" and zero "Different" rows — only "Only in sync dir" additive entries; see Brave Mode table)
-- `gh issue close` — publicly closes the issue
-- `gh pr create` — opens a public pull request
+- `gh pr create` targeting `master` or `main` directly — requires confirmation
+- `gh issue close` on issues where work has **not** been committed and pushed — requires confirmation
 - Any `DROP TABLE`, `DELETE FROM`, or destructive DB operations
 - Any command that modifies `web/sites/default/settings.php`
 
