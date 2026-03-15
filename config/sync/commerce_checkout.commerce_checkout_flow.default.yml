@@ -6,8 +6,8 @@ dependencies:
     - commerce_payment
     - commerce_promotion
     - commerce_stripe
-label: Default
 id: default
+label: Default
 plugin: multistep_default
 configuration:
   display_checkout_progress: true
