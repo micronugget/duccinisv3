@@ -1,5 +1,6 @@
 services:
   duccinis_feeds_fix.event_subscriber:
     class: Drupal\duccinis_feeds_fix\EventSubscriber\FeedsProductVariationSubscriber
+    arguments: ['@entity_type.manager']
     tags:
       - { name: event_subscriber }
