@@ -1,0 +1,9 @@
+parameters:
+    # Baseline of known violations that are intentional Drupal patterns.
+    # new.static — required by Drupal's ContainerFactoryPluginInterface create() factory.
+    # \Drupal:: calls — legacy static calls in some classes pending DI refactor.
+    # Fix these incrementally in future issues.
+    customRulesetUsed: true
+
+includes:
+    - phpstan-baseline.php

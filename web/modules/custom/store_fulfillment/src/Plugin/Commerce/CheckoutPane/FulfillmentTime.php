@@ -614,14 +614,6 @@ class FulfillmentTime extends CheckoutPaneBase {
     $max_scheduling_window = $config->get('maximum_scheduling_window') ?? 14;
     $time_slot_interval = $config->get('time_slot_interval') ?? 15;
 
-    // DEBUG: Log configuration.
-    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Config: min_advance=@min, max_window=@max, interval=@int, is_open=@open', [
-      '@min' => $min_advance_notice,
-      '@max' => $max_scheduling_window,
-      '@int' => $time_slot_interval,
-      '@open' => $is_open ? 'true' : 'false',
-    ]);
-
     // Determine start time.
     if ($is_open) {
       $start_time = clone $now;
@@ -636,11 +628,6 @@ class FulfillmentTime extends CheckoutPaneBase {
         $start_time->setTime(9, 0, 0);
       }
     }
-
-    // DEBUG: Log start time.
-    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Start time: @time', [
-      '@time' => $start_time->format('Y-m-d H:i:s'),
-    ]);
 
     // Generate slots for the configured window.
     $end_date = clone $now;
@@ -676,16 +663,9 @@ class FulfillmentTime extends CheckoutPaneBase {
 
       // Safety: prevent infinite loop.
       if ($checked_count > 10000) {
-        \Drupal::logger('store_fulfillment')->error('generateTimeSlots - Too many iterations, breaking loop');
         break;
       }
     }
-
-    // DEBUG: Log results.
-    \Drupal::logger('store_fulfillment')->debug('generateTimeSlots - Generated @count slots from @checked checks', [
-      '@count' => $slot_count,
-      '@checked' => $checked_count,
-    ]);
 
     if (empty($slots)) {
       return [];
