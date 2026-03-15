@@ -362,9 +362,10 @@
 
 ### Issues
 
-- [ ] **#10.1 — Export V3 store entity data**
+- [x] **#10.1 — Export V3 store entity data** ✅ closed #138
   Export the three store entities (Adams Morgan DC, Arlington VA, 7th Street NW) with their `delivery_radius`, `store_location` (lat/lon), and store hours fields.
   Options: `ddev drush dce` (default content), or manual `drush sql-query` export.
+  Export written to `scripts/data/v3-stores-export.json`; import script at `scripts/import-stores.php`.
   _Done when: Store data is in a format importable to V4._
 
 - [ ] **#10.2 — Verify V4 store field config matches V3**
