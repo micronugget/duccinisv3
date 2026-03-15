@@ -1,0 +1,26 @@
+uuid: f0d487e5-ce16-49b2-b03c-ed2dc3478837
+langcode: en
+status: true
+dependencies:
+  theme:
+    - radix
+active_version: 1570c5ddfb282be7
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        content:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Views view grid'
+id: sdc.radix.views-view--grid
+provider: radix
+source: sdc
+source_local_id: 'radix:views-view--grid'

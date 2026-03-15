@@ -1,0 +1,21 @@
+uuid: be72c407-f53f-49d1-b7cc-bdcf11414f02
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_store.commerce_store_type.online
+    - field.storage.commerce_store.products
+id: commerce_store.online.products
+field_name: products
+entity_type: commerce_store
+bundle: online
+label: 'Available Products'
+description: 'Products available at this store. Leave empty to allow all products.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:commerce_product'
+  handler_settings: {  }
+field_type: entity_reference

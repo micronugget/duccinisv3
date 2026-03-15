@@ -1,0 +1,23 @@
+uuid: 03926164-76b7-4f5e-90ae-b2c23326e7b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - store_fulfillment
+active_version: 4d79749accc34848
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: checkout_header
+        label: 'Checkout header'
+        label_display: '0'
+        provider: store_fulfillment
+        show_back_link: true
+    fallback_metadata:
+      slot_definitions: null
+label: 'Checkout header'
+id: block.checkout_header
+provider: store_fulfillment
+source: block
+source_local_id: checkout_header
