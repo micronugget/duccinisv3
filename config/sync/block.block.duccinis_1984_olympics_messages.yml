@@ -1,0 +1,22 @@
+uuid: a4049a32-2711-4820-bf35-84709bbc7686
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - duccinis_1984_olympics
+_core:
+  default_config_hash: A_trF52tHasvSP_iRUucQRUZhBgTmKvHUJGPPGij0b4
+id: duccinis_1984_olympics_messages
+theme: duccinis_1984_olympics
+region: header
+weight: -3
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }
