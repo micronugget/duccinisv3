@@ -11,8 +11,9 @@
  *     order_id:  '27',              // Commerce order ID (string)
  *   }
  *
- * Data attributes emitted by
- * duccinis_1984_olympics_preprocess_commerce_checkout_form() in commerce.theme:
+ * Data attributes emitted by CheckoutProgressBarBlock::buildSteps() in
+ * web/modules/custom/store_fulfillment/src/Plugin/Block/CheckoutProgressBarBlock.php
+ * and rendered via the SDC component checkout-progress.twig:
  *   data-funnel-event, data-from-step, data-to-step, data-order-id
  */
 
