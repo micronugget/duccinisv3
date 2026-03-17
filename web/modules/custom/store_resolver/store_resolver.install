@@ -62,11 +62,3 @@ function store_resolver_install() {
     $field->save();
   }
 }
-
-/**
- * Implements hook_uninstall().
- */
-function store_resolver_uninstall() {
-  // Clean up cookies is handled by browser expiration.
-  // Fields are retained for data integrity unless manually deleted.
-}
