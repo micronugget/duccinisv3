@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Duccinis locations section — header + 3-up location cards.
+ *
+ * Props:
+ *   section_label (string), headline_l1, headline_l2 (string)
+ *   cta_label, cta_url (string)
+ *   locations (array) — each item matches duccinis-location-card props
+ */
+#}
+{% set accent_colors = [
+  'var(--duccini-red)',
+  'var(--duccini-blue)',
+  'var(--duccini-orange)',
+] %}
+<section class="duccinis-locations-section" id="locations"
+  aria-labelledby="locations-section-title">
+
+  {# Rainbow top accent bar #}
+  <div class="duccinis-locations-section__rainbow" aria-hidden="true"></div>
+
+  <div class="duccinis-locations-section__header">
+    <div>
+      {% if section_label %}
+        <div class="duccinis-locations-section__label">{{ section_label }}</div>
+      {% endif %}
+      <h2 class="duccinis-locations-section__title" id="locations-section-title">
+        {% if headline_l1 %}{{ headline_l1 }}<br>{% endif %}
+        {% if headline_l2 %}{{ headline_l2 }}{% endif %}
+      </h2>
+    </div>
+    {% if cta_label %}
+      <a href="{{ cta_url|default('/menu') }}"
+        class="duccinis-locations-section__cta">
+        {{ cta_label }} →
+      </a>
+    {% endif %}
+  </div>
+
+  {% if locations %}
+    <div class="duccinis-locations-section__grid">
+      {% for location in locations %}
+        {% set card_color = accent_colors[loop.index0 % 3] %}
+        {% include 'duccinis_1984_olympics:duccinis-location-card' with location|merge({color_accent: card_color}) %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</section>

@@ -1,0 +1,102 @@
+.duccinis-reviews-section {
+  // Scope dark homepage tokens.
+  --duccini-bg: #0b0a08;
+  --duccini-border: #272420;
+
+  background: var(--duccini-bg);
+  padding: 6rem 2rem;
+
+  &__container {
+    width: var(--duccini-container);
+    margin: 0 auto;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--duccini-yellow);
+    margin-bottom: 1rem;
+
+    &::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--duccini-yellow);
+      flex-shrink: 0;
+    }
+  }
+
+  &__title {
+    font-family: var(--duccini-f-display);
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 3rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--duccini-border);
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    background: var(--duccini-card);
+    padding: 2.25rem 2rem;
+    position: relative;
+  }
+
+  &__quote {
+    position: absolute;
+    top: -0.5rem;
+    left: 1.25rem;
+    font-family: var(--duccini-f-display);
+    font-size: 6rem;
+    line-height: 1;
+    color: rgba(255, 201, 20, 0.07);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 1.1rem;
+
+    span {
+      color: var(--duccini-yellow);
+      font-size: 0.9rem;
+    }
+  }
+
+  &__text {
+    font-size: 0.95rem;
+    color: var(--duccini-muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__author {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--duccini-text);
+  }
+
+  &__source {
+    font-size: 0.73rem;
+    color: var(--duccini-faint);
+    margin-top: 0.2rem;
+  }
+}

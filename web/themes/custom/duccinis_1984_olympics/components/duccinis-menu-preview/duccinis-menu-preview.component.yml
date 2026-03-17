@@ -1,0 +1,39 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Menu Preview
+status: experimental
+description: >
+  4-column menu category preview grid with section header and full-menu CTA.
+props:
+  type: object
+  properties:
+    section_label:
+      type: string
+      title: Section Label
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    cta_label:
+      type: string
+      title: CTA Link Label
+    cta_url:
+      type: string
+      title: CTA Link URL
+    items:
+      type: array
+      title: Menu Items
+      description: Array of {icon, name, description} objects.
+      items:
+        type: object
+        properties:
+          icon:
+            type: string
+            title: Icon (emoji or character)
+          name:
+            type: string
+            title: Item Name
+          description:
+            type: string
+            title: Short Description

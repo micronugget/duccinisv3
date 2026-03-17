@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duccinis V4 — UX Navigation Mockup · Menu Escape Hatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── 1984 Olympics Design System Tokens ─────────────────────────────── */
+    :root {
+      --duccini-blue:    #0077C0;
+      --duccini-pink:    #D62976;
+      --duccini-gold:    #FFC914;
+      --duccini-orange:  #FF6B35;
+      --duccini-red:     #E63946;
+      --duccini-dark:    #1a1a1a;
+      --duccini-border:  #e5e7eb;
+      --duccini-bg:      #fafafa;
+      --cp-done:         #059669;
+      --cp-muted:        #6b7280;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #f0f0f0;
+      color: var(--duccini-dark);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Mockup chrome ───────────────────────────────────────────────────── */
+    .mockup-doc {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .doc-header {
+      background: var(--duccini-dark);
+      color: white;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+      border-radius: 8px;
+    }
+    .doc-header .eyebrow {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      color: var(--duccini-gold);
+      margin-bottom: 0.4rem;
+    }
+    .doc-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.4rem;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      color: white;
+      margin-bottom: 0.75rem;
+    }
+    .doc-header p {
+      color: #c0c0c0;
+      font-size: 0.9rem;
+      max-width: 680px;
+    }
+
+    /* ── Section headers ─────────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 3rem;
+    }
+    .section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      color: var(--duccini-pink);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.4rem;
+      color: var(--duccini-dark);
+    }
+    .section .section-desc {
+      color: var(--cp-muted);
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      max-width: 720px;
+    }
+
+    /* ── Verdict callout ─────────────────────────────────────────────────── */
+    .verdict {
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1rem;
+      align-items: start;
+    }
+    .verdict--no  { background: #fff0f0; border: 1.5px solid #fca5a5; }
+    .verdict--yes { background: #f0fdf4; border: 1.5px solid #86efac; }
+    .verdict__icon {
+      font-size: 1.6rem;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .verdict__title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+    .verdict--no  .verdict__title { color: #b91c1c; }
+    .verdict--yes .verdict__title { color: #15803d; }
+    .verdict__body {
+      font-size: 0.85rem;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .verdict__body ul { padding-left: 1.25rem; margin-top: 0.4rem; }
+    .verdict__body li { margin-bottom: 0.25rem; }
+
+    /* ── Two-column comparison grid ──────────────────────────────────────── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    @media (max-width: 700px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+    .compare-col {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1.5px solid var(--duccini-border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .compare-col__head {
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .compare-col__head--bad  { background: #fff0f0; color: #991b1b; border-bottom: 1px solid #fca5a5; }
+    .compare-col__head--good { background: #f0fdf4; color: #166534; border-bottom: 1px solid #86efac; }
+    .compare-col__head .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .badge--bad  { background: #fca5a5; color: #7f1d1d; }
+    .badge--good { background: #86efac; color: #14532d; }
+
+    /* ── Browser shell ───────────────────────────────────────────────────── */
+    .browser {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1.5px solid var(--duccini-border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+    }
+    .browser-bar {
+      background: #f3f4f6;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span {
+      width: 11px; height: 11px; border-radius: 50%;
+    }
+    .browser-dots .dot-red  { background: #ef4444; }
+    .browser-dots .dot-yel  { background: #f59e0b; }
+    .browser-dots .dot-grn  { background: #22c55e; }
+    .browser-url {
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 5px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      color: var(--cp-muted);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .browser-body {
+      padding: 0;
+    }
+
+    /* ── Site header (simplified) ────────────────────────────────────────── */
+    .site-header {
+      background: var(--duccini-dark);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      color: var(--duccini-gold);
+    }
+    .site-logo span { color: var(--duccini-pink); }
+    .header-cart {
+      font-size: 0.75rem;
+      color: #d1d5db;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .cart-badge {
+      background: var(--duccini-orange);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0 5px;
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── Checkout progress bar (matches real SCSS component) ─────────────── */
+    .checkout-progress {
+      display: flex;
+      gap: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .checkout-progress .step {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem 0.25rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--cp-muted);
+      position: relative;
+      cursor: default;
+    }
+    .checkout-progress .step + .step::before {
+      content: '›';
+      position: absolute;
+      left: -0.4em;
+      top: 50%;
+      transform: translateY(-60%);
+      font-size: 0.85rem;
+      color: var(--cp-muted);
+    }
+    .checkout-progress .step::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--duccini-border);
+      border-radius: 2px;
+    }
+    .checkout-progress .step.active {
+      color: var(--duccini-dark);
+      font-weight: 800;
+    }
+    .checkout-progress .step.active::after {
+      background: var(--duccini-pink);
+      height: 5px;
+    }
+    .checkout-progress .step.done {
+      color: var(--cp-done);
+    }
+    .checkout-progress .step.done::after {
+      background: var(--cp-done);
+    }
+    .step-menu-tab {
+      background: #fff8e1;
+      color: #b45309 !important;
+    }
+    .step-menu-tab::after {
+      background: var(--duccini-gold) !important;
+      height: 3px !important;
+    }
+
+    /* ── Checkout content layouts ────────────────────────────────────────── */
+    .checkout-wrap {
+      padding: 1rem;
+    }
+    .checkout-header {
+      border-bottom: 1px solid var(--duccini-border);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .checkout-header h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+      color: var(--duccini-dark);
+      margin: 0;
+    }
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 1rem;
+    }
+
+    /* ── Escape hatch (the recommended pattern) ──────────────────────────── */
+    .escape-hatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--duccini-blue);
+      text-decoration: none;
+      padding: 0.3rem 0;
+      border-bottom: 1px dashed var(--duccini-blue);
+      margin-bottom: 0.6rem;
+    }
+    .escape-hatch:hover { color: var(--duccini-pink); border-color: var(--duccini-pink); }
+
+    /* ── Cart page elements ───────────────────────────────────────────────── */
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .cart-table th {
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 2px solid var(--duccini-dark);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--cp-muted);
+      font-weight: 700;
+    }
+    .cart-table td {
+      padding: 0.5rem 0.5rem;
+      border-bottom: 1px solid var(--duccini-border);
+      vertical-align: middle;
+    }
+    .cart-item-name { font-weight: 600; color: var(--duccini-dark); }
+    .cart-item-desc { font-size: 0.72rem; color: var(--cp-muted); }
+    .cart-qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--duccini-bg);
+      border: 1px solid var(--duccini-border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    .cart-price { font-weight: 700; color: var(--duccini-dark); }
+
+    .cart-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-top: 0.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--duccini-blue);
+      color: white;
+    }
+    .btn-secondary {
+      background: white;
+      color: var(--duccini-dark);
+      border: 1.5px solid var(--duccini-dark);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cp-muted);
+      border: 1.5px dashed #d1d5db;
+    }
+    .btn-success {
+      background: var(--cp-done);
+      color: white;
+    }
+    .btn-warning {
+      background: var(--duccini-orange);
+      color: white;
+    }
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    /* ── Form fields (simplified) ────────────────────────────────────────── */
+    .form-group { margin-bottom: 0.75rem; }
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--cp-muted);
+      margin-bottom: 0.3rem;
+    }
+    .form-control {
+      width: 100%;
+      border: 1.5px solid var(--duccini-border);
+      border-radius: 5px;
+      padding: 0.45rem 0.65rem;
+      font-size: 0.82rem;
+      background: white;
+      color: var(--duccini-dark);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* ── Order sidebar ───────────────────────────────────────────────────── */
+    .order-sidebar {
+      background: var(--duccini-bg);
+      border: 1.5px solid var(--duccini-border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-size: 0.8rem;
+    }
+    .order-sidebar h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+      color: var(--duccini-dark);
+    }
+    .sidebar-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+    .sidebar-row.total {
+      border-top: 1.5px solid var(--duccini-dark);
+      padding-top: 0.4rem;
+      margin-top: 0.4rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .sidebar-label { color: var(--cp-muted); }
+
+    /* ── Completion page ─────────────────────────────────────────────────── */
+    .complete-hero {
+      background: linear-gradient(135deg, var(--duccini-dark) 0%, #2a2a3e 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    .complete-hero .confetti { font-size: 2rem; margin-bottom: 0.5rem; }
+    .complete-hero h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: var(--duccini-gold);
+      margin-bottom: 0.4rem;
+    }
+    .complete-hero p { color: #c0c0c0; font-size: 0.85rem; }
+    .complete-body { padding: 1rem; }
+    .complete-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    /* ── Annotation callouts ─────────────────────────────────────────────── */
+    .annotation {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      background: var(--duccini-gold);
+      color: var(--duccini-dark);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      max-width: 180px;
+      line-height: 1.35;
+      position: relative;
+    }
+    .annotation-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* ── Broken-pattern callout ───────────────────────────────────────────── */
+    .broken-badge {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 5px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+      color: #92400e;
+      font-weight: 500;
+      margin: 0.5rem 0;
+    }
+    .broken-badge strong { color: #b45309; }
+
+    /* ── "Why not tab?" detail section ───────────────────────────────────── */
+    .reason-list {
+      counter-reset: reasons;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+    }
+    .reason-list li {
+      counter-increment: reasons;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0.6rem;
+      align-items: start;
+    }
+    .reason-list li::before {
+      content: counter(reasons);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--duccini-dark);
+      color: var(--duccini-gold);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .reason-title { font-weight: 700; font-size: 0.85rem; color: var(--duccini-dark); }
+    .reason-body  { font-size: 0.8rem; color: #4b5563; line-height: 1.55; }
+
+    /* ── Mobile preview ───────────────────────────────────────────────────── */
+    .mobile-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .phone-shell {
+      background: #1a1a1a;
+      border-radius: 28px;
+      padding: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      max-width: 280px;
+      margin: 0 auto;
+    }
+    .phone-screen {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .phone-status-bar {
+      background: var(--duccini-dark);
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.6rem;
+      color: #9ca3af;
+    }
+
+    /* ── Spec table ───────────────────────────────────────────────────────── */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .spec-table th {
+      background: var(--duccini-dark);
+      color: var(--duccini-gold);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .spec-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--duccini-border);
+      vertical-align: top;
+    }
+    .spec-table tr:nth-child(even) td { background: var(--duccini-bg); }
+    code {
+      background: #f1f5f9;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.8em;
+      font-family: 'SF Mono', monospace;
+      color: var(--duccini-blue);
+    }
+
+    /* ── Utility ─────────────────────────────────────────────────────────── */
+    .text-muted { color: var(--cp-muted); }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--duccini-border);
+      margin: 1.5rem 0;
+    }
+
+    /* ── New overlay escape hatch — full bleed ────────────────────────────── */
+    .escape-strip {
+      background: linear-gradient(90deg, #fff8e1, #fffbf0);
+      border-bottom: 1px solid #fde68a;
+      padding: 0.45rem 1rem;
+      font-size: 0.75rem;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .escape-strip a {
+      color: var(--duccini-blue);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .escape-strip strong { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="mockup-doc">
+
+    <!-- ── Document Header ───────────────────────────────────────────────── -->
+    <div class="doc-header">
+      <div class="eyebrow">Duccinis V4 · UX Navigation Mockup</div>
+      <h1>Menu → Checkout Navigation</h1>
+      <p>Should "Menu" be a 5th checkout tab? Analysis, wireframes, and recommended patterns for surfacing an escape hatch back to /menu from /cart and checkout.</p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECTION 1 — THE VERDICT
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">The Question</div>
+      <h2>Should "Menu" be a 5th (first) checkout tab?</h2>
+      <p class="section-desc">
+        The existing checkout flow has four steps in the progress bar. Adding Menu as a tab first seems intuitive — but is it the right pattern?
+      </p>
+
+      <div class="verdict verdict--no">
+        <div class="verdict__icon">✗</div>
+        <div>
+          <div class="verdict__title">No — Menu does not belong as a checkout tab</div>
+          <div class="verdict__body">
+            <ul>
+              <li><strong>Tabs = progress, not navigation.</strong> Each checkout tab represents a <em>completed stage</em> of the purchase funnel (Cart confirmed → Details filled → Order reviewed → Paid). Adding "Menu" inverts this: tab 1 would be a <em>destination you came from</em>, not a commitment milestone you've passed.</li>
+              <li><strong>It breaks the linear mental model.</strong> Users expect each tab click to mean "I completed this." A clickable Menu tab communicates "I can undo my cart decision" — which is confusing <em>at the tab level</em> but perfectly fine as an explicit escape button.</li>
+              <li><strong>Commerce constraint.</strong> <code>multistep_default</code> maps tabs to checkout steps (PHP route + form state). An external <code>/menu</code> URL can't be a genuine step without a custom plugin — and abandoned-order cleanup logic would need to be added to handle navigation away during payment initialization.</li>
+              <li><strong>5 tabs is too many on mobile.</strong> The existing SCSS already collapses non-active tabs at &lt;576px. Adding a 5th makes the desktop bar feel cramped and "Menu" would <em>disappear</em> on mobile right when users need it most.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="verdict verdict--yes">
+        <div class="verdict__icon">✓</div>
+        <div>
+          <div class="verdict__title">Yes — the underlying user need is totally valid, just needs a different pattern</div>
+          <div class="verdict__body">
+            The real gap: <strong>there is no prominent, always-visible path back to <code>/menu</code> once a user is in checkout</strong>.
+            The <code>back_to_cart_button</code> module exists but provides a dismissible AJAX link inside the cart form — not prominent enough.
+            Three targeted fixes solve this without polluting the progress bar:
+            <ul>
+              <li>A <strong>persistent "← Keep Ordering" escape hatch</strong> on the cart page — second CTA below Checkout</li>
+              <li>A <strong>breadcrumb escape hatch above the progress bar</strong> on all checkout steps (`/menu › Cart › …`)</li>
+              <li>A <strong>"Browse Menu Again" CTA</strong> on the completion page</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECTION 2 — SIDE-BY-SIDE: 5-tab concept vs escape hatch
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Concept Comparison</div>
+      <h2>Progress bar: 5-tab idea vs recommended approach</h2>
+      <p class="section-desc">
+        Side-by-side showing how the progress bar looks in each scenario on a mid-size viewport.
+      </p>
+
+      <div class="compare-grid">
+        <!-- ── OPTION A: Menu as Tab 1 ── -->
+        <div class="compare-col">
+          <div class="compare-col__head compare-col__head--bad">
+            <span class="badge badge--bad">Concept A</span> Menu as checkout tab
+          </div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span>
+              </div>
+              <div class="browser-url">duccinisv4.ddev.site/checkout/1/order_information</div>
+            </div>
+            <div class="browser-body">
+              <div class="site-header">
+                <div class="site-logo">Ducci<span>ni's</span></div>
+                <div class="header-cart">🛒 <span class="cart-badge">2</span></div>
+              </div>
+              <!-- 5-tab progress bar -->
+              <ul class="checkout-progress" style="padding: 0 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                <li class="step step-menu-tab" style="font-size:0.55rem;">Menu</li>
+                <li class="step done" style="font-size:0.55rem;">Cart</li>
+                <li class="step active" style="font-size:0.55rem;">Order Details</li>
+                <li class="step" style="font-size:0.55rem;">Review</li>
+                <li class="step" style="font-size:0.55rem;">Complete</li>
+              </ul>
+              <div class="checkout-wrap" style="padding: 0.75rem;">
+                <div class="broken-badge">
+                  ⚠ <strong>Problem:</strong> "Menu" appears as a completed stage (like "Cart"). But the user hasn't <em>done</em> anything there — they just visited it. The bar communicates false progress. On mobile this tab vanishes completely.
+                </div>
+                <div style="font-size:0.75rem; color: var(--cp-muted); margin-top:0.5rem;">
+                  Also: 5 labels at this width become unreadable at 0.55rem on real devices.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── OPTION B: Escape hatch ── -->
+        <div class="compare-col">
+          <div class="compare-col__head compare-col__head--good">
+            <span class="badge badge--good">Recommended</span> Escape hatch pattern
+          </div>
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span>
+              </div>
+              <div class="browser-url">duccinisv4.ddev.site/checkout/1/order_information</div>
+            </div>
+            <div class="browser-body">
+              <div class="site-header">
+                <div class="site-logo">Ducci<span>ni's</span></div>
+                <div class="header-cart">🛒 <span class="cart-badge">2</span></div>
+              </div>
+              <!-- Minimal breadcrumb escape hatch -->
+              <div style="padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--duccini-border); font-size:0.7rem; display:flex; align-items:center; gap:0.3rem; color: var(--cp-muted);">
+                <a href="#" style="color:var(--duccini-blue);text-decoration:underline;font-weight:600;font-size:0.7rem;">← Menu</a>
+                <span>›</span>
+                <a href="#" style="color:var(--duccini-blue);text-decoration:underline;font-weight:600;font-size:0.7rem;">Cart</a>
+                <span>›</span>
+                <span style="color:var(--duccini-dark);font-weight:600;">Checkout</span>
+              </div>
+              <!-- 4-tab progress bar (unchanged) -->
+              <ul class="checkout-progress" style="padding: 0 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                <li class="step done">Cart</li>
+                <li class="step active">Order Details</li>
+                <li class="step">Review</li>
+                <li class="step">Complete</li>
+              </ul>
+              <div class="checkout-wrap" style="padding: 0.75rem;">
+                <p style="font-size:0.75rem; color: var(--cp-muted);">
+                  ✓ Progress bar stays at 4 tabs — clean, spacious, unambiguous.<br><br>
+                  ✓ "← Menu" breadcrumb above the bar is always visible and never confused with a checkout step.<br><br>
+                  ✓ Works on mobile (breadcrumb collapses gracefully or stays as one-line).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECTION 3 — SCREEN MOCKUPS (3 pages)
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Screen Mockups</div>
+      <h2>Three pages that need navigation improvements</h2>
+      <p class="section-desc">Full-fidelity wireframes for /cart, /checkout (order_information), and /checkout (complete).</p>
+    </div>
+
+    <!-- ── Screen A: /cart ── -->
+    <div class="section">
+      <div class="section-label">Screen A</div>
+      <h2>/cart — Upgrade the "Return to Menu" CTA</h2>
+      <p class="section-desc">
+        The <code>back_to_cart_button</code> module adds a "Return to Menu" AJAX link — but it's styled as a secondary action and relies on AJAX navigation. Promote it to equal standing with "Proceed to Checkout" as a clearly-labeled keep-shopping button.
+      </p>
+      <div class="browser mb-3">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span>
+          </div>
+          <div class="browser-url">duccinisv4.ddev.site/cart</div>
+        </div>
+        <div class="browser-body">
+          <div class="site-header">
+            <div class="site-logo">Ducci<span>ni's</span></div>
+            <div class="header-cart">🛒 <span class="cart-badge">2</span></div>
+          </div>
+          <div class="checkout-wrap">
+            <div class="checkout-header">
+              <h3>Your Cart</h3>
+            </div>
+            <div class="checkout-grid">
+              <div>
+                <table class="cart-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th style="width:60px">Qty</th>
+                      <th style="width:60px">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="cart-item-name">Large Pepperoni Pizza</div>
+                        <div class="cart-item-desc">Thin crust · Extra cheese</div>
+                      </td>
+                      <td><span class="cart-qty">1</span></td>
+                      <td class="cart-price">$22.00</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="cart-item-name">Garlic Knots (6 pc)</div>
+                        <div class="cart-item-desc">With marinara</div>
+                      </td>
+                      <td><span class="cart-qty">1</span></td>
+                      <td class="cart-price">$6.50</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- ★ KEY CHANGE: two-button cart action row -->
+                <div class="cart-actions">
+                  <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                    <!-- RECOMMENDED: promote this to a proper secondary button -->
+                    <a href="#" class="btn btn-secondary btn-sm">
+                      ← Add More Items
+                    </a>
+                    <div style="font-size:0.68rem; color:var(--cp-muted); background: #fffbf0; border:1px solid #fde68a; border-radius:4px; padding:0.2rem 0.5rem;">
+                      ★ NEW — replaces the hidden "Return to Menu" AJAX link
+                    </div>
+                  </div>
+                  <a href="#" class="btn btn-primary">
+                    Proceed to Checkout →
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div class="order-sidebar">
+                  <h4>Order Summary</h4>
+                  <div class="sidebar-row"><span class="sidebar-label">Subtotal</span><span>$28.50</span></div>
+                  <div class="sidebar-row"><span class="sidebar-label">Estimated tax</span><span>$2.28</span></div>
+                  <div class="sidebar-row total"><span>Total</span><span>$30.78</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Screen B: /checkout/1/order_information ── -->
+    <div class="section">
+      <div class="section-label">Screen B</div>
+      <h2>/checkout — Breadcrumb escape hatch above progress bar</h2>
+      <p class="section-desc">
+        A slim breadcrumb strip between the site header and the checkout progress bar. Always rendered — zero JS required. On mobile: "← Menu" shrinks to an icon-only link with a tooltip.
+      </p>
+      <div class="browser mb-3">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span>
+          </div>
+          <div class="browser-url">duccinisv4.ddev.site/checkout/1/order_information</div>
+        </div>
+        <div class="browser-body">
+          <div class="site-header">
+            <div class="site-logo">Ducci<span>ni's</span></div>
+            <div class="header-cart">🛒 <span class="cart-badge">2</span></div>
+          </div>
+
+          <!-- ★ KEY CHANGE: breadcrumb escape strip (replaces invisible back button) -->
+          <div class="escape-strip">
+            <span>
+              <strong>Changing your mind?</strong>
+              &nbsp;<a href="#">← Back to Menu</a>
+              &nbsp;or&nbsp;
+              <a href="#">← Back to Cart</a>
+            </span>
+            <span style="font-size:0.68rem; background:#fde68a; border-radius:3px; padding:0.15rem 0.5rem; color:#92400e;">★ NEW</span>
+          </div>
+
+          <!-- 4-tab progress bar — UNCHANGED -->
+          <ul class="checkout-progress" style="padding: 0 0.75rem; border-bottom: 1px solid #e5e7eb;">
+            <li class="step done">Cart</li>
+            <li class="step active">Order Details</li>
+            <li class="step">Review</li>
+            <li class="step">Complete</li>
+          </ul>
+
+          <div class="checkout-wrap">
+            <div class="checkout-grid">
+              <div>
+                <div class="form-group">
+                  <div class="form-label">Fulfillment</div>
+                  <div style="display:flex;gap:0.5rem;">
+                    <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer;"><input type="radio" checked> Pickup</label>
+                    <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.8rem;cursor:pointer;"><input type="radio"> Delivery</label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Email</div>
+                  <input class="form-control" type="email" placeholder="you@example.com" value="customer@email.com">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <div class="form-label">First name</div>
+                    <input class="form-control" type="text" value="Alex">
+                  </div>
+                  <div class="form-group">
+                    <div class="form-label">Last name</div>
+                    <input class="form-control" type="text" value="Mercer">
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="order-sidebar">
+                  <h4>Order Summary</h4>
+                  <div class="sidebar-row"><span class="sidebar-label">Large Pepperoni × 1</span><span>$22.00</span></div>
+                  <div class="sidebar-row"><span class="sidebar-label">Garlic Knots × 1</span><span>$6.50</span></div>
+                  <div class="sidebar-row total"><span>Total</span><span>$30.78</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Screen C: /checkout/1/complete ── -->
+    <div class="section">
+      <div class="section-label">Screen C</div>
+      <h2>/checkout complete — "Browse Menu Again" CTA</h2>
+      <p class="section-desc">
+        After completing an order, users stare at a thank-you message with nowhere to go. Add a primary "Start New Order" button and a secondary "View Account" link.
+      </p>
+      <div class="browser mb-3">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span>
+          </div>
+          <div class="browser-url">duccinisv4.ddev.site/checkout/1/complete</div>
+        </div>
+        <div class="browser-body">
+          <div class="site-header">
+            <div class="site-logo">Ducci<span>ni's</span></div>
+            <div class="header-cart">🛒 <span class="cart-badge">0</span></div>
+          </div>
+          <!-- no progress bar on complete — correct behavior -->
+          <ul class="checkout-progress" style="padding: 0 0.75rem; border-bottom: 1px solid #e5e7eb;">
+            <li class="step done">Cart</li>
+            <li class="step done">Order Details</li>
+            <li class="step done">Review</li>
+            <li class="step active">Complete</li>
+          </ul>
+          <div class="complete-hero">
+            <div class="confetti">🎉</div>
+            <h2>Order #DC-1042 Confirmed!</h2>
+            <p>Pickup from Adams Morgan DC · Ready in ~25 min</p>
+          </div>
+          <div class="complete-body">
+            <p style="text-align:center; font-size:0.85rem; color:var(--cp-muted); margin-bottom:0.5rem;">
+              You'll get a confirmation email at customer@email.com
+            </p>
+            <!-- ★ KEY CHANGE: post-order CTA bar -->
+            <div class="complete-actions">
+              <a href="#" class="btn btn-warning">
+                🍕 Order More Food
+              </a>
+              <a href="#" class="btn btn-secondary btn-sm">View Order History</a>
+            </div>
+            <p style="text-align:center; margin-top:0.75rem; font-size:0.68rem; color:#fde68a; background:#fef3c7; border-radius:4px; padding:0.3rem 0.75rem; display:inline-block; margin-left: auto; margin-right: auto; display:flex; justify-content:center;">★ NEW — post-order navigation CTAs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECTION 4 — MOBILE MOCKUPS
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Mobile Behaviour</div>
+      <h2>How the escape hatch works at 375px</h2>
+      <p class="section-desc">The breadcrumb strip and "Add More Items" button both work well on small screens — unlike a 5th progress tab.</p>
+
+      <div class="mobile-preview-grid">
+
+        <!-- Cart phone -->
+        <div>
+          <p style="text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--cp-muted);margin-bottom:.6rem;">/cart</p>
+          <div class="phone-shell">
+            <div class="phone-screen">
+              <div class="phone-status-bar"><span>9:41</span><span>●●●</span></div>
+              <div class="site-header" style="padding:0.4rem 0.7rem;">
+                <div class="site-logo" style="font-size:1rem;">Ducci<span>ni's</span></div>
+                <div class="header-cart" style="font-size:0.65rem;">🛒 <span class="cart-badge">2</span></div>
+              </div>
+              <div style="padding:0.6rem;">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.04em;margin-bottom:.5rem;">Your Cart</div>
+                <div style="border:1px solid var(--duccini-border);border-radius:5px;overflow:hidden;margin-bottom:.6rem;">
+                  <div style="padding:.4rem .6rem;border-bottom:1px solid var(--duccini-border);">
+                    <div style="font-weight:600;font-size:0.75rem;">Large Pepperoni</div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--cp-muted);"><span>Thin crust · Extra cheese</span><span style="color:var(--duccini-dark);font-weight:700;">$22</span></div>
+                  </div>
+                  <div style="padding:.4rem .6rem;">
+                    <div style="font-weight:600;font-size:0.75rem;">Garlic Knots (6 pc)</div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--cp-muted);"><span>With marinara</span><span style="color:var(--duccini-dark);font-weight:700;">$6.50</span></div>
+                  </div>
+                </div>
+                <!-- Full-width primary CTA + secondary below it -->
+                <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;font-size:0.78rem;margin-bottom:0.4rem;">Proceed to Checkout →</a>
+                <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;font-size:0.75rem;">← Add More Items</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkout phone -->
+        <div>
+          <p style="text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--cp-muted);margin-bottom:.6rem;">/checkout (order_information)</p>
+          <div class="phone-shell">
+            <div class="phone-screen">
+              <div class="phone-status-bar"><span>9:41</span><span>●●●</span></div>
+              <div class="site-header" style="padding:0.4rem 0.7rem;">
+                <div class="site-logo" style="font-size:1rem;">Ducci<span>ni's</span></div>
+              </div>
+              <!-- Breadcrumb strip — single-line on mobile -->
+              <div style="padding:.3rem .6rem; background:#fffbf0; border-bottom:1px solid #fde68a; font-size:.68rem; color:#92400e;">
+                <a href="#" style="color:var(--duccini-blue);font-weight:600;text-decoration:underline;">← Menu</a>
+                &nbsp;·&nbsp;
+                <a href="#" style="color:var(--duccini-blue);font-weight:600;text-decoration:underline;">Cart</a>
+              </div>
+              <!-- Progress bar: mobile collapses to active only -->
+              <ul class="checkout-progress" style="padding:0 .4rem;border-bottom:1px solid #e5e7eb;">
+                <li class="step done" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+                <li class="step active" style="flex:1;">
+                  <span style="font-size:.6rem;display:block;color:var(--cp-muted);font-weight:400;text-transform:none;letter-spacing:0;">Step 2 of 4</span>
+                  Order Details
+                </li>
+                <li class="step" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+                <li class="step" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+              </ul>
+              <div style="padding:.6rem;">
+                <div style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--cp-muted);margin-bottom:.3rem;">Fulfillment</div>
+                <div style="display:flex;gap:.5rem;margin-bottom:.6rem;">
+                  <label style="display:flex;align-items:center;gap:.3rem;font-size:.75rem;"><input type="radio" checked> Pickup</label>
+                  <label style="display:flex;align-items:center;gap:.3rem;font-size:.75rem;"><input type="radio"> Delivery</label>
+                </div>
+                <div style="font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--cp-muted);margin-bottom:.3rem;">Email</div>
+                <input style="width:100%;border:1.5px solid var(--duccini-border);border-radius:5px;padding:.4rem .55rem;font-size:.78rem;margin-bottom:.5rem;" value="customer@email.com">
+                <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;font-size:.78rem;">Continue →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Complete phone -->
+        <div>
+          <p style="text-align:center;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--cp-muted);margin-bottom:.6rem;">/checkout (complete)</p>
+          <div class="phone-shell">
+            <div class="phone-screen">
+              <div class="phone-status-bar"><span>9:41</span><span>●●●</span></div>
+              <div class="site-header" style="padding:0.4rem 0.7rem;">
+                <div class="site-logo" style="font-size:1rem;">Ducci<span>ni's</span></div>
+              </div>
+              <ul class="checkout-progress" style="padding:0 .4rem;border-bottom:1px solid #e5e7eb;">
+                <li class="step done" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+                <li class="step done" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+                <li class="step done" style="flex:0;overflow:hidden;font-size:0;padding:0;opacity:0;"></li>
+                <li class="step active" style="flex:1;">
+                  <span style="font-size:.6rem;display:block;color:var(--cp-muted);font-weight:400;text-transform:none;letter-spacing:0;">Step 4 of 4</span>
+                  Complete
+                </li>
+              </ul>
+              <div style="background:linear-gradient(135deg,var(--duccini-dark),#2a2a3e);color:white;padding:1.25rem .75rem;text-align:center;">
+                <div style="font-size:1.6rem;margin-bottom:.35rem;">🎉</div>
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--duccini-gold);">Order Confirmed!</div>
+                <div style="font-size:.7rem;color:#c0c0c0;margin-top:.25rem;">Pickup · ~25 min</div>
+              </div>
+              <div style="padding:.75rem;text-align:center;">
+                <a href="#" class="btn btn-warning" style="width:100%;justify-content:center;font-size:.78rem;margin-bottom:.4rem;">🍕 Order More Food</a>
+                <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;font-size:.75rem;">View Order History</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         SECTION 5 — IMPLEMENTATION SPEC TABLE
+    ══════════════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-label">Handoff Spec</div>
+      <h2>Implementation specification</h2>
+      <p class="section-desc">Four discrete issues, each independently shippable. Listed in recommended implementation order.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Issue</th>
+            <th>What</th>
+            <th>Where</th>
+            <th>Approach</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>#11.1</strong></td>
+            <td>"← Add More Items" button on cart page</td>
+            <td><code>back_to_cart_button.module</code></td>
+            <td>Change existing AJAX link to a normal <code>&lt;a&gt;</code> button with <code>btn btn-secondary</code> CSS. Remove AJAX dependency — simple navigation to <code>/menu</code> suffices. Promote weight to render above checkout button.</td>
+          </tr>
+          <tr>
+            <td><strong>#11.2</strong></td>
+            <td>Breadcrumb escape strip on all checkout steps</td>
+            <td>Theme block or <code>hook_preprocess_commerce_checkout_form</code></td>
+            <td>Render a slim strip <code>← Menu › Cart › Checkout</code> above the progress bar. Can be a custom block placed in a new <code>checkout_nav</code> region, or injected via <code>#prefix</code> in a <code>hook_form_alter</code>. Links: Menu → <code>/menu</code>, Cart → <code>/cart</code>. No JS needed.</td>
+          </tr>
+          <tr>
+            <td><strong>#11.3</strong></td>
+            <td>"Order More Food" CTA on /complete page</td>
+            <td><code>store_fulfillment</code> completion message OR theme template</td>
+            <td>Override <code>commerce-checkout-completion-message.html.twig</code> in theme, or add a <code>completion_cta</code> pane (custom plugin) on <code>step: complete</code>. Renders "🍕 Order More Food" → <code>/menu</code> and "View Order History" → <code>/user/orders</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>#11.4</strong></td>
+            <td>SCSS for escape strip (mobile-first)</td>
+            <td><code>src/scss/components/_checkout-escape.scss</code></td>
+            <td>New partial: slim strip, muted-yellow bg, auto-collapses "Changing your mind?" label at &lt;576px, keeps icon + "← Menu" link visible at all breakpoints. Import in <code>main.style.scss</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div><!-- /.mockup-doc -->
+</body>
+</html>

@@ -1,0 +1,37 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Reviews Section
+status: experimental
+description: >
+  3-column customer reviews grid with section header, star ratings, quote
+  text, author name and source.
+props:
+  type: object
+  properties:
+    section_label:
+      type: string
+      title: Section Label
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    reviews:
+      type: array
+      title: Reviews
+      description: Array of {text, author, source, stars} objects.
+      items:
+        type: object
+        properties:
+          text:
+            type: string
+            title: Review Text
+          author:
+            type: string
+            title: Reviewer Name
+          source:
+            type: string
+            title: Review Source
+          stars:
+            type: integer
+            title: Star Rating (1-5)

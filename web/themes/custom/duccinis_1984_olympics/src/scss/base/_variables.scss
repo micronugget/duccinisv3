@@ -47,16 +47,37 @@ $olympics-white: #FFFFFF;
 // ============================================================
 :root {
   // ── Brand palette ────────────────────────────────────────
-  --duccini-blue:   #0077C0;  // = $olympics-blue
-  --duccini-pink:   #D62976;  // = $olympics-magenta
-  --duccini-gold:   #FFC914;  // = $olympics-yellow
-  --duccini-orange: #FF6B35;  // = $olympics-orange
-  --duccini-red:    #E63946;  // = $olympics-vermillion
+  --duccini-blue:    #0077C0;  // = $olympics-blue
+  --duccini-pink:    #D62976;  // = $olympics-magenta
+  --duccini-gold:    #FFC914;  // = $olympics-yellow
+  --duccini-yellow:  #FFC914;  // alias for homepage components
+  --duccini-magenta: #D62976;  // alias for homepage components
+  --duccini-orange:  #FF6B35;  // = $olympics-orange
+  --duccini-red:     #E63946;  // = $olympics-vermillion
 
-  // ── UI neutrals ──────────────────────────────────────────
+  // ── UI neutrals (checkout / light UI) ────────────────────
   --duccini-dark:   #1a1a1a;  // primary text / dark surfaces
   --duccini-border: #e5e7eb;  // card/section borders
   --duccini-bg:     #fafafa;  // subtle section backgrounds
+
+  // ── Homepage dark palette tokens ─────────────────────────
+  // Used by duccinis-* SDC components (dark 1984-Olympics homepage).
+  // These do NOT affect checkout — they are only inherited by components
+  // that render inside an element using these tokens.
+  --duccini-surface:   #131210;
+  --duccini-card:      #1c1a17;
+  --duccini-border-hi: #3a3530;
+  --duccini-text:      #f5f0e8;
+  --duccini-muted:     #7a7570;
+  --duccini-faint:     #3a3530;
+
+  // ── Layout ───────────────────────────────────────────────
+  --duccini-container: min(1200px, 92vw);
+
+  // ── Typography ───────────────────────────────────────────
+  --duccini-f-display: 'Bebas Neue', 'Arial Black', sans-serif;
+  --duccini-f-head:    'Archivo Black', 'Arial Black', sans-serif;
+  --duccini-f-body:    'DM Sans', system-ui, -apple-system, sans-serif;
 
   // ── Shape ────────────────────────────────────────────────
   --radius:      10px;        // card / pane border-radius

@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Duccinis hero component — full-viewport homepage hero.
+ *
+ * Props:
+ *   eyebrow (string)
+ *   headline_l1, headline_l2, headline_l3 (string)
+ *   subline (string)
+ *   description (string)
+ *   cta_primary_label, cta_primary_url (string)
+ *   cta_secondary_label, cta_secondary_url (string)
+ */
+#}
+<header class="duccinis-hero" role="banner">
+
+  {# Background — diagonal stripes, radial glow, grain noise #}
+  <div class="duccinis-hero__bg" aria-hidden="true">
+    <div class="duccinis-hero__stripe duccinis-hero__stripe--red-1"></div>
+    <div class="duccinis-hero__stripe duccinis-hero__stripe--orange-1"></div>
+    <div class="duccinis-hero__stripe duccinis-hero__stripe--blue-1"></div>
+    <div class="duccinis-hero__stripe duccinis-hero__stripe--yellow-1"></div>
+    <div class="duccinis-hero__blob"></div>
+    <div class="duccinis-hero__grain"></div>
+  </div>
+
+  {% if eyebrow %}
+    <div class="duccinis-hero__eyebrow">{{ eyebrow }}</div>
+  {% endif %}
+
+  <h1 class="duccinis-hero__headline"
+    {% if headline_l1 and headline_l2 and headline_l3 %}
+      aria-label="{{ headline_l1 }} {{ headline_l2 }} {{ headline_l3 }}"
+    {% endif %}>
+    {% if headline_l1 %}<span class="duccinis-hero__headline-l1">{{ headline_l1 }}</span>{% endif %}
+    {% if headline_l2 %}<span class="duccinis-hero__headline-l2">{{ headline_l2 }}</span>{% endif %}
+    {% if headline_l3 %}<span class="duccinis-hero__headline-l3">{{ headline_l3 }}</span>{% endif %}
+  </h1>
+
+  {% if subline %}
+    <p class="duccinis-hero__sub">{{ subline }}</p>
+  {% endif %}
+
+  {% if description %}
+    <p class="duccinis-hero__desc">{{ description }}</p>
+  {% endif %}
+
+  {% if cta_primary_label or cta_secondary_label %}
+    <div class="duccinis-hero__ctas">
+      {% if cta_primary_label %}
+        <a href="{{ cta_primary_url|default('/menu') }}"
+          class="duccinis-hero__btn duccinis-hero__btn--primary">
+          {{ cta_primary_label }}
+        </a>
+      {% endif %}
+      {% if cta_secondary_label %}
+        <a href="{{ cta_secondary_url|default('#locations') }}"
+          class="duccinis-hero__btn duccinis-hero__btn--ghost">
+          {{ cta_secondary_label }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {# Olympic rings — 5 CSS-only circles #}
+  <div class="duccinis-hero__rings" aria-hidden="true">
+    <span class="duccinis-hero__ring duccinis-hero__ring--blue"></span>
+    <span class="duccinis-hero__ring duccinis-hero__ring--yellow"></span>
+    <span class="duccinis-hero__ring duccinis-hero__ring--red"></span>
+    <span class="duccinis-hero__ring duccinis-hero__ring--dark"></span>
+    <span class="duccinis-hero__ring duccinis-hero__ring--orange"></span>
+  </div>
+
+</header>

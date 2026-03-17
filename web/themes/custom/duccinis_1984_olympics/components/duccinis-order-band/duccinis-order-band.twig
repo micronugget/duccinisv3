@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Duccinis order-band — full-width red CTA section.
+ *
+ * Props:
+ *   headline_l1, headline_l2 (string)
+ *   description (string)
+ *   cta_label, cta_url (string)
+ *   ghost_text (string) — faint background word, default 'MENU'
+ */
+#}
+<section class="duccinis-order-band" id="order" aria-labelledby="order-band-title">
+  <div class="duccinis-order-band__ghost" aria-hidden="true">
+    {{ ghost_text|default('MENU') }}
+  </div>
+  <div class="duccinis-order-band__inner">
+    <h2 class="duccinis-order-band__title" id="order-band-title">
+      {% if headline_l1 %}<span class="duccinis-order-band__title-l1">{{ headline_l1 }}</span>{% endif %}
+      {% if headline_l2 %}<span class="duccinis-order-band__title-l2"><br>{{ headline_l2 }}</span>{% endif %}
+    </h2>
+    {% if description %}
+      <p class="duccinis-order-band__desc">{{ description }}</p>
+    {% endif %}
+    {% if cta_label %}
+      <a href="{{ cta_url|default('/menu') }}"
+        class="duccinis-order-band__btn">
+        {{ cta_label }}
+      </a>
+    {% endif %}
+  </div>
+</section>
