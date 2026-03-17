@@ -26,7 +26,7 @@ jobs:
         run: composer check-platform-reqs --no-dev
 
       - name: Run PHPCS
-        run: vendor/bin/phpcs --standard=Drupal web/modules/custom/
+        run: vendor/bin/phpcs --standard=Drupal --extensions=php,inc,module,install,profile,theme web/modules/custom/
 
   phpunit:
     name: PHPUnit (Kernel tests)
