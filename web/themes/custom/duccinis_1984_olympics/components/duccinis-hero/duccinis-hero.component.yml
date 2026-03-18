@@ -1,0 +1,47 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Hero
+status: experimental
+description: >
+  Full-viewport hero section with diagonal stripe background, Bebas Neue
+  stacked headline, fade-up entrance animations, and Olympic rings decoration.
+props:
+  type: object
+  properties:
+    eyebrow:
+      type: string
+      title: Eyebrow Text
+      description: Small uppercase label above the headline.
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    headline_l3:
+      type: string
+      title: Headline Line 3
+    subline:
+      type: string
+      title: Subline
+      description: Secondary headline in Archivo Black.
+    description:
+      type: string
+      title: Description
+      description: Body paragraph below the subline.
+    cta_primary_label:
+      type: string
+      title: Primary CTA Label
+    cta_primary_url:
+      type: string
+      title: Primary CTA URL
+    cta_secondary_label:
+      type: string
+      title: Secondary CTA Label
+    cta_secondary_url:
+      type: string
+      title: Secondary CTA URL
+
+third_party_settings:
+  canvas:
+    label: 'Hero — Duccinis'
+    category: Duccinis

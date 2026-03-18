@@ -1,0 +1,29 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Story Section
+status: experimental
+description: >
+  Two-column story section: text + paragraphs on the left, 2×2 stats grid
+  on the right. Scroll-reveal enabled.
+props:
+  type: object
+  properties:
+    section_label:
+      type: string
+      title: Section Label
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    paragraphs:
+      type: array
+      title: Body Paragraphs
+      description: Array of paragraph text strings.
+      items:
+        type: string
+
+third_party_settings:
+  canvas:
+    label: 'Story Section — Duccinis'
+    category: Duccinis

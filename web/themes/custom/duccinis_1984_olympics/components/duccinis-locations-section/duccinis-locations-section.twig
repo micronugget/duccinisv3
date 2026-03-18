@@ -1,0 +1,80 @@
+{#
+/**
+ * @file
+ * Duccinis locations section — header + 3-up location cards.
+ *
+ * Props:
+ *   section_label (string), headline_l1, headline_l2 (string)
+ *   cta_label, cta_url (string)
+ *   locations (array) — each item matches duccinis-location-card props
+ */
+#}
+{% set accent_colors = [
+  'var(--duccini-red)',
+  'var(--duccini-blue)',
+  'var(--duccini-orange)',
+] %}
+{% set default_locations = [
+  {
+    number: '01',
+    name: 'Adams Morgan DC',
+    address_line1: '2315 18th St NW',
+    address_line2: 'Washington, DC 20009',
+    directions_url: 'https://maps.google.com/?q=2315+18th+St+NW+Washington+DC',
+    phone: '(202) 265-2253',
+    phone_href: 'tel:+12022652253',
+  },
+  {
+    number: '02',
+    name: 'Arlington VA',
+    address_line1: '4330 Wilson Blvd',
+    address_line2: 'Arlington, VA 22203',
+    directions_url: 'https://maps.google.com/?q=4330+Wilson+Blvd+Arlington+VA',
+    phone: '(703) 741-9200',
+    phone_href: 'tel:+17037419200',
+  },
+  {
+    number: '03',
+    name: '7th Street NW',
+    address_line1: '701 7th St NW',
+    address_line2: 'Washington, DC 20001',
+    directions_url: 'https://maps.google.com/?q=701+7th+St+NW+Washington+DC',
+    phone: '(202) 393-2100',
+    phone_href: 'tel:+12023932100',
+  },
+] %}
+{% set location_items = locations is defined and locations is not empty ? locations : default_locations %}
+<section class="duccinis-locations-section" id="locations"
+  aria-labelledby="locations-section-title">
+
+  {# Rainbow top accent bar #}
+  <div class="duccinis-locations-section__rainbow" aria-hidden="true"></div>
+
+  <div class="duccinis-locations-section__header">
+    <div>
+      {% if section_label %}
+        <div class="duccinis-locations-section__label">{{ section_label }}</div>
+      {% endif %}
+      <h2 class="duccinis-locations-section__title" id="locations-section-title">
+        {% if headline_l1 %}{{ headline_l1 }}<br>{% endif %}
+        {% if headline_l2 %}{{ headline_l2 }}{% endif %}
+      </h2>
+    </div>
+    {% if cta_label %}
+      <a href="{{ cta_url|default('/menu') }}"
+        class="duccinis-locations-section__cta">
+        {{ cta_label }} →
+      </a>
+    {% endif %}
+  </div>
+
+  {% if location_items %}
+    <div class="duccinis-locations-section__grid">
+      {% for location in location_items %}
+        {% set card_color = accent_colors[loop.index0 % 3] %}
+        {% include 'duccinis_1984_olympics:duccinis-location-card' with location|merge({color_accent: card_color}) %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</section>

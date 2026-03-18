@@ -1,0 +1,30 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Locations Section
+status: experimental
+description: >
+  Full locations section with header, sub-heading, CTA link, and a 3-column
+  grid of location cards. Composes duccinis-location-card internally.
+props:
+  type: object
+  properties:
+    section_label:
+      type: string
+      title: Section Label
+      description: Small uppercase eyebrow label, e.g. 'Three Locations'
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    cta_label:
+      type: string
+      title: CTA Link Label
+    cta_url:
+      type: string
+      title: CTA Link URL
+
+third_party_settings:
+  canvas:
+    label: 'Locations Section — Duccinis'
+    category: Duccinis
