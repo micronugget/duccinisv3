@@ -26,3 +26,8 @@ props:
       type: string
       title: Ghost Background Text
       description: Large faint text shown behind the content (default MENU).
+
+third_party_settings:
+  canvas:
+    label: 'Order Band — Duccinis'
+    category: Duccinis

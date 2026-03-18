@@ -45,3 +45,8 @@ props:
     phone_href:
       type: string
       title: 'Phone tel: href'
+
+third_party_settings:
+  canvas:
+    label: 'Location Card — Duccinis'
+    category: Duccinis

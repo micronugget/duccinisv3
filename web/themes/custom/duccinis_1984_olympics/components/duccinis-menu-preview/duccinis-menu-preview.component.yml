@@ -37,3 +37,8 @@ props:
           description:
             type: string
             title: Short Description
+
+third_party_settings:
+  canvas:
+    label: 'Menu Preview — Duccinis'
+    category: Duccinis

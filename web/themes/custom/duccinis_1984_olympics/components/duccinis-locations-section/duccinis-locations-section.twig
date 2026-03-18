@@ -14,6 +14,36 @@
   'var(--duccini-blue)',
   'var(--duccini-orange)',
 ] %}
+{% set default_locations = [
+  {
+    number: '01',
+    name: 'Adams Morgan DC',
+    address_line1: '2315 18th St NW',
+    address_line2: 'Washington, DC 20009',
+    directions_url: 'https://maps.google.com/?q=2315+18th+St+NW+Washington+DC',
+    phone: '(202) 265-2253',
+    phone_href: 'tel:+12022652253',
+  },
+  {
+    number: '02',
+    name: 'Arlington VA',
+    address_line1: '4330 Wilson Blvd',
+    address_line2: 'Arlington, VA 22203',
+    directions_url: 'https://maps.google.com/?q=4330+Wilson+Blvd+Arlington+VA',
+    phone: '(703) 741-9200',
+    phone_href: 'tel:+17037419200',
+  },
+  {
+    number: '03',
+    name: '7th Street NW',
+    address_line1: '701 7th St NW',
+    address_line2: 'Washington, DC 20001',
+    directions_url: 'https://maps.google.com/?q=701+7th+St+NW+Washington+DC',
+    phone: '(202) 393-2100',
+    phone_href: 'tel:+12023932100',
+  },
+] %}
+{% set location_items = locations is defined and locations is not empty ? locations : default_locations %}
 <section class="duccinis-locations-section" id="locations"
   aria-labelledby="locations-section-title">
 
@@ -38,9 +68,9 @@
     {% endif %}
   </div>
 
-  {% if locations %}
+  {% if location_items %}
     <div class="duccinis-locations-section__grid">
-      {% for location in locations %}
+      {% for location in location_items %}
         {% set card_color = accent_colors[loop.index0 % 3] %}
         {% include 'duccinis_1984_olympics:duccinis-location-card' with location|merge({color_accent: card_color}) %}
       {% endfor %}

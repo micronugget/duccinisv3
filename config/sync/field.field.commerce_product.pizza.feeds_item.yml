@@ -1,0 +1,23 @@
+uuid: 2a3b3c4d-5e6f-4701-9a8b-1234567890ab
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.pizza
+    - field.storage.commerce_product.feeds_item
+  module:
+    - feeds
+id: commerce_product.pizza.feeds_item
+field_name: feeds_item
+entity_type: commerce_product
+bundle: pizza
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item

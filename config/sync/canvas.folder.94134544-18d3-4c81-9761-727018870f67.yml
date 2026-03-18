@@ -7,6 +7,15 @@ configEntityTypeId: component
 weight: 0
 items:
   - sdc.commerce.commerce-status-badge
+  - sdc.duccinis_1984_olympics.duccinis-hero
+  - sdc.duccinis_1984_olympics.duccinis-location-card
+  - sdc.duccinis_1984_olympics.duccinis-locations-section
+  - sdc.duccinis_1984_olympics.duccinis-menu-preview
+  - sdc.duccinis_1984_olympics.duccinis-order-band
+  - sdc.duccinis_1984_olympics.duccinis-reviews-section
+  - sdc.duccinis_1984_olympics.duccinis-story-section
+  - sdc.duccinis_1984_olympics.duccinis-stripe-separator
+  - sdc.duccinis_1984_olympics.duccinis-ticker
   - sdc.navigation.title
   - sdc.radix.badge
   - sdc.radix.close-button

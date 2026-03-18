@@ -35,3 +35,8 @@ props:
           stars:
             type: integer
             title: Star Rating (1-5)
+
+third_party_settings:
+  canvas:
+    label: 'Reviews Section — Duccinis'
+    category: Duccinis

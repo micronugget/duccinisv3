@@ -33,3 +33,8 @@ props:
             type: string
           label:
             type: string
+
+third_party_settings:
+  canvas:
+    label: 'Story Section — Duccinis'
+    category: Duccinis

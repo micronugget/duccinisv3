@@ -22,7 +22,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
 | Build | `ddev npm run dev`, `ddev exec "cd … && npm run dev"`, `ddev exec "cd web/themes/custom/duccinis_1984_olympics && npm run dev"` |
 | Git (read) | `git status`, `git log`, `git diff`, `git branch`, `git show` |
-| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git stash`, `git merge`, `git rebase`, `git cherry-pick`, `git push origin <feature-branch>` (non-force, feature/issue branches only) |
+| Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git stash`, `git merge`, `git rebase`, `git cherry-pick`, `git push origin issue/<branch>` (non-force, issue/* branches only) |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
@@ -33,7 +33,10 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | GitHub CLI (issue tracking) | `gh issue create --repo … --title … --body …` — creates a tracking issue; no code affected |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
+| GitHub CLI (PR) | `gh pr create --repo … --base migration_branch --head issue/<branch> …` — opens PR targeting `migration_branch` or `master` for issue branches only |
+| GitHub CLI (issue close) | `gh issue close $N --repo … --comment "…"` — closes the issue being worked on after commit+push |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
+| PHPStan baseline | `ddev exec vendor/bin/phpstan analyze … --generate-baseline=phpstan-baseline.php` — writes a local baseline file; analysis only, no side effects |
 
 **Always ask before running:**
 - `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators
@@ -41,8 +44,6 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 - `git-filter-repo …` — **Security remediation**: irreversibly rewrites local git history; confirm before running
 - `gh api --method PATCH repos/…/secret-scanning/alerts/$N` — **Security remediation**: resolves/dismisses a public secret scanning alert; confirm before running
 - `ddev drush cim -y` — could overwrite local config (**exception:** auto-approvable when `ddev drush config:status` shows zero "Only in DB" and zero "Different" rows — only "Only in sync dir" additive entries; see Brave Mode table)
-- `gh issue close` — publicly closes the issue
-- `gh pr create` — opens a public pull request
 - Any `DROP TABLE`, `DELETE FROM`, or destructive DB operations
 - Any command that modifies `web/sites/default/settings.php`
 
@@ -180,6 +181,15 @@ All tests must pass. If any fail, fix them before proceeding.
 ### 6d. Config Export (if config changed)
 
 If any UI configuration was changed, or any `.yml` files in `config/sync/` were modified:
+
+**First, check for pre-existing DB/sync divergence** that is unrelated to this issue — these files must NOT be staged:
+```bash
+echo "=== Config Status (pre-export check) ===" && \
+ddev drush config:status 2>&1 | grep -v 'Only in sync dir' | grep -v 'No differences' | head -20
+```
+
+If the output shows rows with `Only in DB` or `Different` that are **not related to this issue**, those are pre-existing divergences. Export anyway (to get the issue-relevant config out), but **do not stage those unrelated files** in Step 7.
+
 ```bash
 echo "=== Config Export ===" && ddev drush cex -y 2>&1 | tail -10
 ```
@@ -188,10 +198,23 @@ echo "=== Config Export ===" && ddev drush cex -y 2>&1 | tail -10
 
 ## Step 7 — Commit
 
+**Stage only files relevant to this issue** — do NOT use `git add -A` blindly.
+Unrelated config files exported by `ddev drush cex` (e.g. pre-existing DB/sync UUID divergences from other modules) must be excluded.
+
 ```bash
-git add -A && \
+# Stage only the files this issue actually touches:
+# - Theme/module source files changed by the implementation
+# - config/sync/ files that are direct outputs of this issue's changes
+# Do NOT stage config/sync files that differ only in UUID from migration_branch
+git add <specific files and directories> && \
 git commit -m "fix: close issue #$ISSUE — <short description>"
 ```
+
+If uncertain which config files are issue-relevant vs pre-existing noise, run:
+```bash
+git diff --name-only origin/migration_branch -- config/sync/ | head -20
+```
+Any file that differs from `migration_branch` but was NOT touched by this issue should be excluded from the commit (reset with `git restore --staged <file>`).
 
 Use a conventional commit message. Reference the issue number.
 

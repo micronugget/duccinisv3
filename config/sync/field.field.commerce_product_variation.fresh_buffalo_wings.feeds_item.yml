@@ -1,0 +1,23 @@
+uuid: 9b7a4ee4-3f6c-4d0f-9a1c-2b4c6d8e9f01
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.fresh_buffalo_wings
+    - field.storage.commerce_product_variation.feeds_item
+  module:
+    - feeds
+id: commerce_product_variation.fresh_buffalo_wings.feeds_item
+field_name: feeds_item
+entity_type: commerce_product_variation
+bundle: fresh_buffalo_wings
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item

@@ -10,3 +10,8 @@ props:
       title: Height
       description: CSS height value (default 5px).
       default: '5px'
+
+third_party_settings:
+  canvas:
+    label: 'Stripe Separator — Duccinis'
+    category: Duccinis

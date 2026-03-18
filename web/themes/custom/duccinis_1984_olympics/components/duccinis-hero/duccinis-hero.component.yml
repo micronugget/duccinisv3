@@ -40,3 +40,8 @@ props:
     cta_secondary_url:
       type: string
       title: Secondary CTA URL
+
+third_party_settings:
+  canvas:
+    label: 'Hero — Duccinis'
+    category: Duccinis

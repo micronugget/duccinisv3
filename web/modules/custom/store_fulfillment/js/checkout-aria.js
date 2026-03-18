@@ -96,7 +96,7 @@
       // currently-checked fulfillment_method radio so keyboard users can
       // continue without losing their place.
       if (context !== document) {
-        var contextEl = (context instanceof Element) ? context : null;
+        var contextEl = (context instanceof Element) ? context : null; // phpcs:ignore Generic.PHP.UpperCaseConstant.Found
         if (contextEl) {
           var checkedMethod = contextEl.querySelector(
             '[name="fulfillment_time[fulfillment_method]"]:checked'

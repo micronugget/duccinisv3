@@ -29,3 +29,8 @@ props:
       description: Array of location card objects (see duccinis-location-card props).
       items:
         type: object
+
+third_party_settings:
+  canvas:
+    label: 'Locations Section — Duccinis'
+    category: Duccinis
