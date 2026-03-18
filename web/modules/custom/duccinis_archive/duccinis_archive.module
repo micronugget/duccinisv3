@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Provides archive functionality for Commerce products (menu items).
@@ -11,6 +9,8 @@ declare(strict_types=1);
  * QueryAccessHandlerBase injects status = 1 into every entity query
  * (including Views) for non-admin users, no view-level filter is needed.
  */
+
+declare(strict_types=1);
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;

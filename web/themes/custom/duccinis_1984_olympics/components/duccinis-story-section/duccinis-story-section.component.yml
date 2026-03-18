@@ -22,6 +22,17 @@ props:
       description: Array of paragraph text strings.
       items:
         type: string
+    stats:
+      type: array
+      title: Stats
+      description: Array of {number, label} objects (up to 4).
+      items:
+        type: object
+        properties:
+          number:
+            type: string
+          label:
+            type: string
 
 third_party_settings:
   canvas:

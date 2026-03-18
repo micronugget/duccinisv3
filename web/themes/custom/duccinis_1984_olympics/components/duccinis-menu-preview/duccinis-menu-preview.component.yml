@@ -21,6 +21,22 @@ props:
     cta_url:
       type: string
       title: CTA Link URL
+    items:
+      type: array
+      title: Menu Items
+      description: Array of {icon, name, description} objects.
+      items:
+        type: object
+        properties:
+          icon:
+            type: string
+            title: Icon (emoji or character)
+          name:
+            type: string
+            title: Item Name
+          description:
+            type: string
+            title: Short Description
 
 third_party_settings:
   canvas:

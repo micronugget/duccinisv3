@@ -184,7 +184,7 @@ class PaymentPaneFormAlterTest extends CommerceBrowserTestBase {
   }
 
   /**
-   * Tests has-saved-cards CSS class on the payment wrapper with stored cards.
+   * Tests payment_information wrapper gets the has-saved-cards CSS class.
    *
    * This class is added by store_fulfillment_form_alter() when the saved-card
    * detection loop finds at least one eligible payment method.  Its presence

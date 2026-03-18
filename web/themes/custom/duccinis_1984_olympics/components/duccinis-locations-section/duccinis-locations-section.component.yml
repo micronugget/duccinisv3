@@ -23,6 +23,12 @@ props:
     cta_url:
       type: string
       title: CTA Link URL
+    locations:
+      type: array
+      title: Location Cards
+      description: Array of location card objects (see duccinis-location-card props).
+      items:
+        type: object
 
 third_party_settings:
   canvas:

@@ -173,7 +173,7 @@ class ArchiveAuditLoggerTest extends CommerceKernelTestBase {
   }
 
   /**
-   * Re-saving an archived product does not duplicate audit log entries.
+   * Verifies re-saving an archived product does not add a log entry.
    */
   public function testResavingArchivedProductDoesNotDuplicateLog(): void {
     $product = $this->createPublishedProduct();

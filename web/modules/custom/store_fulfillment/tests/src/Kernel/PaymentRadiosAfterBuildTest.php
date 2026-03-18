@@ -38,7 +38,7 @@ class PaymentRadiosAfterBuildTest extends CommerceKernelTestBase {
   // ─── Helpers ──────────────────────────────────────────────────────────────
 
   /**
-   * Builds a minimal radios element as Radios::processRadios() would produce.
+   * Builds a minimal radios element mimicking Radios::processRadios().
    *
    * Creates a parent element with keyed child elements for each option.
    *

@@ -16,6 +16,25 @@ props:
     headline_l2:
       type: string
       title: Headline Line 2
+    reviews:
+      type: array
+      title: Reviews
+      description: Array of {text, author, source, stars} objects.
+      items:
+        type: object
+        properties:
+          text:
+            type: string
+            title: Review Text
+          author:
+            type: string
+            title: Reviewer Name
+          source:
+            type: string
+            title: Review Source
+          stars:
+            type: integer
+            title: Star Rating (1-5)
 
 third_party_settings:
   canvas:

@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Theme override: checkout completion message with post-order navigation CTAs.
+ *
+ * Extends the core template to add "Order More Food" and "View Order History"
+ * buttons after the confirmation message. Issue #11.3.
+ *
+ * Available variables:
+ * - order_entity: The order entity.
+ * - message: The completion message.
+ * - payment_instructions: The payment instructions, if provided.
+ */
+#}
+<div class="checkout-complete">
+  {{- message -}}
+
+  {% if payment_instructions %}
+    <div class="checkout-complete__payment-instructions">
+      <h2>{{ 'Payment instructions'|t }}</h2>
+      {{ payment_instructions }}
+    </div>
+  {% endif %}
+
+  {# ── Issue #11.3: Post-order navigation CTAs ──────────────────────────────
+     Give the customer an obvious next step rather than a dead end.
+     "Order More Food" goes to /menu; "View Order History" goes to their
+     account orders page (falls back to /user if no account).
+  #}
+  <div class="checkout-complete-actions">
+    <a href="/user/{{ order_entity.getCustomerId() }}/orders"
+       class="btn btn-outline-secondary btn-sm">
+      {{ 'View Order History'|t }}
+    </a>
+    <a href="/menu"
+       class="btn btn-warning">
+      {{ '🍕 Order More Food'|t }}
+    </a>
+  </div>
+</div>

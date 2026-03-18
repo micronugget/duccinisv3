@@ -46,4 +46,3 @@ function store_resolver_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
-

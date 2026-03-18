@@ -12,27 +12,30 @@ props:
       type: string
       title: Card Number
       description: Display ordinal, e.g. '01'
-      examples:
-        - '01'
     name:
       type: string
       title: Store Name
-      examples:
-        - Adams Morgan
     address_line1:
       type: string
       title: Address Line 1
-      examples:
-        - '2315 18th St NW'
     address_line2:
       type: string
       title: Address Line 2
-      examples:
-        - 'Washington, DC 20009'
     color_accent:
       type: string
       title: Accent Color CSS Variable
       description: e.g. 'var(--duccini-red)'
+    hours:
+      type: array
+      title: Hours Rows
+      description: Array of {day, time} objects.
+      items:
+        type: object
+        properties:
+          day:
+            type: string
+          time:
+            type: string
     directions_url:
       type: string
       title: Directions URL

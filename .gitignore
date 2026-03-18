@@ -75,3 +75,6 @@ tests/Nightwatch/reports/
 
 # VS Code workspace files
 *.code-workspace
+
+# Static HTML output snapshots
+output/
