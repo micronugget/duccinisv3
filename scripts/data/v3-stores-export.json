@@ -1,0 +1,79 @@
+[
+  {
+    "_comment": "Exported from duccinisV3 on 2026-03-15 via ddev drush php:eval",
+    "_note": "Name corrected from typo 'Adams Morgen DC' → 'Adams Morgan DC'",
+    "id": 1,
+    "uuid": "2b041c08-8f33-48a9-a52c-ff1b78d10ae3",
+    "name": "Adams Morgan DC",
+    "type": "online",
+    "mail": "geena@amstercad.com",
+    "default_currency": "USD",
+    "timezone": "America/New_York",
+    "uid": 1,
+    "delivery_radius": "4.00",
+    "store_location": {
+      "lat": 38.9167879,
+      "lon": -77.0412164,
+      "wkt": "POINT (-77.0412164 38.9167879)"
+    },
+    "store_hours": "Monday|11:00|04:00\r\nTuesday|11:00|04:00\r\nWednesday|11:00|04:00\r\nThursday|11:00|04:00\r\nFriday|11:00|05:00\r\nSaturday|11:00|05:00\r\nSunday|11:00|04:00",
+    "address": {
+      "country_code": "US",
+      "administrative_area": "DC",
+      "locality": "Washington",
+      "postal_code": "20009",
+      "address_line1": "1778 U Street NW",
+      "address_line2": ""
+    }
+  },
+  {
+    "id": 2,
+    "uuid": "82e8c469-6caf-4cbe-b172-08c00d5f0270",
+    "name": "Arlington VA",
+    "type": "online",
+    "mail": "chuck@amstercad.com",
+    "default_currency": "USD",
+    "timezone": "America/New_York",
+    "uid": 1,
+    "delivery_radius": "4.50",
+    "store_location": {
+      "lat": 38.8695823,
+      "lon": -77.1263207,
+      "wkt": "POINT (-77.1263207 38.8695823)"
+    },
+    "store_hours": "Monday|11:00|01:00\r\nTuesday|11:00|01:00\r\nWednesday|11:00|01:00\r\nThursday|11:00|01:00\r\nFriday|11:00|02:00\r\nSaturday|11:00|02:00\r\nSunday|11:00|01:00",
+    "address": {
+      "country_code": "US",
+      "administrative_area": "VA",
+      "locality": "Falls Church",
+      "postal_code": "22041",
+      "address_line1": "3420 Carlyn Hill Dr.",
+      "address_line2": ""
+    }
+  },
+  {
+    "id": 3,
+    "uuid": "38eddb67-7991-416b-b27b-feeec63dea85",
+    "name": "7th Street NW",
+    "type": "online",
+    "mail": "lee@amstercad.com",
+    "default_currency": "USD",
+    "timezone": "America/New_York",
+    "uid": 1,
+    "delivery_radius": "4.00",
+    "store_location": {
+      "lat": 38.9106648,
+      "lon": -77.021574,
+      "wkt": "POINT (-77.021574 38.9106648)"
+    },
+    "store_hours": "Monday|11:00|01:00\r\nTuesday|11:00|01:00\r\nWednesday|11:00|01:00\r\nThursday|11:00|01:00\r\nFriday|11:00|02:00\r\nSaturday|11:00|02:00\r\nSunday|11:00|01:00",
+    "address": {
+      "country_code": "US",
+      "administrative_area": "DC",
+      "locality": "Washington",
+      "postal_code": "20001",
+      "address_line1": "1537 7th Street NW",
+      "address_line2": ""
+    }
+  }
+]

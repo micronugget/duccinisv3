@@ -19,6 +19,7 @@ module:
   commerce_add_to_cart_link: 0
   commerce_cart: 0
   commerce_checkout: 0
+  commerce_feeds: 0
   commerce_log: 0
   commerce_number_pattern: 0
   commerce_order: 0
@@ -40,6 +41,7 @@ module:
   drupal_cms_helper: 0
   drupical: 0
   duccinis_archive: 0
+  duccinis_feeds_fix: 0
   dynamic_page_cache: 0
   easy_breadcrumb: 0
   easy_email: 0
@@ -56,6 +58,9 @@ module:
   editoria11y: 0
   entity: 0
   entity_reference_revisions: 0
+  feeds: 0
+  feeds_log: 0
+  feeds_tamper: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -121,6 +126,7 @@ module:
   system: 0
   tagify: 0
   tagify_user_list: 0
+  tamper: 0
   taxonomy: 0
   text: 0
   token: 0

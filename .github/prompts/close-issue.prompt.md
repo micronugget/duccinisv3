@@ -34,6 +34,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
+| PHPStan baseline | `ddev exec vendor/bin/phpstan analyze … --generate-baseline=phpstan-baseline.php` — writes a local baseline file; analysis only, no side effects |
 
 **Always ask before running:**
 - `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators

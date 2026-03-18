@@ -153,7 +153,7 @@ class PaymentPaneFormAlterTest extends CommerceBrowserTestBase {
   // ─── Issue #106: #after_build regression tests ──────────────────────────
 
   /**
-   * Tests that saved-card radio inputs exist in the DOM when the user has a stored payment method.
+   * Tests saved-card radio inputs exist in DOM with a stored payment method.
    *
    * This is the primary regression test for issue #106.  The original bug: the
    * module used #process instead of #after_build.  Using #process overwrote
@@ -184,7 +184,7 @@ class PaymentPaneFormAlterTest extends CommerceBrowserTestBase {
   }
 
   /**
-   * Tests that the payment_information wrapper receives the has-saved-cards class when the user has a stored payment method.
+   * Tests has-saved-cards CSS class on the payment wrapper with stored cards.
    *
    * This class is added by store_fulfillment_form_alter() when the saved-card
    * detection loop finds at least one eligible payment method.  Its presence

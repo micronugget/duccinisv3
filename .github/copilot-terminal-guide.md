@@ -153,6 +153,48 @@ Create `.idea/terminal.xml` if it doesn't exist:
 | Start Server | `ddev start` | Only if truly backgrounding |
 | Check Status | `ddev describe \| head -10` | `false` |
 | Drush Commands | `ddev drush cmd --yes 2>&1 && echo "Complete"` | `false` |
+| Config status | `ddev drush cst --format=json 2>&1` | `false` |
+
+### 6a. Known DDEV / Drush ANSI Quirks
+
+#### `ddev drush config:status` / `ddev drush cst` — ANSI bold error
+
+`ddev drush cst` (and `ddev drush config:status`) fails in this environment with:
+
+```
+Invalid option specified: "bold". Expected one of (bold, underscore, blink, reverse, conceal).
+```
+
+**Root cause:** The terminal's `$TERM` / colour-capability flags cause Drush's table formatter to request an unsupported "bold" attribute, causing a fatal error even before output is produced.
+
+**Fix — always append `--format=json`:**
+
+```bash
+# ❌ Fails with ANSI bold error:
+ddev drush cst 2>&1
+
+# ✅ Works reliably:
+ddev drush cst --format=json 2>&1
+```
+
+To inspect the output, pipe through Python for a readable summary:
+
+```bash
+ddev drush cst --format=json 2>&1 | python3 -c \
+  "import json,sys; d=json.load(sys.stdin);
+   states={}
+   [states.update({v['state']: states.get(v['state'], []) + [k]}) for k,v in d.items()]
+   [print(f'{s}: {len(items)} item(s)') for s,items in states.items()]"
+```
+
+To check whether `ddev drush cim -y` is safe to run (no "Only in DB" or "Different" entries):
+
+```bash
+ddev drush cst --format=json 2>&1 | python3 -c \
+  "import json,sys; d=json.load(sys.stdin)
+   unsafe=[k for k,v in d.items() if v['state'] in ('Only in DB','Different')]
+   print('SAFE' if not unsafe else 'UNSAFE — review: ' + ', '.join(unsafe))"
+```
 
 ### 7. Debugging Terminal Issues
 
@@ -246,7 +288,7 @@ Consider these enhancements:
 
 ---
 
-**Last Updated:** February 11, 2026
+**Last Updated:** March 15, 2026
 **Maintained By:** Environment Manager Agent
 **Related:** `.github/copilot-instructions.md`, `.github/agents/environment-manager.md`
 

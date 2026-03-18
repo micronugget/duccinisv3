@@ -260,15 +260,13 @@ class CheckoutProgressBarBlockTest extends CommerceKernelTestBase {
   }
 
   /**
+   * Cart page sets Order Details analytics for authenticated users.
+   *
+   * When on the cart page with an active draft order, the Order Details step
+   * should have funnel_event = checkout_resume. URL generation fails in the
+   * test environment (no routes) but step state is asserted.
+   *
    * @covers ::buildSteps
-   *
-   * When on the cart page and the authenticated user has an active draft order,
-   * the Order Details step should carry a URL (the checkout resume link) and
-   * an analytics array with funnel_event = checkout_resume.
-   *
-   * URL generation will fail in the test environment (no routes), so we only
-   * assert that the CartProvider was consulted and the step would have a URL
-   * in production (url generation is guarded by try/catch in the block).
    */
   public function testCartPageWithDraftOrderSetsOrderDetailsAnalytics(): void {
     $order = $this->createMock('\Drupal\commerce_order\Entity\OrderInterface');
@@ -298,10 +296,12 @@ class CheckoutProgressBarBlockTest extends CommerceKernelTestBase {
   }
 
   /**
-   * @covers ::buildSteps
+   * Cart page anonymous user sees no Order Details resume link.
    *
-   * Anonymous users must not trigger the CartProvider — the Order Details step
-   * should have no URL and no analytics data.
+   * Anonymous users must not trigger CartProvider — Order Details step must
+   * have no URL and no analytics data.
+   *
+   * @covers ::buildSteps
    */
   public function testCartPageAnonymousUserNoResumeLink(): void {
     $cart_provider = $this->createMock(CartProviderInterface::class);
