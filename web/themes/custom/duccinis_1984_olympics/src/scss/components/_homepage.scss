@@ -1,0 +1,147 @@
+// Homepage global primitives — imported from main.style.scss.
+// All homepage layout, button variants, reveal utilities, and open-badge states.
+// -----------------------------------------------------------------------------
+
+// ── Parallelogram clip utilities ───────────────────────────────────────────
+.clip    { clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); }
+.clip-sm { clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%); }
+
+// ── Fixed site navigation ──────────────────────────────────────────────────
+.site-nav {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: rgba(11, 10, 8, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 201, 20, 0.12);
+  transition: border-color 0.3s;
+
+  &.scrolled {
+    border-bottom-color: rgba(255, 201, 20, 0.28);
+  }
+
+  @media (max-width: 576px) {
+    padding: 0.85rem 1.25rem;
+  }
+}
+
+// ── Homepage CTA buttons (parallelogram clip-path variants) ────────────────
+// Scoped to <a> to avoid overriding .btn.btn-primary on form submit buttons.
+a.btn-primary {
+  display: inline-block;
+  font-family: var(--duccini-f-head);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1.1rem 2.8rem;
+  background: var(--duccini-red);
+  color: #fff;
+  text-decoration: none;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: background 0.2s, transform 0.15s;
+
+  &:hover {
+    background: var(--duccini-orange);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+a.btn-ghost {
+  display: inline-block;
+  font-family: var(--duccini-f-head);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1.05rem 2.8rem;
+  background: transparent;
+  color: var(--duccini-text);
+  text-decoration: none;
+  border: 1.5px solid rgba(245, 240, 232, 0.2);
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--duccini-yellow);
+    color: var(--duccini-yellow);
+  }
+}
+
+// ── Section label — small uppercase label with leading horizontal rule ─────
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--duccini-yellow);
+  margin-bottom: 1rem;
+
+  &::before {
+    content: '';
+    width: 18px;
+    height: 2px;
+    background: var(--duccini-yellow);
+    flex-shrink: 0;
+  }
+}
+
+// ── Scroll-reveal utility ──────────────────────────────────────────────────
+// Initial hidden state — toggled to .in-view by homepage-reveal.js behavior.
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+
+  &.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+// ── Open/closed badge state modifiers ─────────────────────────────────────
+// Applied by store-hours-badge.js to .duccinis-location-card__badge.
+// Uses 2-class selector to beat the component's single-class specificity.
+.duccinis-location-card__badge {
+  &.open-badge--open {
+    color: #4ade80;
+
+    .duccinis-location-card__badge-dot {
+      background: #4ade80;
+      animation: duccinis-loc-pulse 2s ease-in-out infinite;
+    }
+  }
+
+  &.open-badge--late {
+    // Default yellow colour is already set in duccinis-location-card.scss.
+    // Explicit declaration ensures JS-added class matches without cascading surprise.
+    color: var(--duccini-yellow);
+
+    .duccinis-location-card__badge-dot {
+      background: var(--duccini-yellow);
+      animation: duccinis-loc-pulse 2.5s ease-in-out infinite;
+    }
+  }
+
+  &.open-badge--closed {
+    color: #f87171;
+
+    .duccinis-location-card__badge-dot {
+      background: #f87171;
+      animation: none;
+    }
+  }
+}

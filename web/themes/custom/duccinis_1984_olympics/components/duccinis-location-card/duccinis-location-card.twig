@@ -16,8 +16,10 @@
     {{ address_line2 }}
   </address>
 
-  {# Open/closed badge — static; JS can hydrate via data attrs if needed #}
-  <div class="duccinis-location-card__badge" aria-live="polite">
+  {# Open/closed badge — JS-hydrated by store-hours-badge.js behavior #}
+  <div class="duccinis-location-card__badge open-badge open-badge--late"
+    data-store-hours="{{ store_type|default('dc') }}"
+    aria-live="polite">
     <span class="duccinis-location-card__badge-dot" aria-hidden="true"></span>
     <span class="duccinis-location-card__badge-text">Open Late</span>
   </div>

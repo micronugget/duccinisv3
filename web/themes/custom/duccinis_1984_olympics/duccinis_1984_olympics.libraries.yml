@@ -78,6 +78,13 @@ jquery.validate:
 saved-card-fix:
   js:
     src/js/saved-card-fix.js: {}
+
+homepage:
+  js:
+    src/js/homepage-reveal.js: {}
+    src/js/store-hours-badge.js: {}
+  dependencies:
+    - core/drupal
   dependencies:
     - core/drupal
     - core/drupalSettings

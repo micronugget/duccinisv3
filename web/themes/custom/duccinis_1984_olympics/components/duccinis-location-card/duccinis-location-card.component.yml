@@ -45,6 +45,10 @@ props:
     phone_href:
       type: string
       title: 'Phone tel: href'
+    store_type:
+      type: string
+      title: Store Type
+      description: "Schedule key for the JS badge behavior: 'dc' or 'va'. Defaults to 'dc'."
 
 third_party_settings:
   canvas:
