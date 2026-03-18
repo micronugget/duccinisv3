@@ -1,0 +1,7 @@
+.duccinis-stripe-separator {
+  height: var(--stripe-height, 5px);
+  background: linear-gradient(to right, var(--duccini-red) 0% 20%, var(--duccini-blue) 20% 40%, var(--duccini-yellow) 40% 60%, var(--duccini-orange) 60% 80%, var(--duccini-magenta) 80% 100%);
+  width: 100%;
+}
+
+/*# sourceMappingURL=duccinis-stripe-separator.css.map*/

@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Duccinis menu-preview — 4-up category grid section.
+ *
+ * Props:
+ *   section_label, headline_l1, headline_l2, cta_label, cta_url (string)
+ *   items (array) — [{icon, name, description}, ...]
+ */
+#}
+{% set default_items = [
+  {icon: '🍕', name: 'The Jumbo Slice', description: "DC's original oversized NY-style slice. Made fresh every day — plain, pepperoni, supreme, and more."},
+  {icon: '🥙', name: 'Gyros', description: 'Traditional gyro wraps with thinly sliced meat, fresh tomato, onion, and tzatziki sauce.'},
+  {icon: '🍗', name: 'Wings', description: 'Buffalo wings and chicken wings, crispy and saucy. Great alone or with a slice.'},
+  {icon: '🌀', name: 'Strombolis & Subs', description: 'Generously stuffed strombolis and classic Italian-American subs, made fresh to order.'},
+] %}
+{% set preview_items = items is defined and items is not empty ? items : default_items %}
+<div class="duccinis-menu-preview" aria-labelledby="menu-preview-title">
+  <div class="duccinis-menu-preview__container">
+    <div class="duccinis-menu-preview__header">
+      <div>
+        {% if section_label %}
+          <div class="duccinis-menu-preview__label">{{ section_label }}</div>
+        {% endif %}
+        <h2 class="duccinis-menu-preview__title" id="menu-preview-title">
+          {% if headline_l1 %}{{ headline_l1 }}<br>{% endif %}
+          {% if headline_l2 %}{{ headline_l2 }}{% endif %}
+        </h2>
+      </div>
+      {% if cta_label %}
+        <a href="{{ cta_url|default('/menu') }}"
+          class="duccinis-menu-preview__cta">
+          {{ cta_label }} →
+        </a>
+      {% endif %}
+    </div>
+    <div class="duccinis-menu-preview__grid">
+      {% for item in preview_items %}
+        <div class="duccinis-menu-preview__item">
+          {% if item.icon %}
+            <div class="duccinis-menu-preview__icon" aria-hidden="true">{{ item.icon }}</div>
+          {% endif %}
+          <div class="duccinis-menu-preview__name">{{ item.name }}</div>
+          {% if item.description %}
+            <div class="duccinis-menu-preview__desc">{{ item.description }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

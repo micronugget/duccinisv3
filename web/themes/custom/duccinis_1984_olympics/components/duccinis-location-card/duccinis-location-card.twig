@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Duccinis location card — individual store card.
+ *
+ * Props: number, name, address_line1, address_line2, color_accent,
+ *        hours (array {day, time}), directions_url, phone, phone_href
+ */
+#}
+<article class="duccinis-location-card"
+  style="--card-accent: {{ color_accent|default('var(--duccini-red)') }};">
+  <div class="duccinis-location-card__num" aria-hidden="true">{{ number|default('01') }}</div>
+  <div class="duccinis-location-card__name">{{ name }}</div>
+  <address class="duccinis-location-card__address">
+    {{ address_line1 }}<br>
+    {{ address_line2 }}
+  </address>
+
+  {# Open/closed badge — static; JS can hydrate via data attrs if needed #}
+  <div class="duccinis-location-card__badge" aria-live="polite">
+    <span class="duccinis-location-card__badge-dot" aria-hidden="true"></span>
+    <span class="duccinis-location-card__badge-text">Open Late</span>
+  </div>
+
+  {% if hours %}
+    <div class="duccinis-location-card__hours-label" aria-hidden="true">Hours</div>
+    <div class="duccinis-location-card__hours"
+      aria-label="Store hours">
+      {% for row in hours %}
+        <span class="duccinis-location-card__h-day">{{ row.day }}</span>
+        <span class="duccinis-location-card__h-time">{{ row.time }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="duccinis-location-card__actions">
+    {% if directions_url %}
+      <a href="{{ directions_url }}" class="duccinis-location-card__btn-link"
+        target="_blank" rel="noopener noreferrer">
+        ↗ Directions
+      </a>
+    {% endif %}
+    {% if phone %}
+      <a href="{{ phone_href|default('tel:' ~ phone|replace({' ': '', '-': '', '(': '', ')': ''})) }}"
+        class="duccinis-location-card__btn-link">
+        {{ phone }}
+      </a>
+    {% endif %}
+  </div>
+</article>

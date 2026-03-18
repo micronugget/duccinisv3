@@ -1,0 +1,51 @@
+uuid: 019d712a-7b0b-42db-b1c0-4bd35cbc50af
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+active_version: 5e17b0b4da478b35
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        section_label:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        headline_l1:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        headline_l2:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        paragraphs:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Duccinis Story Section'
+id: sdc.duccinis_1984_olympics.duccinis-story-section
+provider: duccinis_1984_olympics
+source: sdc
+source_local_id: 'duccinis_1984_olympics:duccinis-story-section'

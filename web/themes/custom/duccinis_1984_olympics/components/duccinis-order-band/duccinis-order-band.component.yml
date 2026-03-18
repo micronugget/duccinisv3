@@ -1,0 +1,33 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Order Band
+status: experimental
+description: >
+  Full-width red CTA band with ghost text background, hatching overlay,
+  headline, description, and a single order button.
+props:
+  type: object
+  properties:
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    description:
+      type: string
+      title: Description
+    cta_label:
+      type: string
+      title: CTA Button Label
+    cta_url:
+      type: string
+      title: CTA Button URL
+    ghost_text:
+      type: string
+      title: Ghost Background Text
+      description: Large faint text shown behind the content (default MENU).
+
+third_party_settings:
+  canvas:
+    label: 'Order Band — Duccinis'
+    category: Duccinis

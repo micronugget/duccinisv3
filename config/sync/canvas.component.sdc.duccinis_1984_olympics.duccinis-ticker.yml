@@ -1,0 +1,27 @@
+uuid: b773c492-0af1-42d5-90fd-b40b1bb3c4f3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+active_version: 00cfae2e293cdaab
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        items:
+          required: false
+          field_type: string
+          cardinality: -1
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Duccinis Ticker'
+id: sdc.duccinis_1984_olympics.duccinis-ticker
+provider: duccinis_1984_olympics
+source: sdc
+source_local_id: 'duccinis_1984_olympics:duccinis-ticker'

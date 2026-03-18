@@ -1,0 +1,99 @@
+.duccinis-locations-section {
+  // Scope dark homepage tokens.
+  --duccini-border: #272420;
+
+  background: var(--duccini-surface);
+  position: relative;
+  padding: 6rem 0;
+
+  // Rainbow top accent bar (5-colour)
+  &__rainbow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      to right,
+      var(--duccini-red)     0%   20%,
+      var(--duccini-blue)    20%  40%,
+      var(--duccini-yellow)  40%  60%,
+      var(--duccini-orange)  60%  80%,
+      var(--duccini-magenta) 80% 100%
+    );
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 0 2rem;
+    width: var(--duccini-container);
+    margin-inline: auto;
+    margin-bottom: 3.5rem;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--duccini-yellow);
+    margin-bottom: 1rem;
+
+    &::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--duccini-yellow);
+      flex-shrink: 0;
+    }
+  }
+
+  &__title {
+    font-family: var(--duccini-f-display);
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+  }
+
+  &__cta {
+    display: inline-block;
+    font-family: var(--duccini-f-head);
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 1.05rem 2.8rem;
+    background: transparent;
+    color: var(--duccini-text);
+    text-decoration: none;
+    border: 1.5px solid var(--duccini-border-hi);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    align-self: flex-end;
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover {
+      border-color: var(--duccini-yellow);
+      color: var(--duccini-yellow);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--duccini-border);
+    width: var(--duccini-container);
+    margin: 0 auto;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      width: 92vw;
+    }
+  }
+}

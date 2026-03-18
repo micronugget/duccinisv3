@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Duccinis stripe separator — 5-colour Olympic stripe bar.
+ *
+ * Props:
+ *   height (string) — CSS height, default '5px'
+ */
+#}
+<div class="duccinis-stripe-separator"
+  {% if height %}style="--stripe-height: {{ height }};"{% endif %}
+  aria-hidden="true">
+</div>

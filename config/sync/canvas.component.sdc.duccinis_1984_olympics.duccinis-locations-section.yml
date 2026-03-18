@@ -1,0 +1,58 @@
+uuid: ccc3b6de-5611-41d1-9274-5105379b0ca2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+active_version: 5fe27d652f5eebc2
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        section_label:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        headline_l1:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        headline_l2:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        cta_label:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        cta_url:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Duccinis Locations Section'
+id: sdc.duccinis_1984_olympics.duccinis-locations-section
+provider: duccinis_1984_olympics
+source: sdc
+source_local_id: 'duccinis_1984_olympics:duccinis-locations-section'

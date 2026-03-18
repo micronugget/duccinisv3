@@ -1,0 +1,20 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Ticker
+status: experimental
+description: >
+  Infinitely scrolling marquee bar with short promotional messages.
+  Duplicated items create a seamless loop.
+props:
+  type: object
+  properties:
+    items:
+      type: array
+      title: Ticker Items
+      description: Array of short text strings to display in the ticker.
+      items:
+        type: string
+
+third_party_settings:
+  canvas:
+    label: 'Ticker — Duccinis'
+    category: Duccinis
