@@ -1,0 +1,47 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Location Card
+status: experimental
+description: >
+  Single store location card with name, address, hours table, open/closed
+  badge, and action links. Used inside duccinis-locations-section.
+props:
+  type: object
+  required: [number, name, address_line1, address_line2]
+  properties:
+    number:
+      type: string
+      title: Card Number
+      description: Display ordinal, e.g. '01'
+    name:
+      type: string
+      title: Store Name
+    address_line1:
+      type: string
+      title: Address Line 1
+    address_line2:
+      type: string
+      title: Address Line 2
+    color_accent:
+      type: string
+      title: Accent Color CSS Variable
+      description: e.g. 'var(--duccini-red)'
+    hours:
+      type: array
+      title: Hours Rows
+      description: Array of {day, time} objects.
+      items:
+        type: object
+        properties:
+          day:
+            type: string
+          time:
+            type: string
+    directions_url:
+      type: string
+      title: Directions URL
+    phone:
+      type: string
+      title: Phone Number (display)
+    phone_href:
+      type: string
+      title: 'Phone tel: href'

@@ -1,0 +1,220 @@
+// =============================================================================
+// Checkout Escape — cart "Add More Items" button + checkout breadcrumb strip
+//
+// Issue #11.1 — .return-to-menu-button on /cart
+// Issue #11.2 — .checkout-escape-strip on /checkout/* steps
+// Issue #11.3 — .checkout-complete-actions on /checkout/complete
+// =============================================================================
+
+// Colour tokens (mirrors src/scss/base/_variables.scss)
+$escape-bg:          #fffbf0;
+$escape-border:      #fde68a;
+$escape-text:        #92400e;
+$escape-link:        #0077C0;   // $olympics-blue
+$escape-link-hover:  #D62976;   // $olympics-magenta
+$cp-sm-breakpoint:   576px;
+
+// ── #11.1  Cart "← Add More Items" button ────────────────────────────────────
+//
+// Commerce renders cart form actions in a flex row. The return-to-menu button
+// sits at weight -10 (leftmost). The "Proceed to Checkout" button is weight 0.
+// Visual hierarchy: ghost/outline left, solid primary right.
+
+.return-to-menu-button {
+  // Ensure specificity wins over Commerce defaults on .btn.
+  &.btn.btn-outline-secondary {
+    border-color: #6b7280;
+    color: #374151;
+    background: transparent;
+
+    &:hover,
+    &:focus-visible {
+      background: #f9fafb;
+      border-color: #374151;
+      color: #1a1a1a;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $escape-link;
+      outline-offset: 2px;
+    }
+  }
+
+  // On mobile: full-width, stacked below checkout button via order flip.
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    width: 100%;
+    justify-content: center;
+    order: 2;       // renders after the checkout button on mobile
+    margin-top: 0.5rem;
+  }
+}
+
+// Ensure the checkout button stays first on mobile.
+.views-form .form-actions .btn-primary,
+.views-form .form-actions [data-drupal-selector="edit-checkout"] {
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    width: 100%;
+    justify-content: center;
+    order: 1;
+  }
+}
+
+// ── #11.2  Checkout breadcrumb escape strip ───────────────────────────────────
+//
+// Rendered via hook_form_alter() #prefix on the checkout form.
+// Sits between the site header and the .checkout-progress bar.
+
+.checkout-escape-strip {
+  background: $escape-bg;
+  border: 1px solid $escape-border;
+  border-radius: 6px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.75rem;
+  color: $escape-text;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  // No negative margins — sits naturally as the first flex child in
+  // .layout-region-checkout-main. Gap spacing handled by its parent.
+  margin: 0;
+
+  .escape-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: nowrap;
+  }
+
+  .escape-separator {
+    color: #d1b469;
+    font-size: 0.65rem;
+    user-select: none;
+  }
+
+  a {
+    color: $escape-link;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+
+    &:hover { color: $escape-link-hover; }
+
+    &:focus-visible {
+      outline: 2px solid $escape-link;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  .escape-current {
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+  }
+
+  // Mobile: collapse label text, keep only "← Menu" link.
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    // Hide "› Cart › Checkout" on very small screens — only show ← Menu.
+    .escape-separator,
+    .escape-cart-link,
+    .escape-separator--cart,
+    .escape-current {
+      display: none;
+    }
+
+    .escape-menu-link::before {
+      content: '← ';
+    }
+  }
+}
+
+// ── #11.3  Completion page CTAs ───────────────────────────────────────────────
+
+.checkout-complete-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+  padding-bottom: 1rem;
+
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+// ── Add Items modal (full-screen dialog overlay) ──────────────────────────────
+//
+// jQuery UI dialog opened via Drupal's AJAX dialog system.
+// .add-items-dialog is set as the dialogClass in the OpenDialogCommand options.
+
+.add-items-dialog {
+  // Full-viewport coverage on mobile.
+  @media (max-width: #{$cp-sm-breakpoint - 1px}) {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ui-dialog-titlebar {
+    background: var(--duccini-dark);
+    color: var(--duccini-gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    border: none;
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+  }
+
+  .ui-dialog-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--duccini-gold);
+  }
+
+  .ui-dialog-titlebar-close {
+    color: var(--duccini-gold);
+    background: transparent;
+    border: 1px solid var(--duccini-gold);
+    border-radius: 3px;
+    opacity: 0.85;
+
+    &:hover { opacity: 1; }
+  }
+
+  .ui-dialog-content {
+    padding: 1rem;
+    overflow-y: auto;
+    background: var(--duccini-bg);
+  }
+}
+
+// ── "Done Adding Items" sticky bar inside the modal ───────────────────────────
+
+.add-items-modal__done-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(#fafafa, 0.95);
+  backdrop-filter: blur(4px);
+  padding: 0.6rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--duccini-border);
+  text-align: right;
+}
+
+.add-items-modal__done-btn {
+  font-weight: 700;
+  font-size: 0.85rem;
+}

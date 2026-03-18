@@ -27,6 +27,123 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ },
 
+/***/ "./components/duccinis-hero/duccinis-hero.scss"
+/*!*****************************************************!*\
+  !*** ./components/duccinis-hero/duccinis-hero.scss ***!
+  \*****************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-location-card/duccinis-location-card.scss"
+/*!***********************************************************************!*\
+  !*** ./components/duccinis-location-card/duccinis-location-card.scss ***!
+  \***********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-locations-section/duccinis-locations-section.scss"
+/*!*******************************************************************************!*\
+  !*** ./components/duccinis-locations-section/duccinis-locations-section.scss ***!
+  \*******************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-menu-preview/duccinis-menu-preview.scss"
+/*!*********************************************************************!*\
+  !*** ./components/duccinis-menu-preview/duccinis-menu-preview.scss ***!
+  \*********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-order-band/duccinis-order-band.scss"
+/*!*****************************************************************!*\
+  !*** ./components/duccinis-order-band/duccinis-order-band.scss ***!
+  \*****************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-reviews-section/duccinis-reviews-section.scss"
+/*!***************************************************************************!*\
+  !*** ./components/duccinis-reviews-section/duccinis-reviews-section.scss ***!
+  \***************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-story-section/duccinis-story-section.scss"
+/*!***********************************************************************!*\
+  !*** ./components/duccinis-story-section/duccinis-story-section.scss ***!
+  \***********************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-stripe-separator/duccinis-stripe-separator.scss"
+/*!*****************************************************************************!*\
+  !*** ./components/duccinis-stripe-separator/duccinis-stripe-separator.scss ***!
+  \*****************************************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
+/***/ "./components/duccinis-ticker/duccinis-ticker.scss"
+/*!*********************************************************!*\
+  !*** ./components/duccinis-ticker/duccinis-ticker.scss ***!
+  \*********************************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ },
+
 /***/ "./components/saved-card/saved-card.scss"
 /*!***********************************************!*\
   !*** ./components/saved-card/saved-card.scss ***!
@@ -8458,9 +8575,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		var installedChunks = {
 /******/ 			"/build/js/main.script": 0,
 /******/ 			"build/css/main.style": 0,
-/******/ 			"components/saved-card/saved-card": 0,
+/******/ 			"components/duccinis-location-card/duccinis-location-card": 0,
+/******/ 			"components/duccinis-hero/duccinis-hero": 0,
 /******/ 			"components/checkout-progress/checkout-progress": 0,
-/******/ 			"components/archive-controls/archive-controls": 0
+/******/ 			"components/archive-controls/archive-controls": 0,
+/******/ 			"components/saved-card/saved-card": 0,
+/******/ 			"components/duccinis-ticker/duccinis-ticker": 0,
+/******/ 			"components/duccinis-stripe-separator/duccinis-stripe-separator": 0,
+/******/ 			"components/duccinis-story-section/duccinis-story-section": 0,
+/******/ 			"components/duccinis-reviews-section/duccinis-reviews-section": 0,
+/******/ 			"components/duccinis-order-band/duccinis-order-band": 0,
+/******/ 			"components/duccinis-menu-preview/duccinis-menu-preview": 0,
+/******/ 			"components/duccinis-locations-section/duccinis-locations-section": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -8510,11 +8636,20 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/saved-card/saved-card","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls"], () => (__webpack_require__("./src/js/main.script.js")))
-/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/saved-card/saved-card","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls"], () => (__webpack_require__("./src/scss/main.style.scss")))
-/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/saved-card/saved-card","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls"], () => (__webpack_require__("./components/archive-controls/archive-controls.scss")))
-/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/saved-card/saved-card","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls"], () => (__webpack_require__("./components/checkout-progress/checkout-progress.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["build/css/main.style","components/saved-card/saved-card","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls"], () => (__webpack_require__("./components/saved-card/saved-card.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./src/js/main.script.js")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./src/scss/main.style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/archive-controls/archive-controls.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/checkout-progress/checkout-progress.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-hero/duccinis-hero.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-location-card/duccinis-location-card.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-locations-section/duccinis-locations-section.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-menu-preview/duccinis-menu-preview.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-order-band/duccinis-order-band.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-reviews-section/duccinis-reviews-section.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-story-section/duccinis-story-section.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-stripe-separator/duccinis-stripe-separator.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/duccinis-ticker/duccinis-ticker.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["build/css/main.style","components/duccinis-location-card/duccinis-location-card","components/duccinis-hero/duccinis-hero","components/checkout-progress/checkout-progress","components/archive-controls/archive-controls","components/saved-card/saved-card","components/duccinis-ticker/duccinis-ticker","components/duccinis-stripe-separator/duccinis-stripe-separator","components/duccinis-story-section/duccinis-story-section","components/duccinis-reviews-section/duccinis-reviews-section","components/duccinis-order-band/duccinis-order-band","components/duccinis-menu-preview/duccinis-menu-preview","components/duccinis-locations-section/duccinis-locations-section"], () => (__webpack_require__("./components/saved-card/saved-card.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
