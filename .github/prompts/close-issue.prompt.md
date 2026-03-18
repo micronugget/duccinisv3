@@ -78,17 +78,29 @@ Parse from the output:
 
 ## Step 2 — Create a Feature Branch
 
-> **⚠️ Branching rule for issues #94–141:** All migration epic branches **must base off `migration_branch`**, not `master`. PRs and merges target `migration_branch`; `migration_branch` → `master` only when the full epic is done.
+> **⚠️ Branching rule — base branch depends on issue number:**
+>
+> | Issue range | Base branch | PR target |
+> |-------------|-------------|-----------|
+> | **#94 – #141** (migration epic) | `migration_branch` | `migration_branch` (local only — no GitHub remote) |
+> | **All others** | `master` | `master` |
+>
+> `migration_branch` **does not exist on GitHub**. Do not use `--base migration_branch` with `gh pr create` for non-migration issues — it will fail with "Branch not found".
 
 Before writing any code, create and check out a branch named `issue/$ISSUE-<slug>` where `<slug>` is a short kebab-case summary of the issue title:
 
 ```bash
+# Issues #94–141 (migration epic):
 git checkout migration_branch && git checkout -b issue/$ISSUE-<slug>
+
+# All other issues:
+git checkout master && git pull origin master && git checkout -b issue/$ISSUE-<slug>
 ```
 
-Example: `git checkout migration_branch && git checkout -b issue/94-scrub-api-keys`
+Example (migration): `git checkout migration_branch && git checkout -b issue/94-scrub-api-keys`  
+Example (other): `git checkout master && git pull origin master && git checkout -b issue/218-clarify-branching`
 
-This keeps `master` clean. For issues #94–141 the PR base is `migration_branch`, not `master`.
+For issues **#94–141** the PR base is `migration_branch`. For **all other issues** the PR base is `master`.
 
 ---
 
@@ -230,9 +242,11 @@ git push origin issue/$ISSUE-<slug>
 ```
 
 ```bash
-# Open a PR targeting migration_branch (issues #94–141) or master (pre-#94)
+# Open a PR — use the correct base for the issue number:
+# Issues #94–141: migration_branch is local-only; skip gh pr create, merge locally.
+# All other issues: target master on GitHub.
 gh pr create --repo micronugget/duccinisv3 \
-  --base migration_branch \
+  --base master \
   --head issue/$ISSUE-<slug> \
   --title "fix: close issue #$ISSUE — <short description>" \
   --body "Closes #$ISSUE"
