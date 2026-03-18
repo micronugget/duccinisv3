@@ -137,7 +137,7 @@ class CheckoutNavigationTest extends CommerceBrowserTestBase {
   // ── #11.2 — Checkout breadcrumb escape strip ────────────────────────────
 
   /**
-   * The order_information step must render the escape strip with /menu and /cart.
+   * The order_information step renders the escape strip with /menu and /cart.
    *
    * Plain links — both "+ Add Items" (/menu) and "← Edit Cart" (/cart) navigate
    * away without destroying the draft order.
@@ -164,7 +164,7 @@ class CheckoutNavigationTest extends CommerceBrowserTestBase {
   }
 
   /**
-   * The review step must also render the escape strip with /menu and /cart links.
+   * The review step must also render the escape strip with /menu and /cart.
    */
   public function testEscapeStripOnReviewStep(): void {
     $order = $this->createOrder();
@@ -230,7 +230,7 @@ class CheckoutNavigationTest extends CommerceBrowserTestBase {
    * The checkout completion template must render post-order navigation CTAs.
    *
    * Tests the Twig template override:
-   *   templates/misc/commerce-checkout-completion-message.html.twig
+   *   templates/misc/commerce-checkout-completion-message.html.twig.
    *
    * Because running a full checkout up to completion requires payment gateway
    * configuration beyond unit scope, this test verifies the template output
@@ -282,7 +282,6 @@ class CheckoutNavigationTest extends CommerceBrowserTestBase {
     $this->drupalGet('/menu');
     // Menu may or may not exist (no content in tests) — we only care about
     // whether the cart/order is still intact when the user returns.
-
     // Return to cart — the order must still be accessible.
     $this->drupalGet('/cart');
     $this->assertSession()->statusCodeEquals(200);

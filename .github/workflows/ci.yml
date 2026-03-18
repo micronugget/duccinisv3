@@ -10,6 +10,8 @@ jobs:
   phpcs:
     name: PHP CodeSniffer
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -31,6 +33,8 @@ jobs:
   phpunit:
     name: PHPUnit (Kernel tests)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     services:
       mariadb:

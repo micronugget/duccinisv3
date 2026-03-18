@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\store_resolver\Functional;
 
-use Drupal\commerce_store\Entity\Store;
-use Drupal\store_resolver\StoreResolver;
 use Drupal\Tests\commerce\Functional\CommerceBrowserTestBase;
 
 /**
@@ -151,7 +149,7 @@ class StoreSelectionFormSubmitTest extends CommerceBrowserTestBase {
    * the cookie-identified store must carry the "checked" attribute.
    *
    * Sequence:
-   *   1. Submit form selecting $secondStore → redirect → cookie is now secondStore.
+   *   1. Submit $secondStore → redirect → cookie is now secondStore.
    *   2. Re-visit /store/select.
    *   3. The radio for $secondStore must be checked; $store's radio must not.
    */

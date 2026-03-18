@@ -72,7 +72,7 @@ class StoreSelectionGateTest extends CommerceKernelTestBase {
     // HTTP bootstrap.
     $reflection = new \ReflectionObject($request);
     $pathInfoProp = $reflection->getProperty('pathInfo');
-    $pathInfoProp->setAccessible(true);
+    $pathInfoProp->setAccessible(TRUE);
     $pathInfoProp->setValue($request, $path);
 
     if ($cookie_value !== NULL) {

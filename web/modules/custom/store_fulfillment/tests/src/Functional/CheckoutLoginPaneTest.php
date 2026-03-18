@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\store_fulfillment\Functional;
 
+use Drupal\commerce_order\Entity\OrderItem;
+use Drupal\commerce_order\Entity\OrderInterface;
 use Drupal\commerce_order\Entity\Order;
 use Drupal\commerce_price\Price;
 use Drupal\commerce_product\Entity\Product;
@@ -271,8 +273,8 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
   /**
    * Returning customer tina_pizza logs in and advances past the login step.
    *
-   * Tina already has an account (created in setUp). She enters her correct
-   * username and password on the login pane and should land on Order information.
+   * Tina already has an account (created in setUp). The test submits
+   * correct credentials and expects landing on Order information.
    */
   public function testReturningCustomerLoginSucceeds(): void {
     $this->drupalLogout();
@@ -321,9 +323,9 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
   /**
    * New customer marco_new registers a fresh account during checkout.
    *
-   * marco_new has no existing account. He fills in the "New Customer" section
-   * and clicks "Create new account and continue". He should be logged in and
-   * land on Order information.
+   * Marco_new has no existing account. The test fills in the "New Customer"
+   * section, clicks "Create new account and continue", and should land on
+   * Order information.
    */
   public function testNewCustomerRegistrationDuringCheckoutSucceeds(): void {
     $this->drupalLogout();
@@ -354,8 +356,8 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
   /**
    * A duplicate email shows a clear validation error.
    *
-   * tina_pizza already has an account with her email. Attempting to register
-   * a new account with the same email must fail with a descriptive message.
+   * Tina_pizza already has an account. Attempting to register a new
+   * account with the same email must fail with a descriptive message.
    */
   public function testNewCustomerDuplicateEmailShowsError(): void {
     // Use tina's known email (Drupal derives it from the user object).
@@ -421,8 +423,8 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
   /**
    * A username that doesn't exist shows an error (not a PHP exception).
    *
-   * If a typo causes a lookup of a non-existent user, the error message must
-   * be the same "Unrecognized username or password" to prevent user enumeration.
+   * If a typo causes a lookup of a non-existent user, the error must be
+   * "Unrecognized username or password" to prevent user enumeration.
    */
   public function testReturningCustomerNonExistentUsernameShowsError(): void {
     $this->drupalLogout();
@@ -493,7 +495,7 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
       );
     }
 
-    // The completion_register pane must render its username and password inputs.
+    // The completion_register pane must render username and password inputs.
     $this->assertSession()->elementExists(
       'css',
       'input[name="completion_register[name]"]',
@@ -514,11 +516,12 @@ class CheckoutLoginPaneTest extends CommerceBrowserTestBase {
    *   The owning user ID.
    *
    * @return \Drupal\commerce_order\Entity\OrderInterface
+   *   The created draft order.
    */
-  protected function createDraftOrder(int $uid): \Drupal\commerce_order\Entity\OrderInterface {
+  protected function createDraftOrder(int $uid): OrderInterface {
     $variation = $this->product->getDefaultVariation();
 
-    $order_item = \Drupal\commerce_order\Entity\OrderItem::create([
+    $order_item = OrderItem::create([
       'type' => 'default',
       'purchased_entity' => $variation,
       'quantity' => 1,
