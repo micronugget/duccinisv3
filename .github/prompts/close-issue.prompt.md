@@ -181,6 +181,15 @@ All tests must pass. If any fail, fix them before proceeding.
 ### 6d. Config Export (if config changed)
 
 If any UI configuration was changed, or any `.yml` files in `config/sync/` were modified:
+
+**First, check for pre-existing DB/sync divergence** that is unrelated to this issue — these files must NOT be staged:
+```bash
+echo "=== Config Status (pre-export check) ===" && \
+ddev drush config:status 2>&1 | grep -v 'Only in sync dir' | grep -v 'No differences' | head -20
+```
+
+If the output shows rows with `Only in DB` or `Different` that are **not related to this issue**, those are pre-existing divergences. Export anyway (to get the issue-relevant config out), but **do not stage those unrelated files** in Step 7.
+
 ```bash
 echo "=== Config Export ===" && ddev drush cex -y 2>&1 | tail -10
 ```
@@ -189,10 +198,23 @@ echo "=== Config Export ===" && ddev drush cex -y 2>&1 | tail -10
 
 ## Step 7 — Commit
 
+**Stage only files relevant to this issue** — do NOT use `git add -A` blindly.
+Unrelated config files exported by `ddev drush cex` (e.g. pre-existing DB/sync UUID divergences from other modules) must be excluded.
+
 ```bash
-git add -A && \
+# Stage only the files this issue actually touches:
+# - Theme/module source files changed by the implementation
+# - config/sync/ files that are direct outputs of this issue's changes
+# Do NOT stage config/sync files that differ only in UUID from migration_branch
+git add <specific files and directories> && \
 git commit -m "fix: close issue #$ISSUE — <short description>"
 ```
+
+If uncertain which config files are issue-relevant vs pre-existing noise, run:
+```bash
+git diff --name-only origin/migration_branch -- config/sync/ | head -20
+```
+Any file that differs from `migration_branch` but was NOT touched by this issue should be excluded from the commit (reset with `git restore --staged <file>`).
 
 Use a conventional commit message. Reference the issue number.
 
