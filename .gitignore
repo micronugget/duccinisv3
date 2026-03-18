@@ -70,3 +70,6 @@ logs/
 
 # VS Code workspace files
 *.code-workspace
+
+# Static HTML output snapshots
+output/
