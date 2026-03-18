@@ -33,6 +33,8 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | GitHub CLI (issue tracking) | `gh issue create --repo … --title … --body …` — creates a tracking issue; no code affected |
 | GitHub CLI (auth) | `gh auth login --hostname github.com --web` — re-authenticate when PAT scope errors occur |
 | GitHub CLI (API read) | `gh api repos/…/secret-scanning/alerts …`, `gh api repos/…/secret-scanning/alerts/$N/locations …` — read-only security state queries |
+| GitHub CLI (PR) | `gh pr create --repo … --base migration_branch --head issue/<branch> …` — opens PR targeting `migration_branch` or `master` for issue branches only |
+| GitHub CLI (issue close) | `gh issue close $N --repo … --comment "…"` — closes the issue being worked on after commit+push |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
 
 **Always ask before running:**
@@ -41,8 +43,6 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 - `git-filter-repo …` — **Security remediation**: irreversibly rewrites local git history; confirm before running
 - `gh api --method PATCH repos/…/secret-scanning/alerts/$N` — **Security remediation**: resolves/dismisses a public secret scanning alert; confirm before running
 - `ddev drush cim -y` — could overwrite local config (**exception:** auto-approvable when `ddev drush config:status` shows zero "Only in DB" and zero "Different" rows — only "Only in sync dir" additive entries; see Brave Mode table)
-- `gh issue close` — publicly closes the issue
-- `gh pr create` — opens a public pull request
 - Any `DROP TABLE`, `DELETE FROM`, or destructive DB operations
 - Any command that modifies `web/sites/default/settings.php`
 
