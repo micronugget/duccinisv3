@@ -349,9 +349,11 @@
   Review and delete merged/abandoned branches.
   _Done when: `git branch -r | wc -l` is below 10 on both repos._
 
-- [ ] **#9.5 — Consolidate V3 onto a single `main` branch aligned with V4 `master`**
+- [x] **#9.5 — Consolidate V3 onto a single `main` branch aligned with V4 `master`** ✅ closed #137
   After all Epic changes are applied, merge V3's work into a clean `main` branch.
   Tag the release (e.g. `v3.0.0-pre-migration` before changes; `v4.0.0` after).
+  Tagged `v3.0.0-pre-migration` on `43919645` (master HEAD before epic landing).
+  Tagged `v4.0.0` on merge commit after `migration_branch` → `master` merge.
   _Done when: `git log --oneline -5` on `main` shows the migration completion commit._
 
 ---
@@ -362,9 +364,10 @@
 
 ### Issues
 
-- [ ] **#10.1 — Export V3 store entity data**
+- [x] **#10.1 — Export V3 store entity data** ✅ closed #138
   Export the three store entities (Adams Morgan DC, Arlington VA, 7th Street NW) with their `delivery_radius`, `store_location` (lat/lon), and store hours fields.
   Options: `ddev drush dce` (default content), or manual `drush sql-query` export.
+  Export written to `scripts/data/v3-stores-export.json`; import script at `scripts/import-stores.php`.
   _Done when: Store data is in a format importable to V4._
 
 - [ ] **#10.2 — Verify V4 store field config matches V3**

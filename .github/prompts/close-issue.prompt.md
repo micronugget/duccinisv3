@@ -36,6 +36,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | GitHub CLI (PR) | `gh pr create --repo … --base migration_branch --head issue/<branch> …` — opens PR targeting `migration_branch` or `master` for issue branches only |
 | GitHub CLI (issue close) | `gh issue close $N --repo … --comment "…"` — closes the issue being worked on after commit+push |
 | Drupal PHP eval | `ddev drush php:eval "…"` (read-only operations: UUID generation, entity queries, service calls with no side effects) |
+| PHPStan baseline | `ddev exec vendor/bin/phpstan analyze … --generate-baseline=phpstan-baseline.php` — writes a local baseline file; analysis only, no side effects |
 
 **Always ask before running:**
 - `git push origin master` or `git push origin main` — pushes to the default branch, visible to all collaborators

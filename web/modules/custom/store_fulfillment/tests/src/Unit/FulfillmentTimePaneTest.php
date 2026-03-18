@@ -200,10 +200,12 @@ class FulfillmentTimePaneTest extends UnitTestCase {
   }
 
   /**
-   * @covers ::resolveCustomerAddress
+   * Returns NULL when no address source is available.
    *
    * When delivery_address_profile is absent the method should skip that branch
    * and return NULL when no other address source is available.
+   *
+   * @covers ::resolveCustomerAddress
    */
   public function testResolveCustomerAddressReturnsNullWhenNoSourceAvailable(): void {
     $order = $this->createMock(OrderInterface::class);
