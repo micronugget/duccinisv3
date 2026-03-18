@@ -1,0 +1,17 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Stripe Separator
+status: experimental
+description: Full-width 5-colour Olympic stripe separator bar.
+props:
+  type: object
+  properties:
+    height:
+      type: string
+      title: Height
+      description: CSS height value (default 5px).
+      default: '5px'
+
+third_party_settings:
+  canvas:
+    label: 'Stripe Separator — Duccinis'
+    category: Duccinis

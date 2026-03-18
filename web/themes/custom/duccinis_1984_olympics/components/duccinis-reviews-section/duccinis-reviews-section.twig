@@ -1,0 +1,61 @@
+{#
+/**
+ * @file
+ * Duccinis reviews-section — 3-col customer reviews grid.
+ *
+ * Props:
+ *   section_label, headline_l1, headline_l2 (string)
+ *   reviews (array<{text, author, source, stars}>)
+ */
+#}
+{% set default_reviews = [
+  {
+    text: "This place is a no-bs pillar of the community. The pizza is always on point. Friendliest staff on U Street — somehow always quick with a smile no matter how busy it gets.",
+    author: 'Haytham Hashem',
+    source: 'Google Review · Adams Morgan',
+    stars: 5,
+  },
+  {
+    text: "One of the few non-chain pizza places that actually puts black olives on pizzas in DC! Great sauce, well-balanced crust — the right mix of sweet, chewy, and crunchy.",
+    author: 'Joey Minervini',
+    source: 'Google Review · Adams Morgan',
+    stars: 5,
+  },
+  {
+    text: "My number one pizza place! Open till 5am — I drive all the way from Fairfax just for the jumbo slice. Never waiting more than 3 minutes. Always a must-stop.",
+    author: 'Cynthia Garman',
+    source: 'Google Review · Multiple Locations',
+    stars: 5,
+  },
+] %}
+{% set review_items = reviews is defined and reviews is not empty ? reviews : default_reviews %}
+<section class="duccinis-reviews-section" id="reviews"
+  aria-labelledby="reviews-section-title">
+  <div class="duccinis-reviews-section__container">
+    {% if section_label %}
+      <div class="duccinis-reviews-section__label">{{ section_label }}</div>
+    {% endif %}
+    <h2 class="duccinis-reviews-section__title" id="reviews-section-title">
+      {% if headline_l1 %}{{ headline_l1 }}<br>{% endif %}
+      {% if headline_l2 %}{{ headline_l2 }}{% endif %}
+    </h2>
+    <div class="duccinis-reviews-section__grid">
+      {% for review in review_items %}
+        <article class="duccinis-reviews-section__card">
+          <div class="duccinis-reviews-section__quote" aria-hidden="true">"</div>
+          <div class="duccinis-reviews-section__stars"
+            aria-label="{{ review.stars|default(5) }} stars">
+            {% for i in 1..review.stars|default(5) %}
+              <span aria-hidden="true">★</span>
+            {% endfor %}
+          </div>
+          <p class="duccinis-reviews-section__text">{{ review.text }}</p>
+          <div class="duccinis-reviews-section__author">{{ review.author }}</div>
+          {% if review.source %}
+            <div class="duccinis-reviews-section__source">{{ review.source }}</div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

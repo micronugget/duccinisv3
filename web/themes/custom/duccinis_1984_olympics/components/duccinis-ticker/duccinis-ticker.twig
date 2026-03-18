@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Duccinis ticker — infinitely scrolling promotional marquee.
+ *
+ * Props:
+ *   items (array<string>) — list of short text strings
+ */
+#}
+{% set default_items = [
+  'Fresh Made Daily',
+  'NY-Style Jumbo Slice',
+  'Open Late Every Night',
+  '3 DMV Locations',
+  'Since 1988',
+  "DC's Original",
+  'Pickup & Delivery',
+  'Gyros · Wings · Stromboli',
+] %}
+{% set ticker_items = items is defined and items is not empty ? items : default_items %}
+<div class="duccinis-ticker" aria-hidden="true" role="presentation">
+  <div class="duccinis-ticker__track">
+    {# Render twice for seamless CSS loop #}
+    {% for pass in 1..2 %}
+      {% for item in ticker_items %}
+        <div class="duccinis-ticker__item">
+          <div class="duccinis-ticker__dot" aria-hidden="true"></div>
+          {{ item }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>

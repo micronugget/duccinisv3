@@ -1,0 +1,105 @@
+.duccinis-menu-preview {
+  --duccini-bg: #0b0a08;
+  --duccini-border: #272420;
+  background: var(--duccini-bg);
+  padding: 6rem 2rem;
+}
+.duccinis-menu-preview__container {
+  width: var(--duccini-container);
+  margin: 0 auto;
+}
+.duccinis-menu-preview__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.duccinis-menu-preview__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--duccini-yellow);
+  margin-bottom: 1rem;
+}
+.duccinis-menu-preview__label::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--duccini-yellow);
+  flex-shrink: 0;
+}
+.duccinis-menu-preview__title {
+  font-family: var(--duccini-f-display);
+  font-size: clamp(3.2rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+}
+.duccinis-menu-preview__cta {
+  display: inline-block;
+  font-family: var(--duccini-f-head);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1.05rem 2.8rem;
+  background: transparent;
+  color: var(--duccini-text);
+  text-decoration: none;
+  border: 1.5px solid var(--duccini-border-hi);
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  align-self: flex-end;
+  transition: border-color 0.2s, color 0.2s;
+}
+.duccinis-menu-preview__cta:hover {
+  border-color: var(--duccini-yellow);
+  color: var(--duccini-yellow);
+}
+.duccinis-menu-preview__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5px;
+  background: var(--duccini-border);
+}
+@media (max-width: 900px) {
+  .duccinis-menu-preview__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .duccinis-menu-preview__grid {
+    grid-template-columns: 1fr;
+  }
+}
+.duccinis-menu-preview__item {
+  background: var(--duccini-card);
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: background 0.25s;
+}
+.duccinis-menu-preview__item:hover {
+  background: #221f1b;
+}
+.duccinis-menu-preview__icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.duccinis-menu-preview__name {
+  font-family: var(--duccini-f-head);
+  font-size: 1.05rem;
+  color: var(--duccini-text);
+}
+.duccinis-menu-preview__desc {
+  font-size: 0.88rem;
+  color: var(--duccini-muted);
+  line-height: 1.6;
+}
+
+/*# sourceMappingURL=duccinis-menu-preview.css.map*/

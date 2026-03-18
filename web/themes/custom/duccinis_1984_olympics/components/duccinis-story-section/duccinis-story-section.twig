@@ -1,0 +1,53 @@
+{#
+/**
+ * @file
+ * Duccinis story-section — 2-col story + stats grid.
+ *
+ * Props:
+ *   section_label, headline_l1, headline_l2 (string)
+ *   paragraphs (array<string>)
+ *   stats (array<{number, label}>)
+ */
+#}
+{% set default_paragraphs = [
+  "Duccini's is credited with developing Washington DC's very first New York-style jumbo slice pizza. Since 1988, we've intentionally kept our footprint small to stay laser-focused on what matters most: flavor, quality, and community.",
+  "Everything is made from scratch every single day, using only the freshest ingredients. Friendly faces, no waiting, and a slice big enough to fold in half — that's the Duccini's promise. DC's best slice, every time.",
+] %}
+{% set default_stats = [
+  {number: '37+', label: 'Years in Business'},
+  {number: '3',   label: 'DMV Locations'},
+  {number: '#1',  label: 'Original Jumbo Slice'},
+  {number: '5★',  label: 'Google Reviews'},
+] %}
+{% set story_paragraphs = paragraphs is defined and paragraphs is not empty ? paragraphs : default_paragraphs %}
+{% set story_stats = stats is defined and stats is not empty ? stats : default_stats %}
+<section class="duccinis-story-section" id="story"
+  aria-labelledby="story-section-title">
+  <div class="duccinis-story-section__container">
+    <div class="duccinis-story-section__grid">
+
+      <div class="duccinis-story-section__text">
+        {% if section_label %}
+          <div class="duccinis-story-section__label">{{ section_label }}</div>
+        {% endif %}
+        <h2 class="duccinis-story-section__title" id="story-section-title">
+          {% if headline_l1 %}{{ headline_l1 }}<br>{% endif %}
+          {% if headline_l2 %}{{ headline_l2 }}{% endif %}
+        </h2>
+        {% for para in story_paragraphs %}
+          <p class="duccinis-story-section__para">{{ para }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="duccinis-story-section__stats" aria-label="Key facts">
+        {% for stat in story_stats %}
+          <div class="duccinis-story-section__stat">
+            <span class="duccinis-story-section__stat-num">{{ stat.number }}</span>
+            <span class="duccinis-story-section__stat-label">{{ stat.label }}</span>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>

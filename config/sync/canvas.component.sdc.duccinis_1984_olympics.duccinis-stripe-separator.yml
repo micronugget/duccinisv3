@@ -1,0 +1,26 @@
+uuid: d162f079-4828-4fb2-829b-3bcd40b0d52a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - duccinis_1984_olympics
+active_version: db454c33ef6529fc
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        height:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Duccinis Stripe Separator'
+id: sdc.duccinis_1984_olympics.duccinis-stripe-separator
+provider: duccinis_1984_olympics
+source: sdc
+source_local_id: 'duccinis_1984_olympics:duccinis-stripe-separator'

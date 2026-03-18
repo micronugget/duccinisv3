@@ -1,0 +1,92 @@
+uuid: 9e1f2a3b-4c5d-6e7f-8a9b-0c1d2e3f4a5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.stromboli
+  module:
+    - commerce_feeds
+    - commerce_product
+label: 'Stromboli variations'
+id: stromboli_variations
+description: ''
+help: ''
+import_period: -1
+import_period_per_feed: false
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 200
+processor: 'entity:commerce_product_variation'
+processor_configuration:
+  values:
+    type: stromboli
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: true
+  skip_validation: true
+  skip_validation_types: {  }
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 1
+custom_sources:
+  sku:
+    value: sku
+    label: sku
+    machine_name: sku
+    type: csv
+  product_id:
+    value: product_id
+    label: product_id
+    machine_name: product_id
+    type: csv
+  price__number:
+    value: price__number
+    label: price__number
+    machine_name: price__number
+    type: csv
+  stores:
+    value: stores
+    label: stores
+    machine_name: stores
+    type: csv
+mappings:
+  -
+    target: sku
+    map:
+      value: sku
+    settings: {  }
+    unique:
+      value: 1
+  -
+    target: title
+    map:
+      value: product_id
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: price
+    map:
+      number: price__number
+    settings:
+      currency_code: USD
+  -
+    target: product_id
+    map:
+      target_id: product_id
+    settings:
+      reference_by: title
+      autocreate: 0

@@ -1,0 +1,23 @@
+uuid: 6a4d2b83-8f80-4f8b-8d5b-4d5b645c9e11
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.beverage
+    - field.storage.commerce_product_variation.feeds_item
+  module:
+    - feeds
+id: commerce_product_variation.beverage.feeds_item
+field_name: feeds_item
+entity_type: commerce_product_variation
+bundle: beverage
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item
