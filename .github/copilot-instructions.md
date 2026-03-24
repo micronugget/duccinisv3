@@ -40,33 +40,46 @@ V4 is a **new DrupalCMS 2 site** — it was not upgraded from V3, it was built f
 - The `duccinis_1984_olympics` theme (Radix 6 / Bootstrap 5 / webpack.mix.js) that V4 shares.
 - Historical config exports, migration runbooks, and issue documentation useful for tracing why specific decisions were made.
 
-### Branching Strategy (issues #94–141)
+### Branching Strategy
 
-> **⚠️ Non-negotiable branching rule for all migration issues.**
+> **⚠️ Read this before creating any branch — the base branch depends on the issue number.**
+
+Two base branches exist. **Use the correct one for the issue number:**
+
+| Issue range | Epic | Branch off | PR target | Notes |
+|-------------|------|------------|-----------|-------|
+| **#94 – #141** | V3→V4 migration epic | `migration_branch` | `migration_branch` | Local-only; not pushed to GitHub as a standalone remote branch |
+| **All others** (< #94 or > #141) | FP epics, standalone fixes, docs | `master` | `master` | Standard GitHub flow |
+
+> **⚠️ `migration_branch` does not exist on GitHub.** It is a local integration branch in the V4 repo only. Attempting `gh pr create --base migration_branch` against the remote will fail with "Branch not found". Use it only as the local base for issues #94–141; PRs for those issues are merged locally and pushed to `master` when the full epic is complete.
 
 `migration_branch` lives in the **V4 codebase** (`/home/lee/ams_projects/2026/week-10/v2/duccinisv4/`). All issue work for the migration epic is committed here — V3 remains read-only source-of-reference only.
 
-All feature branches for issues **#94 through #141** (the V3→V4 migration epic) **must target `migration_branch`**, not `master`.
+#### For issues #94–141 (migration epic)
 
 | Rule | Detail |
 |------|--------|
-| **Active codebase** | V4 — `/home/lee/ams_projects/2026/week-10/v2/duccinisv4/` |
-| **`migration_branch` location** | V4 repo (`git remote: micronugget/duccinisv3.git`) — **not** the V3 local directory |
-| **Base branch** | Always branch off `migration_branch`: `git checkout migration_branch && git checkout -b issue/$N-<slug>` |
-| **Merge target** | PRs and manual merges go into `migration_branch`, **never into `master` directly** |
+| **Base branch** | `migration_branch`: `git checkout migration_branch && git checkout -b issue/$N-<slug>` |
+| **Merge target** | `migration_branch` — never `master` directly |
 | **`migration_branch` → `master`** | Only after the full migration epic is complete and reviewed |
-| **Branch naming** | `issue/$N-<slug>` where `$N` is the issue number and `<slug>` is a short kebab-case title |
+| **PR** | Not opened against GitHub remote — merge locally into `migration_branch` |
 
-When the close-issue prompt creates a branch, use:
+#### For all other issues
+
+| Rule | Detail |
+|------|--------|
+| **Base branch** | `master`: `git checkout master && git pull origin master && git checkout -b issue/$N-<slug>` |
+| **PR target** | `master` on GitHub: `gh pr create --base master …` |
+
+**Branch naming (both cases):** `issue/$N-<slug>` where `$N` is the issue number and `<slug>` is a short kebab-case title.
+
+When the close-issue prompt creates a branch:
 ```bash
-# Run this inside /home/lee/ams_projects/2026/week-10/v2/duccinisv4/
+# Issues #94–141 (migration epic):
 git checkout migration_branch && git checkout -b issue/$ISSUE-<slug>
-```
 
-Push to `migration_branch`, not `master`:
-```bash
-git push origin issue/$ISSUE-<slug>
-# PR base: migration_branch
+# All other issues:
+git checkout master && git pull origin master && git checkout -b issue/$ISSUE-<slug>
 ```
 
 ---
@@ -80,7 +93,7 @@ Before writing any code for an issue:
 3. **Diff V3 vs V4** — identify what is missing, changed, or needs porting.
 4. **Work only in V4** (`/home/lee/ams_projects/2026/week-10/v2/duccinisv4/`).
 5. **Do not alter V3** under any circumstance.
-6. **Branch off `migration_branch`** (see Branching Strategy above) — never off `master`.
+6. **Branch off `migration_branch`** (see Branching Strategy above) — all migration epic work stays in `migration_branch`; never commit directly to `master`.
 
 ---
 
