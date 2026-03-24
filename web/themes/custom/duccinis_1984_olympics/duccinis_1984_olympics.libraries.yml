@@ -85,8 +85,6 @@ homepage:
     src/js/store-hours-badge.js: {}
   dependencies:
     - core/drupal
-  dependencies:
-    - core/drupal
     - core/drupalSettings
     - core/jquery
     - core/once
