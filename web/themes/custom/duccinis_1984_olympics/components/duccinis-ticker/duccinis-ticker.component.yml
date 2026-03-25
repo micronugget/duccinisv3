@@ -18,3 +18,10 @@ third_party_settings:
   canvas:
     label: 'Ticker — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-ticker.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

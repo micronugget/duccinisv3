@@ -34,3 +34,10 @@ third_party_settings:
   canvas:
     label: 'Locations Section — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-locations-section.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

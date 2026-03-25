@@ -54,3 +54,10 @@ third_party_settings:
   canvas:
     label: 'Location Card — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-location-card.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

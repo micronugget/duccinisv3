@@ -38,3 +38,10 @@ third_party_settings:
   canvas:
     label: 'Story Section — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-story-section.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

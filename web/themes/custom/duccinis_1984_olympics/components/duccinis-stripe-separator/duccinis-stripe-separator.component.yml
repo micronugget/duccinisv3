@@ -15,3 +15,10 @@ third_party_settings:
   canvas:
     label: 'Stripe Separator — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-stripe-separator.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style
