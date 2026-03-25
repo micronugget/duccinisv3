@@ -1,0 +1,154 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * SEO hooks — homepage page title, meta description, and LocalBusiness JSON-LD.
+ *
+ * Covers issue #212 (FP-5.1) and issue #213 (FP-5.2).
+ */
+
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Overrides the <title> tag on the front page with the spec value from #212.
+ */
+function duccinis_1984_olympics_preprocess_html(array &$variables): void {
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    // Set a single-element array so safe_join renders the full title as-is.
+    $variables['head_title'] = [
+      'title' => "Duccini's Pizza \u{2014} Home of the Jumbo Slice | DC & Arlington",
+    ];
+  }
+}
+
+/**
+ * Attaches front-page meta description and LocalBusiness JSON-LD to html_head.
+ *
+ * Called from duccinis_1984_olympics_page_attachments_alter() in theme.theme
+ * when \Drupal::service('path.matcher')->isFrontPage() is TRUE.
+ *
+ * Covers:
+ *   #212 — meta description
+ *   #213 — LocalBusiness JSON-LD for all three stores
+ *
+ * @param array $attachments
+ *   The $attachments array passed by reference from hook_page_attachments_alter.
+ */
+function _duccinis_1984_olympics_seo_front_page_head(array &$attachments): void {
+  // --- #212: Meta description --------------------------------------------.
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'description',
+        'content' => "Washington DC\u{2019}s original jumbo slice pizza. Three DMV locations open late. Fresh made daily since 1988. Order pickup or delivery.",
+      ],
+    ],
+    'duccinis_meta_description',
+  ];
+
+  // --- #213: LocalBusiness JSON-LD ----------------------------------------.
+  $schema = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+      // Store 1 — Adams Morgan DC.
+      [
+        '@type' => 'Restaurant',
+        'name' => "Duccini\u{2019}s Pizza \u{2014} Adams Morgan",
+        'address' => [
+          '@type' => 'PostalAddress',
+          'streetAddress' => '1778 U Street NW',
+          'addressLocality' => 'Washington',
+          'addressRegion' => 'DC',
+          'postalCode' => '20009',
+          'addressCountry' => 'US',
+        ],
+        'telephone' => '+12022342622',
+        'servesCuisine' => 'Pizza',
+        'openingHoursSpecification' => [
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Sunday'],
+            'opens' => '11:00',
+            'closes' => '04:00',
+          ],
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Friday', 'Saturday'],
+            'opens' => '11:00',
+            'closes' => '05:00',
+          ],
+        ],
+      ],
+      // Store 2 — Arlington VA (Falls Church).
+      [
+        '@type' => 'Restaurant',
+        'name' => "Duccini\u{2019}s Pizza \u{2014} Arlington VA",
+        'address' => [
+          '@type' => 'PostalAddress',
+          'streetAddress' => '3420 Carlyn Hill Dr.',
+          'addressLocality' => 'Falls Church',
+          'addressRegion' => 'VA',
+          'postalCode' => '22041',
+          'addressCountry' => 'US',
+        ],
+        'telephone' => '+17035328888',
+        'servesCuisine' => 'Pizza',
+        'openingHoursSpecification' => [
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Sunday'],
+            'opens' => '11:00',
+            'closes' => '01:00',
+          ],
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Friday', 'Saturday'],
+            'opens' => '11:00',
+            'closes' => '02:00',
+          ],
+        ],
+      ],
+      // Store 3 — 7th Street NW.
+      [
+        '@type' => 'Restaurant',
+        'name' => "Duccini\u{2019}s Pizza \u{2014} 7th Street NW",
+        'address' => [
+          '@type' => 'PostalAddress',
+          'streetAddress' => '1537 7th Street NW',
+          'addressLocality' => 'Washington',
+          'addressRegion' => 'DC',
+          'postalCode' => '20001',
+          'addressCountry' => 'US',
+        ],
+        'telephone' => '+12026280099',
+        'servesCuisine' => 'Pizza',
+        'openingHoursSpecification' => [
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Sunday'],
+            'opens' => '11:00',
+            'closes' => '01:00',
+          ],
+          [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Friday', 'Saturday'],
+            'opens' => '11:00',
+            'closes' => '02:00',
+          ],
+        ],
+      ],
+    ],
+  ];
+
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => ['type' => 'application/ld+json'],
+      '#value' => json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+    ],
+    'duccinis_localbusiness_schema',
+  ];
+}

@@ -10,10 +10,14 @@
  *
  * Attaches the homepage JS library (scroll-reveal, nav-scroll, store badge)
  * only on the front page to avoid loading unused behaviors on every page.
+ *
+ * Also delegates SEO head tags (meta description + LocalBusiness JSON-LD)
+ * to _duccinis_1984_olympics_seo_front_page_head() defined in seo.theme.
  */
 function duccinis_1984_olympics_page_attachments_alter(array &$attachments): void {
   if (\Drupal::service('path.matcher')->isFrontPage()) {
     $attachments['#attached']['library'][] = 'duccinis_1984_olympics/homepage';
+    _duccinis_1984_olympics_seo_front_page_head($attachments);
   }
 }
 
