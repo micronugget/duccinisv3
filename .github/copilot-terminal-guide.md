@@ -157,30 +157,43 @@ Create `.idea/terminal.xml` if it doesn't exist:
 
 ### 6a. Known DDEV / Drush ANSI Quirks
 
-#### `ddev drush config:status` / `ddev drush cst` — ANSI bold error
+#### `ddev drush config:status` / `ddev drush cst` — ANSI colour errors
 
-`ddev drush cst` (and `ddev drush config:status`) fails in this environment with:
+`ddev drush cst` (and `ddev drush config:status`) fails in this environment with one of two terminal colour errors depending on context:
 
 ```
+# Variant A (table formatter — "bold" attribute):
 Invalid option specified: "bold". Expected one of (bold, underscore, blink, reverse, conceal).
+
+# Variant B (Symfony Console — "yellow" colour name):
+Invalid "yellow" color; expected one of (black, red, green, yellow, blue, …).
 ```
 
-**Root cause:** The terminal's `$TERM` / colour-capability flags cause Drush's table formatter to request an unsupported "bold" attribute, causing a fatal error even before output is produced.
+Both variants cause a non-zero exit code even when config data is successfully fetched, producing false-alarm failures in quality-gate scripts.
 
-**Fix — always append `--format=json`:**
+**Root cause:** The terminal's `$TERM` / colour-capability flags cause Drush's table formatter or Symfony Console to request an attribute/colour name it doesn't recognise.
+
+**Fix — always append `--format=json` and suppress stderr with `2>/dev/null || true`:**
 
 ```bash
-# ❌ Fails with ANSI bold error:
+# ❌ Fails with either colour error:
 ddev drush cst 2>&1
 
-# ✅ Works reliably:
-ddev drush cst --format=json 2>&1
+# ✅ Works reliably — JSON output only, stderr suppressed:
+ddev drush cst --format=json 2>/dev/null || true
+```
+
+When used in quality-gate scripts where a non-zero exit must not abort `&&` chains:
+
+```bash
+# Safe pattern for pre-export check in close-issue flow:
+ddev drush config:status --format=json 2>/dev/null || true
 ```
 
 To inspect the output, pipe through Python for a readable summary:
 
 ```bash
-ddev drush cst --format=json 2>&1 | python3 -c \
+ddev drush cst --format=json 2>/dev/null | python3 -c \
   "import json,sys; d=json.load(sys.stdin);
    states={}
    [states.update({v['state']: states.get(v['state'], []) + [k]}) for k,v in d.items()]
@@ -190,7 +203,7 @@ ddev drush cst --format=json 2>&1 | python3 -c \
 To check whether `ddev drush cim -y` is safe to run (no "Only in DB" or "Different" entries):
 
 ```bash
-ddev drush cst --format=json 2>&1 | python3 -c \
+ddev drush cst --format=json 2>/dev/null | python3 -c \
   "import json,sys; d=json.load(sys.stdin)
    unsafe=[k for k,v in d.items() if v['state'] in ('Only in DB','Different')]
    print('SAFE' if not unsafe else 'UNSAFE — review: ' + ', '.join(unsafe))"
