@@ -24,6 +24,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Git (read) | `git status`, `git log`, `git diff`, `git branch`, `git show` |
 | Git (write, local) | `git add`, `git commit`, `git checkout`, `git checkout -b`, `git stash`, `git merge`, `git rebase`, `git cherry-pick`, `git push origin issue/<branch>` (non-force, issue/* branches only) |
 | File reads | `cat`, `grep`, `find`, `head`, `tail`, `wc`, `ls`, `sort`, `sed -n '…p'` |
+| Verification / smoke test | `ddev exec curl -sk https://<ddev-site>.ddev.site/` — read-only HTTP request against the local dev site to verify rendered output (title, meta tags, JSON-LD, etc.) |
 | Drupal entity ops | `ddev drush entity:delete` (cleanup only) |
 | Drupal module ops | `ddev drush en <module> -y` (reversible with `ddev drush pm:uninstall`) |
 | Drupal module ops (post-enable sync) | `ddev drush cim -y` immediately after `ddev drush en … -y` + `ddev drush cex -y` — safe when used only to apply the newly-exported module list back; not to overwrite in-progress local config |
