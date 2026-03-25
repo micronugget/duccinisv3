@@ -42,3 +42,10 @@ third_party_settings:
   canvas:
     label: 'Menu Preview — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-menu-preview.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

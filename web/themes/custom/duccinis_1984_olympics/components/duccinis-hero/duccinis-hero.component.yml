@@ -45,3 +45,10 @@ third_party_settings:
   canvas:
     label: 'Hero — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-hero.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

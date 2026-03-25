@@ -40,3 +40,10 @@ third_party_settings:
   canvas:
     label: 'Reviews Section — Duccinis'
     category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-reviews-section.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style
