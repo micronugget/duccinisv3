@@ -1,0 +1,97 @@
+{#
+/**
+ * @file
+ * Duccinis footer — brand logo, three link columns, copyright, Olympic stripe.
+ *
+ * Props:
+ *   tagline       (string) — short brand tagline beneath the logo
+ *   copyright     (string) — copyright line in the footer-bottom bar
+ *   order_links   (array)  — [{label, url}, …] for the "Order" column
+ *   location_links (array) — [{label, url}, …] for the "Locations" column
+ *   company_links  (array) — [{label, url}, …] for the "Company" column
+ *
+ * All link columns fall back to hardcoded defaults when unset.
+ */
+#}
+
+{# ── Default link sets ──────────────────────────────────────────────────── #}
+{% set default_order_links = [
+  {label: 'Full Menu', url: '/menu'},
+  {label: 'Pickup',    url: '/menu'},
+  {label: 'Delivery',  url: '/menu'},
+] %}
+
+{% set default_location_links = [
+  {label: 'Adams Morgan',  url: '#locations'},
+  {label: 'Falls Church',  url: '#locations'},
+  {label: '7th Street NW', url: '#locations'},
+] %}
+
+{% set default_company_links = [
+  {label: 'About',   url: '#story'},
+  {label: 'Reviews', url: '#reviews'},
+] %}
+
+{% set order_links    = order_links    ?: default_order_links %}
+{% set location_links = location_links ?: default_location_links %}
+{% set company_links  = company_links  ?: default_company_links %}
+
+<footer class="duccinis-footer" role="contentinfo">
+
+  <div class="duccinis-footer__inner">
+
+    {# ── Brand column ──────────────────────────────────────────────────── #}
+    <div class="duccinis-footer__brand">
+      <a href="/" class="duccinis-footer__logo">DUCCI<em>NI'S</em></a>
+      <p class="duccinis-footer__tagline">
+        {{ tagline ?: 'Home of the Jumbo Slice · Washington DC & Arlington since 1988' }}
+      </p>
+    </div>
+
+    {# ── Order column ──────────────────────────────────────────────────── #}
+    <div class="duccinis-footer__col">
+      <h4>{{ 'Order'|t }}</h4>
+      <ul role="list">
+        {% for link in order_links %}
+          <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {# ── Locations column ──────────────────────────────────────────────── #}
+    <div class="duccinis-footer__col">
+      <h4>{{ 'Locations'|t }}</h4>
+      <ul role="list">
+        {% for link in location_links %}
+          <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {# ── Company column ────────────────────────────────────────────────── #}
+    <div class="duccinis-footer__col">
+      <h4>{{ 'Company'|t }}</h4>
+      <ul role="list">
+        {% for link in company_links %}
+          <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>{# /.duccinis-footer__inner #}
+
+  {# ── Bottom bar ────────────────────────────────────────────────────────── #}
+  <div class="duccinis-footer__bottom">
+    <p class="duccinis-footer__copy">
+      {{ copyright ?: '© 2026 Duccini\'s Pizza. All rights reserved.' }}
+    </p>
+    <div class="duccinis-footer__stripes" aria-hidden="true">
+      <span class="duccinis-footer__stripe duccinis-footer__stripe--red"></span>
+      <span class="duccinis-footer__stripe duccinis-footer__stripe--blue"></span>
+      <span class="duccinis-footer__stripe duccinis-footer__stripe--yellow"></span>
+      <span class="duccinis-footer__stripe duccinis-footer__stripe--orange"></span>
+      <span class="duccinis-footer__stripe duccinis-footer__stripe--magenta"></span>
+    </div>
+  </div>
+
+</footer>

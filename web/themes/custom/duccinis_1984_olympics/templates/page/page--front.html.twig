@@ -35,14 +35,10 @@
     {{ page.content }}
   </main>
 
-  {# ── Footer region ─────────────────────────────────────────────────────── #}
-  {% if page.footer %}
-    <footer class="page__footer">
-      <div class="container">
-        {{ page.footer }}
-      </div>
-    </footer>
-  {% endif %}
+  {# ── Site footer SDC ─────────────────────────────────────────────────── #}
+  {# Replaces radix:page-footer. The duccinis-footer SDC owns its own layout   #}
+  {# and dark palette; no Bootstrap container wrapper is needed around it.    #}
+  {% include 'duccinis_1984_olympics:duccinis-footer' %}
 
   {# ── Page bottom (Drupal scripting region) ────────────────────────────── #}
   {% if page.page_bottom %}

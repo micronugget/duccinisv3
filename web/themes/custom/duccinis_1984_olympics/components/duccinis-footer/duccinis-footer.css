@@ -1,0 +1,112 @@
+.duccinis-footer {
+  --duccini-border: #272420;
+  background: var(--duccini-surface);
+  border-top: 1px solid var(--duccini-border);
+  padding: 3.5rem 2rem 2rem;
+}
+.duccinis-footer__inner {
+  width: var(--duccini-container);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  flex-wrap: wrap;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--duccini-border);
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+  .duccinis-footer__inner {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+.duccinis-footer__logo {
+  font-family: var(--duccini-f-display);
+  font-size: 2.4rem;
+  letter-spacing: 0.08em;
+  color: var(--duccini-yellow);
+  text-decoration: none;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.duccinis-footer__logo em {
+  color: var(--duccini-red);
+  font-style: normal;
+}
+.duccinis-footer__tagline {
+  font-size: 0.75rem;
+  color: var(--duccini-muted);
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  max-width: 240px;
+  margin: 0;
+}
+.duccinis-footer__col h4 {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--duccini-yellow);
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+.duccinis-footer__col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.duccinis-footer__col a {
+  font-size: 0.85rem;
+  color: var(--duccini-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.duccinis-footer__col a:hover {
+  color: var(--duccini-text);
+}
+.duccinis-footer__bottom {
+  width: var(--duccini-container);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.duccinis-footer__copy {
+  font-size: 0.75rem;
+  color: var(--duccini-faint);
+  margin: 0;
+}
+.duccinis-footer__stripes {
+  display: flex;
+  gap: 3px;
+}
+.duccinis-footer__stripe {
+  display: block;
+  width: 18px;
+  height: 4px;
+}
+.duccinis-footer__stripe--red {
+  background: var(--duccini-red);
+}
+.duccinis-footer__stripe--blue {
+  background: var(--duccini-blue);
+}
+.duccinis-footer__stripe--yellow {
+  background: var(--duccini-yellow);
+}
+.duccinis-footer__stripe--orange {
+  background: var(--duccini-orange);
+}
+.duccinis-footer__stripe--magenta {
+  background: var(--duccini-magenta);
+}
+
+/*# sourceMappingURL=duccinis-footer.css.map*/
