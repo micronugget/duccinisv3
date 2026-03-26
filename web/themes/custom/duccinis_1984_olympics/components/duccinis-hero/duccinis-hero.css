@@ -59,6 +59,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
+  font-family: var(--duccini-f-head);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.3em;
@@ -136,7 +137,7 @@
 .duccinis-hero__btn {
   display: inline-block;
   font-family: var(--duccini-f-head);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   padding: 1.1rem 2.8rem;
@@ -185,6 +186,7 @@
 .duccinis-hero__ring--yellow {
   border-color: var(--duccini-yellow);
   margin-top: 16px;
+  margin-right: -10px;
 }
 .duccinis-hero__ring--red {
   border-color: var(--duccini-red);
@@ -193,6 +195,7 @@
 .duccinis-hero__ring--dark {
   border-color: #383430;
   margin-top: 16px;
+  margin-right: -10px;
 }
 .duccinis-hero__ring--orange {
   border-color: var(--duccini-orange);
