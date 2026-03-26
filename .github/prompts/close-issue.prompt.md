@@ -16,7 +16,7 @@ Follow all rules in [copilot-instructions.md](../copilot-instructions.md) and [c
 | Category | Commands |
 |---|---|
 | DDEV environment | `ddev status`, `ddev describe`, `ddev exec …`, `ddev drush pm-list`, `ddev drush pm:list` |
-| Cache / config | `ddev drush cr`, `ddev drush cex` |
+| Cache / config | `ddev drush cr`, `ddev drush cex`, `ddev drush config:set <config_name> <key> <value> -y` (single-key targeted change; equivalent to a focused config export) |
 | Code quality | `ddev exec vendor/bin/phpcs …`, `ddev exec vendor/bin/phpstan …`, `ddev exec vendor/bin/phpcbf …` |
 | Tests | `ddev exec vendor/bin/phpunit …` (all read-only test runs) |
 | Composer | `ddev composer install`, `ddev composer require …` (no destructive flags) |
@@ -74,6 +74,39 @@ Parse from the output:
 - **Title** and **body** (acceptance criteria / description)
 - **Labels** (signals which agent/area is relevant)
 - **Linked PRs or branches** (check if work already started)
+
+---
+
+## Step 1b — Blocking Pre-flight Check
+
+> **⛔ This step is mandatory. Do not proceed to Step 2 if the issue is blocked.**
+
+Immediately after fetching the issue, check for blocking conditions:
+
+### 1. Check for `blocked` label
+If the issue JSON contains a label with `"name": "blocked"`, **halt immediately** and tell the user:
+
+> ❌ **Issue #$ISSUE is marked `blocked` — do not start this issue.**
+> Identify and close the blocking issue(s) first. Check the issue body for "Blocked by" references, or look at the parent epic for the Critical Path ordering.
+
+### 2. Check for unresolved blocking issues in the body
+If the issue body references a parent epic, fetch that epic's issue list and check whether any **Critical Path** sub-issues listed above this one are still open:
+
+```bash
+# Example: if the body says "Part of Epic #233", fetch the critical-path issues
+gh issue list --repo micronugget/duccinisv3 \
+  --state open --json number,title,labels 2>/dev/null | \
+  grep -E '"number": (234|235|236)'
+```
+
+If any issue that the current issue **depends on** is still open, **halt and report** which blocker must be resolved first. Do not create the branch or write any code.
+
+### 3. Mark the issue as blocked (when you discover a blocker)
+If you discover that the issue cannot proceed:
+```bash
+gh issue edit $ISSUE --repo micronugget/duccinisv3 --add-label "blocked" 2>/dev/null
+```
+Then stop and tell the user which blocking issue(s) must be closed first.
 
 ---
 
@@ -142,6 +175,9 @@ Before writing any code:
 4. State the acceptance criteria from the issue and how you will verify each one.
 
 ---
+
+> **⚠️ Visual QA note — UID=1 admin toolbar:**
+> When you are logged into `https://duccinisv4.ddev.site` as **User 1 (site admin)** in your browser, Drupal renders the Gin/admin toolbar at the top of every page. This adds ~39px of top offset and can visually obscure the fixed `.site-nav` bar. Smoke tests using `ddev exec curl -sk` are always anonymous (no session cookie) and are unaffected. But **manual visual QA at the browser must be done either logged out, or after temporarily disabling the toolbar** (`/admin/config/people/accounts` → uncheck toolbar, or switch to a non-admin UID). If the nav appears misaligned only when logged in as UID=1, that is expected Drupal admin-UI behaviour, not a theme bug.
 
 ## Step 5 — Implement
 
