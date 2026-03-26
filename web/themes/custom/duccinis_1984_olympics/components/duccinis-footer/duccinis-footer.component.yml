@@ -1,0 +1,55 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Footer
+status: experimental
+description: Site-wide footer with brand logo, link columns, copyright, and 5-colour Olympic stripe.
+props:
+  type: object
+  properties:
+    tagline:
+      type: string
+      title: Brand Tagline
+      description: Short tagline displayed beneath the logo.
+      default: "Home of the Jumbo Slice · Washington DC & Arlington since 1988"
+    copyright:
+      type: string
+      title: Copyright Line
+      default: "© 2026 Duccini's Pizza. All rights reserved."
+    order_links:
+      type: array
+      title: Order Column Links
+      description: Links shown in the "Order" column. Defaults to Full Menu / Pickup / Delivery.
+      items:
+        type: object
+        properties:
+          label: {type: string}
+          url:   {type: string}
+    location_links:
+      type: array
+      title: Locations Column Links
+      description: Links shown in the "Locations" column.
+      items:
+        type: object
+        properties:
+          label: {type: string}
+          url:   {type: string}
+    company_links:
+      type: array
+      title: Company Column Links
+      description: Links shown in the "Company" column.
+      items:
+        type: object
+        properties:
+          label: {type: string}
+          url:   {type: string}
+
+third_party_settings:
+  canvas:
+    label: 'Footer — Duccinis'
+    category: Duccinis
+
+libraryOverrides:
+  css:
+    theme:
+      duccinis-footer.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style

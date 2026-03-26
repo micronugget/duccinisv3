@@ -1,0 +1,126 @@
+// Duccinis Footer — site-wide footer, dark 1984 Olympics palette.
+// Part of Epic #233 / Issue #234.
+// All colours via --duccini-* tokens — zero hardcoded hex values.
+// -----------------------------------------------------------------------------
+
+.duccinis-footer {
+  // Scope dark homepage border token (overrides the light-UI default).
+  --duccini-border: #272420;
+
+  background: var(--duccini-surface);
+  border-top: 1px solid var(--duccini-border);
+  padding: 3.5rem 2rem 2rem;
+
+  // ── Inner flex row ────────────────────────────────────────────────────
+  &__inner {
+    width: var(--duccini-container);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    flex-wrap: wrap;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--duccini-border);
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  // ── Brand column ──────────────────────────────────────────────────────
+  &__logo {
+    font-family: var(--duccini-f-display);
+    font-size: 2.4rem;
+    letter-spacing: 0.08em;
+    color: var(--duccini-yellow);
+    text-decoration: none;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+
+    em {
+      color: var(--duccini-red);
+      font-style: normal;
+    }
+  }
+
+  &__tagline {
+    font-size: 0.75rem;
+    color: var(--duccini-muted);
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    max-width: 240px;
+    margin: 0;
+  }
+
+  // ── Link columns ──────────────────────────────────────────────────────
+  &__col {
+    h4 {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--duccini-yellow);
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    a {
+      font-size: 0.85rem;
+      color: var(--duccini-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--duccini-text);
+      }
+    }
+  }
+
+  // ── Bottom bar ────────────────────────────────────────────────────────
+  &__bottom {
+    width: var(--duccini-container);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__copy {
+    font-size: 0.75rem;
+    color: var(--duccini-faint);
+    margin: 0;
+  }
+
+  // ── 5-colour Olympic stripe row ───────────────────────────────────────
+  &__stripes {
+    display: flex;
+    gap: 3px;
+  }
+
+  &__stripe {
+    display: block;
+    width: 18px;
+    height: 4px;
+
+    &--red     { background: var(--duccini-red); }
+    &--blue    { background: var(--duccini-blue); }
+    &--yellow  { background: var(--duccini-yellow); }
+    &--orange  { background: var(--duccini-orange); }
+    &--magenta { background: var(--duccini-magenta); }
+  }
+}
