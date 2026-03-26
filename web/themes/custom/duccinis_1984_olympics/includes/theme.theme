@@ -6,19 +6,68 @@
  */
 
 /**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Re-uses page--front.html.twig for Canvas editor previews of the homepage
+ * so the Canvas EDIT UI matches the live front page appearance.
+ *
+ * The Canvas layout API route (/canvas/api/v0/layout/{entity_type}/{entity})
+ * carries 'entity_type' (string) and 'entity' (upcast entity object) as route
+ * parameters. When entity_type is 'canvas_page' and the entity ID is '1' (the
+ * homepage), we push 'page__front' so Drupal selects the same template as the
+ * live front page instead of falling through to the generic page.html.twig.
+ */
+function duccinis_1984_olympics_theme_suggestions_page_alter(
+  array &$suggestions,
+  array $variables,
+): void {
+  if (!_duccinis_1984_olympics_is_canvas_homepage_preview()) {
+    return;
+  }
+  // Highest-specificity suggestion last — Drupal picks the first match
+  // that has a file, working from the end of the array.
+  $suggestions[] = 'page__front';
+}
+
+/**
  * Implements hook_page_attachments_alter().
  *
  * Attaches the homepage JS library (scroll-reveal, nav-scroll, store badge)
- * only on the front page to avoid loading unused behaviors on every page.
+ * on the front page AND when Canvas is rendering the homepage canvas_page
+ * preview, so scroll-reveal, store-hours badge, and nav-scroll behaviour all
+ * fire in the Canvas editor iframe.
  *
  * Also delegates SEO head tags (meta description + LocalBusiness JSON-LD)
  * to _duccinis_1984_olympics_seo_front_page_head() defined in seo.theme.
  */
 function duccinis_1984_olympics_page_attachments_alter(array &$attachments): void {
-  if (\Drupal::service('path.matcher')->isFrontPage()) {
+  $is_front = \Drupal::service('path.matcher')->isFrontPage();
+  $is_canvas_homepage_preview = _duccinis_1984_olympics_is_canvas_homepage_preview();
+  if ($is_front || $is_canvas_homepage_preview) {
     $attachments['#attached']['library'][] = 'duccinis_1984_olympics/homepage';
     _duccinis_1984_olympics_seo_front_page_head($attachments);
   }
+}
+
+/**
+ * Returns TRUE when Canvas is rendering the homepage canvas_page (ID 1).
+ *
+ * Checks the current route for the Canvas layout API route parameters:
+ * - entity_type === 'canvas_page'
+ * - entity instanceof \Drupal\canvas\Entity\Page with id() === '1'
+ *
+ * The canvas_page entity class is \Drupal\canvas\Entity\Page (entity type ID
+ * 'canvas_page'). The route is canvas.api.layout.get at path
+ * /canvas/api/v0/layout/{entity_type}/{entity}.
+ */
+function _duccinis_1984_olympics_is_canvas_homepage_preview(): bool {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getParameter('entity_type') !== 'canvas_page') {
+    return FALSE;
+  }
+  $entity = $route_match->getParameter('entity');
+  return $entity instanceof \Drupal\canvas\Entity\Page
+    && $entity->id() === '1';
 }
 
 /**
