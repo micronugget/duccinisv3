@@ -4047,7 +4047,7 @@ display:
           entity_field: title
           plugin_id: field
           label: ''
-          exclude: false
+          exclude: true
           alter:
             alter_text: false
             text: ''
@@ -4114,8 +4114,8 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: false
-            text: ''
+            alter_text: true
+            text: "{{ title|replace({(title_1 ~ ' - '): ''})|replace({'&quot;': '\"'}) }}"
             make_link: false
             path: ''
             absolute: false
@@ -4329,6 +4329,10 @@ display:
           grouping:
             -
               field: type_1
+              rendered: true
+              rendered_strip: false
+            -
+              field: title_1
               rendered: true
               rendered_strip: false
           row_class: menu-variation-row
