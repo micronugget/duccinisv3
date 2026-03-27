@@ -12824,6 +12824,61 @@ h1.title::after,
     border-left-width: 6px;
   }
 }
+.menu-accordion__button {
+  background: linear-gradient(135deg, var(--duccini-card) 0%, rgba(230, 57, 70, 0.08) 100%);
+  color: var(--duccini-text);
+  border: 1px solid var(--duccini-border);
+  border-bottom-color: var(--duccini-border-hi);
+}
+.menu-accordion__button:not(.collapsed) {
+  background: linear-gradient(135deg, var(--duccini-card) 0%, rgba(255, 201, 20, 0.06) 100%);
+  border-bottom-color: var(--duccini-yellow);
+}
+.menu-accordion__button:hover {
+  background: linear-gradient(135deg, #221f1b 0%, rgba(255, 107, 53, 0.08) 100%);
+}
+
+.menu-accordion__body {
+  background: var(--duccini-bg);
+  border: 1px solid var(--duccini-border);
+  border-top: none;
+}
+
+.menu-accordion .product-title,
+.menu-accordion .views-field-title {
+  color: var(--duccini-text);
+  font-weight: 700;
+}
+
+.menu-accordion .product-price,
+.menu-accordion .views-field-price,
+.menu-accordion .field--name-price {
+  color: var(--duccini-yellow);
+}
+
+.menu-accordion .product-description,
+.menu-accordion .views-field-body,
+.menu-accordion .field--name-body {
+  color: var(--duccini-muted);
+  font-size: 0.9rem;
+}
+
+.menu-accordion .button--add-to-cart,
+.menu-accordion .form-submit {
+  background: var(--duccini-red);
+  color: #fff;
+  border: none;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  font-family: var(--duccini-f-head);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+.menu-accordion .button--add-to-cart:hover,
+.menu-accordion .form-submit:hover {
+  background: var(--duccini-orange);
+}
+
 .view-commerce-cart-form .view-content {
   background: #FFFFFF;
   padding: 2rem;
