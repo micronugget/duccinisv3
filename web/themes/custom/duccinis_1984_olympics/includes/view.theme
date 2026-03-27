@@ -35,7 +35,9 @@ function duccinis_1984_olympics_preprocess_views_view(&$variables) {
 /**
  * Implements hook_preprocess_views_view_unformatted() for menu_complete_3.
  *
- * Passes the group title to the template for accordion item rendering.
+ * Passes the group title and first-group flag to the template for accordion
+ * item rendering. Uses a static counter so the first group gets the
+ * "expanded" state and all subsequent groups are collapsed.
  */
 function duccinis_1984_olympics_preprocess_views_view_unformatted(&$variables) {
   $view = $variables['view'];
@@ -44,6 +46,12 @@ function duccinis_1984_olympics_preprocess_views_view_unformatted(&$variables) {
   if ($view->id() !== 'product_variations' || $view->current_display !== 'menu_complete_3') {
     return;
   }
+
+  // Track group call order within a single page request so the first group
+  // can be pre-expanded. The static counter resets between page requests.
+  static $group_index = 0;
+  $variables['is_first_group'] = ($group_index === 0);
+  $group_index++;
 
   // The 'title' variable contains the group title when grouping is enabled.
   // Pass it explicitly for the accordion template.

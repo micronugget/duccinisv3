@@ -4343,7 +4343,7 @@ display:
         filters: true
       display_description: 'Menu accordion using radix:accordion component'
       display_extenders: {  }
-      path: menu-complete-3
+      path: menu
       menu:
         type: none
         title: ''

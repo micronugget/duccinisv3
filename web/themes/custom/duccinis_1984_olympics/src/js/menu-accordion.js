@@ -9,8 +9,16 @@
         // This behavior is intentionally minimal as a future hook point.
       });
 
-      // Transform Layout Builder menu blocks into accordion
+      // Transform Layout Builder menu blocks into accordion.
+      // Guard: skip if a server-rendered accordion is already present (class
+      // .menu-accordion--server-rendered added by the Twig template when
+      // Views grouping renders the accordion server-side). This prevents
+      // double-accordion markup on pages that already use the grouped Views
+      // display (menu_complete_3).
       once('menu-accordion-transform', '.layout', context).forEach(function (layout) {
+        if (document.querySelector('.menu-accordion--server-rendered')) {
+          return;
+        }
         // Find all product variation view blocks within this layout
         var menuBlocks = layout.querySelectorAll('[class*="block-views-blockproduct-variations-"]');
 

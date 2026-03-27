@@ -3,10 +3,10 @@
     "/build/js/main.script.js.map": "/build/js/main.script.js.map",
     "/build/css/main.style.css": "/build/css/main.style.css",
     "/build/css/main.style.css.map": "/build/css/main.style.css.map",
-    "/components/duccinis-location-card/duccinis-location-card.css": "/components/duccinis-location-card/duccinis-location-card.css",
-    "/components/duccinis-location-card/duccinis-location-card.css.map": "/components/duccinis-location-card/duccinis-location-card.css.map",
     "/components/duccinis-hero/duccinis-hero.css": "/components/duccinis-hero/duccinis-hero.css",
     "/components/duccinis-hero/duccinis-hero.css.map": "/components/duccinis-hero/duccinis-hero.css.map",
+    "/components/duccinis-footer/duccinis-footer.css": "/components/duccinis-footer/duccinis-footer.css",
+    "/components/duccinis-footer/duccinis-footer.css.map": "/components/duccinis-footer/duccinis-footer.css.map",
     "/components/checkout-progress/checkout-progress.css": "/components/checkout-progress/checkout-progress.css",
     "/components/checkout-progress/checkout-progress.css.map": "/components/checkout-progress/checkout-progress.css.map",
     "/components/archive-controls/archive-controls.css": "/components/archive-controls/archive-controls.css",
@@ -26,5 +26,7 @@
     "/components/duccinis-menu-preview/duccinis-menu-preview.css": "/components/duccinis-menu-preview/duccinis-menu-preview.css",
     "/components/duccinis-menu-preview/duccinis-menu-preview.css.map": "/components/duccinis-menu-preview/duccinis-menu-preview.css.map",
     "/components/duccinis-locations-section/duccinis-locations-section.css": "/components/duccinis-locations-section/duccinis-locations-section.css",
-    "/components/duccinis-locations-section/duccinis-locations-section.css.map": "/components/duccinis-locations-section/duccinis-locations-section.css.map"
+    "/components/duccinis-locations-section/duccinis-locations-section.css.map": "/components/duccinis-locations-section/duccinis-locations-section.css.map",
+    "/components/duccinis-location-card/duccinis-location-card.css": "/components/duccinis-location-card/duccinis-location-card.css",
+    "/components/duccinis-location-card/duccinis-location-card.css.map": "/components/duccinis-location-card/duccinis-location-card.css.map"
 }
