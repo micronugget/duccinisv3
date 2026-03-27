@@ -1,0 +1,160 @@
+// ============================================
+// Global Dark Mode — 1984 Olympics Palette
+// ============================================
+// Overrides Radix/Bootstrap light defaults site-wide.
+// All pages use the dark palette. A future light-mode toggle
+// will scope these behind [data-theme="dark"].
+//
+// NOTE: --duccini-bg and --duccini-border are defined as light
+// values in :root for checkout/light-UI compatibility. We
+// redefine them here on html/body to flip the whole site dark.
+// ============================================
+
+html,
+body {
+  --duccini-bg:     #0b0a08;
+  --duccini-border: #272420;
+  background-color: var(--duccini-bg);
+  color: var(--duccini-text);
+}
+
+// ── Bootstrap surface overrides ───────────────────────────────────────────
+
+.card,
+.card-body {
+  background-color: var(--duccini-card);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border);
+}
+
+.modal-content {
+  background-color: var(--duccini-surface);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border);
+}
+
+.dropdown-menu {
+  background-color: var(--duccini-surface);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border-hi);
+}
+
+.list-group-item {
+  background-color: var(--duccini-card);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border);
+}
+
+.table {
+  --bs-table-bg: var(--duccini-card);
+  --bs-table-color: var(--duccini-text);
+  --bs-table-border-color: var(--duccini-border);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border);
+}
+
+// ── Form inputs — checkout, account, login ────────────────────────────────
+
+.form-control,
+.form-select {
+  background-color: var(--duccini-surface);
+  color: var(--duccini-text);
+  border-color: var(--duccini-border-hi);
+
+  &:focus {
+    background-color: var(--duccini-surface);
+    color: var(--duccini-text);
+    border-color: var(--duccini-yellow);
+    box-shadow: 0 0 0 0.2rem rgba(255, 201, 20, 0.18);
+  }
+
+  &::placeholder {
+    color: var(--duccini-muted);
+  }
+}
+
+// ── Drupal layout containers ──────────────────────────────────────────────
+
+.layout-container,
+.main-container,
+main[role="main"],
+.region-content {
+  background-color: transparent;
+}
+
+// ── Links ─────────────────────────────────────────────────────────────────
+
+a {
+  color: var(--duccini-yellow);
+
+  &:hover {
+    color: var(--duccini-text);
+  }
+}
+
+// ── Breadcrumbs, tabs, pagination ─────────────────────────────────────────
+
+.nav-tabs .nav-link,
+.breadcrumb-item,
+.breadcrumb-item a {
+  color: var(--duccini-muted);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--duccini-surface);
+  border-color: var(--duccini-border);
+  color: var(--duccini-text);
+}
+
+.page-link {
+  background-color: var(--duccini-surface);
+  border-color: var(--duccini-border);
+  color: var(--duccini-text);
+
+  &:hover {
+    background-color: var(--duccini-card);
+    color: var(--duccini-yellow);
+  }
+}
+
+// ── Alerts / Drupal messages ──────────────────────────────────────────────
+
+.messages,
+.alert {
+  border-color: var(--duccini-border);
+  background-color: var(--duccini-surface);
+  color: var(--duccini-text);
+}
+
+// ── Commerce / Cart / Checkout surfaces ───────────────────────────────────
+
+.view-commerce-cart-form,
+.commerce-checkout-flow,
+.commerce-order-item-table {
+  background-color: transparent;
+  color: var(--duccini-text);
+}
+
+fieldset,
+.fieldset-wrapper,
+.form-wrapper {
+  background-color: var(--duccini-surface);
+  border-color: var(--duccini-border);
+  color: var(--duccini-text);
+}
+
+legend {
+  color: var(--duccini-text);
+}
+
+label {
+  color: var(--duccini-text);
+}
+
+// ── Radix page wrapper ────────────────────────────────────────────────────
+
+.page-wrapper,
+.site-main,
+.block-system-main-block {
+  background-color: transparent;
+}
