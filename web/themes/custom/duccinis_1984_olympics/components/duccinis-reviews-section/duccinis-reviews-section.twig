@@ -8,27 +8,7 @@
  *   reviews (array<{text, author, source, stars}>)
  */
 #}
-{% set default_reviews = [
-  {
-    text: "This place is a no-bs pillar of the community. The pizza is always on point. Friendliest staff on U Street — somehow always quick with a smile no matter how busy it gets.",
-    author: 'Haytham Hashem',
-    source: 'Google Review · Adams Morgan',
-    stars: 5,
-  },
-  {
-    text: "One of the few non-chain pizza places that actually puts black olives on pizzas in DC! Great sauce, well-balanced crust — the right mix of sweet, chewy, and crunchy.",
-    author: 'Joey Minervini',
-    source: 'Google Review · Adams Morgan',
-    stars: 5,
-  },
-  {
-    text: "My number one pizza place! Open till 5am — I drive all the way from Fairfax just for the jumbo slice. Never waiting more than 3 minutes. Always a must-stop.",
-    author: 'Cynthia Garman',
-    source: 'Google Review · Multiple Locations',
-    stars: 5,
-  },
-] %}
-{% set review_items = reviews is defined and reviews is not empty ? reviews : default_reviews %}
+{% set review_items = reviews is defined and reviews is not empty ? reviews : [] %}
 <section class="duccinis-reviews-section" id="reviews"
   aria-labelledby="reviews-section-title">
   <div class="duccinis-reviews-section__container">

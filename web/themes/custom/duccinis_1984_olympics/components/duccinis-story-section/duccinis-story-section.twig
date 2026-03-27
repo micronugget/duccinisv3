@@ -9,18 +9,8 @@
  *   stats (array<{number, label}>)
  */
 #}
-{% set default_paragraphs = [
-  "Duccini's is credited with developing Washington DC's very first New York-style jumbo slice pizza. Since 1988, we've intentionally kept our footprint small to stay laser-focused on what matters most: flavor, quality, and community.",
-  "Everything is made from scratch every single day, using only the freshest ingredients. Friendly faces, no waiting, and a slice big enough to fold in half — that's the Duccini's promise. DC's best slice, every time.",
-] %}
-{% set default_stats = [
-  {number: '37+', label: 'Years in Business'},
-  {number: '3',   label: 'DMV Locations'},
-  {number: '#1',  label: 'Original Jumbo Slice'},
-  {number: '5★',  label: 'Google Reviews'},
-] %}
-{% set story_paragraphs = paragraphs is defined and paragraphs is not empty ? paragraphs : default_paragraphs %}
-{% set story_stats = stats is defined and stats is not empty ? stats : default_stats %}
+{% set story_paragraphs = paragraphs is defined and paragraphs is not empty ? paragraphs : [] %}
+{% set story_stats = stats is defined and stats is not empty ? stats : [] %}
 <section class="duccinis-story-section" id="story"
   aria-labelledby="story-section-title">
   <div class="duccinis-story-section__container">
