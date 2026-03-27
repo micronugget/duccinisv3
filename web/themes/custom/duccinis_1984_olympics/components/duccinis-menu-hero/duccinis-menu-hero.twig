@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Duccinis menu hero — full-width dark hero banner for the /menu page.
+ *
+ * Props:
+ *   eyebrow (string)
+ *   headline_l1, headline_l2 (string)
+ *   subline (string)
+ *   cta_label, cta_url (string)
+ */
+#}
+<header class="duccinis-menu-hero" role="banner">
+  {# Radial glow blob #}
+  <div class="duccinis-menu-hero__blob" aria-hidden="true"></div>
+
+  <div class="duccinis-menu-hero__inner">
+    {% if eyebrow %}
+      <div class="duccinis-menu-hero__eyebrow">{{ eyebrow }}</div>
+    {% endif %}
+
+    <h1 class="duccinis-menu-hero__headline"
+      {% if headline_l1 and headline_l2 %}
+        aria-label="{{ headline_l1 }} {{ headline_l2 }}"
+      {% endif %}>
+      {% if headline_l1 %}<span class="duccinis-menu-hero__headline-l1">{{ headline_l1 }}</span>{% endif %}
+      {% if headline_l2 %}<span class="duccinis-menu-hero__headline-l2">{{ headline_l2 }}</span>{% endif %}
+    </h1>
+
+    {% if subline %}
+      <p class="duccinis-menu-hero__subline">{{ subline }}</p>
+    {% endif %}
+
+    {% if cta_label %}
+      <a href="{{ cta_url|default('/menu') }}"
+        class="duccinis-menu-hero__btn">
+        {{ cta_label }}
+      </a>
+    {% endif %}
+  </div>
+
+  {# 5-colour Olympic stripe at the bottom #}
+  {% include 'duccinis_1984_olympics:duccinis-stripe-separator' %}
+</header>

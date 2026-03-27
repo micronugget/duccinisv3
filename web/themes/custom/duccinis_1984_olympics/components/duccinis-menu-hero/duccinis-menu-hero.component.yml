@@ -1,0 +1,39 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Duccinis Menu Hero
+status: experimental
+description: >
+  Full-width hero banner for the /menu page. Dark surface with stacked Bebas
+  Neue headline, eyebrow, subline, red parallelogram CTA, and 5-colour Olympic
+  stripe at the bottom.
+props:
+  type: object
+  properties:
+    eyebrow:
+      type: string
+      title: Eyebrow Text
+      description: Small uppercase label above the headline.
+    headline_l1:
+      type: string
+      title: Headline Line 1
+    headline_l2:
+      type: string
+      title: Headline Line 2
+    subline:
+      type: string
+      title: Subline
+    cta_label:
+      type: string
+      title: CTA Label
+    cta_url:
+      type: string
+      title: CTA URL
+third_party_settings:
+  canvas:
+    label: 'Menu Hero — Duccinis'
+    category: Duccinis
+libraryOverrides:
+  css:
+    theme:
+      duccinis-menu-hero.css: {}
+  dependencies:
+    - duccinis_1984_olympics/style
