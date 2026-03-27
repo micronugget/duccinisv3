@@ -59,8 +59,22 @@
    */
   function getOpenStatus(schedType) {
     var now = new Date();
-    var h = now.getHours();
-    var day = now.getDay();
+    // Always evaluate store hours in America/New_York regardless of browser timezone.
+    var parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+      weekday: 'short',
+    }).formatToParts(now);
+    var partMap = {};
+    parts.forEach(function (p) { partMap[p.type] = p.value; });
+    var h = parseInt(partMap.hour, 10);
+    // Intl hour12:false can return 24 for midnight — normalise to 0.
+    if (h === 24) { h = 0; }
+    var dayAbbr = partMap.weekday; // 'Sun', 'Mon', …
+    var dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    var day = dayMap[dayAbbr] !== undefined ? dayMap[dayAbbr] : now.getDay();
     var sched = STORE_HOURS[schedType] || STORE_HOURS.dc;
 
     // Hours before 6 AM are treated as the previous day's overnight window.
