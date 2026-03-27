@@ -1,0 +1,83 @@
+.duccinis-menu-hero {
+  // Scope dark homepage tokens.
+  --duccini-bg: #0b0a08;
+  --duccini-surface: #111009;
+  background: var(--duccini-surface);
+  padding: 6rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &__blob {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 55% at 50% 42%,
+      rgba(230, 57, 70, 0.14) 0%,
+      rgba(255, 107, 53, 0.07) 45%,
+      transparent 75%
+    );
+    pointer-events: none;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    width: var(--duccini-container, min(1280px, 100%));
+    margin: 0 auto;
+  }
+
+  // ── Eyebrow ──────────────────────────────────
+  &__eyebrow {
+    font-family: var(--duccini-f-head);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--duccini-yellow);
+    margin-bottom: 1rem;
+  }
+
+  // ── Headline ─────────────────────────────────
+  &__headline {
+    font-family: var(--duccini-f-display);
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--duccini-text);
+    margin-bottom: 1.25rem;
+  }
+
+  &__headline-l1,
+  &__headline-l2 {
+    display: block;
+  }
+
+  // ── Subline ──────────────────────────────────
+  &__subline {
+    font-size: 1.05rem;
+    color: var(--duccini-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  // ── CTA button ───────────────────────────────
+  &__btn {
+    display: inline-block;
+    font-family: var(--duccini-f-display);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    letter-spacing: 0.18em;
+    padding: 1.1rem 4rem;
+    background: var(--duccini-red);
+    color: #fff;
+    text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.25s, transform 0.2s;
+    margin-bottom: 3rem;
+
+    &:hover {
+      background: var(--duccini-orange);
+      transform: scale(1.04);
+    }
+  }
+}
