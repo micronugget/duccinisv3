@@ -17,6 +17,7 @@ style:
 menu_accordion:
   js:
     src/js/menu-accordion.js: {}
+    src/js/menu-category-nav.js: {}
   dependencies:
     - duccinis_1984_olympics/style
     - core/drupal
