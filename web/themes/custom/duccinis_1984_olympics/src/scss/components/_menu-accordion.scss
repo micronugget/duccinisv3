@@ -126,6 +126,47 @@
     }
   }
 
+  // Product sub-group (Level 2 grouping: product title + its variations)
+  // Each product group gets a distinct Olympics accent color via nth-child
+  .menu-product-group {
+    border-bottom: 2px solid rgba($olympics-blue, 0.1);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    &__title {
+      font-family: $font-bebas;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem 0;
+      color: $olympics-blue;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(90deg, $olympics-yellow 0%, $olympics-light-yellow 100%);
+      border-left: 8px solid $olympics-vermillion;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      @include geometric-shadow(rgba($olympics-blue, 0.2), 4px);
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+
+  // Staggered fade-in for variation rows when accordion opens
+  .accordion-collapse.show .menu-variation-row,
+  .accordion-collapse.show .views-row {
+    animation: menuRowReveal 0.25s ease both;
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) { animation-delay: #{$i * 0.03}s; }
+    }
+  }
+  @keyframes menuRowReveal {
+    from { opacity: 0; transform: translateX(-6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
   // Row layout for accordion body content
   .views-row {
     display: flex;
@@ -219,24 +260,6 @@
     width: 100%;
   }
 
-  // Product group headings - Bold 80s style
-  h3 {
-    font-family: $font-bebas;
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 2rem 0 1rem 0;
-    color: $olympics-blue;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(90deg, $olympics-yellow 0%, $olympics-light-yellow 100%);
-    border-left: 8px solid $olympics-vermillion;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    @include geometric-shadow(rgba($olympics-blue, 0.2), 4px);
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
 }
 
 // ============================================
@@ -285,7 +308,7 @@
       padding: 0.4rem 1rem;
     }
 
-    h3 {
+    .menu-product-group__title {
       font-size: 1.4rem;
       padding: 0.4rem 0.75rem;
       border-left-width: 6px;

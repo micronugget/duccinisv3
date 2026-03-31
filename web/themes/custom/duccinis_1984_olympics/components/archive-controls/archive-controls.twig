@@ -37,39 +37,31 @@
   </span>
 {% endif %}
 
-{# ── Controls Toolbar (filter + sort + toggle) ── #}
+{# ── Controls Toolbar (filter chips + sort + toggle) ── #}
 {% if (show_filter is defined and show_filter) or (show_sort is defined and show_sort) or (show_toggle is defined and show_toggle) %}
-  <div class="archive-controls-toolbar">
+  <div class="archive-controls-toolbar" role="toolbar" aria-label="Menu filters and sort">
 
-    {# ── Category Filter Dropdown ── #}
+    {# ── Category Filter Chips ── #}
     {% if show_filter is defined and show_filter %}
-      {% set f_label = filter_label|default('Filter') %}
-      <div class="archive-controls-dropdown dropdown">
-        <button
-          type="button"
-          class="archive-controls-dropdown__btn dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <svg class="archive-controls-dropdown__icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      {% set f_label = filter_label|default('Filter by category') %}
+      <div class="archive-filter-chips" role="group" aria-label="{{ f_label }}">
+        <span class="archive-filter-chips__label" aria-hidden="true">
+          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
             <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .39.812L9.5 7.606V13.5a.5.5 0 0 1-.724.447l-2-1A.5.5 0 0 1 6.5 12.5V7.606L1.61 1.812A.5.5 0 0 1 2 1Z"/>
           </svg>
-          <span class="archive-controls-dropdown__text">{{ f_label }}</span>
-        </button>
+          {{ f_label }}
+        </span>
         {% if filter_options is defined and filter_options %}
-          <ul class="dropdown-menu archive-controls-dropdown__menu">
+          <div class="archive-filter-chips__pills">
             {% for option in filter_options %}
-              <li>
-                <button
-                  type="button"
-                  class="dropdown-item archive-filter-option{{ option.value == 'all' ? ' active' : '' }}"
-                  data-filter-value="{{ option.value }}"
-                >
-                  {{ option.label }}
-                </button>
-              </li>
+              <button
+                type="button"
+                class="archive-filter-chip{{ option.value == 'all' ? ' is-active' : '' }}"
+                data-filter-value="{{ option.value }}"
+                aria-pressed="{{ option.value == 'all' ? 'true' : 'false' }}"
+              >{{ option.label }}</button>
             {% endfor %}
-          </ul>
+          </div>
         {% endif %}
       </div>
     {% endif %}

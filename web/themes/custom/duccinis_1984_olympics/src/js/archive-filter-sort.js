@@ -17,8 +17,8 @@
 
   Drupal.behaviors.archiveFilterSort = {
     attach: function (context) {
-      // ── Filter buttons ──
-      var filterBtns = once('archive-filter', '.archive-filter-option', context);
+      // ── Filter buttons (dropdown items OR pill chips) ──
+      var filterBtns = once('archive-filter', '.archive-filter-option, .archive-filter-chip', context);
       for (var i = 0; i < filterBtns.length; i++) {
         filterBtns[i].addEventListener('click', handleFilter);
       }
@@ -41,14 +41,26 @@
     var value = btn.getAttribute('data-filter-value');
     var dropdown = btn.closest('.archive-controls-dropdown');
 
-    // Update active state on siblings.
-    var siblings = btn.closest('.dropdown-menu').querySelectorAll('.archive-filter-option');
-    for (var i = 0; i < siblings.length; i++) {
-      siblings[i].classList.remove('active');
+    // Update active state on siblings — handle both dropdown items and pill chips.
+    var pillContainer = btn.closest('.archive-filter-chips__pills');
+    var dropdownMenu = btn.closest('.dropdown-menu');
+    if (pillContainer) {
+      var chipSiblings = pillContainer.querySelectorAll('.archive-filter-chip');
+      for (var i = 0; i < chipSiblings.length; i++) {
+        chipSiblings[i].classList.remove('is-active');
+        chipSiblings[i].setAttribute('aria-pressed', 'false');
+      }
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+    } else if (dropdownMenu) {
+      var dropSiblings = dropdownMenu.querySelectorAll('.archive-filter-option');
+      for (var i = 0; i < dropSiblings.length; i++) {
+        dropSiblings[i].classList.remove('active');
+      }
+      btn.classList.add('active');
     }
-    btn.classList.add('active');
 
-    // Update dropdown button text.
+    // Update dropdown button text (only for dropdown variant).
     if (dropdown) {
       var textEl = dropdown.querySelector('.archive-controls-dropdown__text');
       if (textEl) {

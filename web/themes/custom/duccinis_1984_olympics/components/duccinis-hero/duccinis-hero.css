@@ -1,6 +1,8 @@
 .duccinis-hero {
   --duccini-bg: #0b0a08;
   --duccini-border: #272420;
+  background: var(--duccini-bg);
+  color: var(--duccini-text);
   position: relative;
   min-height: 100svh;
   display: flex;

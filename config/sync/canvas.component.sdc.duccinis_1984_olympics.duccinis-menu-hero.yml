@@ -1,55 +1,15 @@
-uuid: d5c37b1a-1e51-466c-bfe5-8c92195d27cf
+uuid: d56332fa-1834-476e-be40-4609b84f86de
 langcode: en
-status: false
+status: true
 dependencies:
   theme:
     - duccinis_1984_olympics
-active_version: ac3582a8bcc28996
+active_version: 9a82bad9349c0b20
 versioned_properties:
   active:
     settings:
       prop_field_definitions:
-        number:
-          required: true
-          field_type: string
-          field_storage_settings: {  }
-          field_instance_settings: {  }
-          field_widget: string_textfield
-          default_value:
-            -
-              value: '01'
-          expression: ℹ︎string␟value
-        name:
-          required: true
-          field_type: string
-          field_storage_settings: {  }
-          field_instance_settings: {  }
-          field_widget: string_textfield
-          default_value:
-            -
-              value: 'Adams Morgan'
-          expression: ℹ︎string␟value
-        address_line1:
-          required: true
-          field_type: string
-          field_storage_settings: {  }
-          field_instance_settings: {  }
-          field_widget: string_textfield
-          default_value:
-            -
-              value: '2315 18th St NW'
-          expression: ℹ︎string␟value
-        address_line2:
-          required: true
-          field_type: string
-          field_storage_settings: {  }
-          field_instance_settings: {  }
-          field_widget: string_textfield
-          default_value:
-            -
-              value: 'Washington, DC 20009'
-          expression: ℹ︎string␟value
-        color_accent:
+        eyebrow:
           required: false
           field_type: string
           field_storage_settings: {  }
@@ -57,7 +17,7 @@ versioned_properties:
           field_widget: string_textfield
           default_value: null
           expression: ℹ︎string␟value
-        directions_url:
+        headline_l1:
           required: false
           field_type: string
           field_storage_settings: {  }
@@ -65,7 +25,7 @@ versioned_properties:
           field_widget: string_textfield
           default_value: null
           expression: ℹ︎string␟value
-        phone:
+        headline_l2:
           required: false
           field_type: string
           field_storage_settings: {  }
@@ -73,7 +33,23 @@ versioned_properties:
           field_widget: string_textfield
           default_value: null
           expression: ℹ︎string␟value
-        phone_href:
+        subline:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        cta_label:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value: null
+          expression: ℹ︎string␟value
+        cta_url:
           required: false
           field_type: string
           field_storage_settings: {  }
@@ -83,8 +59,8 @@ versioned_properties:
           expression: ℹ︎string␟value
     fallback_metadata:
       slot_definitions: {  }
-label: 'Duccinis Location Card'
-id: sdc.duccinis_1984_olympics.duccinis-location-card
+label: 'Duccinis Menu Hero'
+id: sdc.duccinis_1984_olympics.duccinis-menu-hero
 provider: duccinis_1984_olympics
 source: sdc
-source_local_id: 'duccinis_1984_olympics:duccinis-location-card'
+source_local_id: 'duccinis_1984_olympics:duccinis-menu-hero'

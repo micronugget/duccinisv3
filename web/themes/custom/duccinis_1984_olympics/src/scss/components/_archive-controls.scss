@@ -98,10 +98,201 @@
 }
 
 // ── Responsive ────────────────────────────────────────────
-
 @media (max-width: 576px) {
   .menu-accordion__archive-toggle-wrapper {
     justify-content: center;
     padding: 0.35rem 0.75rem 0;
+  }
+}
+
+// ============================================
+// Archive Controls Toolbar — Filter Chips + Sort
+// "Database-y" faceted filter UX with 1984 Olympics palette
+// ============================================
+
+// Chip color palette — each nth-child gets a distinct Olympics color
+$chip-colors: (
+  1: ($olympics-vermillion, #fff),
+  2: ($olympics-blue,       #fff),
+  3: ($olympics-orange,     #1a1a1a),
+  4: ($olympics-magenta,    #fff),
+  5: ($olympics-yellow,     #1a1a1a),
+  6: ($olympics-purple,     #fff),
+  7: ($olympics-vermillion, #fff),
+  8: ($olympics-blue,       #fff),
+  9: ($olympics-orange,     #1a1a1a),
+  10: ($olympics-magenta,   #fff),
+  11: ($olympics-yellow,    #1a1a1a),
+  12: ($olympics-purple,    #fff),
+  13: ($olympics-vermillion,#fff),
+  14: ($olympics-blue,      #fff),
+);
+
+.archive-controls-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0 1.25rem;
+  border-bottom: 4px solid $olympics-blue;
+  margin-bottom: 1.5rem;
+  position: relative;
+  // Olympic stripe accent at top
+  &::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background: repeating-linear-gradient(
+      90deg,
+      $olympics-vermillion 0px, $olympics-vermillion 20%,
+      $olympics-orange     20%, $olympics-orange     40%,
+      $olympics-yellow     40%, $olympics-yellow     60%,
+      $olympics-blue       60%, $olympics-blue       80%,
+      $olympics-magenta    80%, $olympics-magenta    100%
+    );
+    margin-bottom: 0.75rem;
+  }
+}
+
+// ── Filter chips group ─────────────────────────────────────
+.archive-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  &__label {
+    font-family: $font-archivo;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $olympics-blue;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-right: 0.25rem;
+    white-space: nowrap;
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+}
+
+// Individual chip button
+.archive-filter-chip {
+  font-family: $font-archivo;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  border: 2px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  position: relative;
+
+  // Assign distinct Olympics colors per position
+  @each $n, $pair in $chip-colors {
+    &:nth-child(#{$n}) {
+      $bg: nth($pair, 1);
+      $fg: nth($pair, 2);
+      border-color: $bg;
+      color: $bg;
+      &.is-active,
+      &[aria-pressed="true"] {
+        background: $bg;
+        color: $fg;
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+      }
+      &:hover:not(.is-active):not([aria-pressed="true"]) {
+        background: rgba($bg, 0.12);
+      }
+      &:focus-visible {
+        outline: 3px solid $bg;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+  }
+}
+
+// ── Sort dropdown (keep existing dropdown, restyle) ────────
+.archive-controls-dropdown--sort {
+  align-self: flex-start;
+
+  .archive-controls-dropdown__btn {
+    font-family: $font-archivo;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: $olympics-blue;
+    color: #fff;
+    border: 2px solid $olympics-blue;
+    border-radius: 0;
+    padding: 0.35rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    transition: background 0.15s ease;
+
+    &:hover, &:focus {
+      background: $olympics-vermillion;
+      border-color: $olympics-vermillion;
+    }
+    &::after {
+      // Bootstrap caret — keep it
+      margin-left: 0.25rem;
+    }
+  }
+
+  .archive-controls-dropdown__menu {
+    border: 2px solid $olympics-blue;
+    border-radius: 0;
+    padding: 0.25rem 0;
+    min-width: 10rem;
+
+    .dropdown-item {
+      font-family: $font-archivo;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 1rem;
+      color: #1a1a1a;
+      transition: background 0.1s ease;
+
+      &:hover, &:focus {
+        background: $olympics-yellow;
+        color: #1a1a1a;
+      }
+      &.active {
+        background: $olympics-blue;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────
+@media (max-width: 768px) {
+  .archive-filter-chips {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .archive-filter-chip {
+    font-size: 0.68rem;
+    padding: 0.25rem 0.6rem;
   }
 }

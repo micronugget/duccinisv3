@@ -59,6 +59,30 @@
   font-size: 0.9rem;
 }
 
+// ── Product sub-group title (dark mode) ───────────────────────────────────
+.menu-accordion .menu-product-group {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  // Keep the colorful left-border accent but lighten backgrounds for dark surfaces
+  &__title {
+    background: rgba(255, 255, 255, 0.06) !important;
+    // left border color is inherited from light-mode nth-child rules — keep it
+    filter: brightness(1.2);
+  }
+}
+
+// ── Filter chips (dark mode) ──────────────────────────────────────────────
+.data-bs-theme-dark,
+[data-bs-theme="dark"] {
+  .archive-filter-chip {
+    &.is-active,
+    &[aria-pressed="true"] {
+      filter: brightness(1.1);
+    }
+  }
+  .archive-controls-toolbar {
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+  }
+}
 // ── Add-to-cart button ─────────────────────────────────────────────────────
 
 .menu-accordion .button--add-to-cart,

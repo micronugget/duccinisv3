@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Category-level grouping template for Product Variations: Menu complete 3.
+ *
+ * Called once per category group (grouping_level = 1, the outer level).
+ * `content` contains the rendered Level 0 product sub-groups (from
+ * views-view-unformatted--product-variations--menu-complete-3.html.twig).
+ *
+ * Available variables:
+ * - title: The category name (rendered markup).
+ * - content: The rendered product sub-groups for this category.
+ * - grouping_level: 1 for category (outer), 0 for product title (inner).
+ */
+#}
+{% set accordion_id = 'menu-complete-3-accordion' %}
+{% set group_title_clean = title|render|striptags|trim %}
+{% set item_id = group_title_clean|clean_class %}
+{% set heading_id = accordion_id ~ '-heading-' ~ item_id %}
+{% set collapse_id = accordion_id ~ '-collapse-' ~ item_id %}
+
+<div class="accordion-item menu-accordion__item" data-category="{{ item_id }}">
+  <h2 class="accordion-header menu-accordion__header" id="{{ heading_id }}">
+    <button
+      class="accordion-button collapsed menu-accordion__button"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#{{ collapse_id }}"
+      aria-expanded="false"
+      aria-controls="{{ collapse_id }}"
+    >
+      {{ group_title_clean }}
+    </button>
+  </h2>
+  <div
+    id="{{ collapse_id }}"
+    class="accordion-collapse collapse menu-accordion__collapse"
+    aria-labelledby="{{ heading_id }}"
+    data-bs-parent="#{{ accordion_id }}"
+  >
+    <div class="accordion-body menu-accordion__body">
+      {{ content }}
+    </div>
+  </div>
+</div>
