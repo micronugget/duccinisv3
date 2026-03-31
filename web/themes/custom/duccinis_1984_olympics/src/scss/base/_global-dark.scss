@@ -18,6 +18,28 @@ body {
   color: var(--duccini-text);
 }
 
+// ── /menu page — light, colorful, accessible ──────────────────────────────
+// The menu page uses a warm cream palette so the Olympic color accents
+// pop against a light surface rather than disappearing into near-black.
+body.path-menu {
+  --duccini-bg:       #fdf8f0;
+  --duccini-border:   #e8dcc8;
+  --duccini-text:     #1a1208;
+  --duccini-muted:    #5a4e3a;
+  --duccini-surface:  #fff8ee;
+  --duccini-card:     #fff3e0;
+  background-color: var(--duccini-bg);
+  color: var(--duccini-text);
+  // Subtle warm diagonal stripe texture — echoes the 1984 Olympics energy
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 40px,
+    rgba(255, 201, 20, 0.04) 40px,
+    rgba(255, 201, 20, 0.04) 41px
+  );
+}
+
 // ── Bootstrap surface overrides ───────────────────────────────────────────
 
 .card,

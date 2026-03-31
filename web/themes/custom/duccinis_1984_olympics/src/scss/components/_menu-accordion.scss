@@ -316,6 +316,96 @@
   }
 }
 
+// ============================================
+// /menu page — light warm-cream surface overrides
+// Ensures the menu page reads as colorful & accessible, not dark.
+// ============================================
+body.path-menu {
+  // Page-level link color override (global-dark sets links to yellow)
+  a {
+    color: $olympics-blue;
+    &:hover {
+      color: $olympics-vermillion;
+    }
+  }
+  // Breadcrumb
+  .breadcrumb-item,
+  .breadcrumb-item a {
+    color: #5a4e3a;
+  }
+  // Accordion body — warm parchment surface
+  .menu-accordion__body {
+    background: #fff8ee;
+    border-color: rgba($olympics-blue, 0.25);
+    box-shadow: 6px 6px 0 rgba($olympics-yellow, 0.35);
+  }
+  // Variation title — dark on light
+  .variation-title {
+    color: #1a1208;
+  }
+  // Variation price — keep vermillion, it pops on cream
+  .variation-price {
+    color: $olympics-vermillion;
+  }
+  // Add-to-cart links on light background
+  .views-row a[href^="/add-to-cart"] {
+    background: linear-gradient(90deg, $olympics-blue 0%, darken($olympics-blue, 10%) 100%);
+    border-color: $olympics-blue;
+    color: #fff;
+    box-shadow: 4px 4px 0 rgba($olympics-yellow, 0.6);
+    &:hover {
+      background: linear-gradient(90deg, $olympics-vermillion 0%, $olympics-orange 100%);
+      border-color: $olympics-vermillion;
+      box-shadow: 6px 6px 0 rgba($olympics-blue, 0.3);
+    }
+  }
+  // Product group title — keep yellow gradient, ensure dark text contrast
+  .menu-product-group__title {
+    color: #1a1208;
+  }
+  // Row hover on light surface
+  .menu-accordion__body .views-row:hover {
+    background: linear-gradient(90deg, rgba($olympics-yellow, 0.18) 0%, rgba($olympics-orange, 0.08) 100%);
+    border-left-color: $olympics-vermillion;
+  }
+  // Archive controls toolbar on light surface
+  .archive-controls-toolbar {
+    background: #fff3e0;
+    border-bottom-color: rgba($olympics-blue, 0.15);
+  }
+  // Filter chips on light surface — ensure readable
+  .archive-filter-chip {
+    color: #1a1208;
+    &.is-active,
+    &[aria-pressed="true"] {
+      color: #fff;
+    }
+  }
+  // Sort dropdown on light surface
+  .archive-controls-dropdown__btn {
+    color: #1a1208;
+    border-color: rgba($olympics-blue, 0.3);
+    background: #fff8ee;
+  }
+  .dropdown-menu {
+    background-color: #fff8ee;
+    border-color: rgba($olympics-blue, 0.2);
+    .dropdown-item {
+      color: #1a1208;
+      &:hover,
+      &.active {
+        background-color: rgba($olympics-yellow, 0.2);
+        color: #1a1208;
+      }
+    }
+  }
+  // Page title on light background
+  .page-title,
+  h1.title {
+    color: #1a1208;
+  }
+}
+
 // ── Mobile sticky category nav ─────────────────────────────────────────────
 
 .menu-category-nav {

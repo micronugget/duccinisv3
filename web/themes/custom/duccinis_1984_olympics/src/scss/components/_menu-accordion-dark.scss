@@ -1,78 +1,67 @@
 // ============================================
 // 1984 LA Olympics "Stars in Motion" Design
 // Menu Accordion — Dark Surface Overrides
-// Applied when the site uses the dark palette (body.dark-mode or .dark-homepage context).
+// SCOPED: only applies when .dark-mode class is present on body.
+// The /menu page uses a light warm-cream palette by default.
 // ============================================
 
-.menu-accordion__button {
-  background: linear-gradient(
-    135deg,
-    var(--duccini-card) 0%,
-    rgba(230, 57, 70, 0.08) 100%
-  );
-  color: var(--duccini-text);
-  border: 1px solid var(--duccini-border);
-  border-bottom-color: var(--duccini-border-hi);
-
-  &:not(.collapsed) {
+.dark-mode {
+  .menu-accordion__button {
     background: linear-gradient(
       135deg,
       var(--duccini-card) 0%,
-      rgba(255, 201, 20, 0.06) 100%
+      rgba(230, 57, 70, 0.08) 100%
     );
-    border-bottom-color: var(--duccini-yellow);
+    color: var(--duccini-text);
+    border: 1px solid var(--duccini-border);
+    border-bottom-color: var(--duccini-border-hi);
+    &:not(.collapsed) {
+      background: linear-gradient(
+        135deg,
+        var(--duccini-card) 0%,
+        rgba(255, 201, 20, 0.06) 100%
+      );
+      border-bottom-color: var(--duccini-yellow);
+    }
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        #221f1b 0%,
+        rgba(255, 107, 53, 0.08) 100%
+      );
+    }
   }
-
-  &:hover {
-    background: linear-gradient(
-      135deg,
-      #221f1b 0%,
-      rgba(255, 107, 53, 0.08) 100%
-    );
+  .menu-accordion__body {
+    background: var(--duccini-bg);
+    border: 1px solid var(--duccini-border);
+    border-top: none;
   }
-}
-
-.menu-accordion__body {
-  background: var(--duccini-bg);
-  border: 1px solid var(--duccini-border);
-  border-top: none;
-}
-
-// ── Product row typography ─────────────────────────────────────────────────
-
-.menu-accordion .product-title,
-.menu-accordion .views-field-title {
-  color: var(--duccini-text);
-  font-weight: 700;
-}
-
-.menu-accordion .product-price,
-.menu-accordion .views-field-price,
-.menu-accordion .field--name-price {
-  color: var(--duccini-yellow);
-}
-
-.menu-accordion .product-description,
-.menu-accordion .views-field-body,
-.menu-accordion .field--name-body {
-  color: var(--duccini-muted);
-  font-size: 0.9rem;
-}
-
-// ── Product sub-group title (dark mode) ───────────────────────────────────
-.menu-accordion .menu-product-group {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-  // Keep the colorful left-border accent but lighten backgrounds for dark surfaces
-  &__title {
-    background: rgba(255, 255, 255, 0.06) !important;
-    // left border color is inherited from light-mode nth-child rules — keep it
-    filter: brightness(1.2);
+  // ── Product row typography ─────────────────────────────────────────────
+  .menu-accordion .product-title,
+  .menu-accordion .views-field-title {
+    color: var(--duccini-text);
+    font-weight: 700;
   }
-}
-
-// ── Filter chips (dark mode) ──────────────────────────────────────────────
-.data-bs-theme-dark,
-[data-bs-theme="dark"] {
+  .menu-accordion .product-price,
+  .menu-accordion .views-field-price,
+  .menu-accordion .field--name-price {
+    color: var(--duccini-yellow);
+  }
+  .menu-accordion .product-description,
+  .menu-accordion .views-field-body,
+  .menu-accordion .field--name-body {
+    color: var(--duccini-muted);
+    font-size: 0.9rem;
+  }
+  // ── Product sub-group title ────────────────────────────────────────────
+  .menu-accordion .menu-product-group {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    &__title {
+      background: rgba(255, 255, 255, 0.06) !important;
+      filter: brightness(1.2);
+    }
+  }
+  // ── Filter chips ──────────────────────────────────────────────────────
   .archive-filter-chip {
     &.is-active,
     &[aria-pressed="true"] {
@@ -82,21 +71,19 @@
   .archive-controls-toolbar {
     border-bottom-color: rgba(255, 255, 255, 0.15);
   }
-}
-// ── Add-to-cart button ─────────────────────────────────────────────────────
-
-.menu-accordion .button--add-to-cart,
-.menu-accordion .form-submit {
-  background: var(--duccini-red);
-  color: #fff;
-  border: none;
-  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  font-family: var(--duccini-f-head);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--duccini-orange);
+  // ── Add-to-cart button ────────────────────────────────────────────────
+  .menu-accordion .button--add-to-cart,
+  .menu-accordion .form-submit {
+    background: var(--duccini-red);
+    color: #fff;
+    border: none;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    font-family: var(--duccini-f-head);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    &:hover {
+      background: var(--duccini-orange);
+    }
   }
 }
