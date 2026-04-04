@@ -129,6 +129,7 @@ module:
   tagify_user_list: 0
   tamper: 0
   taxonomy: 0
+  telephone: 0
   text: 0
   token: 0
   token_or: 0

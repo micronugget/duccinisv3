@@ -5,12 +5,14 @@ dependencies:
   config:
     - commerce_store.commerce_store_type.online
     - field.field.commerce_store.online.delivery_radius
+    - field.field.commerce_store.online.field_phone
     - field.field.commerce_store.online.products
     - field.field.commerce_store.online.store_hours
     - field.field.commerce_store.online.store_location
   module:
     - address
     - path
+    - telephone
 _core:
   default_config_hash: VDGg8hSWKm_pGY53jsKuNoHY_Xf6nm_diqAC066ktA4
 id: commerce_store.online.default
@@ -35,6 +37,13 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_phone:
+    type: telephone_default
+    weight: 11
+    region: content
+    settings:
+      placeholder: ''
     third_party_settings: {  }
   is_default:
     type: boolean_checkbox
