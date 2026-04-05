@@ -1,0 +1,34 @@
+uuid: 792e688e-602f-4935-b0d0-070c86d8d500
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.recipe
+    - core.entity_view_mode.commerce_product_variation.cart
+  enforced:
+    module:
+      - commerce_cart
+      - commerce_product
+_core:
+  default_config_hash: ''
+id: commerce_product_variation.recipe.cart
+targetEntityType: commerce_product_variation
+bundle: recipe
+mode: cart
+content:
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  add_to_cart_link: true
+  attribute_recipe: true
+  feeds_item: true
+  list_price: true
+  price: true
+  product_id: true
+  sku: true
