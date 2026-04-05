@@ -1,4 +1,9 @@
 services:
+  store_fulfillment.twig_extension:
+    class: Drupal\store_fulfillment\TwigExtension\StoreTwigExtension
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: twig.extension }
   store_fulfillment.delivery_radius_calculator:
     class: Drupal\store_fulfillment\DeliveryRadiusCalculator
     arguments: ['@entity_type.manager', '@geocoder', '@logger.factory']

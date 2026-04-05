@@ -14,39 +14,11 @@
   'var(--duccini-blue)',
   'var(--duccini-orange)',
 ] %}
-{% set default_locations = [
-  {
-    number: '01',
-    name: 'Adams Morgan DC',
-    address_line1: '2315 18th St NW',
-    address_line2: 'Washington, DC 20009',
-    directions_url: 'https://maps.google.com/?q=2315+18th+St+NW+Washington+DC',
-    phone: '(202) 265-2253',
-    phone_href: 'tel:+12022652253',
-    store_type: 'dc',
-  },
-  {
-    number: '02',
-    name: 'Arlington VA',
-    address_line1: '4330 Wilson Blvd',
-    address_line2: 'Arlington, VA 22203',
-    directions_url: 'https://maps.google.com/?q=4330+Wilson+Blvd+Arlington+VA',
-    phone: '(703) 741-9200',
-    phone_href: 'tel:+17037419200',
-    store_type: 'va',
-  },
-  {
-    number: '03',
-    name: '7th Street NW',
-    address_line1: '701 7th St NW',
-    address_line2: 'Washington, DC 20001',
-    directions_url: 'https://maps.google.com/?q=701+7th+St+NW+Washington+DC',
-    phone: '(202) 393-2100',
-    phone_href: 'tel:+12023932100',
-    store_type: 'dc',
-  },
-] %}
-{% set location_items = locations is defined and locations is not empty ? locations : default_locations %}
+{# Load live store data from Commerce store entities via the store_fulfillment
+   Twig extension. Falls back to the `locations` prop if explicitly passed
+   (e.g. from Canvas or a preprocess hook), otherwise queries the DB. #}
+{% set live_locations = store_fulfillment_stores() %}
+{% set location_items = locations is defined and locations is not empty ? locations : (live_locations is not empty ? live_locations : []) %}
 <section class="duccinis-locations-section" id="locations"
   aria-labelledby="locations-section-title">
 

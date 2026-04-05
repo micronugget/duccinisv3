@@ -5,6 +5,7 @@ dependencies:
   config:
     - commerce_store.commerce_store_type.online
     - field.field.commerce_store.online.delivery_radius
+    - field.field.commerce_store.online.field_phone
     - field.field.commerce_store.online.products
     - field.field.commerce_store.online.store_hours
     - field.field.commerce_store.online.store_location
@@ -23,6 +24,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_phone:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
 hidden:
   billing_countries: true
