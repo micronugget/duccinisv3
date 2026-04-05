@@ -18,25 +18,17 @@ targetEntityType: commerce_product_variation
 bundle: default
 mode: cart
 content:
-  list_price:
-    label: above
-    type: commerce_price_default
-    weight: -1
-    region: content
-    settings:
-      strip_trailing_zeroes: false
-      currency_display: symbol
-    third_party_settings: {  }
-  product_id:
-    type: entity_reference_label
-    weight: 0
+  title:
+    type: string
     label: hidden
     settings:
-      link: true
+      link_to_entity: false
     third_party_settings: {  }
+    weight: 0
     region: content
 hidden:
   add_to_cart_link: true
+  list_price: true
   price: true
+  product_id: true
   sku: true
-  title: true
